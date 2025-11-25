@@ -111,7 +111,9 @@ dojo-2.0/
 │ ├─ 02-protocolo-misiones.md
 │ ├─ 03-sistema-energia.md
 │ ├─ 04-estructura-campanas.md
-│ └─ 05-estructura-chats-XX-MAIN-EXERCISES-WORK.md
+│ ├─ 05-estructura-chats-XX-MAIN-EXERCISES-WORK.md
+│ ├─ 06-syllabus-maestro.md
+│ └─ CHANGELOG.md
 ├─ templates/
 │ ├─ mission-template.md
 │ ├─ campaign-template.md
@@ -158,10 +160,18 @@ El DoJo vive aquí, evoluciona aquí y se sostiene aquí.
 
 ---
 
-## 6. Estado actual
+## 6. Versiones y Ramas
 
-Versión inicial del sistema.  
-Las campañas y misiones se irán añadiendo progresivamente.
+**Estado actual: v2.0.0**  
+Consulta el historial de cambios en [CHANGELOG.md](docs/CHANGELOG.md).
+
+### 6.1 Estrategia de Ramas
+El repositorio se divide en dos niveles para mantener el orden y la escalabilidad:
+
+- **`main` (Core)**: Contiene únicamente el framework general del DoJo (estructura, protocolos, templates). Es la base estable para cualquier estudiante.
+- **`campaign/*` (Contenido)**: Cada campaña técnica vive en su propia rama (ej: `campaign/python`). Aquí se guardan las misiones, ejercicios y progreso específico de esa materia.
+
+Esto permite actualizar el sistema (Core) sin afectar el progreso individual de las campañas.
 
 ---
 
