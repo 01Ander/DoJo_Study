@@ -34,13 +34,16 @@ Configurar Python, terminal y VS Code. Ejecutar el primer script.
 ### M02 – Variables y tipos (Clasificador de números)
 Entradas desde consola, tipos básicos, control de flujo (`if`, `elif`, `else`).
 
-### M03 – Loops y colecciones (Inventario simple)
-Uso de listas, diccionarios y loops para gestionar un pequeño inventario.
+### M03 – Inventario simple (Colecciones y for loops)
+Uso de listas, diccionarios y loops `for` para gestionar un pequeño inventario.
 
-### M04 – Funciones y modularidad (Refactor funcional)
+### M04 – Menú interactivo (While loops y control de flujo)
+Implementación de un menú interactivo con `while` loops y control de flujo.
+
+### M05 – Refactor funcional (Funciones y modularidad)
 Reescribir las misiones anteriores creando funciones reutilizables.
 
-### M05 – Lectura y escritura de archivos (Limpiador de archivos)
+### M06 – Limpiador de archivos (Lectura y escritura de archivos)
 Leer archivos de texto, limpiarlos, transformarlos y guardarlos en nuevos archivos.
 
 ---
