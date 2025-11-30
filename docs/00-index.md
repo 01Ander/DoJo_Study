@@ -26,6 +26,14 @@ Cómo se construye una campaña y cómo se conecta con las misiones.
 **→ [`05-estructura-chats-XX-MAIN-EXERCISES-WORK.md`](05-estructura-chats-XX-MAIN-EXERCISES-WORK.md)**
 Explica la relación entre el DoJo y la IA (ChatGPT) para MAIN, EXERCISES y WORK.
 
+### 6. Syllabus Maestro
+**→ [`06-syllabus-maestro.md`](06-syllabus-maestro.md)**
+Mapa completo de temas y habilidades técnicas.
+
+### 7. Manual Operativo de Misiones
+**→ [`07-manual-operativo-misiones.md`](07-manual-operativo-misiones.md)**
+Guía detallada para la ejecución y gestión de misiones.
+
 ---
 
 Este índice se actualizará a medida que evolucione el DoJo Study.
