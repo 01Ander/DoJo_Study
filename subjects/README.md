@@ -1,6 +1,6 @@
-# Subjects – Estructura de Materias del DoJo 2.0
+# Subjects – Estructura de Materias del DoJo Study
 
-Este directorio organiza todas las materias técnicas y lingüísticas del DoJo 2.0.  
+Este directorio organiza todas las materias técnicas y lingüísticas del DoJo Study.  
 La finalidad es mantener un orden claro entre campañas, misiones y proyectos reales, sin mezclar teoría, práctica ni documentación conceptual.
 
 
@@ -154,4 +154,4 @@ Y todo lo completado se registra aquí.
 
 ---
 
-Este archivo define el estándar para todas las materias del DoJo 2.0.
+Este archivo define el estándar para todas las materias del DoJo Study.

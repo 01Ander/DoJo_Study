@@ -1,6 +1,6 @@
-# Python – Materia del DoJo 2.0
+# Python – Materia del DoJo Study
 
-La materia de **Python** reúne todas las campañas y misiones relacionadas con el lenguaje dentro del DoJo 2.0. Está diseñada para llevar el aprendizaje desde los fundamentos hasta su uso profesional en automatización, datos, APIs y despliegues modernos.
+La materia de **Python** reúne todas las campañas y misiones relacionadas con el lenguaje dentro del DoJo Study. Está diseñada para llevar el aprendizaje desde los fundamentos hasta su uso profesional en automatización, datos, APIs y despliegues modernos.
 
 Python es la base del perfil **Data & Automation Engineer**, y este directorio organiza su estudio de forma progresiva, modular y adaptable al nivel de energía real del día.
 
@@ -64,7 +64,7 @@ Objetivo: construir software robusto, escalable y con calidad profesional.
 
 ## 3. Estructura Interna de Cada Campaign
 
-Todas las campaigns de Python siguen el mismo estándar del DoJo 2.0:
+Todas las campaigns de Python siguen el mismo estándar del DoJo Study:
 
 - **campaign.md** → descripción general, objetivo técnico y estructura de misiones  
 - `missions/` →  
