@@ -1,8 +1,8 @@
-# 01 — Núcleo del DoJo 2.0
+# 01 — Núcleo del DoJo Study
 
 ## ¿Qué es el DoJo?
 
-El **DoJo 2.0** es un sistema personal de aprendizaje consciente, diseñado para sostener el camino hacia el perfil **Data & Automation Engineer**, integrando:
+El **DoJo Study** es un sistema personal de aprendizaje consciente, diseñado para sostener el camino hacia el perfil **Data & Automation Engineer**, integrando:
 
 - Estudio técnico (Python, SQL, QA, Cloud, Data…)
 - Proyectos reales (Mini-Proyecto Financiero 2.0)
@@ -35,7 +35,7 @@ El DoJo existe para:
 
 ---
 
-## Capas oficiales del DoJo 2.0
+## Capas oficiales del DoJo Study
 
 ### 1️ Filosofía
 - Calma > urgencia  
@@ -61,7 +61,7 @@ Misiones principales (M), secundarias (S), boss missions (B), observación (O), 
 
 ### 4.1 Sistema de Estado del Progreso (Progress Status Codes)
 
-El DoJo 2.0 utiliza un conjunto de códigos de estado para reflejar el avance real de campañas, misiones y proyectos.  
+El DoJo Study utiliza un conjunto de códigos de estado para reflejar el avance real de campañas, misiones y proyectos.  
 Este sistema garantiza claridad, orden y consistencia en todo el ecosistema del DoJo.
 
 Estos estados deben usarse de manera uniforme en:
@@ -110,5 +110,5 @@ Según energía del día, se decide el tipo de misión posible.
 
 ---
 
-Este documento es el corazón del DoJo 2.0.  
+Este documento es el corazón del DoJo Study.  
 Todos los demás (`02`, `03`, `04`, `05`) explican su ejecución práctica.

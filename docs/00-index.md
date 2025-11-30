@@ -1,6 +1,6 @@
-#  Índice del DoJo 2.0 — Documentación Oficial
+#  Índice del DoJo Study — Documentación Oficial
 
-Este es el índice principal de la documentación del **DoJo 2.0**, el sistema integral de aprendizaje, organización y crecimiento personal diseñado para acompañar el camino hacia el perfil **Data & Automation Engineer**.
+Este es el índice principal de la documentación del **DoJo Study**, el sistema integral de aprendizaje, organización y crecimiento personal diseñado para acompañar el camino hacia el perfil **Data & Automation Engineer**.
 
 ---
 
@@ -28,4 +28,4 @@ Explica la relación entre el DoJo y la IA (ChatGPT) para MAIN, EXERCISES y WORK
 
 ---
 
-Este índice se actualizará a medida que evolucione el DoJo 2.0.
+Este índice se actualizará a medida que evolucione el DoJo Study.

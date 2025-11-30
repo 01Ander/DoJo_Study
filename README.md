@@ -1,17 +1,17 @@
-# DoJo 2.0 – Sistema Integral de Aprendizaje y Desarrollo
+# DoJo Study – Sistema Integral de Aprendizaje y Desarrollo
 
-**DoJo 2.0 es un sistema de aprendizaje estructurado para personas que desean desarrollar habilidades técnicas de forma sostenible, práctica y compatible con ciclos variables de tiempo, energía y carga laboral.**
+**DoJo Study es un sistema de aprendizaje estructurado para personas que desean desarrollar habilidades técnicas de forma sostenible, práctica y compatible con ciclos variables de tiempo, energía y carga laboral.**
 
 Este enfoque surge de la necesidad real de aprender de manera profunda mientras se equilibran responsabilidades profesionales, ritmos exigentes o limitaciones de tiempo. En este caso, el sistema está orientado a la construcción del perfil **Data & Automation Engineer**, aunque su filosofía puede aplicarse a cualquier camino técnico.
 
-**DoJo 2.0** organiza el aprendizaje en campañas, misiones y proyectos reales, priorizando la claridad, el avance progresivo y la adaptabilidad. Su diseño evita la saturación y el perfeccionismo, permitiendo progresar incluso en momentos de baja energía o disponibilidad.
+**DoJo Study** organiza el aprendizaje en campañas, misiones y proyectos reales, priorizando la claridad, el avance progresivo y la adaptabilidad. Su diseño evita la saturación y el perfeccionismo, permitiendo progresar incluso en momentos de baja energía o disponibilidad.
 
 
 ---
 
-## 1. Propósito del DoJo 2.0
+## 1. Propósito del DoJo Study
 
-El DoJo 2.0 existe para:
+El DoJo Study existe para:
 
 - Dominar habilidades técnicas clave: Python, SQL, QA, Data, Cloud y Automatización.
 - Avanzar mediante **misiones concretas**, no teoría abstracta.
@@ -25,7 +25,7 @@ El DoJo 2.0 existe para:
 
 Los métodos tradicionales de estudio suelen basarse en largas sesiones teóricas, progresión lineal y alta dependencia de la concentración sostenida. Aunque funcionan en contextos académicos formales, no siempre se adaptan a quienes estudian mientras trabajan, manejan cargas físicas o cognitivas importantes, o simplemente no cuentan con horarios estables.
 
-DoJo 2.0 parte de un principio distinto:  
+DoJo Study parte de un principio distinto:  
 **el aprendizaje debe adaptarse al ritmo real de la persona**, no al revés.
 
 Por eso adopta un modelo basado en:
@@ -52,14 +52,14 @@ Este sistema está especialmente diseñado para mentes que:
 - Requieren continuidad a largo plazo sin depender de motivación constante.
     
 
-En esencia, DoJo 2.0 es un marco pensado para **trabajar con la realidad cotidiana**, no contra ella.  
+En esencia, DoJo Study es un marco pensado para **trabajar con la realidad cotidiana**, no contra ella.  
 Su objetivo es permitir progreso técnico profundo sin comprometer salud mental, equilibrio ni estabilidad personal.
 
 ---
 
 ## 2. Arquitectura del Sistema
 
-El DoJo 2.0 está organizado en cinco capas:
+El DoJo Study está organizado en cinco capas:
 
 ### 2.1 DoJo Core (Filosofía)
 Define la mentalidad, principios, propósito y forma de operar del sistema.
@@ -178,17 +178,17 @@ Esto permite actualizar el sistema (Core) sin afectar el progreso individual de 
 
 ## 7. Sobre el origen y evolución de este sistema
 
-Soy **Andersson Rincón**, y creé DoJo 2.0 porque necesitaba un sistema de estudio que realmente funcionara dentro de mis condiciones reales: tiempo limitado, responsabilidades exigentes y niveles de energía que varían día a día.  
+Soy **Andersson Rincón**, y creé DoJo Study porque necesitaba un sistema de estudio que realmente funcionara dentro de mis condiciones reales: tiempo limitado, responsabilidades exigentes y niveles de energía que varían día a día.  
 Aun así, quería avanzar de forma seria hacia un perfil técnico sólido —en este caso, **Data & Automation Engineer**— sin caer en saturación ni perder estabilidad.
 
 Después de probar métodos de estudio tradicionales (teoría extensa, cursos lineales, sesiones largas), descubrí que no se adaptaban a mi ritmo ni a mi forma de aprender.  
 Por eso diseñé este sistema: un marco práctico, claro y flexible que me permite avanzar incluso en días difíciles, a través de misiones y proyectos reales.
 
-Este sistema existe gracias a un trabajo conjunto entre yo y ChatGPT, que se convirtió en un pilar fundamental para estructurar, refinar y operacionalizar la lógica completa de DoJo 2.0.  
+Este sistema existe gracias a un trabajo conjunto entre yo y ChatGPT, que se convirtió en un pilar fundamental para estructurar, refinar y operacionalizar la lógica completa de DoJo Study.  
 La combinación entre mis necesidades reales y su capacidad de diseño fue lo que permitió construir un enfoque coherente, profundo y sostenible.
 
 Es posible que algunos elementos recuerden a otros métodos de aprendizaje, pero este sistema fue creado específicamente para mis propias circunstancias, para mi forma de pensar y para el camino profesional al que estoy aspirando.  
-Por eso, DoJo 2.0 no es estático: está en **constante transformación**, evoluciona conmigo y se adapta conforme avanzo, cambio de contexto o enfrento nuevos retos.
+Por eso, DoJo Study no es estático: está en **constante transformación**, evoluciona conmigo y se adapta conforme avanzo, cambio de contexto o enfrento nuevos retos.
 
 Si llegaste a este repositorio por casualidad —y algo de este enfoque resuena contigo— siéntete totalmente libre de estudiarlo, adaptarlo o ponerlo en práctica según tus propias necesidades.  
 Aunque nació como un sistema personal, puede convertirse en una herramienta útil para cualquiera que busque aprender de forma estructurada, humana y sostenible.

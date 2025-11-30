@@ -1,4 +1,4 @@
-# 04 — Estructura de Campañas en el DoJo 2.0
+# 04 — Estructura de Campañas en el DoJo Study
 
 Una **campaña** es un capítulo grande del aprendizaje, que agrupa misiones relacionadas para lograr un objetivo técnico real.
 

@@ -1,5 +1,5 @@
 # Syllabus Maestro – Data & Automation Engineer  
-Versión 1.0 – DoJo 2.0
+Versión 1.0 – DoJo Study
 
 Este documento reúne el mapa completo de habilidades necesarias para avanzar hacia el perfil **Data & Automation Engineer**.  
 El syllabus funciona como una visión global: una guía macro que define las áreas de estudio, sus componentes y los bloques fundamentales, antes de convertirlos en campañas dentro del sistema DoJo.
@@ -175,5 +175,5 @@ Cada bloque se convertirá posteriormente en:
 - **Side Missions**  
 - **Boss Missions**  
 
-De este modo, el estudio se transforma en un mapa navegable dentro del DoJo 2.0.
+De este modo, el estudio se transforma en un mapa navegable dentro del DoJo Study.
 

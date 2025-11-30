@@ -1,4 +1,4 @@
-# ⚡ 03 — Sistema de Energía del DoJo 2.0
+# ⚡ 03 — Sistema de Energía del DoJo Study
 
 El avance no depende del tiempo, sino de **la energía del día**.
 

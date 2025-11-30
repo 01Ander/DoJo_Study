@@ -1,6 +1,6 @@
 # Guía Práctica de Operación de Misiones
 
-Este documento explica el funcionamiento práctico de las misiones dentro del DoJo 2.0:  
+Este documento explica el funcionamiento práctico de las misiones dentro del DoJo Study:  
 cómo se usan, dónde se realizan, qué rol tiene cada chat y cómo se avanza de una a otra sin perder claridad.
 
 Su propósito es evitar confusión y mantener un método de estudio estable, modular y sostenible.
@@ -197,4 +197,4 @@ Cada misión tiene su propio archivo `.md` usando el template oficial.
 
 ---
 
-Este documento define la forma oficial de operar misiones dentro del DoJo 2.0.
+Este documento define la forma oficial de operar misiones dentro del DoJo Study.

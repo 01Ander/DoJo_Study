@@ -70,4 +70,4 @@ Es un “tutor técnico” dentro del DoJo.
 
 ---
 
-Este documento formaliza la interacción entre el sistema DoJo 2.0 y la IA.
+Este documento formaliza la interacción entre el sistema DoJo Study y la IA.
