@@ -46,3 +46,24 @@ Al finalizar, el sistema debe:
 1. Permitir agregar nuevos tipos de cuentas (ej. `Investment`) sin romper el código existente.
 2. Permitir cambiar el almacenamiento (CSV a SQL) tocando un solo archivo.
 3. Generar reportes de proyección financiera realistas.
+
+---
+## 📉 DBE Protocol (Low Energy Menu)
+Acciones permitidas cuando la energía es baja (0-25%).
+Objetivo: Mantener la inercia sin quemar fusibles.
+
+### O - Observación (Passive)
+- **Read-Only:** Leer `models/accounts.py` para interiorizar la lógica sin editar.
+- **Data Review:** Abrir `data/transactions.csv` en Excel/Numbers y buscar visualmente errores o duplicados.
+- **Audit:** Revisar si los nombres de las variables siguen la convención (snake_case) en todo el proyecto.
+
+### OPT - Optimización (Mechanical)
+- **Data Entry:** Registrar gastos del día manualmente en el CSV (sin tocar código).
+- **Docstrings:** Escribir documentación `""" ... """` en funciones que ya están terminadas.
+- **Cleanup:** Borrar líneas comentadas viejas o espacios en blanco innecesarios.
+- **Backup:** Copiar manualmente la carpeta `data/` a un backup seguro.
+
+**⛔ PROHIBIDO en DBE:**
+- Tocar lógica de Herencia.
+- Debuggear errores de recursividad.
+- Crear nuevas clases.
