@@ -1,39 +1,39 @@
-#  Índice del DoJo Study — Documentación Oficial
+# 00 - Index (Documentación Oficial)
 
-Este es el índice principal de la documentación del **DoJo Study**, el sistema integral de aprendizaje, organización y crecimiento personal diseñado para acompañar el camino hacia el perfil **Data & Automation Engineer**.
+Este es el índice principal de la documentación del **DoJo Study**, el ecosistema inmersivo de aprendizaje y desarrollo hacia el perfil **Data & Automation Engineer**.
 
 ---
 
-##  Contenido
+## 🗂️ Contenido Modular
 
-### 1. Núcleo del DoJo
+### 1. Núcleo del DoJo (v3.2)
 **→ [`01-dojo-core.md`](01-dojo-core.md)**
-Define la filosofía, principios, objetivos y el espíritu del DoJo.
+Manifiesto fundacional. Define la Inmersión Total, Modo Operador vs. Arquitecto, English-Only Zone y la Mitigación de Riesgos (Infoxicación, Interferencia del Francés).
 
 ### 2. Protocolo de Misiones
 **→ [`02-protocolo-misiones.md`](02-protocolo-misiones.md)**
-Explica cómo se estructuran campañas, misiones, side missions y boss missions.
+Explica la taxonomía de la ejecución técnica: Main Missions (TDD), Scaling Refactors y Boss Missions Integradas.
 
-### 3. Sistema de Energía
+### 3. Sistema de Rendimiento Binario
 **→ [`03-sistema-energia.md`](03-sistema-energia.md)**
-Reglas para avanzar según la energía disponible (entre semana vs fin de semana).
+El control de tiempo: Fase Cero (English Commando), Deep Work Blocks (con Hiperfoco) y Rest Days (Desconexión pura).
 
-### 4. Estructura de Campañas
+### 4. Arquitectura de Campañas
 **→ [`04-estructura-campanas.md`](04-estructura-campanas.md)**
-Cómo se construye una campaña y cómo se conecta con las misiones.
+Cómo transformar simples conceptos de código en Pipelines y Módulos de Ingeniería de Software reales.
 
-### 5. Estructura de Chats del DoJo
+### 5. Estructura de Interacción IA
 **→ [`05-estructura-chats-XX-MAIN-EXERCISES-WORK.md`](05-estructura-chats-XX-MAIN-EXERCISES-WORK.md)**
-Explica la relación entre el DoJo y la IA (ChatGPT) para MAIN, EXERCISES y WORK.
+Reglas de Pair Programming, Revisiones de Arquitectura, y la delimitación del inglés en los entornos de trabajo (EXERCISES/WORK).
 
 ### 6. Syllabus Maestro
 **→ [`06-syllabus-maestro.md`](06-syllabus-maestro.md)**
-Mapa completo de temas y habilidades técnicas.
+El Blueprint general del Data Engineer, incluyendo las 3 fases inmersivas de Inglés a 12 meses.
 
-### 7. Manual Operativo de Misiones
+### 7. Manual Operativo de Misiones (Deep Work Loop)
 **→ [`07-manual-operativo-misiones.md`](07-manual-operativo-misiones.md)**
-Guía detallada para la ejecución y gestión de misiones.
+Los flujos estrictos de operación diaria: Mini-RFC -> TDD -> Implementación -> Commit Semántico.
 
 ---
 
-Este índice se actualizará a medida que evolucione el DoJo Study.
+Este índice opera como la puerta de acceso para la fase de construcción de DoJo v3.2.

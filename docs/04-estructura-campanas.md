@@ -1,78 +1,45 @@
-# 04 — Estructura de Campañas en el DoJo Study
+# 04 - Estructura Campañas (v3.2)
 
-Una **campaña** es un capítulo grande del aprendizaje, que agrupa misiones relacionadas para lograr un objetivo técnico real.
-
----
-
-# Estructura base de una campaña
-
-Cada campaña tiene:
-
-## 1️ Nombre  
-Ej.: *Campaña Python Básico*, *Campaña SQL*, *Mini-Proyecto Financiero 2.0*.
-
-## 2️ Objetivo Técnico  
-Un resultado concreto.
-
-Ejemplos:
-- Manejar estructuras básicas de Python.  
-- Construir un pipeline de datos sencillo.  
-- Crear un sistema POO para manejar finanzas.  
-
-## 3️ Misiones principales (M)  
-Los pasos críticos para avanzar.
-
-Ejemplo:
-- M01: imprimir datos  
-- M02: listas  
-- M03: diccionarios  
-- M04: funciones  
-- M05: loops  
-
-## 4️ Misiones secundarias (S)  
-Complementarias y opcionales.
-
-Ejemplo:
-- S01: refactor básico  
-- S02: validar input  
-- S03: logging simple  
-
-## 5️ Boss Mission (B)  
-La misión final que cierra el nivel.
-
-Ej:
-- Crear un sistema funcional que procese datos.  
-- Pipeline ingresos–gastos–proyección.  
-
-## 6️ Criterios de dominio  
-Qué indica que la campaña realmente está completada.
+En DoJo v3.2, una **campaña** no es una simple agrupación de ejercicios al azar, sino un **Proyecto de Ingeniería Modular** diseñado para crear un artefacto técnico real y medible. El aprendizaje emerge de la construcción de sistemas profesionales.
 
 ---
 
-#  Convención para nombres internos
+## Estructura Base de una Campaña de Ingeniería
 
-Toda campaña lleva un código:
+### 1️ Blueprint y Alcance 
+Cada campaña debe simular un ecosistema productivo. No resolvemos un problema abstracto de codificación; desarrollamos un servicio.
+Ej.: *Finance ETL Pipeline basado en POO*, *Data Quality Checker Automatizado*, *Deploy de Lambda Serverless*.
 
-PY-BASICO
-PY-POO
-SQL-FUNDA
-MPF-2.0
-CLOUD-AWS
-QA-FUNDA
-ENG-INT-A1
+### 2️ Requisitos Restrictivos
+Todas las campañas deben contemplar por diseño:
+- **Testing Obligatorio (Automated):** Las misiones principales exigen pruebas escritas en `pytest` o similar (Desarrollo guiado por pruebas TDD, o Unit Testing estricto).
+- **Documentación Arquitectónica (Mini-RFC):** Antes del `feature` técnico, debe escribirse un pequeño documento de Request For Comments en la misión, indicando el patrón a utilizar.
+- **Clean Code & Tipados:** Chequeos estáticos requeridos (`mypy`, `flake8` u homólogos).
 
+### 3️ Desglose Estructural (Epics & Missions)
 
----
+Las campañas se dividen de forma homóloga al ciclo de Desarrollo de Software (SDLC):
 
-# Flujo de trabajo para crear una campaña
-
-1. Definir objetivo real.  
-2. Dividirlo en 5–7 misiones principales.  
-3. Crear side missions opcionales.  
-4. Definir boss mission.  
-5. Mapear teoría necesaria (mínima).  
-6. Registrar en el DoJo.  
+- **Misiones Principales (M):** Módulos Core del software. Ej. Implementar la interfaz abstracta del Extractor, Montar la conexión a DB, Orquestar el Job.
+- **Módulos de Refactorización y Escalado (S - Sustitución de Side Missions):** Antiguamente misiones "secundarias", ahora representan evoluciones técnicas (Ej. Migrar almacenamiento CSV local a DuckDB o a PostgreSQL en AWS).
+- **Boss Mission (B - Milestone de Integración):** Integración continua (CI/CD o Pipeline End-to-End). Cierre del proyecto donde todas las piezas ensamblan juntas bajo un CLI (como Click/Typer) o API (FastAPI) funcional.
 
 ---
 
-Esta estructura permite que todas las campañas sigan un formato consistente y compatible con el Protocolo de Misiones.
+## 🏛 Convención de Nombrado (Engineering Identifiers)
+
+Para las ramas de Git y las carpetas, la nomenclatura debe indicar el enfoque de Ingeniería:
+- `PY-POO-FINANCE` (Python OOP Data Modeling)
+- `DE-ETL-BATCH` (Data Engineering Batch Pipeline)
+- `QA-AUTO-API` (Quality Assurance Automated API Testing)
+
+---
+
+## Flujo Operativo del "Arquitecto" (Creación de la Campaña)
+
+El día de mantenimiento (Modo Arquitecto), tu responsabilidad al abrir una campaña es:
+1. Documentar el estado esperado del componente de software.
+2. Definir 4-6 misiones como "Módulos de Sistema Mínimo Viable (MVP)".
+3. Mapear explícitamente los inputs y outputs de estos módulos.
+4. Generar el esqueleto `tests/` que se debe ir llenando durante la campaña.
+5. Dejar la campaña en Status: `🟢 Ready` para que en la semana, operes sin pensar.

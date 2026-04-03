@@ -3,3 +3,4 @@ daily-logs/
 __pycache__/
 *.pyc
 .DS_Store
+dojo_core.md

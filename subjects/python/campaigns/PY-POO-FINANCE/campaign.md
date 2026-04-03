@@ -1,69 +1,47 @@
-# Campaign: PY-POO-FINANCE – Arquitectura Financiera Modular
+# Campaign: PY-POO-FINANCE – Object Oriented ETL Pipeline
+
 ## General Information
-Campaign Name: POO Aplicada a Finanzas
-Campaign Code: PY-POO-FINANCE
-Version: 1.0
-Status: ■ Ready
+Campaign Name: POO Financial Pipelines (Data Engineering Edition)  
+Campaign Code: PY-POO-FINANCE  
+Version: 3.2 (Production Ready)  
+Status: 🟢 Ready  
 
 ---
-## Technical Objective
-Transformar un sistema de scripts funcionales (FinanceFlow) en una aplicación robusta orientada a objetos, aplicando principios de Ingeniería de Software (SOLID, Clean Code) y preparando el terreno para Data Engineering.
 
-El objetivo es pasar de:
-*"Un script que guarda CSVs"*
-a:
-*"Un sistema modular, extensible y testeable que proyecta flujos financieros."*
+## 🎯 Technical Objective
+Substitute basic procedural scripting with a robust, modular, and decoupled **ETL system grounded purely in Object-Oriented Programming** (Design Patterns, Abstraction, SOLID principles).
+
+The engine must ingest raw transactional data, isolate the inputs dynamically via abstract interfaces, execute transformation business logic (sanitization, calculations), and stream the output to designated loaders securely. The architecture must natively rely on defensive testings implemented via TDD.
 
 ---
-## Mission Structure
-### Main Missions (M)
-Pasos críticos de refactorización:
-- **M01:** Abstracción y Herencia (Clase `Account`).
-- **M02:** Polimorfismo (Eliminar `isinstance` en transacciones).
-- **M03:** Capa de Persistencia (Desacoplar CSV de la lógica).
-- **M04:** Integración de Pandas (Analytics básico).
-- **M05:** Configuración y Entorno (Variables y Rutas).
 
-### Side Missions (S)
-Profundización en calidad de código (QA Profile):
-- **S01:** Unit Testing con `pytest`.
-- **S02:** Logging profesional.
+## 🏗️ Mission Structure (Engineering Modules)
 
-### Boss Mission (B)
-- **B01:** El Proyector Financiero (Motor de Simulación).
+### Main Missions (M - Core Architecture)
+- **M01: Abstract Extractors & Interface Segregation.** (Enforce `abc` Abstract Base Classes mapping to dynamic mock CSV parsers).
+- **M02: Domain Entities & Polymorphism.** (Mapping raw outputs into memory-safe instantiated objects differentiating between `Income` and `Expense`).
+- **M03: The Transformation Engine.** (Stateless calculation layer dedicated purely to metrics extraction leveraging `collections`).
+- **M04: Output Loaders & Orchestration.** (Abstract load mechanics mapped to a decoupled `PipelineOrchestrator` invoking the E2E steps).
 
----
-## Required Knowledge
-- Clases, Objetos, Herencia, Polimorfismo.
-- Manejo de Excepciones.
-- Módulos y Paquetes.
-- Pandas (Intro).
-- Pytest (Intro).
+### Scaling Refactors (S - Quality & Data Engineering)
+- **S01: Automated TDD Suite & Coverage.** (Inject `pytest-cov`, forcing >80% coverage on `src/` alongside E2E test suites with isolated `tmp_path` fixtures).
+- **S02: Robust Validation & Centralized Logging.** (Re-engineer domain classes utilizing `Pydantic` and deploy formal module `.log` histories).
+
+### Boss Mission (B - Continuous Integration)
+- **B01: The Financial Projector CLI.** (Wrap the orchestrator onto a consumable, native Terminal App using `Typer` or `Click` yielding rich progress bars).
 
 ---
-## Domain Criteria
-Al finalizar, el sistema debe:
-1. Permitir agregar nuevos tipos de cuentas (ej. `Investment`) sin romper el código existente.
-2. Permitir cambiar el almacenamiento (CSV a SQL) tocando un solo archivo.
-3. Generar reportes de proyección financiera realistas.
+
+## 📗 Required Engineering Knowledge
+- Clean Architecture principles.
+- `pytest` standard assertions & mock fixtures.
+- Abstract Base Classes (`abc`). Pydantic models.
+- Formal Error Handling strategies mapping exceptions to dedicated loggers.
 
 ---
-## 📉 DBE Protocol (Low Energy Menu)
-Acciones permitidas cuando la energía es baja (0-25%).
-Objetivo: Mantener la inercia sin quemar fusibles.
 
-### O - Observación (Passive)
-- **Read-Only:** Leer `models/accounts.py` para interiorizar la lógica sin editar.
-- **Data Review:** Abrir `data/transactions.csv` en Excel/Numbers y buscar visualmente errores o duplicados.
-- **Audit:** Revisar si los nombres de las variables siguen la convención (snake_case) en todo el proyecto.
-
-### OPT - Optimización (Mechanical)
-- **Data Entry:** Registrar gastos del día manualmente en el CSV (sin tocar código).
-- **Docstrings:** Escribir documentación `""" ... """` en funciones que ya están terminadas.
-- **Cleanup:** Borrar líneas comentadas viejas o espacios en blanco innecesarios.
-- **Backup:** Copiar manualmente la carpeta `data/` a un backup seguro.
-
-**⛔ PROHIBIDO en DBE:**
-- Tocar lógica de Herencia.
-- Debuggear errores de recursividad.
-- Crear nuevas clases.
+## ✅ Definition of Done (DoD)
+1. **Test-Driven Mechanics:** All logic has spawned strictly trailing a red `pytest` rejection beforehand.
+2. **Mini-RFC Drafts Pre-Deployment:** Documentation mapping the design trade-offs resides properly inside all mission files before execution.
+3. **Decoupled Mechanics:** Input parsing modifications strictly don't cascade down into the Transformation layer. 
+4. **100% Technical English:** Total supremacy of english over naming conventions, comments, and deployment instructions.

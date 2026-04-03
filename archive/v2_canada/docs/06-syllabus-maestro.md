@@ -1,4 +1,4 @@
-# 06 - Syllabus Maestro (Data & Automation Engineer)
+# Syllabus Maestro – Data & Automation Engineer  
 Versión 1.0 – DoJo Study
 
 Este documento reúne el mapa completo de habilidades necesarias para avanzar hacia el perfil **Data & Automation Engineer**.  
@@ -156,26 +156,13 @@ Cada área corresponde a un código base (ENG, PY, SQL, QA, etc.), que se usará
 
 ---
 
-## ENG-INT – Inglés Técnico Aplicado (Inmersión)
-**Nivel Base:** A1/A2 (con base en Francés)
-**Objetivo 12 meses:** Fluidez técnica B2/C1 para trabajo remoto.
-
-- Gramática Principal: **Busuu Premium**
-- Refuerzo de Memoria: **Duolingo**
-
-### Fases de Desarrollo
-**Fase 1 (Mes 1-3): Adquisición Base y Recepción Pasiva**
-- Fundamentos de gramática en Busuu.
-- Refuerzo diario en Duolingo.
-- Consumo pasivo de documentación técnica y tutoriales 100% en inglés.
-
-**Fase 2 (Mes 4-6): Producción Escrita**
-- Redacción de Mini-RFCs, Readmes, y Commits (Git) exclusivamente en inglés.
-- Participación escrita en foros o discord técnico.
-
-**Fase 3 (Mes 7-12): Fluidez Verbal y Entrevistas**
-- Simulacros de entrevistas técnicas en inglés.
-- "Pair Programming" hablando en voz alta en inglés.
+## ENG-INT – Inglés Técnico Aplicado
+- Lectura técnica  
+- Listening técnico  
+- Escritura de documentación  
+- Inglés para entrevistas  
+- Inglés aplicado al debugging  
+- Vocabulario técnico  
 
 ---
 

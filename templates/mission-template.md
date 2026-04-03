@@ -1,44 +1,48 @@
-# Mission Template
+# Engineering Mission Template
 
 ## Identification
-Type: [M | S | B | O | OPT]  
-Campaign Code: [e.g., PY-BASICO]  
-Mission Code: [e.g., M03]  
-Title: [Short, direct mission name]
+Type: [M (Core) | S (Refactor/Scaling) | B (Integration)]  
+Campaign Code: [e.g., PY-POO-FINANCE]  
+Mission Code: [e.g., M01]  
+Title: [Short, direct technical scope]
+Status: [🟢 Ready | 🔵 In Progress]
 
 ---
 
-## Objective
-Describe the purpose of the mission in one clear sentence.
+## 🏛️ Design & Architecture (Mini-RFC)
+*A brief architectural discussion before writing code. Justify your approach.*
+**Problem Context:** 
+**Proposed Solution / Pattern:** (State the design pattern or modular approach).
+**Trade-offs:** 
 
 ---
 
-## Description
-Detail what the mission requires.  
-Keep it concrete and actionable.
+## Technical Objective
+Describe the precise functionality to be developed and the module's role in the larger system.
 
 ---
 
-## Required Knowledge
-List only the minimal theory needed.  
-This section can include links or notes.
+## Required Testing (TDD / QA)
+List the unit tests or edge cases that MUST be covered by `pytest` (or equivalent) for this mission to be accepted.
+- [ ] Test Case 1:
+- [ ] Test Case 2:
 
 ---
 
-## Steps
+## Execution Steps (Implementation Plan)
 1.  
 2.  
 3.  
 
-Use 3–6 steps maximum.  
-Each step should be simple and executable.
+---
+
+## Completion Criteria & Definition of Done (DoD)
+- [ ] Code passes static analysis (e.g., `flake8`, `mypy`).
+- [ ] Tests execute correctly (`pytest`).
+- [ ] Module integrates with the system output gracefully.
+- [ ] Logic respects SOLID principles (specifically...).
 
 ---
 
-## Completion Criteria
-List what must be true for the mission to be considered completed.
-
----
-
-## Notes
-Add clarifications, questions, or future ideas derived from this mission.
+## Architectural/Friction Notes
+*Log any code smells, friction discovered, or future scaling ideas to be picked up by the Architect role.*
