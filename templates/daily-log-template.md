@@ -1,40 +1,30 @@
-# Daily Log Template – DoJo
+# Daily Log Template – DoJo v3.2
 
 ## Date
 [YYYY-MM-DD]
 
 ---
 
-## Energy Level
-Select one:
-- Low  
-- Medium  
-- High  
+## ⏱️ Métricas de Enfoque (Deep Work Tracking)
+Select the status of today's study blocks:
+- [ ] Rest Day (Vacío / Zero Code)
+- [ ] Deep Work Block(s) logrados: [1, 2, 3, 4] x 90 mins.
+*Did you enter a state of Hiperfoco? If so, specify total consecutive hours and physiological impact.*
 
 ---
 
 ## Mission Executed
-Type: [M | S | O | OPT | B]  
+Type: [M | S | B]  
 Mission Code:  
 Campaign:  
-Description of what was done:
+Technical Progress Made:
 
 ---
 
-## What Worked
-Short reflection on what was effective today.
-
----
-
-## What Didn’t Work
-Short reflection on obstacles or confusion points.
+## 🛑 Fricciones (Friction Logs) y Muros Técnicos
+*Documentar aquí cualquier problema técnico severo, "rabbit holes" (infoxicación) o ineficiencias del ecosistema. Esto lo revisará el Modo Arquitecto.*
 
 ---
 
 ## Next Step
-Define the next mission or the next smallest action to continue tomorrow.
-
----
-
-## Additional Notes
-Optional section for ideas, blockers, or adjustments.
+Define the immediate code chunk or test to be written at the start of the next Deep Work session.

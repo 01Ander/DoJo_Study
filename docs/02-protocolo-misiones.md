@@ -1,125 +1,48 @@
-# 02 — Protocolo de Misiones
+# 02 - Protocolo Misiones (v3.2)
 
 ## ¿Qué es el Protocolo de Misiones?
 
-Es la capa táctica que convierte el estudio en:
+Es la capa táctica que convierte el marco de Ingeniería de Software en tareas accionables. En la v3.2, una misión **no es un ejercicio rápido de sintaxis**; es un módulo funcional de un pipeline mayor.
 
-- misiones  
-- campañas  
-- side missions  
-- boss missions  
-- sistema de energía  
-- progreso real basado en acción  
-
-El aprendizaje **ya no inicia en la teoría**, sino en un **problema concreto (misión)**.
-
-La teoría aparece solo cuando es necesaria para resolver dicha misión.
+El aprendizaje inicia definiendo **Arquitectura** (Mini-RFC), luego escribiendo las **Pruebas** (TDD) y finalmente **Implementando** la lógica en un entorno 100% en inglés.
 
 ---
 
-# Niveles del sistema
+## Niveles del Sistema de Ingeniería
 
-## 1️ Campañas  
-Grandes capítulos que agrupan misiones.
+### 1️ Campañas (Proyectos)
+Grandes sistemas que simulan casos de uso reales de la industria.
+*Ejemplos:*
+- `DE-ETL-PIPELINE`
+- `PY-POO-FINANCE`
+- `QA-TEST-AUTOMATION`
 
-Ejemplos:
-- Python Básico  
-- POO  
-- SQL Foundations  
-- Automatización  
-- Mini-Proyecto Financiero 2.0  
-- Inglés Técnico  
+### 2️ Main Missions (M - Core Architecture)
+Desarrollo de los módulos críticos del sistema. Obligatorio el uso de Clean Architecture y TDD.
+*Ejemplos:*
+- `M01: Data Extractor Interface`
+- `M02: Domain Entities Validation`
 
-Cada campaña tiene:  
-objetivo – misiones – side missions – boss mission.
+### 3️ Scaling Refactors (S - Quality & Scaling)
+Misiones de evolución técnica, reemplazando las "Side Missions" opcionales de la versión anterior por requerimientos de Seniority.
+*Ejemplos:*
+- `S01: PyTest Coverage > 80%`
+- `S02: Migrate from CSV to DuckDB`
 
----
-
-## 2️ Misiones principales (M)  
-Pasos concretos que avanzan la campaña.
-
-Ejemplos:
-- M01: crear una clase  
-- M02: validar datos  
-- M03: leer archivo  
-- M04: procesar input  
-- M05: integrar funciones  
-
----
-
-## 3️ Misiones secundarias (S)  
-Opcionales.  
-Profundizan y aumentan dominio (XP).
-
-Ejemplos:
-- S01: refactor  
-- S02: logging  
-- S03: modularizar  
-- S04: mejorar legibilidad  
+### 4️ Boss Missions (B - Integración Continua)
+Ensamblaje del pipeline completo. Sirve para lanzar el producto como un CLI, una API (FastAPI) o una función Serverless.
+*Ejemplos:*
+- `B01: Serverless Streamlit Dashboard`
+- `B02: Typer CLI Execution`
 
 ---
 
-## 4️ Boss Missions (B)  
-Hitos grandes de integración.
+## El Proceso de Desarrollo (The Operator Workflow)
 
-Ejemplos:
-- mini-proyecto  
-- pipeline  
-- dashboard  
-- sistema automatizado  
+1. **Abrir Bloque de "Deep Work" (90 mins).**  
+2. **Definir el `Mini-RFC`:** Escribir en la plantilla de misión, en inglés, por qué se usará X patrón de diseño.
+3. **Draft de Tests (TDD):** Crear el archivo en la carpeta `tests/` y fallar intencionalmente comprobando inputs/outputs esperados.
+4. **Implementación:** Programar la lógica en VS Code (Nomenclatura y Docstrings en inglés puro).
+5. **Cierre:** Si supera 4h, generar el *Friction Log* y salir del IDE.
 
-Son las misiones que cierran un nivel.
-
----
-
-## 5️ Misiones de Observación (O)
-Para días de energía baja.
-
-Ejemplos:
-- leer código propio  
-- mapear módulos  
-- revisar misión pendiente  
-- escribir 2 líneas de reflexión  
-
----
-
-## 6️ Misiones de Optimización (OPT)
-Pequeñas mejoras cuando no hay energía para misiones grandes.
-
-Ejemplos:
-- renombrar variables  
-- limpiar el archivo  
-- corregir comentarios  
-- ordenar funciones  
-
----
-
-# Tipos de misiones (formato)
-
-Cada misión se escribe así:
-
-TIPO / CAMPAÑA / CÓDIGO / DESCRIPCIÓN
-
-
-Ejemplos:
-
-- `M / PY-BASICO / M03 / Usar condicionales para filtrar gastos`
-- `S / POO / S02 / Añadir logging básico`
-- `B / MPF-2.0 / B01 / Pipeline ingresos–gastos–proyección`
-- `O / PY-BASICO / O01 / Leer código anterior`
-- `OPT / MPF-2.0 / OPT01 / Reorganizar archivos`
-
----
-
-# Flujo de una misión
-
-1. Elegir misión según energía.  
-2. Formular objetivo pequeño y concreto.  
-3. Identificar teoría necesaria.  
-4. Implementar.  
-5. Registrar resultado.  
-6. Crear misiones derivadas (optativo).
-
----
-
-El Protocolo de Misiones transforma el estudio en un sistema **vivo**, modular y alineado con tu ritmo interno.
+***Nota:*** Las misiones de "Observación (O)" y "Optimización (OPT)" fueron dadas de baja. En v3.2, si sientes la necesidad de hacer misiones pequeñas por falta de energía, debes invocar el protocolo **Rest Day** de inmediato (Zero-Code policy).

@@ -1,194 +1,54 @@
-# DoJo Study – Sistema Integral de Aprendizaje y Desarrollo
+# DoJo Study – High Performance Engineering System v3.2
 
-**DoJo Study es un sistema de aprendizaje estructurado para personas que desean desarrollar habilidades técnicas de forma sostenible, práctica y compatible con ciclos variables de tiempo, energía y carga laboral.**
+**DoJo Study** es un marco operativo de aprendizaje inmersivo, diseñado para la formación rigurosa y acelerada hacia el perfil de **Data & Automation Engineer**, operando bajo altos estándares de ingeniería de software (Arquitectura Limpia, TDD y Módulos Desacoplados).
 
-Este enfoque surge de la necesidad real de aprender de manera profunda mientras se equilibran responsabilidades profesionales, ritmos exigentes o limitaciones de tiempo. En este caso, el sistema está orientado a la construcción del perfil **Data & Automation Engineer**, aunque su filosofía puede aplicarse a cualquier camino técnico.
-
-**DoJo Study** organiza el aprendizaje en campañas, misiones y proyectos reales, priorizando la claridad, el avance progresivo y la adaptabilidad. Su diseño evita la saturación y el perfeccionismo, permitiendo progresar incluso en momentos de baja energía o disponibilidad.
-
+Esta versión (v3.2) fue diseñada en Colombia asumiendo una disponibilidad inmersiva de 8+ horas diarias. Sustituye la mentalidad de "ahorro de energía" de versiones anteriores por el concepto de **Deep Work** y **English-Only Zone**.
 
 ---
 
-## 1. Propósito del DoJo Study
+## 1. Propósito del DoJo Study v3.2
 
-El DoJo Study existe para:
-
-- Dominar habilidades técnicas clave: Python, SQL, QA, Data, Cloud y Automatización.
-- Avanzar mediante **misiones concretas**, no teoría abstracta.
-- Mantener continuidad incluso con poca energía (sistema de energía).
-- Integrar lo técnico con el desarrollo personal y emocional.
-- Conectar la práctica diaria con proyectos reales y con el objetivo final:
-  
-  **Construir un perfil sólido de Data & Automation Engineer.**
-
-### 1.1 ¿Por qué este sistema y no un método de estudio tradicional?
-
-Los métodos tradicionales de estudio suelen basarse en largas sesiones teóricas, progresión lineal y alta dependencia de la concentración sostenida. Aunque funcionan en contextos académicos formales, no siempre se adaptan a quienes estudian mientras trabajan, manejan cargas físicas o cognitivas importantes, o simplemente no cuentan con horarios estables.
-
-DoJo Study parte de un principio distinto:  
-**el aprendizaje debe adaptarse al ritmo real de la persona**, no al revés.
-
-Por eso adopta un modelo basado en:
-
-- **Misiones pequeñas y claras**, en lugar de teoría extensa.
-    
-- **Práctica inmediata**, no acumulación pasiva de conceptos.
-    
-- **Flexibilidad según energía diaria**, en lugar de un horario rígido.
-    
-- **Proyectos reales**, para conectar el aprendizaje con resultados tangibles.
-    
-
-Este sistema está especialmente diseñado para mentes que:
-
-- Aprenden mejor a través de la acción y la resolución de problemas.
-    
-- Necesitan avanzar incluso cuando el tiempo o la energía varían día a día.
-    
-- Buscan claridad, estructura y propósito en su proceso de estudio.
-    
-- Prefieren evitar la saturación, el perfeccionismo y la parálisis por análisis.
-    
-- Requieren continuidad a largo plazo sin depender de motivación constante.
-    
-
-En esencia, DoJo Study es un marco pensado para **trabajar con la realidad cotidiana**, no contra ella.  
-Su objetivo es permitir progreso técnico profundo sin comprometer salud mental, equilibrio ni estabilidad personal.
+- Escalar hacia un nivel Profesional/Senior en Data Engineering, Automatización y Cloud.
+- Forzar la adopción de buenas prácticas corporativas: Tests Unitarios (Pytest), Documentación de Arquitectura (Mini-RFCs) y Naming Strict desde el minuto cero.
+- Construir herramientas y pipelines funcionales, abandonando permanentemente las tareas abstractas o ejercicios sin conexión real.
+- Adoptar una inmersión completa al **Inglés** como interfaz principal de tecnología (para misiones, código, diagramas y revisión de la IA).
 
 ---
 
-## 2. Arquitectura del Sistema
+## 2. Arquitectura del Sistema (El Modelo Binario)
 
-El DoJo Study está organizado en cinco capas:
+El DoJo ahora separa brutalmente al estudiante en dos modalidades vitales:
 
-### 2.1 DoJo Core (Filosofía)
-Define la mentalidad, principios, propósito y forma de operar del sistema.
+### Deep Work (La Inmersión)
+El estado base de operación. Bloques de 90 minutos de codificación intensiva, precedidos obligatoriamente por el **English Commando** (rutina de seteo de lenguaje en Busuu/Duolingo) y ejecutando estrictamente TDD (Primero falla el test, luego se escribe el código).
 
-Significado del acrónimo:
-
-**DOJO → Develop, Observe, Join, Optimize**  
-*The Discipline of Journey & Observation*
-
-### 2.2 Protocolo de Misiones
-Convierte cada materia en:
-
-- Campañas
-- Misiones principales (M)
-- Misiones secundarias (S)
-- Boss Missions (B)
-- Observación (O)
-- Optimización (OPT)
-
-La teoría no es el punto de partida:  
-**las misiones lo son**.
-
-### 2.3 Sistema de Energía
-El avance depende de tu energía diaria, no del tiempo disponible.
-
-- Entre semana: misiones ligeras u observación.
-- Fin de semana: misiones profundas y boss missions.
-
-### 2.4 Chats de estudio con IA
-Tres chats por materia:
-
-- **XX-MAIN** → teoría mínima y aplicada  
-- **XX-EXERCISES** → generación de misiones  
-- **XX-WORK** → acompañamiento técnico y debugging  
-
-### 2.5 Subjects
-Cada materia (Python, SQL, QA, Cloud…) vive en `subjects/`, con campañas y misiones propias.
+### Rest Day (El Vacío)
+El protocolo obligatorio para gestionar la disipación cognitiva. Días de *Zero-Code Policy*. No hay misiones débiles; solo descanso real para asentar redes neuronales.
 
 ---
 
-## 3. Estructura del repositorio
+## 3. Estructura de Campañas e Ingeniería
+
+Todo aprendizaje técnico se enmarca en la creación de pipelines dentro de la carpeta `/subjects`. Cada campaña utiliza:
+- **Mini-RFCs:** Documentos de diseño antes que el código.
+- **Main Missions (M):** Múltiples PRs simulados para completar el software base.
+- **Scaling Refactors (S):** Escalado técnico (añadir automatización, migraciones a SQL, CI/CD).
+- **Boss Missions (B):** La integración final del proyecto mediante Endpoints API o Serverless CLI.
+
+---
+
+## 4. Estructura del repositorio
 
 ```text
-dojo-2.0/
+dojo-study/
 ├─ README.md
-├─ docs/
-│ ├─ 00-index.md
-│ ├─ 01-dojo-core.md
-│ ├─ 02-protocolo-misiones.md
-│ ├─ 03-sistema-energia.md
-│ ├─ 04-estructura-campanas.md
-│ ├─ 05-estructura-chats-XX-MAIN-EXERCISES-WORK.md
-│ ├─ 06-syllabus-maestro.md
-│ ├─ 07-manual-operativo-misiones.md
-│ └─ CHANGELOG.md
-├─ templates/
-│ ├─ mission-template.md
-│ ├─ campaign-template.md
-│ └─ daily-log-template.md
+├─ docs/                 <- (DoJo Core, Riesgos, Flujos y Protocolos)
+├─ archive/              <- (Histórico de v2.0 - Canadá)
+├─ templates/            <- (Plantillas v3.2 con Deep Work / TDD tracking)
 └─ subjects/
-└─ README.md
+   └─ python/            <- (Core técnico y Campañas)
 ```
 
-- `docs/` contiene toda la documentación conceptual.  
-- `templates/` son plantillas reutilizables para campañas, misiones y logs.  
-- `subjects/` reúne las materias técnicas y sus campañas.
+## 5. English-Only Zone
 
----
-
-## 4. Principios Fundamentales
-
-1. **Misiones sobre teoría**  
-   El aprendizaje empieza en problemas pequeños y concretos.
-
-2. **Energía sobre horario**  
-   El sistema se adapta al estado real del día.
-
-3. **Progreso pequeño, constante**  
-   Una misión ligera vale más que quedarse sin avanzar.
-
-4. **Proyectos reales desde el inicio**  
-   Cada campaña conecta con un resultado práctico.
-
-5. **Documentación mínima, clara y sin perfeccionismo**  
-   El DoJo no castiga, acompaña.
-
----
-
-## 5. Cómo usar este repositorio
-
-1. Leer `docs/01-dojo-core.md` para entender la filosofía.  
-2. Revisar `docs/02-protocolo-misiones.md` para comprender la estructura práctica.  
-3. Usar las plantillas de `templates/` para crear campañas y misiones.  
-4. Construir las materias reales dentro de `subjects/`.  
-5. Conectar todo con los chats XX-MAIN / XX-EXERCISES / XX-WORK.
-
-Este repositorio es la **fuente de verdad del sistema**.  
-El DoJo vive aquí, evoluciona aquí y se sostiene aquí.
-
----
-
-## 6. Versiones y Ramas
-
-**Estado actual: v2.0.0**  
-Consulta el historial de cambios en [CHANGELOG.md](docs/CHANGELOG.md).
-
-### 6.1 Estrategia de Ramas
-El repositorio se divide en dos niveles para mantener el orden y la escalabilidad:
-
-- **`main` (Core)**: Contiene únicamente el framework general del DoJo (estructura, protocolos, templates). Es la base estable para cualquier estudiante.
-- **`campaign/*` (Contenido)**: Cada campaña técnica vive en su propia rama (ej: `campaign/python`). Aquí se guardan las misiones, ejercicios y progreso específico de esa materia.
-
-Esto permite actualizar el sistema (Core) sin afectar el progreso individual de las campañas.
-
----
-
-## 7. Sobre el origen y evolución de este sistema
-
-Soy **Andersson Rincón**, y creé DoJo Study porque necesitaba un sistema de estudio que realmente funcionara dentro de mis condiciones reales: tiempo limitado, responsabilidades exigentes y niveles de energía que varían día a día.  
-Aun así, quería avanzar de forma seria hacia un perfil técnico sólido —en este caso, **Data & Automation Engineer**— sin caer en saturación ni perder estabilidad.
-
-Después de probar métodos de estudio tradicionales (teoría extensa, cursos lineales, sesiones largas), descubrí que no se adaptaban a mi ritmo ni a mi forma de aprender.  
-Por eso diseñé este sistema: un marco práctico, claro y flexible que me permite avanzar incluso en días difíciles, a través de misiones y proyectos reales.
-
-Este sistema existe gracias a un trabajo conjunto entre yo y ChatGPT, que se convirtió en un pilar fundamental para estructurar, refinar y operacionalizar la lógica completa de DoJo Study.  
-La combinación entre mis necesidades reales y su capacidad de diseño fue lo que permitió construir un enfoque coherente, profundo y sostenible.
-
-Es posible que algunos elementos recuerden a otros métodos de aprendizaje, pero este sistema fue creado específicamente para mis propias circunstancias, para mi forma de pensar y para el camino profesional al que estoy aspirando.  
-Por eso, DoJo Study no es estático: está en **constante transformación**, evoluciona conmigo y se adapta conforme avanzo, cambio de contexto o enfrento nuevos retos.
-
-Si llegaste a este repositorio por casualidad —y algo de este enfoque resuena contigo— siéntete totalmente libre de estudiarlo, adaptarlo o ponerlo en práctica según tus propias necesidades.  
-Aunque nació como un sistema personal, puede convertirse en una herramienta útil para cualquiera que busque aprender de forma estructurada, humana y sostenible.
+El español se ha preservado de manera exclusiva para reflexiones psicológicas personales o entendimiento de conceptos abstractos iniciales. **Todos los commits de Git, Readmes, Nombres de Clases y Métodos en este repositorio ESTÁN OBLIGADOS a escribirse en Inglés Técnico fluido**, sirviendo como escudo contra la *Interferencia del Francés* de tus fundamentos pasados.

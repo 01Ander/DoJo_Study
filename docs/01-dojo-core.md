@@ -1,114 +1,69 @@
-# 01 — Núcleo del DoJo Study
+# 01 - DoJo Core (v3.2 - Alto Rendimiento)
 
 ## ¿Qué es el DoJo?
 
-El **DoJo Study** es un sistema personal de aprendizaje consciente, diseñado para sostener el camino hacia el perfil **Data & Automation Engineer**, integrando:
-
-- Estudio técnico (Python, SQL, QA, Cloud, Data…)
-- Proyectos reales (Mini-Proyecto Financiero 2.0)
-- Ritmo basado en energía real
-- Desarrollo emocional (journaling, reflexión, terapia)
-- Contexto vital actual 
+El **DoJo Study** es un ecosistema personal de aprendizaje inmersivo, diseñado para operar bajo un régimen de alto rendimiento e inmersión total (Deep Work). Su propósito técnico es escalar hacia el perfil **Data & Automation Engineer** con los estándares de calidad de la industria del software.
 
 ### Significado moderno del acrónimo
 
 > **DOJO → Develop, Observe, Join, Optimize**  
 > *The Discipline of Journey & Observation*
 
-- **Develop** — desarrollarse técnica y personalmente.  
-- **Observe** — observar sin juicio, ajustar, reflexionar.  
-- **Join** — integrar teoría, práctica, emoción y propósito.  
-- **Optimize** — mejorar suave, no perfecto; avanzar un 1% cada vez.
+- **Develop** — Construir habilidades técnicas (Data Engineering, Arquitectura, Automation).
+- **Observe** — Observar el propio estado y rendimiento para evitar riesgos como la Infoxicación o la Sobreingeniería.
+- **Join** — Unir el conocimiento teórico estricto con la ejecución práctica en proyectos de ingeniería.
+- **Optimize** — Refactorizar sistemas para ganar eficiencia sin caer en rediseños infinitos.
 
 ---
 
-## Objetivo macro del DoJo
+## Objetivo macro del DoJo v3.2
 
-El DoJo existe para:
+Esta versión (establecida en Colombia bajo disponibilidad de 8+ horas diarias de estudio durante 8-12 meses) abandona la mentalidad de "ahorro de energía" por una de **Inmersión y Disciplina de Arquitecto**.
 
-- Crear un camino técnico sostenible.  
-- Evitar la saturación y el perfeccionismo.  
-- Integrar el crecimiento técnico con el emocional.  
-- Sostener el progreso incluso con energía baja.  
-- Convertir el estudio en misiones claras y manejables.  
-- Mantener continuidad.
+- Escalar habilidades a nivel Senior/Profesional en Data Engineering y Automation.
+- Minimizar el aprendizaje abstracto y enfatizar TDD, SOLID, Clean Code y Arquitectura en todos los módulos.
+- Mitigar riesgos como la infoxicación, aislando focos y obligando al cierre de ciclos.
+- Sostener horas prolongadas mediante protocolos de aterrizaje e inmersión segura.
 
 ---
 
-## Capas oficiales del DoJo Study
+## Capas Operativas: El Ciclo Interno y de Recursos
 
-### 1️ Filosofía
-- Calma > urgencia  
-- Energía > horario  
-- Progreso pequeño > grandes sesiones esporádicas  
-- Misiones > teoría pura  
-- Proyectos reales > ejercicios abstractos  
-- Integración > acumulación  
-- Observación > castigo  
+### 1. La Dualidad de Roles (Operador vs. Arquitecto)
+Para evitar la fatiga de decisión, el DoJo separa diseño de ejecución:
+- **Modo Operador:** (Días de inmersión/Lunes-Viernes) Ejecución pura. El sistema es inmutable. El objetivo es escribir código, testing y cumplir misiones.
+- **Modo Arquitecto:** (Ventanas fijas, ej. Miércoles tarde o Sábado) Único momento para editar estructura, diseñar campañas o reestructurar el "Syllabus".
 
-### 2️ Estructura de estudio con IA
-Los chats siempre se organizan como:
-
-- **XX-MAIN** → teoría enfocada y mínima, conectada a una misión  
-- **XX-EXERCISES** → generación de misiones  
-- **XX-WORK** → acompañamiento, debugging, refactor, dudas
-
-### 3️ Campañas
-Bloques grandes del aprendizaje (Python Básico, SQL, POO, Cloud…).
-
-### 4️ Protocolo de Misiones
-Misiones principales (M), secundarias (S), boss missions (B), observación (O), optimización (OPT).
-
-### 4.1 Sistema de Estado del Progreso (Progress Status Codes)
-
-El DoJo Study utiliza un conjunto de códigos de estado para reflejar el avance real de campañas, misiones y proyectos.  
-Este sistema garantiza claridad, orden y consistencia en todo el ecosistema del DoJo.
-
-Estos estados deben usarse de manera uniforme en:
-
-- campañas  
-- misiones (M, S, B, O, OPT)  
-- proyectos  
-- documentación interna  
-- seguimiento y revisión  
-
-#### Estados oficiales
-
-- 🟢 **Ready**  
-  Listo para ejecutarse. Todos los requisitos están cumplidos.
-
-- 🟡 **Pending**  
-  Aún no inicia, pero está planificado como parte del camino.
-
-- 🔵 **In Progress / Diseño**  
-  En diseño, ejecución o desarrollo activo.
-
-- 🔴 **Not Started**  
-  No iniciado y sin prioridad inmediata.
-
-- 🟣 **Blocked**  
-  Detenido por una dependencia o requisito externo.
-
-- 🟤 **Optional**  
-  Ítem no obligatorio que aporta valor extra o exploración.
-
-Este sistema permite visualizar de forma simple en qué punto está cada parte del DoJo y facilita tomar decisiones según energía, prioridades y contexto real.
-
-
-### 5️ Sistema de Energía
-Según energía del día, se decide el tipo de misión posible.
+### 2. Gestión de Riesgos e Inmersión Lingüística
+- **Interferencia del Francés:** Confusión semántica y gramatical por idioma base previo. -> **Mitigación:** Inmersión de contenido (series/música en inglés) como soporte en DoJo Vida.
+- **Infoxicación:** Máximo de 1 a 2 campañas activas. Prohibido saltar si una no está cerrada.
+- **Hiperfoco:** Tras bloques prolongados (4h+), se debe ejecutar el registro de cierre obligatorio.
+- **Sobreingeniería:** Prohibido refactorizar "porque sí"; requiere un Mini-RFC en la misión.
+- **Muros Técnicos:** Estancamientos continuados requieren reportarse o degradarse transitoriamente.
 
 ---
 
-## Principios emocionales del DoJo
+## Estructura de Estudio Integrada
 
-- **Nada de “ponerme al día”** → solo avanzar la próxima misión.
-- **Nada de “todo o nada"** → 10 minutos de misión ligera valen.  
-- **Nada de épica forzada** → solo propósito auténtico.  
-- **Lo técnico está al servicio de la vida real.**  
-- **Cada misión es una pequeña victoria emocional.**
+El aprendizaje se estructura sobre campañas (proyectos) que se disgregan en misiones. Los chats de IA fungen el rol de Pair Programming:
+
+- **XX-MAIN / XX-WORK:** Acompañamiento en diseño arquitectónico, Pair Programming y debates técnicos (TDD, Patrones).
+- **XX-EXERCISES:** Estructuración de las misiones como PRs ficticios o módulos medibles.
+
+### Sistema de Estado del Progreso (Progress Status)
+
+- 🟢 **Ready**: Listo para ejecutarse (Mini-RFC diagramado).
+- 🟡 **Pending**: Planificado.
+- 🔵 **In Progress**: En desarrollo (Modo Operador activo).
+- 🔴 **Not Started**: Sin prioridad.
+- 🟣 **Blocked**: Requisito externo o Muro Técnico.
 
 ---
 
-Este documento es el corazón del DoJo Study.  
-Todos los demás (`02`, `03`, `04`, `05`) explican su ejecución práctica.
+## Principios Filosóficos v3.2
+
+1. **La consistencia nace de la estructura, no solo del esfuerzo.** El ecosistema te empuja hacia adelante.
+2. **Lo "profesional" se entrena desde la fundición.** TDD, CI/CD y Documentación se aplican desde scripts básicos.
+3. **El tiempo es el recurso crítico.** (El "Reloj de Arena"). Usar presupuestos para herramientas aceleradoras es válido.
+4. **Respeta el ciclo de flujo.** Reconoce cuándo estás en expansión cognitiva ("Flow") y cuándo se impone el "Vacío" necesario por fatiga fisiológica, en cuyo caso corresponde el Rest Day.
+5. **English-Only Zone.** Todo el código (variables, clases, métodos) y toda documentación técnica (Mini-RFCs, Readmes, Logs de Commit) DEBE redactarse en inglés. El español se reserva exclusivamente para reflexiones personales (DoJo Cerebro/Vida).

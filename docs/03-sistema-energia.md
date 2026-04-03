@@ -1,87 +1,53 @@
-# ⚡ 03 — Sistema de Energía del DoJo Study
+# 03 - Sistema Energía (Modelo Binario v3.2)
 
-El avance no depende del tiempo, sino de **la energía del día**.
+El marco temporal y atencional del DoJo v3.2 se rige por un **Modelo Binario**: se está en *Deep Work* (Inmersión Técnica) o en *Rest Day* (Desconexión Profunda). Se elimina la noción de progreso a "energía o medio voltaje" debido al riesgo que esto representa en un esquema inmersivo de tiempo total (8 horas/día).
 
-## Objetivo del sistema
-- Evitar saturación.  
-- Mantener continuidad incluso con muy poca energía.  
-- Evitar teoría pesada entre semana.  
-- Valorar avances pequeños.  
-- Sostener misiones reales los fines de semana.  
+## Objetivo del Sistema
+- Promover el trabajo en bloques concentrados de alta exigencia cognitiva (Arquitectura, TDD, Clean Code).
+- Eliminar la "falsa sensación de productividad" generada por tareas tribales en estados de agotamiento.
+- Fomentar recuperaciones reales y profundas para sostener maratones mensuales de ingeniería de software.
 
 ---
 
-# Niveles de Energía y Tipos de Misiones
+## El Modelo Binario y el Seteo Diario
 
-## Energía Baja (0–25%)  
-Días: lunes–jueves (normalmente)
+### Fase Cero: English Commando (30-60 min)
+**Estado:** Recién despierto o inicio de jornada.
+Antes de abrir el editor de código, el cerebro debe "setearse" en modo inglés.
+- Practicar Busuu Premium (Ruta Gramatical).
+- Repasar Duolingo.
+- Escuchar un podcast o leer documentación técnica en inglés.
+*Este bloque actúa como el encendido del sistema cognitivo.*
 
-Misiones permitidas:
-- **O – Observación**  
-- **OPT – Optimización ligera**  
-- Micro-misiones (5–10 min)
+### Modo 1: Deep Work (Inmersión Técnica)
+**Estado:** Cognitivamente dispuesto. Capacidad para resolver problemas abstractos y estructurar lógicas complejas.
+**Bloques de 60-90 mins**
 
-Ejemplos:
-- leer código  
-- escribir 2 líneas de notas  
-- identificar error pero no corregir  
-- revisar misión pendiente  
-- renombrar una variable  
+Misiones Permitidas:
+- Misiones Principales (M) enfocadas a creación e implementación de capas lógicas.
+- Refactorizaciones Arquitectónicas (con planificación de Mini-RFC).
+- Implementación de Tests Automatizados (TDD o Unit Testing) previo al código core.
+- Diseño de sistemas e investigación profunda.
 
-❌ No teoría larga  
-❌ No boss missions  
-❌ No módulos grandes
+**Requisito indispensable:** Registro del Deep Work Block en el Daily Log (Métricas de Enfoque). Si se supera la ventana de 4 horas continuas (hiperfoco), es forzoso establecer un cierre y aterrizaje seguro (comer, caminar, desconectar del IDE).
 
----
+### Modo 0: Rest Day (Desconexión)
+**Estado:** Valle cognitivo, saturación mental, bloqueos inexplicables. El "Vacío".
 
-## Energía Media (25–60%)  
-Días: algunos martes/miércoles, viernes por la tarde
-
-Misiones permitidas:
-- misiones ligeras  
-- side missions  
-- avanzar parte de una misión principal  
-
-Tiempo: 10–25 minutos.
-
-Ejemplos:
-- escribir una función pequeña  
-- corregir un error  
-- completar un mini-ejercicio  
-- integrar una parte de un módulo  
+Protocolo OBLIGATORIO:
+- **Zero-Code Policy:** Prohibido abrir el editor o tocar código.
+- **Trazabilidad Mínima:** Abrir `task.md` o el log diario sólo para apuntar qué detuvo el progreso ("Muro Técnico" o "Fatiga").
+- Asumir el "Valle" sin culpa. Este estado en un entorno de inmersión total no denota debilidad, sino una necesidad neurobiológica de asentar el conocimiento y reiniciar el sistema Dopaminérgico.
 
 ---
 
-## Energía Alta (60–100%)  
-Días: sábado y domingo principalmente
+## 🛡️ Degradación Transitoria (El Protocolo Único de Apoyo)
 
-Misiones permitidas:
-- misiones principales completas  
-- boss missions  
-- profundización técnica  
-- teoría necesaria conectada a una misión  
-
-Tiempo: 45–120 minutos.
-
-Ejemplos:
-- integrar módulos  
-- crear scripts reales  
-- resolver problemas complejos  
-- construir parte de un pipeline  
+En escasos momentos donde se está a mitad de un problema y no se justifica "apagar el sistema" pero la fatiga asoma, se puede invocar la **Degradación Transitoria**:
+- Delegar a Pair Programming o Sesión Explícita con la IA (Chat WORK) orientada a la depuración (Debugging pasivo).
+- Documentar visualmente el problema en diagrama.
+*No se considerará un bloque de Deep Work, es mera supervivencia técnica que deberá dar paso a un Rest Day inminente.*
 
 ---
 
-# Modo Cero (energía mínima absoluta)
-Cuando NO hay energía:
-
-1. Abrir el mapa de misiones.  
-2. Ver la misión actual.  
-3. Decir “mañana sigo aquí”.  
-4. Cerrar.
-
-Duración: 10–20 segundos.  
-Esto evita romper la continuidad psicológica.
-
----
-
-El Sistema de Energía garantiza que se avance **siempre**, sin castigo, sin caos, sin exigencia excesiva.
+El Sistema de Rendimiento Binario asegura que la construcción del perfil **Data Engineer** se realice desde una ejecución metódica, seria, y respetuosa con los ciclos naturales de creación.
