@@ -41,6 +41,6 @@ Un bloque típico de Deep Work de 90 minutos se debe ver así:
 ## 3. ¿Qué hacer en un Estancamiento ("Muro Técnico")?
 
 Estar en inmersión no significa sufrir horas seguidas un TypeError de Python.
-Si llevas 25 minutos trabado en el mismo error:
-- Usa la *Degradación Transitoria*: Delega al chat **XX-WORK**. Imprime el error y pide una explicación o revisión de arquitectura.
-- Si esto falla, invoca el **Rest Day** y sal de la pantalla. El cerebro (en el modo Valle) reestructurará el problema mientras descansas.
+Si llevas 25 minutos trabado en el mismo error y tu Friction Level sube a 7 o más:
+- Invoca el **[Protocolo Yellow](../docs/08-protocol-yellow.md)**: Utiliza sus palancas (De-abstracción, Mocking, Español) para aislar la lógica o bajar la carga cognitiva.
+- Si esto no funciona o la frustración continúa, asume un **Rest Day** inminente y sal de la pantalla. El cerebro reestructurará el problema mientras descansas.

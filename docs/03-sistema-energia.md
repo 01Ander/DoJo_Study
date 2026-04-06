@@ -41,12 +41,12 @@ Protocolo OBLIGATORIO:
 
 ---
 
-## 🛡️ Degradación Transitoria (El Protocolo Único de Apoyo)
+## 🛡️ Protocolo Yellow (Graceful Degradation)
 
-En escasos momentos donde se está a mitad de un problema y no se justifica "apagar el sistema" pero la fatiga asoma, se puede invocar la **Degradación Transitoria**:
-- Delegar a Pair Programming o Sesión Explícita con la IA (Chat WORK) orientada a la depuración (Debugging pasivo).
-- Documentar visualmente el problema en diagrama.
-*No se considerará un bloque de Deep Work, es mera supervivencia técnica que deberá dar paso a un Rest Day inminente.*
+En escasos momentos donde se está a mitad de un problema y no se justifica "apagar el sistema" pero el nivel de fricción supera 7, se debe invocar el **[Protocolo Yellow](08-protocol-yellow.md)**:
+- Habilita estrategias formales de reducción de carga (e.g. pasar de OOP a funciones nativas, traducir documentación al español, usar datos mock).
+- Delega a Pair Programming pasivo o abandona el objetivo en pro de un "Micro-Goal".
+*Si esto falla, se invocará un Rest Day inminente o una Pausa Obligatoria de 15 minutos.*
 
 ---
 

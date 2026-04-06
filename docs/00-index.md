@@ -34,6 +34,10 @@ El Blueprint general del Data Engineer, incluyendo las 3 fases inmersivas de Ing
 **→ [`07-manual-operativo-misiones.md`](07-manual-operativo-misiones.md)**
 Los flujos estrictos de operación diaria: Mini-RFC -> TDD -> Implementación -> Commit Semántico.
 
+### 8. Protocolo Yellow (Graceful Degradation)
+**→ [`08-protocol-yellow.md`](08-protocol-yellow.md)**
+Mecanismo universal de resiliencia cognitiva. Define las palancas (De-abstracción, Español, Splitting) para mitigar el burnout sin detener el avance.
+
 ---
 
 Este índice opera como la puerta de acceso para la fase de construcción de DoJo v3.2.
