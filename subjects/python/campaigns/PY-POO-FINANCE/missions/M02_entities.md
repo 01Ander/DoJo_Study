@@ -1,5 +1,8 @@
 # Engineering Mission Template
 
+**Friction Level:** [ ] / 10 *(If > 7, activate [Protocol Yellow](../../../../../docs/08-protocol-yellow.md))*
+
+
 ## Identification
 Type: M (Core Architecture)
 Campaign Code: PY-POO-FINANCE
@@ -42,7 +45,8 @@ List the unit tests or edge cases that MUST be covered by `pytest` (or equivalen
 - [ ] Tests execute correctly (`pytest`).
 - [ ] No `Any` typing utilized. `datetime` is mapped to proper Python instances instead of naive strings.
 - [ ] Integration: The Factory successfully connects the M01 `List[dict]` output with the mapping into `List[Transaction]`.
-- [ ] **100% English Compliance:** Fully documented classes describing parameters and Exceptions raised.
+- [ ] **English Grace Period:** Naming (entities, properties) MUST remain in professional English. Documentation (docstrings, explanations) can be Hybrid-English. Exception logs can be bilingual (Spanish/English).
+- [ ] **Specialization Flexibility:** Do not aim for aesthetic perfection; focus on robust logic and data resilience. Choose between a Data Quality priority (strict type casting errors) or DevOps priority (automation and CLI tooling).
 
 ---
 

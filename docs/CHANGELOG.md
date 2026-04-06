@@ -1,8 +1,16 @@
 # DoJo Version Log
 
-## [3.2.0] - 2026-04-03
+## [3.2.1] - 2026-04-05
 
 ### Added
+- **Protocol Yellow (Graceful Degradation):** Introduced `08-protocol-yellow.md` as a universal cognitive resilience mechanism to prevent Operator burnout.
+- **Friction Level Tracking:** Embedded `Friction Level: [ ] / 10` KPI directly into the headers of all mission files and templates.
+
+### Changed
+- **Energy System & Operations:** Replaced the generic "Degradación Transitoria" with formal links and triggers for Protocol Yellow in `03-sistema-energia.md` and `07-manual-operativo-misiones.md`.
+- **Mission Resilience Protocols:** Updated files `B00_assessment`, `M01_extractors`, and `M02_entities` allowing Language Switch (Spanish logic), De-abstraction, and Mock Data prioritization when friction peaks.
+
+## [3.2.0] - 2026-04-03### Added
 - **English-Only Zone:** Established English as the mandatory language for all code, variable naming, Docstrings, and commit messages. Spanish restricted to journal/personal reflections.
 - **English Commando Block:** Integrated a new required 30-60min startup sequence in `03-sistema-energia.md` utilizing Busuu and Duolingo.
 - **Syllabus English Integration:** Added a 3-phase, 12-month linguistic acquisition plan aligned with full immersion to `06-syllabus-maestro.md`.

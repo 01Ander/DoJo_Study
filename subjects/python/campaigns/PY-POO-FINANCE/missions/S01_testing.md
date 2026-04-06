@@ -1,5 +1,8 @@
 # Engineering Mission Template
 
+**Friction Level:** [ ] / 10 *(If > 7, activate [Protocol Yellow](../../../../../docs/08-protocol-yellow.md))*
+
+
 ## Identification
 Type: S (Scaling Refactor)
 Campaign Code: PY-POO-FINANCE

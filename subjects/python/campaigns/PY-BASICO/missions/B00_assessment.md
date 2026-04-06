@@ -1,5 +1,8 @@
 # Engineering Mission Template
 
+**Friction Level:** [ ] / 10 *(If > 7, activate [Protocol Yellow](../../../../../docs/08-protocol-yellow.md))*
+
+
 ## Identification
 Type: B (Integration)  
 Campaign Code: PY-BASICO  
@@ -12,7 +15,8 @@ Status: 🟢 Ready
 ## 🏛️ Design & Architecture (Mini-RFC)
 *A brief architectural discussion before writing code. Justify your approach.*
 **Problem Context:** A Data Engineer must process raw, dirty financial data. Since we reside in the core fundamentals stage, relying on heavy dependencies like Pandas abstracts away the exact programmatic skills we're trying to forge.
-**Proposed Solution / Pattern:** A pipeline of pure native functions (Extract, Cleanse/Transform, Aggregate, Load) utilizing strictly the Python Standard Library. Data flows through these functions, and failures are isolated per record instead of crashing the batch.
+**Protocol Yellow (Muro de Contención):** This assessment acts as a containment wall. It focuses strictly on brute fundamentals: dictionary manipulation, `for` loops with filtering logic, and simple functions before allowing the user to enter the abstraction of OOP classes in M01. If this assessment presents high cognitive friction (Friction > 7), a 2-week reinforcement pause is automatically suggested.
+**Proposed Solution / Pattern:** A pipeline of pure native functions (Extract, Cleanse/Transform, Aggregate, Load) utilizing strictly the Python Standard Library. Data flows through these functions using basic loops and conditionals. Failures are isolated per record instead of crashing the batch.
 **Trade-offs:** We trade off the execution speed and sheer convenience of Pandas for granular control over the memory and the flow of iterations, demanding manual schema enforcement and robust exception handling.
 
 ---
@@ -40,9 +44,10 @@ List the unit tests or edge cases that MUST be covered by `pytest` (or equivalen
 ---
 
 ## Completion Criteria & Definition of Done (DoD)
-- [ ] **100% English Coverage:** All docstrings, variable names, architecture comments, and console outputs are in professional technical English.
+- [ ] **English Grace Period:** Naming (variables, functions, classes) MUST remain in professional English. Documentation (docstrings, technical comments) can be Hybrid-English or simplified English. Console error logs can be bilingual (Spanish/English) for rapid debugging.
 - [ ] **Hard Constraint:** Absolutely Zero usage of third-party libraries (`pandas`, `numpy`, etc. are forbidden). Stick to `csv`, `json`, `datetime`, `collections`, `logging`. 
-- [ ] The pipeline demonstrates total resilience. Intentional sabotage of the input file must not stop the output generation of the clean records.
+- [ ] **Functional Resilience:** Aesthetic perfection is not demanded. The goal is functionality and data resilience. Intentional sabotage of the input file must not stop the output generation of the clean records.
+- [ ] **Specialization Flexibility:** The Operator can implement a Data Quality focus (heavy programmatic validations) or a DevOps focus (Orchestrated CLI tooling/automation).
 - [ ] Comprehensive Docstrings included for every single function explaining arguments, return types, and potential raised Exceptions.
 - [ ] Mypy compliance (No dynamic `Any` usage where types are definitively known).
 

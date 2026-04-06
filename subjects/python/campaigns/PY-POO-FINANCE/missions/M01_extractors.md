@@ -1,5 +1,8 @@
 # Engineering Mission Template
 
+**Friction Level:** [ ] / 10 *(If > 7, activate [Protocol Yellow](../../../../../docs/08-protocol-yellow.md))*
+
+
 ## Identification
 Type: M (Core Architecture)
 Campaign Code: PY-POO-FINANCE
@@ -42,7 +45,8 @@ List the unit tests or edge cases that MUST be covered by `pytest` (or equivalen
 - [ ] Code passes static analysis (`mypy` yields zero typing issues).
 - [ ] Tests execute correctly (`pytest` is all green).
 - [ ] Logic respects SOLID principles (specifically OCP: Open to extension by new formats, closed to internal modification).
-- [ ] **100% English Compliance:** All variable names, test descriptions, and docstrings must be written in professional English.
+- [ ] **English Grace Period:** Naming (variables, methods, classes) MUST remain in professional English. Documentation (docstrings, comments) can be Hybrid-English. Exception logs can be bilingual (Spanish/English).
+- [ ] **Specialization Flexibility:** Do not aim for aesthetic perfection; choose between a strong Data Quality focus (strict schema assertions) or a DevOps/Automation focus (CI/CD readiness, CLI arguments).
 
 ---
 
