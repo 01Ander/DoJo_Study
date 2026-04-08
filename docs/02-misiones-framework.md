@@ -1,6 +1,6 @@
-# 02 - Protocolo Misiones (v3.2)
+# 02 - Misiones Framework (v3.2)
 
-## ¿Qué es el Protocolo de Misiones?
+## ¿Qué es el Framework de Misiones?
 
 Es la capa táctica que convierte el marco de Ingeniería de Software en tareas accionables. En la v3.2, una misión **no es un ejercicio rápido de sintaxis**; es un módulo funcional de un pipeline mayor.
 

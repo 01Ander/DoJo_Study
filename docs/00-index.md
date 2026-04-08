@@ -10,8 +10,8 @@ Este es el índice principal de la documentación del **DoJo Study**, el ecosist
 **→ [`01-dojo-core.md`](01-dojo-core.md)**
 Manifiesto fundacional. Define la Inmersión Total, Modo Operador vs. Arquitecto, English-Only Zone y la Mitigación de Riesgos (Infoxicación, Interferencia del Francés).
 
-### 2. Protocolo de Misiones
-**→ [`02-protocolo-misiones.md`](02-protocolo-misiones.md)**
+### 2. Misiones Framework
+**→ [`02-misiones-framework.md`](02-misiones-framework.md)**
 Explica la taxonomía de la ejecución técnica: Main Missions (TDD), Scaling Refactors y Boss Missions Integradas.
 
 ### 3. Sistema de Rendimiento Binario
