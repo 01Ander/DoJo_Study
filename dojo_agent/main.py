@@ -120,7 +120,7 @@ class DojoAgent:
             
             for doc in docs:
                 doc.metadata["source"] = relative_path
-                # [FIX] Inyectar la ruta en el contenido para que el buscador RAG vea los nombres de las carpetas ("B00_assessment")
+                # [FIX] Inyectar la ruta en el contenido para que el buscador RAG vea los nombres de las carpetas ("B00")
                 doc.page_content = f"[Ruta del Archivo: {relative_path}]\n\n{doc.page_content}"
                 
             text_splitter = RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=200)
@@ -233,7 +233,7 @@ class OperatorCLI:
             if len(parts) >= 3:
                 self._handle_start(parts[1], parts[2])
             else:
-                print("[Sistema] Uso: /start [Campaña] [Misión] o 'vamos a iniciar en py-basico la mision b00_assessment'")
+                print("[Sistema] Uso: /start [Campaña] [Misión] o 'vamos a iniciar en py-basico la mision b00'")
             return True
             
         if lower_input.startswith("/mode"):
