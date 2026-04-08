@@ -120,8 +120,16 @@ class DojoAgent:
 
     def run_query(self, user_input):
         print(f"Modo [{self.active_mode}] -> Consultando...\n")
+        
+        # === INYECCIÓN INVISIBLE DE CONTEXTO ===
+        # Esto fuerza al buscador RAG a extraer los archivos de TU Misión actual, 
+        # y le recuerda al LLM en qué tema exacto estás concentrado:
+        enhanced_query = user_input
+        if self.active_campaign and self.active_mission:
+             enhanced_query = f"(Estoy trabajando activamente en la Campaña {self.active_campaign}, Misión {self.active_mission}). " + user_input
+
         response_text = ""
-        for chunk in self.chain.stream(user_input):
+        for chunk in self.chain.stream(enhanced_query):
             print(chunk, end="", flush=True)
             response_text += chunk
         
