@@ -1,0 +1,53 @@
+# Engineering Mission Template
+
+**Friction Level:** [ ] / 10 *(If > 7, activate [Protocol Yellow](../../../../../docs/08-protocol-yellow.md))*
+
+
+## Identification
+Type: M (Core Architecture)
+Campaign Code: PY-POO-FINANCE
+Mission Code: M04
+Title: Outputs, Loaders, and the Pipeline Orchestrator
+Status: 🟢 Ready
+
+---
+
+## 🏛️ Design & Architecture (Mini-RFC)
+*A brief architectural discussion before writing code. Justify your approach.*
+**Problem Context:** Running M01, M02, and M03 sequentially from a dirty main script creates tight coupling where the controller knows too much implementation detail. Furthermore, writing data output statically to CSV prevents saving to a DB later.
+**Proposed Solution / Pattern:** Create an `AbstractLoader` for file writing (Dependency Inversion). Implement a `PipelineOrchestrator` class that binds the Extractor, Transformation Engine, and Loader together.
+**Trade-offs:** Adds architectural overhead and abstractions that seem heavy for personal projects but perfectly mimics industrial Data Engineering environments.
+
+---
+
+## Technical Objective
+Close the ETL loop by developing the Load component (writing an aggregated summary to a JSON file). Then, orchestrate the entire flow by wrapping the dependencies inside a high-level `FinancialPipeline` class, effectively hiding the inner workings.
+
+---
+
+## Required Testing (TDD / QA)
+List the unit tests or edge cases that MUST be covered by `pytest` (or equivalent) for this mission to be accepted.
+- [ ] Test Case 1: `AbstractLoader` enforces `load_data()` signature natively.
+- [ ] Test Case 2: `JSONLoader` effectively writes synthetic data. (Utilize `tmp_path` fixture in Pytest to prevent polluting your disk).
+- [ ] Test Case 3: The `FinancialPipeline` constructor correctly verifies that valid `Extractor` and `Loader` instances have been injected before allowing execution.
+
+---
+
+## Execution Steps (Implementation Plan)
+1. Write the tests utilizing pytest `tmp_path` for isolated filesystem interaction.
+2. Develop the `abstract_loader.py` and implement the concrete `json_loader.py`.
+3. Create the `PipelineOrchestrator` class passing instances via the constructor `__init__(self, extractor, loader, engine)`.
+4. Run the entire E2E pipeline targeting a real payload to visualize the result.
+
+---
+
+## Completion Criteria & Definition of Done (DoD)
+- [ ] Tests execute correctly (`pytest`).
+- [ ] Code passes static analysis (e.g., `flake8`, `mypy`).
+- [ ] The core script (`main.py`) barely contains logic; it simply glues dependencies and calls `pipeline.run()`.
+- [ ] **100% English Compliance:** Code is crystal clear and reads natively like a professional english manual.
+
+---
+
+## Architectural/Friction Notes
+*Log any code smells, friction discovered, or future scaling ideas to be picked up by the Architect role.*

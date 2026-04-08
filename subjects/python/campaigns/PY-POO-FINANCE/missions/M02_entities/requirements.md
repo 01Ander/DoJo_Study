@@ -1,0 +1,54 @@
+# Engineering Mission Template
+
+**Friction Level:** [ ] / 10 *(If > 7, activate [Protocol Yellow](../../../../../docs/08-protocol-yellow.md))*
+
+
+## Identification
+Type: M (Core Architecture)
+Campaign Code: PY-POO-FINANCE
+Mission Code: M02
+Title: Domain Entities and Transaction Polymorphism
+Status: 🟢 Ready
+
+---
+
+## 🏛️ Design & Architecture (Mini-RFC)
+*A brief architectural discussion before writing code. Justify your approach.*
+**Problem Context:** Passing raw generic dictionaries throughout the pipeline makes the code brittle and removes IDE autocomplete. There is no structural guarantee of the data. 
+**Proposed Solution / Pattern:** Model the financial transactions as Domain Entities using Python `dataclasses`. Create a base `Transaction` class, and inherit it into polymorphic concrete classes `Income` and `Expense`.
+**Trade-offs:** We have to map raw dictionaries to object instances, injecting a microsecond performance cost, but earning total safety and validation inside the constructor definitions.
+
+---
+
+## Technical Objective
+Ingest the raw dictionaries yielded by the Extractor layer and instantiate strict OOP Domain Entities. The classes must hold validation logic natively (e.g. an `Income` object simply cannot exist if initialized with a negative amount).
+
+---
+
+## Required Testing (TDD / QA)
+List the unit tests or edge cases that MUST be covered by `pytest` (or equivalent) for this mission to be accepted.
+- [ ] Test Case 1: Attempting to instantiate an `Income` entity with `amount = -50` raises a custom `ValueError`.
+- [ ] Test Case 2: Ensure `Expense` objects store amounts as absolute positive values internally, regardless of raw input format.
+- [ ] Test Case 3: Both `Income` and `Expense` correctly inherit from the `Transaction` base class (`isinstance` checks).
+
+---
+
+## Execution Steps (Implementation Plan)
+1. Write the tests matching the business rules validation.
+2. In `models/transactions.py`, define the Base class bridging common fields (like `id`, `date`, `currency`).
+3. Define the subclasses executing polymorphic behavior (overriding generic methods to compute normalized amounts).
+4. Implement a small Factory function to ingest raw dicts and return the proper instantiated entity depending on the 'type' column.
+
+---
+
+## Completion Criteria & Definition of Done (DoD)
+- [ ] Tests execute correctly (`pytest`).
+- [ ] No `Any` typing utilized. `datetime` is mapped to proper Python instances instead of naive strings.
+- [ ] Integration: The Factory successfully connects the M01 `List[dict]` output with the mapping into `List[Transaction]`.
+- [ ] **English Grace Period:** Naming (entities, properties) MUST remain in professional English. Documentation (docstrings, explanations) can be Hybrid-English. Exception logs can be bilingual (Spanish/English).
+- [ ] **Specialization Flexibility:** Do not aim for aesthetic perfection; focus on robust logic and data resilience. Choose between a Data Quality priority (strict type casting errors) or DevOps priority (automation and CLI tooling).
+
+---
+
+## Architectural/Friction Notes
+*Log any code smells, friction discovered, or future scaling ideas to be picked up by the Architect role.*
