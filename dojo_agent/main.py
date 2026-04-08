@@ -105,10 +105,12 @@ class DojoAgent:
         if not is_journal:
             print(f"\n🔄 Asimilando: {relative_path}")
         
+        # Cachear IDs viejos antes de subir los nuevos (RAG Atomicity)
+        old_ids = []
         try:
             existing_docs = self.vectorstore.get(where={"source": relative_path})
             if existing_docs and existing_docs["ids"]:
-                self.vectorstore.delete(ids=existing_docs["ids"])
+                old_ids = existing_docs["ids"]
         except Exception:
             pass
 
@@ -121,13 +123,18 @@ class DojoAgent:
                 
             text_splitter = RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=200)
             splits = text_splitter.split_documents(docs)
-            ids = [str(uuid.uuid4()) for _ in splits]
+            new_ids = [str(uuid.uuid4()) for _ in splits]
             
             if splits:
-                self.vectorstore.add_documents(documents=splits, ids=ids)
+                self.vectorstore.add_documents(documents=splits, ids=new_ids)
+                
+            # [Claude FIX] Solo borramos lo viejo cuando sabemos que lo nuevo se añadió al DB exitosamente.
+            if old_ids:
+                self.vectorstore.delete(ids=old_ids)
+                
         except Exception as e:
             if not is_journal:
-                print(f"   [Error] al leer el archivo {relative_path}: {e}")
+                print(f"   [Error] al leer/asimilar archivo {relative_path}: {e}")
 
     def run_query(self, user_input):
         print(f"Modo [{self.active_mode}] -> Consultando...\n")
@@ -157,6 +164,9 @@ class DojoAgent:
         # Guardar en memoria a corto plazo
         self.chat_history.append((user_input, response_text))
         
+        # [FIX] Capping the internal list to prevent RAM Leak
+        self.chat_history = self.chat_history[-10:]
+        
         # Opcional: auto-loggear los resúmenes del agente en la bitácora
         self._auto_log_agent_output(response_text)
         print("\n")
@@ -175,7 +185,7 @@ class DojoAgent:
 
     def _auto_log_agent_output(self, response_text):
         """Intenta hacer un resumen pasivo para la bitácora unificada."""
-        if not self.active_campaign or not self.active_mission:
+        if not self.active_campaign or not self.active_mission or not response_text.strip():
             return
             
         summary = response_text[:100].replace('\n', ' ') + "..." if len(response_text) > 100 else response_text
