@@ -212,8 +212,9 @@ class OperatorCLI:
         lower_input = user_input.lower().strip()
         
         # 1. NLP Heuristics con tolerancia de Case (Fix 2: Quitamos .upper() forzado y usamos validación de ruta)
-        if ("iniciar" in lower_input or "vamos a" in lower_input) and "mision" in lower_input:
-            match = re.search(r'(?:iniciar|empezar|campaña|en)\s+([a-z0-9-]+)\s+(?:la\s+)?mision\s+([a-z0-9_]+)', lower_input)
+        if ("iniciar" in lower_input or "vamos a" in lower_input or "empezar" in lower_input) and "mision" in lower_input:
+            # Toleramos palabras intermedias con .*?
+            match = re.search(r'(?:iniciar|empezar|campaña|campaign|en)\s+([a-z0-9-]+).*?mision\s+([a-z0-9_]+)', lower_input)
             if match:
                 campaign = match.group(1) 
                 mission = match.group(2)
