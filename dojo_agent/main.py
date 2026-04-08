@@ -30,6 +30,7 @@ class DojoAgent:
         self.active_mode = "GLOBAL"
         self.active_campaign = None
         self.active_mission = None
+        self.chat_history = []  # Memoria conversacional a corto plazo
         
         # 1. Modelos
         self.llm = ChatOllama(model="gemma4:latest")
@@ -49,7 +50,8 @@ class DojoAgent:
     def get_prompt_template(self):
         base = (
             "Tu contexto extraído del repositorio:\n{context}\n\n"
-            "Pregunta/Comentario del Estudiante: {question}\n\nRespuesta:"
+            "Historial de la Conversación Reciente:\n{chat_history}\n\n"
+            "Pregunta/Comentario actual del Estudiante: {question}\n\nRespuesta:"
         )
         
         if self.active_mode == "MAIN":
@@ -84,7 +86,11 @@ class DojoAgent:
         self.prompt = ChatPromptTemplate.from_template(template)
         
         self.chain = (
-            {"context": self.retriever, "question": RunnablePassthrough()}
+            {
+                "context": lambda x: self.retriever.invoke(x["question"]),
+                "question": lambda x: x["question"],
+                "chat_history": lambda x: x.get("chat_history", "")
+            }
             | self.prompt
             | self.llm
             | StrOutputParser()
@@ -122,16 +128,22 @@ class DojoAgent:
         print(f"Modo [{self.active_mode}] -> Consultando...\n")
         
         # === INYECCIÓN INVISIBLE DE CONTEXTO ===
-        # Esto fuerza al buscador RAG a extraer los archivos de TU Misión actual, 
-        # y le recuerda al LLM en qué tema exacto estás concentrado:
         enhanced_query = user_input
         if self.active_campaign and self.active_mission:
              enhanced_query = f"(Estoy trabajando activamente en la Campaña {self.active_campaign}, Misión {self.active_mission}). " + user_input
 
+        # Formatear el historial reciente (Ventana rodante de 4 turnos)
+        history_text = ""
+        for u, a in self.chat_history[-4:]:
+            history_text += f"Estudiante: {u}\nSistema: {a}\n---\n"
+
         response_text = ""
-        for chunk in self.chain.stream(enhanced_query):
+        for chunk in self.chain.stream({"question": enhanced_query, "chat_history": history_text}):
             print(chunk, end="", flush=True)
             response_text += chunk
+            
+        # Guardar en memoria a corto plazo
+        self.chat_history.append((user_input, response_text))
         
         # Opcional: auto-loggear los resúmenes del agente en la bitácora
         self._auto_log_agent_output(response_text)
@@ -190,8 +202,9 @@ class OperatorCLI:
                 mode = parts[1].upper()
                 if mode in ["GLOBAL", "MAIN", "EXERCISES", "WORK"]:
                     self.agent.active_mode = mode
+                    self.agent.chat_history.clear() # Limpiar memoria al cambiar persona
                     self.agent.build_chain()
-                    print(f"[Sistema] Modalidad de Personalidad cambiada a: {mode}")
+                    print(f"[Sistema] Modalidad de Personalidad cambiada a: {mode}. (Memoria restablecida)")
                 else:
                     print("[Sistema] Modos válidos: GLOBAL, MAIN, EXERCISES, WORK")
             return True
