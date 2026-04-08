@@ -1,35 +1,58 @@
-# 09 - The DoJo Agent (AI Co-Pilot)
+# 09 - The DoJo Agent & Operator CLI
 
 ## ¿Qué es el DoJo Agent?
 
-Es el componente "vivo" del ecosistema DoJo. Actúa como un *Pair Programmer* y vigilante RAG (Retrieval-Augmented Generation) que tiene acceso de lectura instantánea a todos los protocolos, misiones y notas del repositorio.
+Es el componente "vivo" e interactivo del ecosistema DoJo. Inicialmente un vigía pasivo, ha evolucionado a un **Middleware Operator** (CLI) y un *Pair Programmer* que tiene lectura instantánea a toda la base de datos de tu estudio (RAG) para acompañar la redacción de código, documentar sesiones e inspeccionar requerimientos.
 
-El objetivo del Agente es reducir la carga cognitiva (apoyando el *Protocol Yellow*), brindando respuestas precisas y basadas **estrictamente en el contexto** de tus propios apuntes, sin alucinaciones de internet.
-
----
-
-## Arquitectura y MVD (Pair Programmer)
-
-Actualmente, el Agente opera en **Modo Lectura (Vigilante)** bajo las siguientes tecnologías:
-
-*   **Motor Lógico (LLM):** `gemma4:latest` mediante Ollama (modelo optimizado para 24GB de Unified Memory sin colapsar en *Memory Swap*).
-*   **Memoria Vectorial:** `ChromaDB` estructurada de forma 100% local en tu disco.
-*   **Procesamiento Semántico:** `nomic-embed-text` (Ollama) para crear *Embeddings* instantáneos.
-*   **The Watcher (Watchdog en Python):** Un script demonio que monitorea el sistema de archivos del DoJo. Detecta modificaciones o guardados (`Cmd + S`) y ejecuta **Delta Updates** (borra el vector viejo específico de un archivo y le indexa la versión nueva en milisegundos) en lugar de quemar CPU re-indexando todo.
-
-> *(Nota Arquitectónica: La carpeta `dojo_agent/.venv` y la base de datos `dojo_agent/chroma_db` viven estrictamente en tu local y están añadidas al `.gitignore` para no contaminar el versionado del repositorio Misiones).*
+El objetivo del Agente es reducir la carga cognitiva (*Protocol Yellow*), actuando como múltiples *Personas* dependiendo de tus necesidades de estudio y blindando el flujo técnico sin alucinaciones de internet.
 
 ---
 
-## Instrucciones de Despliegue (En Local)
+## Arquitectura (Engine & Operator)
 
-Para despertar al Agente debes activar su entorno virtual de Python y arrancar el bucle principal. 
+El sistema opera mediante tres barreras técnicas en tiempo real:
 
-Abre una terminal en la raíz de tu proyecto `DoJo_Study` y ejecuta:
+1. **La Mente (Local LLM & RAG Vectorial):** Corre `gemma4:latest` (Ollama) con embeddings espaciales (`ChromaDB`). Tiene memoria conversacional de corto plazo (Rolling Window) para seguir hilos de Pair Programming sin consumir toda tu memoria RAM.
+2. **El Operador (Middleware CLI):** Actúa interceptando Natural Language Processing (NLP) y Slash Commands para mutar el comportamiento de la IA dinámicamente y contextualizar sus búsquedas sin que el usuario tenga que escribir "prompts gigantes".
+3. **The Watcher (Watchdog Atómico en Python):** Un hilo de background que detecta cuando presionas `Cmd + S` en cualquier markdown. Aplica indexación atómica (Guarda el Vector Nuevo -> Elimina el Vector Viejo) inmediatamente a tu base ChromaDB para que el RAG posea verdades actualizadas al segundo.
 
+> *(Nota Arquitectónica: La base de datos `dojo_agent/chroma_db` y el entorno `.venv` residen estrictamente en local y están excluidos en `.gitignore`).*
+
+---
+
+## Modos Dinámicos de Operación (`/mode`)
+
+Con el comando `/mode [MODO]`, puedes resetear la memoria de corto plazo de la terminal e instruir a la base lingüística de `gemma` para que asuma las reglas estipuladas en el documento `05-estructura-chats`:
+
+*   **`/mode main` (El Instructor):** Explicará la teoría arquitectónica general. Tiene prohibido darte código fuente directo. Flexibilidad bilingüe permitida.
+*   **`/mode exercises` (El PM):** Se convertirá en un Product Manager hiper-conciso para generar Criterios de Aceptación y designar los *Edge Cases* a testear en la misión actual. (Inglés prioritario).
+*   **`/mode work` (El Revisor):** Revisa el Clean Code y las arquitecturas complejas actuando como un Senior exigente. Evalúa TDD y Profiling de datos.
+
+---
+
+## Flujo Operativo y Context Binding (NLP)
+
+Tu flujo de ejecución diario obedece a anclar el "Contexto" de la CLI para que sus extracciones RAG (`k=6`) no choquen matemáticamente con otras carpetas. 
+
+### 1. Despliegue de Terminal
+Abre tu consola en la raíz de `DoJo_Study` y arranca:
 ```bash
-# Iniciar el servidor local de IA
 ./dojo_agent/.venv/bin/python dojo_agent/main.py
 ```
 
-El script revisará todas las rutas permitidas (ignorando explícitamente zonas de legado como `@archive` o directorios de caché) y dejará abierta una CLI interactiva con la etiqueta `DoJo Prompt >>`.
+### 2. Anclaje de Contexto (Context Binding)
+Con esto, le avisas al Operator qué partes del RAG debe priorizar:
+*   **Vía NLP:** Escribiendo directamente: *"Vamos a iniciar en PY-BASICO la mision B00_assessment"*. (Detecta dinámicamente las rutas tolerando variaciones de mayúsculas).
+*   **Vía Slash:** `/start [Campaña] [Misión]`
+
+### 3. Ejecución y Bitácoras
+Habiendo fijado el contexto, toda respuesta extensa que el Agente RAG genere por consola, será **silenciosamente guardada en el archivo `journal.md` de tu misión actual** a modo de bitácora cronológica pasiva. 
+
+Si requieres emitir tus propios pensamientos de aprendizaje, puedes forzar el guardado ejecutando:
+*   `/log No logro entender cómo funciona la herencia aquí. Voy a detener el flujo y reiniciar mañana.`
+
+### 4. Zero-Cost Auditing (Offline Payload)
+Si localmente no logras descifrar un problema y requieres enviar tu duda a Gemini Web (Cloud), no necesitas copiar y pegar archivos a mano. Ejecuta:
+*   `/audit ¿Por qué falla inyección de dependencias en esta línea?`
+
+El operador compilará tu duda, escaneará la base RAG extrayendo los trozos de código y requerimientos locales *involucrados matemáticamente* en la pregunta, y te devolverá un formato de Prompt gigantesco perfectamente pre-generado. Lo copias, lo pegas en el navegador, y evitas gastos por llamados API.
