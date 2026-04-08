@@ -1,4 +1,4 @@
-# 07 - Manual Operativo Misiones (v3.2)
+# 07 - Manual Operativo Misiones (v3.3)
 
 Este manual es tu estándar operativo cuando entras al bloque de **Deep Work**. Su estricto cumplimiento garantiza calidad de software, trazabilidad profesional, y fluidez en tu Inmersión Lingüística (Inglés).
 
