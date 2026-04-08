@@ -1,6 +1,6 @@
 # Subjects – The DoJo Engineering Divisions
 
-Este directorio organiza todas las divisiones operativas técnicas del DoJo Study v3.2.  
+Este directorio organiza todas las divisiones operativas técnicas del DoJo Study v3.3.  
 La finalidad es mantener el ecosistema de aprendizaje estructurado en **Proyectos Reales (Campañas)**, alejándonos de los scrips básicos y acercándonos a verdaderos Pipelines de datos.
 
 ---

@@ -1,12 +1,12 @@
-# DoJo Study – High Performance Engineering System v3.2
+# DoJo Study – High Performance Engineering System v3.3
 
 **DoJo Study** es un marco operativo de aprendizaje inmersivo, diseñado para la formación rigurosa y acelerada hacia el perfil de **Data & Automation Engineer**, operando bajo altos estándares de ingeniería de software (Arquitectura Limpia, TDD y Módulos Desacoplados).
 
-Esta versión (v3.2) fue diseñada en Colombia asumiendo una disponibilidad inmersiva de 8+ horas diarias. Sustituye la mentalidad de "ahorro de energía" de versiones anteriores por el concepto de **Deep Work** y **English-Only Zone**.
+Esta versión (v3.3) fue diseñada en Colombia asumiendo una disponibilidad inmersiva de 8+ horas diarias. Sustituye la mentalidad de "ahorro de energía" de versiones anteriores por el concepto de **Deep Work** y **English-Only Zone**.
 
 ---
 
-## 1. Propósito del DoJo Study v3.2
+## 1. Propósito del DoJo Study v3.3
 
 - Escalar hacia un nivel Profesional/Senior en Data Engineering, Automatización y Cloud.
 - Forzar la adopción de buenas prácticas corporativas: Tests Unitarios (Pytest), Documentación de Arquitectura (Mini-RFCs) y Naming Strict desde el minuto cero.
@@ -44,7 +44,7 @@ dojo-study/
 ├─ README.md
 ├─ docs/                 <- (DoJo Core, Riesgos, Flujos y Protocolos)
 ├─ archive/              <- (Histórico de v2.0 - Canadá)
-├─ templates/            <- (Plantillas v3.2 con Deep Work / TDD tracking)
+├─ templates/            <- (Plantillas v3.3 con Deep Work / TDD tracking)
 └─ subjects/
    └─ python/            <- (Core técnico y Campañas)
 ```
