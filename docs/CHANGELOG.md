@@ -1,5 +1,15 @@
 # DoJo Version Log
 
+## [3.3.0] - 2026-04-08
+
+### Added
+- **The DoJo Agent (AI Co-Pilot):** Created a fully local RAG interactive system based on `ChromaDB` and `gemma4:latest` using `nomic-embed-text` embeddings.
+- **Agent Delta Updates Watchdog:** Implemented a Python background process (`dojo_agent/main.py`) to monitor and index live changes of the workspace ignoring legacy archives.
+- **System Documentation:** Appended `09-dojo-agent.md` to formally document the architectural boundaries and terminal deployment of the Data Engineering Co-pilot.
+
+### Changed
+- **Taxonomy Restructuring:** Renamed `02-protocolo-misiones.md` to `02-misiones-framework.md` to correct the semantic boundaries between reactive *Protocols* and structural *Frameworks*.
+
 ## [3.2.1] - 2026-04-05
 
 ### Added
