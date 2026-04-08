@@ -181,7 +181,7 @@ class DojoAgent:
         self.chat_history = self.chat_history[-10:]
         
         # Opcional: auto-loggear los resúmenes del agente en la bitácora
-        self._auto_log_agent_output(response_text)
+        self._auto_log_agent_output(user_input, response_text)
         print("\n")
         return response_text
 
@@ -196,12 +196,13 @@ class DojoAgent:
             except Exception as e:
                 print(f"[Error del Sistema] No se pudo crear el Journal Base: {e}")
 
-    def _auto_log_agent_output(self, response_text):
+    def _auto_log_agent_output(self, user_input, response_text):
         """Intenta hacer un resumen pasivo para la bitácora unificada."""
         if not self.active_campaign or not self.active_mission or not response_text.strip():
             return
             
-        summary = response_text[:100].replace('\n', ' ') + "..." if len(response_text) > 100 else response_text
+        summary = response_text[:150].replace('\n', ' ') + "..." if len(response_text) > 150 else response_text
+        user_short = user_input[:50].replace('\n', ' ') + "..." if len(user_input) > 50 else user_input
         
         mission_path = os.path.join(BASE_DIR, "subjects", "python", "campaigns", self.active_campaign, "missions", self.active_mission)
         journal_path = os.path.join(mission_path, "journal.md")
@@ -210,8 +211,8 @@ class DojoAgent:
 
         timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         try:
-            with open(journal_path, "a") as f:
-                f.write(f"- **[Agent | {timestamp}]:** (Respuesta generada en modo {self.active_mode}) -> {summary}\n")
+            with open(journal_path, "a", encoding="utf-8") as f:
+                f.write(f"- **[Agent | {timestamp}]:** ({self.active_mode}) Q: '{user_short}' -> A: {summary}\n")
         except Exception:
             pass
 
