@@ -1,4 +1,4 @@
-# Daily Log Template – DoJo v3.2
+# Daily Log Template – DoJo v3.3
 
 ## Date
 [YYYY-MM-DD]
