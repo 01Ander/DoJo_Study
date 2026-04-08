@@ -50,9 +50,9 @@ dojo-study/
    └─ python/            <- (Core técnico y Campañas)
 ```
 
-## 5. The DoJo Agent (AI Local Co-Pilot)
+## 5. The DoJo Agent & Operator CLI
 
-Integrado profundamente en el sistema, corre un Agente RAG vigilante 100% local (Python + ChromaDB + Ollama) que monitorea las modificaciones de los apuntes y misiones en tiempo real. Actúa como el asistente cognitivo de cabecera contra el "burnout" técnico (Ver `docs/09-dojo-agent.md`).
+Integrado profundamente en el sistema, corre un **Middleware Interactivo** RAG 100% local (Python + ChromaDB + Ollama) que monitorea las modificaciones de los apuntes de manera atómica en tiempo real. Evolucionado a una CLI completa, actúa interceptando comandos de Lenguaje Natural (NLP) y perfiles operativos dinámicos (`/mode`) para servir como tu *Pair Programmer* y asistente cognitivo principal contra el "burnout" técnico (Ver completo en `docs/09-dojo-agent.md`).
 
 ---
 
