@@ -1,7 +1,9 @@
 import os
+import re
 import time
 import uuid
 import threading
+from datetime import datetime
 from pathlib import Path
 
 from watchdog.observers import Observer
@@ -23,6 +25,12 @@ IGNORED_DIRS = {".git", ".obsidian", "dojo_agent", "__pycache__", "archive"}
 class DojoAgent:
     def __init__(self):
         print("🧠 Inicializando el DoJo Agent y la Base Vectorial Local...")
+        
+        # Estados Base
+        self.active_mode = "GLOBAL"
+        self.active_campaign = None
+        self.active_mission = None
+        
         # 1. Modelos
         self.llm = ChatOllama(model="gemma4:latest")
         self.embeddings = OllamaEmbeddings(model="nomic-embed-text")
@@ -35,17 +43,29 @@ class DojoAgent:
         )
         self.retriever = self.vectorstore.as_retriever(search_kwargs={"k": 4})
         
-        # 3. Chain RAG (Read-Only)
-        template = """Eres 'El Arquitecto', el asistente del sistema DoJo Study. 
-Tu objetivo es responder a las preguntas usando ESTRICTAMENTE el contexto proporcionado, que pertenece a las notas del sistema DoJo del usuario.
-Si la respuesta no está en el contexto, di simplemente: 'No encuentro información sobre esto en el DoJo.'
+        # 3. Inicializar Cadena (Chain)
+        self.build_chain()
 
-Contexto extraído del DoJo:
-{context}
+    def get_prompt_template(self):
+        base = (
+            "Tu contexto extraído del repositorio:\n{context}\n\n"
+            "Pregunta/Comentario del Estudiante: {question}\n\nRespuesta:"
+        )
+        
+        if self.active_mode == "MAIN":
+            persona = "Eres 'El Instructor'. Modo MAIN enfocado en asimilar teoría arquitectónica y conceptos profundos. Explica con claridad, sin dar la solución de código de inmediato. Se permite flexibilidad bilingüe (Español/Inglés) para explicar conceptos abstractos."
+        elif self.active_mode == "EXERCISES":
+            persona = "Eres 'El Product Manager Técnico'. Modo EXERCISES. Define Acceptance Criteria, estructuración de TDD y casos borde basándote en el contexto de la misión. Sé conciso."
+        elif self.active_mode == "WORK":
+            persona = "Eres 'El Code Reviewer / Pair Programmer'. Modo WORK. Revisa arquitectura, patrones SOLID, Clean Code y acompaña el TDD. Debes incentivar el inglés técnico, pero no bloquees si hay dudas pesadas."
+        else: # GLOBAL
+            persona = "Eres 'El Arquitecto', el asistente global del sistema DoJo Study. Tu objetivo es responder estrictamente según los manifiestos, campañas y apuntes del DoJo local del usuario."
 
-Pregunta del usuario: {question}
+        return persona + "\n\n" + base
 
-Respuesta:"""
+    def build_chain(self):
+        """Reconstruye el cerebro dinámico cuando cambia el Modo."""
+        template = self.get_prompt_template()
         self.prompt = ChatPromptTemplate.from_template(template)
         
         self.chain = (
@@ -56,66 +76,189 @@ Respuesta:"""
         )
 
     def process_file(self, file_path):
-        """Indexa o re-indexa un archivo Markdown específico en ChromaDB."""
+        """Indexa o re-indexa un archivo Markdown en ChromaDB."""
         relative_path = str(Path(file_path).relative_to(BASE_DIR))
-        print(f"\n🔄 Procesando y asimilando: {relative_path}")
+        print(f"\n🔄 Asimilando: {relative_path}")
         
-        # 1. Eliminar vectores antiguos de este archivo si existen
         try:
-            # Recuperar documentos con este 'source'
             existing_docs = self.vectorstore.get(where={"source": relative_path})
             if existing_docs and existing_docs["ids"]:
                 self.vectorstore.delete(ids=existing_docs["ids"])
-                print(f"   [!] Vectores previos eliminados para actualización delta.")
-        except Exception as e:
-            print(f"   [Error] No se pudo buscar/eliminar vectores antiguos: {e}")
+        except Exception:
+            pass
 
-        # 2. Cargar y fragmentar el nuevo contenido
         try:
             loader = TextLoader(file_path, encoding='utf-8')
             docs = loader.load()
             
-            # Asegurar que el metadata tenga el source local relativo para facilidad
             for doc in docs:
                 doc.metadata["source"] = relative_path
                 
             text_splitter = RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=200)
             splits = text_splitter.split_documents(docs)
-            
-            # Generar IDs únicos para trazabilidad (opcional pero buena práctica)
             ids = [str(uuid.uuid4()) for _ in splits]
             
-            # 3. Insertar nuevos vectores
             if splits:
                 self.vectorstore.add_documents(documents=splits, ids=ids)
-                print(f"   [+] {len(splits)} chunks asimilados en la base de datos.")
-            else:
-                print(f"   [-] Archivo vacío o sin texto útil. No se añadieron chunks.")
-                
         except Exception as e:
             print(f"   [Error] al leer el archivo {relative_path}: {e}")
 
     def run_query(self, user_input):
-        print(f"Consultando la memoria del DoJo para: '{user_input}'...\n")
-        
-        # Usar stream en lugar de invoke para ver las palabras aparecer en tiempo real
+        print(f"Modo [{self.active_mode}] -> Consultando...\n")
         response_text = ""
         for chunk in self.chain.stream(user_input):
             print(chunk, end="", flush=True)
             response_text += chunk
+        
+        # Opcional: auto-loggear los resúmenes del agente en la bitácora
+        self._auto_log_agent_output(response_text)
         print("\n")
         return response_text
+
+    def _auto_log_agent_output(self, response_text):
+        """Intenta hacer un resumen pasivo para la bitácora unificada."""
+        if not self.active_campaign or not self.active_mission:
+            return
+            
+        # Si la respuesta es larga, solo marcamos un resumen
+        summary = response_text[:100].replace('\n', ' ') + "..." if len(response_text) > 100 else response_text
+        
+        mission_path = os.path.join(BASE_DIR, "subjects", "python", "campaigns", self.active_campaign, "missions", self.active_mission)
+        journal_path = os.path.join(mission_path, "journal.md")
+        
+        if os.path.exists(journal_path):
+            timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+            try:
+                with open(journal_path, "a") as f:
+                    f.write(f"- **[Agent | {timestamp}]:** (Respuesta generada en modo {self.active_mode}) -> {summary}\n")
+            except Exception:
+                pass
+
+
+class OperatorCLI:
+    """Capa Middleware para procesamiento de lenguaje natural y Slash Commands."""
+    def __init__(self, agent):
+        self.agent = agent
+
+    def process_input(self, user_input):
+        lower_input = user_input.lower().strip()
+        
+        # 1. NLP Heuristics (iniciar en <campaña> la mision <mision>)
+        if ("iniciar" in lower_input or "vamos a" in lower_input) and "mision" in lower_input:
+            match = re.search(r'(?:iniciar|empezar|campaña|en)\s+([a-z0-9-]+)\s+(?:la\s+)?mision\s+([a-z0-9_]+)', lower_input)
+            if match:
+                campaign = match.group(1).upper()
+                mission = match.group(2).upper()
+                self._handle_start(campaign, mission)
+                return True
+
+        # 2. Slash Commands puros
+        if lower_input.startswith("/start"):
+            parts = user_input.split()
+            if len(parts) >= 3:
+                self._handle_start(parts[1].upper(), parts[2].upper())
+            else:
+                print("[Sistema] Uso: /start [Campaña] [Misión] o 'vamos a iniciar en PY-BASICO la mision B00'")
+            return True
+            
+        if lower_input.startswith("/mode"):
+            parts = user_input.split()
+            if len(parts) >= 2:
+                mode = parts[1].upper()
+                if mode in ["GLOBAL", "MAIN", "EXERCISES", "WORK"]:
+                    self.agent.active_mode = mode
+                    self.agent.build_chain()
+                    print(f"[Sistema] Modalidad de Personalidad cambiada a: {mode}")
+                else:
+                    print("[Sistema] Modos válidos: GLOBAL, MAIN, EXERCISES, WORK")
+            return True
+            
+        if lower_input.startswith("/log"):
+            message = user_input[4:].strip()
+            self._handle_log(message)
+            return True
+            
+        if lower_input.startswith("/audit"):
+            query = user_input[6:].strip()
+            self._handle_audit(query)
+            return True
+            
+        return False
+
+    def _handle_start(self, campaign, mission):
+        # Mapear ruta
+        mission_path = os.path.join(BASE_DIR, "subjects", "python", "campaigns", campaign, "missions", mission)
+        if os.path.exists(mission_path):
+            self.agent.active_campaign = campaign
+            self.agent.active_mission = mission
+            print(f"[Sistema] ¡Contexto Fijado! Trabajando en Campaña: {campaign} | Misión: {mission}")
+            print(f"[Sistema] Tip: Puedes purgar tus dudas ahora ejecutando: /log [mensaje]")
+        else:
+            print(f"[Sistema] Misión Inválida. La ruta {campaign}/missions/{mission} no existe.")
+            print("[Sistema] Buscando sugerencias basdas en tu DoJo para una auditoría externa...\n")
+            # Búsqueda semántica
+            docs = self.agent.vectorstore.similarity_search(f"estructura campaña {campaign} requerimientos mision {mission}", k=2)
+            print("="*40)
+            print("Copia lo siguiente a Gemini Web:")
+            print("\nI need to create a new module/mission based on my engineering setup.")
+            print(f"The campaign is {campaign} and the intended mission is {mission}.")
+            print("My relevant DoJo context:")
+            for d in docs:
+                print(f"-> From {d.metadata.get('source')}:\n{d.page_content.strip()[:300]}...\n")
+            print("Please help me generate the `requirements.md` structure for this mission.")
+            print("="*40)
+
+    def _handle_log(self, message):
+        if not self.agent.active_campaign or not self.agent.active_mission:
+            print("[Sistema] Operación Bloqueada: No hay misión activa. Lanza una sesión primero.")
+            return
+            
+        mission_path = os.path.join(BASE_DIR, "subjects", "python", "campaigns", self.agent.active_campaign, "missions", self.agent.active_mission)
+        journal_path = os.path.join(mission_path, "journal.md")
+        
+        timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        log_entry = f"\n- **[User | {timestamp}]:** {message}\n"
+        
+        try:
+            with open(journal_path, "a") as f:
+                f.write(log_entry)
+            print(f"[Sistema] Bitácora guardada en {self.agent.active_mission}/journal.md")
+        except Exception as e:
+            print(f"[Error del Sistema] No se pudo escribir el archivo: {e}")
+
+    def _handle_audit(self, query):
+        if not query:
+            print("[Sistema] Falta la pregunta. Ejemplo: /audit Oye Gemini, ¿cómo uso Abstract Base Classes?")
+            return
+            
+        print("\n[Audit Payload -> Generando Prompt de Alta Densidad]")
+        print("Copia TODO lo siguiente y pégalo en Gemini Web:\n")
+        print("="*50)
+        print("Estoy aplicando mi ecosistema de estudio DoJo (Python, OOP, TDD, Clean Architecture).")
+        if self.agent.active_mission:
+            print(f"Estoy atascado en mi Campaña: {self.agent.active_campaign}, Misión: {self.agent.active_mission}.")
+            
+        print("\nNecesito resolver esta duda profunda como Senior Engineer:")
+        print(f"\"\"\"{query}\"\"\"\n")
+        
+        docs = self.agent.vectorstore.similarity_search(query, k=3)
+        print("He extraído las porciones exactas de mi código y reglas locales (RAG Context):")
+        for d in docs:
+            print(f"--- ARCHIVO LOCAL: {d.metadata.get('source')} ---")
+            print(f"{d.page_content.strip()}")
+            print("------------------------------------------\n")
+        print("Por favor, dame una explicación paso a paso o un code review basado EN ESTA VERDAD LOCAL.")
+        print("="*50)
+
 
 class DojoWatcher(FileSystemEventHandler):
     def __init__(self, agent: DojoAgent):
         self.agent = agent
 
     def is_valid_file(self, path: str) -> bool:
-        """Verifica que el archivo sea .md y no pertenezca a un directorio ignorado."""
         p = Path(path)
         if p.suffix != ".md":
             return False
-        # Revisar si alguna de las carpetas padre está ignorada
         for parent in p.parents:
             if parent.name in IGNORED_DIRS:
                 return False
@@ -124,60 +267,56 @@ class DojoWatcher(FileSystemEventHandler):
     def on_modified(self, event):
         if not event.is_directory and self.is_valid_file(event.src_path):
             self.agent.process_file(event.src_path)
-            # Re-dibujar el prompt para no romper la CLI
             print("\nDoJo Prompt >> ", end="", flush=True)
 
 def index_all_existing_files(agent: DojoAgent):
-    """Realiza un barrido inicial la primera vez para indexar lo existente."""
-    print("Iniciando barrido y sincronización inicial...")
+    print("Sincronizando Estado Base...")
     for root, dirs, files in os.walk(BASE_DIR):
-        # Modificamos dirs in_place para saltar directorios ignorados
         dirs[:] = [d for d in dirs if d not in IGNORED_DIRS]
-        
         for file in files:
             file_path = os.path.join(root, file)
             watcher = DojoWatcher(agent)
             if watcher.is_valid_file(file_path):
-                # Solo procesar si el vector asociado a este 'source' no existe aún
                 relative_path = str(Path(file_path).relative_to(BASE_DIR))
                 existing_docs = agent.vectorstore.get(where={"source": relative_path})
                 if not existing_docs or not existing_docs["ids"]:
                     agent.process_file(file_path)
 
 if __name__ == "__main__":
-    print("="*50)
-    print("   THE DOJO AGENT (MVD - Read Only Mode)")
-    print("="*50)
+    print("="*60)
+    print("   THE DOJO OPERATOR CLI (Modo: Lógica Interactiva y RAG)")
+    print("="*60)
     
     agent = DojoAgent()
+    operator = OperatorCLI(agent)
     
-    # Rastrear archivos que existan antes de encender el vigía
     index_all_existing_files(agent)
     
-    # Configurar y lanzar el vigía
     event_handler = DojoWatcher(agent)
     observer = Observer()
     observer.schedule(event_handler, str(BASE_DIR), recursive=True)
-    
-    # Iniciamos watcher en un hilo separado
     observer.start()
     
-    print("\n🟢 Ojos y Memoria en línea. Monitorizando archivos...")
-    print("Escribe 'exit' o 'quit' para salir.\n")
+    print("\n🟢 Ojos, Memoria e Interfaz en línea. Monitorizando archivos...")
+    print("Tip: Puedes navegar por los modos escribiendo '/mode work' o iniciar sesiones con NLP.\n")
     
     try:
         while True:
-            # Pequeño delay para que los prints iniciales fluyan antes del input
             time.sleep(0.5) 
             query = input("\nDoJo Prompt >> ")
             
             if query.lower().strip() in ['exit', 'quit']:
-                print("\nApagando Sistemas...")
+                print("\nApagando Infraestructura...")
                 break
                 
             if query.strip() != "":
-                print("\n[Respuesta]:")
-                agent.run_query(query)
+                # 1. Pasa por el Middleware (Comandos e Interceptores)
+                was_intercepted = operator.process_input(query)
+                
+                # 2. Si no es comando, pasa a la Mente del Agente (RAG LLM)
+                if not was_intercepted:
+                    print("\n[Respuesta]:")
+                    agent.run_query(query)
                 
     except KeyboardInterrupt:
         print("\nInterrupción detectada. Apagando...")
