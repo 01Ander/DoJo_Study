@@ -144,7 +144,18 @@ class DojoAgent:
         # === INYECCIÓN INVISIBLE DE CONTEXTO ===
         enhanced_query = user_input
         if self.active_campaign and self.active_mission:
-             enhanced_query = f"(Estoy trabajando activamente en la Campaña {self.active_campaign}, Misión {self.active_mission}). " + user_input
+            # Hybrid RAG: Buscar requerimientos.md físico para forzar al LLM a leerlo
+            physical_context = ""
+            mission_dir = os.path.join(BASE_DIR, "subjects", "python", "campaigns", self.active_campaign, "missions")
+            if os.path.exists(mission_dir):
+                dirs = [d for d in os.listdir(mission_dir) if os.path.isdir(os.path.join(mission_dir, d))]
+                real_mission = next((d for d in dirs if d.lower() == self.active_mission.lower()), self.active_mission)
+                req_path = os.path.join(mission_dir, real_mission, "requirements.md")
+                if os.path.exists(req_path):
+                    with open(req_path, "r", encoding="utf-8") as f:
+                        physical_context = f"\n[DOCUMENTO FÍSICO DE LA MISION ACTIVA]:\n{f.read()[:2000]}\n"
+                        
+            enhanced_query = f"(Estoy trabajando activamente en la Campaña {self.active_campaign}, Misión {self.active_mission}). {physical_context}\n\nPregunta Principal: {user_input}"
 
         # [FIX 4] Truncate historical answers aggressively (Context Window Safety)
         history_text = ""
