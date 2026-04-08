@@ -3,11 +3,18 @@
 ## [3.3.0] - 2026-04-08
 
 ### Added
+- **DoJo Operator CLI:** Transformed the passive watcher into an interactive CLI (`dojo_agent/main.py`) featuring Slash Commands (`/start`, `/log`, `/audit`, `/mode`) and Natural Language Processing capable of intercepting and binding project context dynamically.
+- **RAG Conversational Memory:** Engineered an invisible short-term rolling window memory mapped into LCEL dictionaries to allow coherent back-and-forth Pair Programming turns without context loss, bounded by a 10-item cap to prevent RAM leaks.
+- **RAG Atomicity Controls:** Hardened the SQLite / ChromaDB indexing flow by applying transactional inserts and deferring vector deletions to guarantee zero orphaned knowledge if an indexing operation fails.
+- **Audit Payload Generator:** Added `/audit` command to auto-generate high-density RAG queries containing exact local codebase implementations, optimizing external cloud evaluations.
 - **The DoJo Agent (AI Co-Pilot):** Created a fully local RAG interactive system based on `ChromaDB` and `gemma4:latest` using `nomic-embed-text` embeddings.
 - **Agent Delta Updates Watchdog:** Implemented a Python background process (`dojo_agent/main.py`) to monitor and index live changes of the workspace ignoring legacy archives.
 - **System Documentation:** Appended `09-dojo-agent.md` to formally document the architectural boundaries and terminal deployment of the Data Engineering Co-pilot.
 
 ### Changed
+- **Mission Modularization Architecture:** Refactored all static `.md` missions across `PY-BASICO` and `PY-POO-FINANCE` into full directory packages containing `requirements.md`, the `code/` logic, and an auto-managed `journal.md` for historical traceability.
+- **Dynamic Persona Prompts:** Hardcoded exact behavioral matrices into the LLM system prompts mapping the `05-estructura-chats` dictates to specific `/mode` behaviors (MAIN, EXERCISES, WORK).
+- **RAG Context Search Window:** Expanded vector retrieval window `k` from 4 to 6 to mathematically guarantee overlapping macro Campaign context with micro Mission context.
 - **Taxonomy Restructuring:** Renamed `02-protocolo-misiones.md` to `02-misiones-framework.md` to correct the semantic boundaries between reactive *Protocols* and structural *Frameworks*.
 
 ## [3.2.1] - 2026-04-05
