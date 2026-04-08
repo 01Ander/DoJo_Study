@@ -211,15 +211,19 @@ class OperatorCLI:
     def process_input(self, user_input):
         lower_input = user_input.lower().strip()
         
-        # 1. NLP Heuristics con tolerancia de Case (Fix 2: Quitamos .upper() forzado y usamos validación de ruta)
+        # 1. NLP Heuristics Rígidas (Búsqueda exactmatch de directorios locales)
         if ("iniciar" in lower_input or "vamos a" in lower_input or "empezar" in lower_input) and "mision" in lower_input:
-            # Toleramos palabras intermedias con .*?
-            match = re.search(r'(?:iniciar|empezar|campaña|campaign|en)\s+([a-z0-9-]+).*?mision\s+([a-z0-9_]+)', lower_input)
-            if match:
-                campaign = match.group(1) 
-                mission = match.group(2)
-                self._handle_start(campaign, mission)
-                return True
+            campaigns_dir = os.path.join(BASE_DIR, "subjects", "python", "campaigns")
+            if os.path.exists(campaigns_dir):
+                valid_campaigns = [d.lower() for d in os.listdir(campaigns_dir) if os.path.isdir(os.path.join(campaigns_dir, d))]
+                detected_campaign = next((c for c in valid_campaigns if c in lower_input), None)
+                
+                if detected_campaign:
+                    match = re.search(r'mision\s+([a-z0-9_]+)', lower_input)
+                    if match:
+                        mission = match.group(1)
+                        self._handle_start(detected_campaign, mission)
+                        return True
 
         # 2. Slash Commands puros
         if lower_input.startswith("/start"):
