@@ -1,5 +1,17 @@
 # DoJo Version Log
 
+## 3.3.1 - 2026-04-08
+
+### Added
+- **Hybrid RAG Architecture:** Implemented a physical injection layer that bypasses vector semantic "fade-out". The Operator now forcefully reads `requirements.md` and the last 10 lines of `journal.md` directly from the disk when a mission context is active.
+- **Inter-Session Episodic Memory:** Enabled persistent "yesterday memory" by treating the physical journal tail as a primary context source, allowing the agent to remember progress even after a full application restart.
+- **Deep Visibility Indexing:** Modified the ingestion pipeline to "tattoo" the relative file path into the `page_content` of every chunk, ensuring 100% retrieval accuracy for folder-specific keywords like "B00".
+- **Traceable Auto-Logging:** Refactored the journal logging format to include the User's Query (Q) alongside the Agent's Response (A) and the active Mode, creating a full forensic audit trail of the study session.
+
+### Changed
+- **Mission Name Standardization:** Renamed `B00_assessment` to `B00` across the entire repository (filesystem, code references, and documentation) for a cleaner UX.
+- **Enhanced NLP Parser:** Improved the regex-free path detection to be more resilient to casing and partial matches during mission binding.
+
 ## [3.3.0] - 2026-04-08
 
 ### Added

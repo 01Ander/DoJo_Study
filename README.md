@@ -52,7 +52,7 @@ dojo-study/
 
 ## 5. The DoJo Agent & Operator CLI
 
-Integrado profundamente en el sistema, corre un **Middleware Interactivo** RAG 100% local (Python + ChromaDB + Ollama) que monitorea las modificaciones de los apuntes de manera atómica en tiempo real. Evolucionado a una CLI completa, actúa interceptando comandos de Lenguaje Natural (NLP) y perfiles operativos dinámicos (`/mode`) para servir como tu *Pair Programmer* y asistente cognitivo principal contra el "burnout" técnico (Ver completo en `docs/09-dojo-agent.md`).
+Integrado profundamente en el sistema, corre un **DoJo Operator CLI** (Hybrid RAG) local que combina búsqueda vectorial de alto rendimiento con inyección física de documentos. Detecta automáticamente tus misiones, inyecta requerimientos en tiempo real y posee **Memoria Episódica** que persiste entre reinicios al leer tu bitácora física de trabajo (Ver completo en `docs/09-dojo-agent.md`).
 
 ---
 

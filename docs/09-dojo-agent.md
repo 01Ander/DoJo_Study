@@ -13,8 +13,8 @@ El objetivo del Agente es reducir la carga cognitiva (*Protocol Yellow*), actuan
 El sistema opera mediante tres barreras técnicas en tiempo real:
 
 1. **La Mente (Local LLM & RAG Vectorial):** Corre `gemma4:latest` (Ollama) con embeddings espaciales (`ChromaDB`). Tiene memoria conversacional de corto plazo (Rolling Window) para seguir hilos de Pair Programming sin consumir toda tu memoria RAM.
-2. **El Operador (Middleware CLI):** Actúa interceptando Natural Language Processing (NLP) y Slash Commands para mutar el comportamiento de la IA dinámicamente y contextualizar sus búsquedas sin que el usuario tenga que escribir "prompts gigantes".
-3. **The Watcher (Watchdog Atómico en Python):** Un hilo de background que detecta cuando presionas `Cmd + S` en cualquier markdown. Aplica indexación atómica (Guarda el Vector Nuevo -> Elimina el Vector Viejo) inmediatamente a tu base ChromaDB para que el RAG posea verdades actualizadas al segundo.
+2. **El Operador (Hybrid RAG & Episodic Memory):** Actúa como un Middleware que intercepta NLP y Slash Commands. No depende solo de vectores; si hay una misión activa, **inyecta físicamente** el contenido de `requirements.md` y las últimas 10 líneas de tu `journal.md` actual para garantizar una memoria inter-sesión inquebrantable.
+3. **The Watcher (Watchdog Atómico):** Indexa cambios en tiempo real ("tatuando" la ruta del archivo en el contenido para máxima precisión de búsqueda semántica) e ignora ruidos de sistema.
 
 > *(Nota Arquitectónica: La base de datos `dojo_agent/chroma_db` y el entorno `.venv` residen estrictamente en local y están excluidos en `.gitignore`).*
 
@@ -42,7 +42,7 @@ Abre tu consola en la raíz de `DoJo_Study` y arranca:
 
 ### 2. Anclaje de Contexto (Context Binding)
 Con esto, le avisas al Operator qué partes del RAG debe priorizar:
-*   **Vía NLP:** Escribiendo directamente: *"Vamos a iniciar en PY-BASICO la mision B00_assessment"*. (Detecta dinámicamente las rutas tolerando variaciones de mayúsculas).
+*   **Vía NLP:** Escribiendo directamente: *"Vamos a iniciar en PY-BASICO la mision B00"*. (Detecta dinámicamente las rutas y asume la carga física de documentos).
 *   **Vía Slash:** `/start [Campaña] [Misión]`
 
 ### 3. Ejecución y Bitácoras
