@@ -38,6 +38,10 @@ Los flujos estrictos de operación diaria: Mini-RFC -> TDD -> Implementación ->
 **→ [`08-protocol-yellow.md`](08-protocol-yellow.md)**
 Mecanismo universal de resiliencia cognitiva. Define las palancas (De-abstracción, Español, Splitting) para mitigar el burnout sin detener el avance.
 
+### 9. The DoJo Agent (AI Co-Pilot)
+**→ [`09-dojo-agent.md`](09-dojo-agent.md)**
+Arquitectura, tecnologías e instrucciones de arranque de tu Asistente Local (RAG Watchdog interactivo basado en Ollama).
+
 ---
 
 Este índice opera como la puerta de acceso para la fase de construcción de DoJo v3.2.
