@@ -120,6 +120,8 @@ class DojoAgent:
             
             for doc in docs:
                 doc.metadata["source"] = relative_path
+                # [FIX] Inyectar la ruta en el contenido para que el buscador RAG vea los nombres de las carpetas ("B00_assessment")
+                doc.page_content = f"[Ruta del Archivo: {relative_path}]\n\n{doc.page_content}"
                 
             text_splitter = RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=200)
             splits = text_splitter.split_documents(docs)
