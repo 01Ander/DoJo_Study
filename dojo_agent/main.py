@@ -41,7 +41,7 @@ class DojoAgent:
             embedding_function=self.embeddings,
             persist_directory=DB_PATH
         )
-        self.retriever = self.vectorstore.as_retriever(search_kwargs={"k": 4})
+        self.retriever = self.vectorstore.as_retriever(search_kwargs={"k": 6})
         
         # 3. Inicializar Cadena (Chain)
         self.build_chain()
