@@ -1,8 +1,8 @@
-# 02 - Misiones Framework (v3.3)
+# 02 - Misiones Framework
 
 ## ¿Qué es el Framework de Misiones?
 
-Es la capa táctica que convierte el marco de Ingeniería de Software en tareas accionables. En la v3.3, una misión **no es un ejercicio rápido de sintaxis**; es un módulo funcional de un pipeline mayor.
+Es la capa táctica que convierte el marco de Ingeniería de Software en tareas accionables. Actualmente, una misión **no es un ejercicio rápido de sintaxis**; es un módulo funcional de un pipeline mayor.
 
 El aprendizaje inicia definiendo **Arquitectura** (Mini-RFC), luego escribiendo las **Pruebas** (TDD) y finalmente **Implementando** la lógica en un entorno 100% en inglés.
 
@@ -45,4 +45,4 @@ Ensamblaje del pipeline completo. Sirve para lanzar el producto como un CLI, una
 4. **Implementación:** Programar la lógica en VS Code (Nomenclatura y Docstrings en inglés puro).
 5. **Cierre:** Si supera 4h, generar el *Friction Log* y salir del IDE.
 
-***Nota:*** Las misiones de "Observación (O)" y "Optimización (OPT)" fueron dadas de baja. En v3.3, si sientes la necesidad de hacer misiones pequeñas por falta de energía, debes invocar el protocolo **Rest Day** de inmediato (Zero-Code policy).
+***Nota:*** Las misiones de "Observación (O)" y "Optimización (OPT)" fueron dadas de baja. En el sistema actual, si sientes la necesidad de hacer misiones pequeñas por falta de energía, debes invocar el protocolo **Rest Day** de inmediato (Zero-Code policy).

@@ -1,6 +1,6 @@
-# 04 - Estructura Campañas (v3.3)
+# 04 - Estructura Campañas
 
-En DoJo v3.3, una **campaña** no es una simple agrupación de ejercicios al azar, sino un **Proyecto de Ingeniería Modular** diseñado para crear un artefacto técnico real y medible. El aprendizaje emerge de la construcción de sistemas profesionales.
+En el DoJo, una **campaña** no es una simple agrupación de ejercicios al azar, sino un **Proyecto de Ingeniería Modular** diseñado para crear un artefacto técnico real y medible. El aprendizaje emerge de la construcción de sistemas profesionales.
 
 ---
 

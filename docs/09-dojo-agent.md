@@ -2,7 +2,7 @@
 
 ## ¿Qué es el DoJo Agent?
 
-Es el componente "vivo" del ecosistema DoJo v3.3. Actúa como un *Pair Programmer* y vigilante RAG (Retrieval-Augmented Generation) que tiene acceso de lectura instantánea a todos los protocolos, misiones y notas del repositorio.
+Es el componente "vivo" del ecosistema DoJo. Actúa como un *Pair Programmer* y vigilante RAG (Retrieval-Augmented Generation) que tiene acceso de lectura instantánea a todos los protocolos, misiones y notas del repositorio.
 
 El objetivo del Agente es reducir la carga cognitiva (apoyando el *Protocol Yellow*), brindando respuestas precisas y basadas **estrictamente en el contexto** de tus propios apuntes, sin alucinaciones de internet.
 

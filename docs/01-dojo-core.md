@@ -1,4 +1,4 @@
-# 01 - DoJo Core (v3.3 - Alto Rendimiento)
+# 01 - DoJo Core
 
 ## ¿Qué es el DoJo?
 
@@ -16,7 +16,7 @@ El **DoJo Study** es un ecosistema personal de aprendizaje inmersivo, diseñado 
 
 ---
 
-## Objetivo macro del DoJo v3.3
+## Objetivo macro del DoJo
 
 Esta versión (establecida en Colombia bajo disponibilidad de 8+ horas diarias de estudio durante 8-12 meses) abandona la mentalidad de "ahorro de energía" por una de **Inmersión y Disciplina de Arquitecto**.
 
@@ -60,7 +60,7 @@ El aprendizaje se estructura sobre campañas (proyectos) que se disgregan en mis
 
 ---
 
-## Principios Filosóficos v3.3
+## Principios Filosóficos
 
 1. **La consistencia nace de la estructura, no solo del esfuerzo.** El ecosistema te empuja hacia adelante.
 2. **Lo "profesional" se entrena desde la fundición.** TDD, CI/CD y Documentación se aplican desde scripts básicos.

@@ -1,6 +1,6 @@
-# 03 - Sistema Energía (Modelo Binario v3.3)
+# 03 - Sistema Energía (Modelo Binario)
 
-El marco temporal y atencional del DoJo v3.3 se rige por un **Modelo Binario**: se está en *Deep Work* (Inmersión Técnica) o en *Rest Day* (Desconexión Profunda). Se elimina la noción de progreso a "energía o medio voltaje" debido al riesgo que esto representa en un esquema inmersivo de tiempo total (8 horas/día).
+El marco temporal y atencional del DoJo se rige por un **Modelo Binario**: se está en *Deep Work* (Inmersión Técnica) o en *Rest Day* (Desconexión Profunda). Se elimina la noción de progreso a "energía o medio voltaje" debido al riesgo que esto representa en un esquema inmersivo de tiempo total (8 horas/día).
 
 ## Objetivo del Sistema
 - Promover el trabajo en bloques concentrados de alta exigencia cognitiva (Arquitectura, TDD, Clean Code).

@@ -5,7 +5,7 @@ La triada de chats con IA (ChatGPT u otros LLMs) actúa como tu equipo de Ingeni
 ---
 
 ## English-Only Interfaces
-A partir de la v3.3, los chats **EXERCISES** y **WORK** deben operarse predominantemente en inglés. Esto entrena la traducción cognitiva y simula interacciones en equipos remotos internacionales.
+Actualmente, los chats **EXERCISES** y **WORK** deben operarse predominantemente en inglés. Esto entrena la traducción cognitiva y simula interacciones en equipos remotos internacionales.
 
 ---
 

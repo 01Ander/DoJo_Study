@@ -1,4 +1,4 @@
-# Python – Engineering Base del DoJo Study (v3.3)
+# Python – Engineering Base del DoJo Study
 
 Python es la espina dorsal funcional para alcanzar el portafolio de **Data & Automation Engineer**. Esta materia está diseñada para operar como una StartUp de software técnico: no hacemos pequeños scripts procedimentales, creamos **Módulos, Pipelines de Datos y Herramientas Serverless** testeables y desacopladas.
 
