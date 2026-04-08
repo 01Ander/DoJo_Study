@@ -4,3 +4,7 @@ __pycache__/
 *.pyc
 .DS_Store
 dojo_core.md
+
+# DoJo Agent
+dojo_agent/.venv/
+dojo_agent/chroma_db/
