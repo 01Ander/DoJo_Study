@@ -6,7 +6,7 @@ Este es el índice principal de la documentación del **DoJo Study**, el ecosist
 
 ## 🗂️ Contenido Modular
 
-### 1. Núcleo del DoJo (v3.2)
+### 1. Núcleo del DoJo (v3.3)
 **→ [`01-dojo-core.md`](01-dojo-core.md)**
 Manifiesto fundacional. Define la Inmersión Total, Modo Operador vs. Arquitecto, English-Only Zone y la Mitigación de Riesgos (Infoxicación, Interferencia del Francés).
 
@@ -44,4 +44,4 @@ Arquitectura, tecnologías e instrucciones de arranque de tu Asistente Local (RA
 
 ---
 
-Este índice opera como la puerta de acceso para la fase de construcción de DoJo v3.2.
+Este índice opera como la puerta de acceso para la fase de construcción de DoJo v3.3.
