@@ -155,6 +155,13 @@ class DojoAgent:
                     with open(req_path, "r", encoding="utf-8") as f:
                         physical_context = f"\n[DOCUMENTO FÍSICO DE LA MISION ACTIVA]:\n{f.read()[:2000]}\n"
                         
+                journal_path = os.path.join(mission_dir, real_mission, "journal.md")
+                if os.path.exists(journal_path):
+                    with open(journal_path, "r", encoding="utf-8") as f:
+                        lines = f.readlines()
+                        journal_tail = "".join(lines[-10:]) if len(lines) > 10 else "".join(lines)
+                        physical_context += f"\n[BITÁCORA/ÚLTIMAS ACCIONES DE AYER]:\n{journal_tail}\n"
+                        
             enhanced_query = f"(Estoy trabajando activamente en la Campaña {self.active_campaign}, Misión {self.active_mission}). {physical_context}\n\nPregunta Principal: {user_input}"
 
         # [FIX 4] Truncate historical answers aggressively (Context Window Safety)
