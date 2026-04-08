@@ -43,12 +43,19 @@ Todo aprendizaje técnico se enmarca en la creación de pipelines dentro de la c
 dojo-study/
 ├─ README.md
 ├─ docs/                 <- (DoJo Core, Riesgos, Flujos y Protocolos)
+├─ dojo_agent/           <- (AI Co-Pilot Local: ChromaDB + Watchdog)
 ├─ archive/              <- (Histórico de v2.0 - Canadá)
 ├─ templates/            <- (Plantillas v3.3 con Deep Work / TDD tracking)
 └─ subjects/
    └─ python/            <- (Core técnico y Campañas)
 ```
 
-## 5. English-Only Zone
+## 5. The DoJo Agent (AI Local Co-Pilot)
+
+Integrado profundamente en el sistema, corre un Agente RAG vigilante 100% local (Python + ChromaDB + Ollama) que monitorea las modificaciones de los apuntes y misiones en tiempo real. Actúa como el asistente cognitivo de cabecera contra el "burnout" técnico (Ver `docs/09-dojo-agent.md`).
+
+---
+
+## 6. English-Only Zone
 
 El español se ha preservado de manera exclusiva para reflexiones psicológicas personales o entendimiento de conceptos abstractos iniciales. **Todos los commits de Git, Readmes, Nombres de Clases y Métodos en este repositorio ESTÁN OBLIGADOS a escribirse en Inglés Técnico fluido**, sirviendo como escudo contra la *Interferencia del Francés* de tus fundamentos pasados.
