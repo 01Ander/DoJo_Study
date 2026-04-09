@@ -16,11 +16,18 @@ from langchain_chroma import Chroma
 from langchain_core.prompts import ChatPromptTemplate
 from langchain_core.runnables import RunnablePassthrough
 from langchain_core.output_parsers import StrOutputParser
+from langchain_openai import ChatOpenAI
+
 
 # --- CONFIGURACIÓN ---
 BASE_DIR = Path(__file__).parent.parent.absolute()
 DB_PATH = os.path.join(BASE_DIR, "dojo_agent", "chroma_db")
 IGNORED_DIRS = {".git", ".obsidian", "dojo_agent", "__pycache__", "archive"}
+
+# --- TOGGLE: OLLAMA vs LM STUDIO ---
+USE_LM_STUDIO = True  # Cambiar a True para usar el servidor local de LM Studio
+LM_STUDIO_URL = "http://localhost:1234/v1"
+
 
 class DojoAgent:
     def __init__(self):
@@ -33,7 +40,16 @@ class DojoAgent:
         self.chat_history = []  # Memoria conversacional a corto plazo
         
         # 1. Modelos
-        self.llm = ChatOllama(model="gemma4:latest")
+        if USE_LM_STUDIO:
+            print("🚀 Conectando a LM Studio (API OpenAI Local)...")
+            self.llm = ChatOpenAI(
+                base_url=LM_STUDIO_URL,
+                api_key="lm-studio" # No se usa realmente en LM Studio pero es obligatorio para el cliente
+            )
+        else:
+            print("🦙 Usando Ollama (gemma4:latest)...")
+            self.llm = ChatOllama(model="gemma4:latest")
+            
         self.embeddings = OllamaEmbeddings(model="nomic-embed-text")
         
         # 2. Base de Datos Vectorial
@@ -74,6 +90,13 @@ class DojoAgent:
                 "- Rol: Revisar la arquitectura siendo implacable con principios SOLID y Clean Code.\n"
                 "- Tarea: Acompañamiento en TDD (red-green-refactor), profiling y debugging complejo.\n"
                 "- Idioma: Predominantemente Inglés Técnico para emular equipos internacionales."
+            )
+        elif self.active_mode == "THINK":
+            persona = (
+                "Eres 'El Analista Senior y Fellow Partner'.\n"
+                "- Rol: Pensamiento crítico, análisis subjetivo y razonamiento profundo.\n"
+                "- Tarea: No te limites a los hechos fríos; ofrece perspectivas, 'opiniones' basadas en los principios del sistema, y debate ideas.\n"
+                "- Objetivo: Ayudar al usuario a razonar sobre la filosofía del sistema, la arquitectura o su propio progreso como ingeniero."
             )
         else: # GLOBAL
             persona = "Eres 'El Arquitecto', el asistente global del sistema DoJo Study. Tu objetivo es responder estrictamente según los manifiestos, campañas y apuntes del DoJo local del usuario."
@@ -259,13 +282,13 @@ class OperatorCLI:
             parts = user_input.split()
             if len(parts) >= 2:
                 mode = parts[1].upper()
-                if mode in ["GLOBAL", "MAIN", "EXERCISES", "WORK"]:
+                if mode in ["GLOBAL", "MAIN", "EXERCISES", "WORK", "THINK"]:
                     self.agent.active_mode = mode
                     self.agent.chat_history.clear() # Limpiar memoria al cambiar persona
                     self.agent.build_chain()
                     print(f"[Sistema] Modalidad de Personalidad cambiada a: {mode}. (Memoria restablecida)")
                 else:
-                    print("[Sistema] Modos válidos: GLOBAL, MAIN, EXERCISES, WORK")
+                    print("[Sistema] Modos válidos: GLOBAL, MAIN, EXERCISES, WORK, THINK")
             return True
             
         if lower_input.startswith("/log"):
