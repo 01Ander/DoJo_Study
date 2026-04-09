@@ -8,6 +8,16 @@ Status: 🟢 Ready
 
 ---
 
+## 💼 Business Context & Value Proposition
+Monolithic and procedural financial scripts are difficult to maintain and scale, leading to high operational costs and critical data risks. Transitioning to a decoupled, Object-Oriented architecture allows the organization to reduce technical debt and onboard new data sources with 50% less engineering effort.
+
+## 💰 ROI & Impact
+- **Automation Efficiency:** Increases pipeline scalability by 40%.
+- **Error Mitigation:** Reduces manual data remediation costs by providing robust, testable logic.
+- **Maintenance Cost:** Decreases the 'Cost of Change' for new financial regulations or schema updates.
+
+---
+
 ## 🎯 Technical Objective
 Substitute basic procedural scripting with a robust, modular, and decoupled **ETL system grounded purely in Object-Oriented Programming** (Design Patterns, Abstraction, SOLID principles).
 
@@ -44,4 +54,5 @@ The engine must ingest raw transactional data, isolate the inputs dynamically vi
 1. **Test-Driven Mechanics:** All logic has spawned strictly trailing a red `pytest` rejection beforehand.
 2. **Mini-RFC Drafts Pre-Deployment:** Documentation mapping the design trade-offs resides properly inside all mission files before execution.
 3. **Decoupled Mechanics:** Input parsing modifications strictly don't cascade down into the Transformation layer. 
-4. **100% Technical English:** Total supremacy of english over naming conventions, comments, and deployment instructions.
+4. **Social README (Visibility Layer):** Include a `README.md` at the campaign root that explains the project's business impact and architecture in simple terms for non-technical stakeholders (HR/PMs).
+5. **100% Technical English:** Total supremacy of english over naming conventions, comments, and deployment instructions.

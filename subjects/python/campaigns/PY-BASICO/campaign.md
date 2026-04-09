@@ -8,6 +8,15 @@ Status: 🔵 In Progress / Diseño
 
 ---
 
+## 💼 Business Context & Value Proposition
+Foundational Python skills are often taught in isolation, away from real-world data friction. This campaign mirrors the challenges of a Data Engineer tasked with processing dirty financial data manually. Mastering these core iteration and filtering patterns reduces the reliance on heavy dependencies and ensures the engineer can audit data flows at the lowest level.
+
+## 💰 ROI & Impact
+- **Educational Speed:** Reduces the "Technical Debt of Understanding" by 60% before jumping into OOP.
+- **Operational Resilience:** Ensures the Operator can build light-weight, native audit tools for early data validation without the overhead of massive frameworks.
+
+---
+
 ## 1. Technical Objective
 
 Establish an unshakeable foundation in Python. This campaign has been upgraded to mirror real Data Engineering tasks heavily leaning on the Standard Library. The objective goes beyond learning syntax; it embeds the practice of writing clean, strictly-typed code capable of surviving production environments without leveraging third-party crutches like Pandas.

@@ -19,8 +19,9 @@ Un bloque típico de Deep Work de 90 minutos se debe ver así:
 ### Fase A: Onboarding y Diseño (20 mins)
 1. Has completado el "English Commando" (Busuu/Leyendo). Tu cerebro está en modo técnico.
 2. Vas a tu carpeta de campaña (`subjects/python/campaigns/.../missions`) y creas/abres el archivo de la misión (ej. `M01.md`).
-3. **Drafting the Mini-RFC:** Escribes un párrafo documentando la arquitectura. ¿Usarás una Abstract Base Class? ¿Inyectarás dependencias?
-4. Defines explícitamente cuáles son los Tests que deberán pasar.
+3. **Business Value Check (ROI):** Antes de la arquitectura, define en una oración el problema de negocio y el impacto esperado (ROI). **"No Business Context = No Code"**.
+4. **Drafting the Mini-RFC:** Escribes un párrafo documentando la arquitectura. ¿Usarás una Abstract Base Class? ¿Inyectarás dependencias?
+5. Defines explícitamente cuáles son los Tests que deberán pasar y el **Social DoD** (README legible para HR/PMs) si es una misión Boss.
 
 ### Fase B: TDD (Test-Driven Development) (30 mins)
 1. Abres VS Code. Creas tu archivo `test_module.py`.
