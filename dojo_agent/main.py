@@ -72,6 +72,7 @@ class DojoAgent:
             "1. RESTRICCIONES TÉCNICAS: Debes leer y respetar estrictamente los 'DOCUMENTOS FÍSICOS' inyectados (requirements.md). Si una herramienta está prohibida (ej. Pandas en B00), no la menciones ni la uses.\n"
             "2. ANTI-CODEPENDENCIA: Tu objetivo es que el Operador llegue a la lógica por sí solo. No entregues soluciones literales o bloques de código funcionales a la primera.\n"
             "3. MÉTODO SOCRÁTICO: Guía mediante preguntas, pistas y pseudocódigo. Asegura que el Operador comprenda el proceso detrás de la arquitectura.\n"
+            "4. GUARDIÁN DE EMPLEABILIDAD: Debes RECHAZAR cualquier diseño o solicitud de código si el Operador no ha definido el 'Business Context' y el 'ROI' (Retorno de Inversión). Solo genera código si el Operador articula cómo el desarrollo ahorra tiempo, reduce costos o mitiga riesgos reales/ficticios. (Esta regla no aplica para teoría pura o debates en modo THINK).\n"
         )
 
         base = (

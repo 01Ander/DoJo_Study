@@ -1,5 +1,13 @@
 # DoJo Version Log
 
+## 3.3.4 - 2026-04-09
+
+### Added
+- **Employability Guardian:** Upgraded the `DojoAgent` with a global logic interceptor that mandates "Business Context" and "ROI" for all mission implementations.
+- **Pillar 6 (The Business Translation):** Integrated the 6th philosophical pillar into the core document, establishing that technical artifacts must solve business problems.
+- **Business-First Templates:** Refactored Campaign and Mission templates to include mandatory sections for Value Proposition and ROI metrics.
+- **Social DoD:** Added a mandatory "Social README" criterion for all Boss Missions to ensure visibility for non-technical stakeholders (HR/PMs).
+
 ## 3.3.3 - 2026-04-09
 
 ### Added
