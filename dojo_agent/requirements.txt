@@ -5,3 +5,5 @@ langchain-ollama>=0.1.0
 watchdog>=4.0.0
 chromadb
 pydantic>=2.8.0
+langchain-openai
+

@@ -32,10 +32,12 @@ Esta versión (establecida en Colombia bajo disponibilidad de 8+ horas diarias d
 ### 1. La Dualidad de Roles (Operador vs. Arquitecto)
 Para evitar la fatiga de decisión, el DoJo separa diseño de ejecución:
 - **Modo Operador:** (Días de inmersión/Lunes-Viernes) Ejecución pura. El sistema es inmutable. El objetivo es escribir código, testing y cumplir misiones.
-- **Modo Arquitecto:** (Ventanas fijas, ej. Miércoles tarde o Sábado) Único momento para editar estructura, diseñar campañas o reestructurar el "Syllabus".
+- **Modo Arquitecto:** (Ventanas fijas, ej. Miércoles tarde o Sábado mañana) Único momento para editar estructura, diseñar campañas o reestructurar el "Syllabus".
+- **Rest Days Obligatorios:** Sábados y Domingos son días de desconexión absoluta (*Zero-Code Policy*). No son opcionales; son el requisito neurobiológico para sostener la inmersión de 8h diarias.
 
 ### 2. Gestión de Riesgos e Inmersión Lingüística
-- **Interferencia del Francés:** Confusión semántica y gramatical por idioma base previo. -> **Mitigación:** Inmersión de contenido (series/música en inglés) como soporte en DoJo Vida.
+- **Codependencia de IA:** Para evitar la atrofia del razonamiento propio, el sistema de IA fungen como **Coaches Socráticos**, no como generadores literales.
+- **Interferencia del Francés:** Confusión semántica y gramatical por idioma base previo. -> **Mitigación:** Inmersión de contenido support en DoJo Vida.
 - **Infoxicación:** Máximo de 1 a 2 campañas activas. Prohibido saltar si una no está cerrada.
 - **Hiperfoco:** Tras bloques prolongados (4h+), se debe ejecutar el registro de cierre obligatorio.
 - **Sobreingeniería:** Prohibido refactorizar "porque sí"; requiere un Mini-RFC en la misión.

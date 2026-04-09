@@ -32,10 +32,11 @@ Misiones Permitidas:
 **Requisito indispensable:** Registro del Deep Work Block en el Daily Log (Métricas de Enfoque). Si se supera la ventana de 4 horas continuas (hiperfoco), es forzoso establecer un cierre y aterrizaje seguro (comer, caminar, desconectar del IDE).
 
 ### Modo 0: Rest Day (Desconexión)
-**Estado:** Valle cognitivo, saturación mental, bloqueos inexplicables. El "Vacío".
+**Estado:** Valle cognitivo, saturación mental, bloqueos inexplicables o **Fin de Semana (Sábado/Domingo)**. El "Vacío".
 
 Protocolo OBLIGATORIO:
 - **Zero-Code Policy:** Prohibido abrir el editor o tocar código.
+- **Mandato Semanal:** Sábados y Domingos son Rest Days por diseño, independientemente de la carga semanal.
 - **Trazabilidad Mínima:** Abrir `task.md` o el log diario sólo para apuntar qué detuvo el progreso ("Muro Técnico" o "Fatiga").
 - Asumir el "Valle" sin culpa. Este estado en un entorno de inmersión total no denota debilidad, sino una necesidad neurobiológica de asentar el conocimiento y reiniciar el sistema Dopaminérgico.
 
