@@ -1,5 +1,11 @@
 # DoJo Version Log
 
+## 3.3.3 - 2026-04-09
+
+### Added
+- **Timeout AI (Umbral Dinámico):** Formalized a time-based anti-codependency protocol. Set thresholds of 30 mins (small tasks) and 60 mins (architecture) of independent effort before escalating AI assistance.
+- **Degradación Transitoria:** Introduced a mandatory session reset (15-30 min break) if the Timeout AI threshold is reached without progress, preventing cognitive gridlock.
+
 ## 3.3.2 - 2026-04-09
 
 ### Added
