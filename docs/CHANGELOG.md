@@ -1,5 +1,12 @@
 # DoJo Version Log
 
+## 3.3.2 - 2026-04-09
+
+### Added
+- **Socratic AI Transformation:** Pivoted `MAIN` and `WORK` modes to prioritize questioning and theoretical guidance over direct code generation, preventing AI codependency and fostering autonomous engineering logic.
+- **Mandatory Weekend Rest Policy:** Hardcoded Saturdays and Sundays as mandatory Rest Days (Modo 0) in the core system documentation to ensure physiological and cognitive sustainability.
+- **Protocol Yellow Gatekeeper:** Integrated Protocol Yellow into the pre-session ritual; if initial friction > 6, the session is preemptively aborted to prevent low-voltage progression.
+
 ## 3.3.1 - 2026-04-08
 
 ### Added

@@ -44,7 +44,9 @@ class DojoAgent:
             print("🚀 Conectando a LM Studio (API OpenAI Local)...")
             self.llm = ChatOpenAI(
                 base_url=LM_STUDIO_URL,
-                api_key="lm-studio" # No se usa realmente en LM Studio pero es obligatorio para el cliente
+                api_key="lm-studio",
+                max_tokens=-1,  # Intentar que LM Studio no trunque la respuesta
+                streaming=True
             )
         else:
             print("🦙 Usando Ollama (gemma4:latest)...")
@@ -64,6 +66,14 @@ class DojoAgent:
         self.build_chain()
 
     def get_prompt_template(self):
+        # Regla Global de Comportamiento (Constitución del Agente)
+        global_rules = (
+            "REGLAS GLOBALES DEL DOJO OPERATOR:\n"
+            "1. RESTRICCIONES TÉCNICAS: Debes leer y respetar estrictamente los 'DOCUMENTOS FÍSICOS' inyectados (requirements.md). Si una herramienta está prohibida (ej. Pandas en B00), no la menciones ni la uses.\n"
+            "2. ANTI-CODEPENDENCIA: Tu objetivo es que el Operador llegue a la lógica por sí solo. No entregues soluciones literales o bloques de código funcionales a la primera.\n"
+            "3. MÉTODO SOCRÁTICO: Guía mediante preguntas, pistas y pseudocódigo. Asegura que el Operador comprenda el proceso detrás de la arquitectura.\n"
+        )
+
         base = (
             "Tu contexto extraído del repositorio:\n{context}\n\n"
             "Historial de la Conversación Reciente:\n{chat_history}\n\n"
@@ -72,36 +82,36 @@ class DojoAgent:
         
         if self.active_mode == "MAIN":
             persona = (
-                "Eres 'El Instructor'. Basado en tu protocolo oficial 'Estructura-Chats':\n"
-                "- Rol: Explicar teoría arquitectónica (adquisición conceptual profunda).\n"
-                "- Idioma: Tienes permitido ser bilingüe (Español/Inglés) para solidificar conocimiento base.\n"
-                "- Regla estricta: NO resuelvas código directamente; da ejemplos agnósticos."
+                "Eres 'El Instructor / Socratic Coach'.\n"
+                "- Rol: Explicar teoría arquitectónica fomentando el descubrimiento propio.\n"
+                "- Tarea: Si el usuario pide código, responde con una pregunta sobre la lógica base o un diagrama de flujo textual.\n"
+                "- Idioma: Bilingüe permitido para clarificar conceptos profundos."
             )
         elif self.active_mode == "EXERCISES":
             persona = (
-                "Eres 'El Product Manager Técnico'. Basado en tu protocolo oficial 'Estructura-Chats':\n"
-                "- Rol: Asignar la estructura de las misiones (Main, Scaling, Boss).\n"
-                "- Tarea: Define estrictamente los Criterios de Aceptación (DoD) y los casos borde a testear.\n"
-                "- Idioma: Todo requerimiento debes dictarlo predominantemente en Inglés Técnico."
+                "Eres 'El Product Manager Técnico'.\n"
+                "- Rol: Definir misiones, Criterios de Aceptación (DoD) y casos borde.\n"
+                "- Tarea: Sé extremadamente preciso con los requerimientos técnicos.\n"
+                "- Idioma: Inglés Técnico Mandatorio."
             )
         elif self.active_mode == "WORK":
             persona = (
-                "Eres 'El Code Reviewer y Pair Programmer'. Basado en tu protocolo oficial 'Estructura-Chats':\n"
-                "- Rol: Revisar la arquitectura siendo implacable con principios SOLID y Clean Code.\n"
-                "- Tarea: Acompañamiento en TDD (red-green-refactor), profiling y debugging complejo.\n"
-                "- Idioma: Predominantemente Inglés Técnico para emular equipos internacionales."
+                "Eres 'El Senior Reviewer y Pair Programmer Socrático'.\n"
+                "- Rol: Revisar código y arquitectura bajo principios SOLID/Clean Code.\n"
+                "- Tarea: Antes de sugerir un cambio, cuestiona por qué se tomó la decisión actual. Si hay un error, indica el síntoma y deja que el Operador encuentre la causa.\n"
+                "- Idioma: Inglés Técnico Mandatorio para emular entornos profesionales."
             )
         elif self.active_mode == "THINK":
             persona = (
                 "Eres 'El Analista Senior y Fellow Partner'.\n"
-                "- Rol: Pensamiento crítico, análisis subjetivo y razonamiento profundo.\n"
-                "- Tarea: No te limites a los hechos fríos; ofrece perspectivas, 'opiniones' basadas en los principios del sistema, y debate ideas.\n"
-                "- Objetivo: Ayudar al usuario a razonar sobre la filosofía del sistema, la arquitectura o su propio progreso como ingeniero."
+                "- Rol: Pensamiento crítico, análisis subjetivo y debate filosófico.\n"
+                "- Tarea: Aquí tienes libertad total. Ofrece opiniones directas, analiza el sistema y debate ideas sin restricciones socráticas.\n"
+                "- Objetivo: Ayudar al usuario a razonar sobre la arquitectura global o su progreso."
             )
         else: # GLOBAL
-            persona = "Eres 'El Arquitecto', el asistente global del sistema DoJo Study. Tu objetivo es responder estrictamente según los manifiestos, campañas y apuntes del DoJo local del usuario."
+            persona = "Eres 'El Arquitecto', guardián de los manifiestos del DoJo. Tu objetivo es asegurar la alineación con los principios locales del repositorio."
 
-        return persona + "\n\n" + base
+        return f"{global_rules}\n\nMODO ACTIVO: {persona}\n\n{base}"
 
     def build_chain(self):
         """Reconstruye el cerebro dinámico cuando cambia el Modo."""
@@ -187,11 +197,12 @@ class DojoAgent:
                         
             enhanced_query = f"(Estoy trabajando activamente en la Campaña {self.active_campaign}, Misión {self.active_mission}). {physical_context}\n\nPregunta Principal: {user_input}"
 
-        # [FIX 4] Truncate historical answers aggressively (Context Window Safety)
+        # [FIX 4] Truncate historical Q&A aggressively (Context Window Safety)
         history_text = ""
         for u, a in self.chat_history[-4:]:
-            short_a = a[:500] + "...[truncado]" if len(a) > 500 else a
-            history_text += f"Estudiante: {u}\nSistema: {short_a}\n---\n"
+            short_u = u[:300] + "...[pregunta truncada]" if len(u) > 300 else u
+            short_a = a[:500] + "...[respuesta truncada]" if len(a) > 500 else a
+            history_text += f"Estudiante: {short_u}\nSistema: {short_a}\n---\n"
 
         response_text = ""
         try:
@@ -204,8 +215,12 @@ class DojoAgent:
             print(f"Detalle: {e}")
             return ""
             
-        # Guardar en memoria a corto plazo
-        self.chat_history.append((user_input, response_text))
+        # Guardar en memoria a corto plazo si hubo respuesta
+        if response_text.strip():
+            self.chat_history.append((user_input, response_text))
+        else:
+            print(f"\n[⚠️ Respuesta Vacía] El modelo no generó contenido. Verifica los logs de LM Studio o sube el 'Context Length' en la configuración del modelo.")
+            return ""
         
         # [FIX] Capping the internal list to prevent RAM Leak
         self.chat_history = self.chat_history[-10:]

@@ -11,6 +11,11 @@ Protocol Yellow is a universal cognitive resilience mechanism designed to ensure
 - The Friction Level is self-assessed and declared by the Operator at any point during a session or mission.
 - **Immediate Effect:** All strict "Definitions of Done" and "Hard Constraints" are temporarily suspended.
 
+### 🛡️ The Study Gatekeeper (Pre-session Check)
+Before starting any *Deep Work* session, the Operator must evaluate their internal state using Protocol Yellow.
+- **Decision Rule:** If initial fatigue or cognitive friction is already > 6 before starting, the session should be aborted immediately in favor of a **Rest Day**.
+- Do not attempt to "force" a session if the hardware is already in a state of degradation.
+
 ## Generalized Mitigation Levers
 When activated, the Operator is authorized to pull any or all of the following generic levers to lower cognitive load:
 
