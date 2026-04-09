@@ -14,6 +14,7 @@ El sistema opera mediante tres barreras técnicas en tiempo real:
 
 1. **La Mente (Local LLM & RAG Vectorial):** Corre `gemma4:latest` (Ollama) con embeddings espaciales (`ChromaDB`). Tiene memoria conversacional de corto plazo (Rolling Window) para seguir hilos de Pair Programming sin consumir toda tu memoria RAM.
 2. **El Operador (Hybrid RAG & Episodic Memory):** Actúa como un Middleware que intercepta NLP y Slash Commands. No depende solo de vectores; si hay una misión activa, **inyecta físicamente** el contenido de `requirements.md` y las últimas 10 líneas de tu `journal.md` actual para garantizar una memoria inter-sesión inquebrantable.
+
 3. **The Watcher (Watchdog Atómico):** Indexa cambios en tiempo real ("tatuando" la ruta del archivo en el contenido para máxima precisión de búsqueda semántica) e ignora ruidos de sistema.
 
 > *(Nota Arquitectónica: La base de datos `dojo_agent/chroma_db` y el entorno `.venv` residen estrictamente en local y están excluidos en `.gitignore`).*
@@ -27,6 +28,7 @@ Con el comando `/mode [MODO]`, puedes resetear la memoria de corto plazo de la t
 *   **`/mode main` (El Instructor):** Explicará la teoría arquitectónica general. Tiene prohibido darte código fuente directo. Flexibilidad bilingüe permitida.
 *   **`/mode exercises` (El PM):** Se convertirá en un Product Manager hiper-conciso para generar Criterios de Aceptación y designar los *Edge Cases* a testear en la misión actual. (Inglés prioritario).
 *   **`/mode work` (El Revisor):** Revisa el Clean Code y las arquitecturas complejas actuando como un Senior exigente. Evalúa TDD y Profiling de datos.
+*   **`/mode think` (El Analista Fellow):** Un modo de razonamiento libre. Ofrece opiniones, perspectivas subjetivas y debate sobre la filosofía del sistema y tu progreso.
 
 ---
 

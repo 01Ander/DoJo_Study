@@ -7,6 +7,7 @@
 - **Inter-Session Episodic Memory:** Enabled persistent "yesterday memory" by treating the physical journal tail as a primary context source, allowing the agent to remember progress even after a full application restart.
 - **Deep Visibility Indexing:** Modified the ingestion pipeline to "tattoo" the relative file path into the `page_content` of every chunk, ensuring 100% retrieval accuracy for folder-specific keywords like "B00".
 - **Traceable Auto-Logging:** Refactored the journal logging format to include the User's Query (Q) alongside the Agent's Response (A) and the active Mode, creating a full forensic audit trail of the study session.
+- **New Operational Mode (`/mode think`):** Introduced a cognitive "Fellow Partner" persona that allows the AI to provide subjective analyses, opinions, and philosophical reasoning about the system and the user's progress.
 
 ### Changed
 - **Mission Name Standardization:** Renamed `B00_assessment` to `B00` across the entire repository (filesystem, code references, and documentation) for a cleaner UX.
