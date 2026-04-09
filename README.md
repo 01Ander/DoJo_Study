@@ -1,61 +1,60 @@
-# DoJo Study – High Performance Engineering System v3.3
+# DoJo Study – High Performance Engineering System v3.3.4 (The Employability Edition)
 
-**DoJo Study** es un marco operativo de aprendizaje inmersivo, diseñado para la formación rigurosa y acelerada hacia el perfil de **Data & Automation Engineer**, operando bajo altos estándares de ingeniería de software (Arquitectura Limpia, TDD y Módulos Desacoplados).
+**DoJo Study** es un marco operativo de aprendizaje inmersivo y de alto rendimiento, diseñado para la formación rigurosa hacia el perfil de **Data & Automation Engineer**. Operando bajo estándares corporativos reales (Arquitectura Limpia, TDD, SOLID), el DoJo v3.3.4 evoluciona de ser un laboratorio técnico a un **Framework de Ingeniería de Negocio**.
 
-Esta versión (v3.3) fue diseñada en Colombia asumiendo una disponibilidad inmersiva de 8+ horas diarias. Sustituye la mentalidad de "ahorro de energía" de versiones anteriores por el concepto de **Deep Work** y **English-Only Zone**.
-
----
-
-## 1. Propósito del DoJo Study v3.3
-
-- Escalar hacia un nivel Profesional/Senior en Data Engineering, Automatización y Cloud.
-- Forzar la adopción de buenas prácticas corporativas: Tests Unitarios (Pytest), Documentación de Arquitectura (Mini-RFCs) y Naming Strict desde el minuto cero.
-- Construir herramientas y pipelines funcionales, abandonando permanentemente las tareas abstractas o ejercicios sin conexión real.
-- Adoptar una inmersión completa al **Inglés** como interfaz principal de tecnología (para misiones, código, diagramas y revisión de la IA).
+Esta versión, forjada bajo el **"Employability Patch"**, integra la justificación económica y el valor de negocio (ROI) como requisitos técnicos tan estrictos como la sintaxis misma.
 
 ---
 
-## 2. Arquitectura del Sistema (El Modelo Binario)
+## 🏛️ Los 6 Pilares del ADN DoJo
 
-El DoJo ahora separa brutalmente al estudiante en dos modalidades vitales:
-
-### Deep Work (La Inmersión)
-El estado base de operación. Bloques de 90 minutos de codificación intensiva, precedidos obligatoriamente por el **English Commando** (rutina de seteo de lenguaje en Busuu/Duolingo) y ejecutando estrictamente TDD (Primero falla el test, luego se escribe el código).
-
-### Rest Day (El Vacío)
-El protocolo obligatorio para gestionar la disipación cognitiva. Días de *Zero-Code Policy*. No hay misiones débiles; solo descanso real para asentar redes neuronales.
-
----
-
-## 3. Estructura de Campañas e Ingeniería
-
-Todo aprendizaje técnico se enmarca en la creación de pipelines dentro de la carpeta `/subjects`. Cada campaña utiliza:
-- **Mini-RFCs:** Documentos de diseño antes que el código.
-- **Main Missions (M):** Múltiples PRs simulados para completar el software base.
-- **Scaling Refactors (S):** Escalado técnico (añadir automatización, migraciones a SQL, CI/CD).
-- **Boss Missions (B):** La integración final del proyecto mediante Endpoints API o Serverless CLI.
+1.  **Deep Work (La Inmersión):** Bloques de 90 min de concentración absoluta sin distracciones.
+2.  **English-Only Zone:** Interfaz lingüística 100% inglesa para código, documentación y arquitectura.
+3.  **Architecture First (Mini-RFCs):** Prohibido codear sin un diseño previo justificado.
+4.  **Test-Driven Development (TDD):** El código solo nace para hacer pasar una prueba que ya falló.
+5.  **Bi-Modal Energy management:** Respeto absoluto al ciclo de flujo y **Weekend Rest Days** mandatorios.
+6.  **The Business Translation (ROI):** *Ningún código se escribe en el vacío*. Todo artefacto técnico debe resolver un problema de negocio, reducir costos o mitigar riesgos operativos.
 
 ---
 
-## 4. Estructura del repositorio
+## 🧠 The DoJo Agent & Operator CLI (v3.3.4)
+
+Integrado profundamente en el sistema, corre un **DoJo Operator CLI** local (Hybrid RAG) local. En su versión actual, incluye el **Guardián de Empleabilidad**:
+
+*   **Interceptor de Valor:** El Agente rechazará propuestas técnicas que no definan explícitamente el **Business Context** y el **ROI**.
+*   **Socratic Coaching:** El sistema fungen como un Reviewer Senior, guiando al Operador mediante preguntas para fomentar la autonomía lógica y evitar la codependencia de la IA.
+*   **Context Window Segura:** Sincronización en tiempo real con archivos físicos para inyección de requerimientos (`requirements.md`).
+
+---
+
+## 🛡️ Protocolo de Resiliencia: Protocol Yellow
+
+Diseñado para asegurar la sostenibilidad a largo plazo y evitar el burnout:
+- **Study Gatekeeper:** Evaluación de fricción previa a la sesión. Si Friction > 6, la sesión se aborta en favor de un descanso obligatorio.
+- **Timeout AI (Umbral Dinámico):** Límites de tiempo (30/60 min) de lucha independiente antes de escalar la asistencia de la IA.
+- **Graceful Degradation:** Levers de emergencia (De-abstracción, cambio de idioma temporal) para mantener la consistencia en días de alto voltaje cognitivo.
+
+---
+
+## 🏗️ Estructura del Repositorio
 
 ```text
 dojo-study/
-├─ README.md
-├─ docs/                 <- (DoJo Core, Riesgos, Flujos y Protocolos)
-├─ dojo_agent/           <- (AI Co-Pilot Local: ChromaDB + Watchdog)
-├─ archive/              <- (Histórico de v2.0 - Canadá)
-├─ templates/            <- (Plantillas v3.3 con Deep Work / TDD tracking)
-└─ subjects/
-   └─ python/            <- (Core técnico y Campañas)
+├─ README.md             <- (The Map)
+├─ docs/                 <- (Constitución, Manuales y Protocolos Core)
+├─ dojo_agent/           <- (AI Co-Pilot: Chromadb + Socratic Guard)
+├─ templates/            <- (Plantillas de Misiones y Campañas con ROI)
+├─ subjects/
+│  └─ python/            <- (Data Engineering Tracks & Active Campaigns)
+└─ archive/              <- (Histórico v2.0 - Canadá)
 ```
-
-## 5. The DoJo Agent & Operator CLI
-
-Integrado profundamente en el sistema, corre un **DoJo Operator CLI** (Hybrid RAG) local que combina búsqueda vectorial de alto rendimiento con inyección física de documentos. Detecta automáticamente tus misiones, inyecta requerimientos en tiempo real y posee **Memoria Episódica** que persiste entre reinicios al leer tu bitácora física de trabajo (Ver completo en `docs/09-dojo-agent.md`).
 
 ---
 
-## 6. English-Only Zone
+## ✅ Definition of Done (DoD) Global
 
-El español se ha preservado de manera exclusiva para reflexiones psicológicas personales o entendimiento de conceptos abstractos iniciales. **Todos los commits de Git, Readmes, Nombres de Clases y Métodos en este repositorio ESTÁN OBLIGADOS a escribirse en Inglés Técnico fluido**, sirviendo como escudo contra la *Interferencia del Francés* de tus fundamentos pasados.
+Para sellar cualquier artefacto en el DoJo:
+1. **Business Justification:** Contexto de negocio y ROI definidos.
+2. **Social README:** Documentación legible para stakeholders no técnicos (RRHH/PMs).
+3. **Mypy & TDD:** Tipado fuerte y cobertura total de tests unitarios.
+4. **Professional English:** Gramática y terminología técnica impecable.
