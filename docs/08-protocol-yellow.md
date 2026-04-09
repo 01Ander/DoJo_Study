@@ -16,6 +16,13 @@ Before starting any *Deep Work* session, the Operator must evaluate their intern
 - **Decision Rule:** If initial fatigue or cognitive friction is already > 6 before starting, the session should be aborted immediately in favor of a **Rest Day**.
 - Do not attempt to "force" a session if the hardware is already in a state of degradation.
 
+### ⏳ The Timeout AI (Umbral Dinámico)
+To prevent AI codependency and manage burnout during a session, the following time thresholds (Dynamic Thresholds) are enforced:
+- **Small Code Snippets (<50 lines):** Max 30 minutes of independent struggle.
+- **Architecture / ETL Pipelines:** Max 45-60 minutes of independent struggle.
+- **The Golden Rule:** If the timeout is reached AND no code or pseudocode has been written, **"Degradación Transitoria"** is triggered.
+- **Degradación Transitoria:** A mandatory 15-30 minute session reset (physical separation from the screen) to clear context and restart with a fresh strategy.
+
 ## Generalized Mitigation Levers
 When activated, the Operator is authorized to pull any or all of the following generic levers to lower cognitive load:
 
