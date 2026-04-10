@@ -46,7 +46,7 @@ Estar en inmersión no significa sufrir horas seguidas un TypeError de Python o 
 ### A. Estancamiento Teórico (Antes de codear)
 Si intentas redactar tu Mini-RFC (Fase A) y te das cuenta de que no dominas la teoría necesaria para proponer una solución:
 - **Detén el Deep Work** inmediatamente. Tu objetivo pasa de "Terminar la Misión" a "Cerrar la Brecha Teórica".
-- **Invoca al Instructor:** Cambia el chat a `/mode main` y pídele que te explique el patrón, te dé ejemplos agnósticos o pseudocódigo. No intentes programar (ni usar `/mode work`) hasta que la teoría esté clara.
+- **Invoca al Instructor:** Cambia el chat a `/mode main` y pídele que te explique el patrón con **Ejemplos de Código Python Real**. Para proteger tu aprendizaje, el instructor usará *Domain Shifting* (analogías como videojuegos o zoológicos en lugar de tu problema financiero). No intentes programar (ni usar `/mode work`) hasta que la teoría esté clara.
 
 ### B. Estancamiento Práctico (Codiando)
 Si llevas 25 minutos trabado en el mismo error de código y tu Friction Level sube a 7 o más:
