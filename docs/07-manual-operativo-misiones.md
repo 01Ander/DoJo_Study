@@ -41,7 +41,14 @@ Un bloque típico de Deep Work de 90 minutos se debe ver así:
 
 ## 3. ¿Qué hacer en un Estancamiento ("Muro Técnico")?
 
-Estar en inmersión no significa sufrir horas seguidas un TypeError de Python.
-Si llevas 25 minutos trabado en el mismo error y tu Friction Level sube a 7 o más:
-- Invoca el **[Protocolo Yellow](../docs/08-protocol-yellow.md)**: Utiliza sus palancas (De-abstracción, Mocking, Español) para aislar la lógica o bajar la carga cognitiva.
+Estar en inmersión no significa sufrir horas seguidas un TypeError de Python o mirar una pantalla en blanco sin saber cómo empezar.
+
+### A. Estancamiento Teórico (Antes de codear)
+Si intentas redactar tu Mini-RFC (Fase A) y te das cuenta de que no dominas la teoría necesaria para proponer una solución:
+- **Detén el Deep Work** inmediatamente. Tu objetivo pasa de "Terminar la Misión" a "Cerrar la Brecha Teórica".
+- **Invoca al Instructor:** Cambia el chat a `/mode main` y pídele que te explique el patrón, te dé ejemplos agnósticos o pseudocódigo. No intentes programar (ni usar `/mode work`) hasta que la teoría esté clara.
+
+### B. Estancamiento Práctico (Codiando)
+Si llevas 25 minutos trabado en el mismo error de código y tu Friction Level sube a 7 o más:
+- Invoca el **[Protocolo Yellow](../docs/08-protocol-yellow.md)**: Utiliza sus palancas (De-abstracción, Mocking, Español) para aislar la lógica o bajar la carga cognitiva. Usa `/mode work` para pedir pistas Socráticas.
 - Si esto no funciona o la frustración continúa, asume un **Rest Day** inminente y sal de la pantalla. El cerebro reestructurará el problema mientras descansas.
