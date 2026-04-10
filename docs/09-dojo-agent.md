@@ -25,9 +25,9 @@ El sistema opera mediante tres barreras técnicas en tiempo real:
 
 Con el comando `/mode [MODO]`, puedes resetear la memoria de corto plazo de la terminal e instruir a la base lingüística de `gemma` para que asuma las reglas estipuladas en el documento `05-estructura-chats`:
 
-*   **`/mode main` (El Instructor):** Explicará la teoría arquitectónica general. Tiene prohibido darte código fuente directo. Flexibilidad bilingüe permitida.
+*   **`/mode main` (El Instructor):** Explicará la teoría arquitectónica general. Tiene permiso para dar ejemplos de código, soluciones teóricas y guías paso a paso si el Operador lo requiere para aprender. Flexibilidad bilingüe permitida.
 *   **`/mode exercises` (El PM):** Se convertirá en un Product Manager hiper-conciso para generar Criterios de Aceptación y designar los *Edge Cases* a testear en la misión actual. (Inglés prioritario).
-*   **`/mode work` (El Revisor):** Revisa el Clean Code y las arquitecturas complejas actuando como un Senior exigente. Evalúa TDD y Profiling de datos.
+*   **`/mode work` (El Revisor):** Revisa el Clean Code y actúa bajo el **MÉTODO SOCRÁTICO**. Tiene prohibido darte soluciones literales a la primera; te guiará mediante preguntas para evitar la codependencia. Evalúa el TDD y el Business Context (ROI).
 *   **`/mode think` (El Analista Fellow):** Un modo de razonamiento libre. Ofrece opiniones, perspectivas subjetivas y debate sobre la filosofía del sistema y tu progreso.
 
 ---
