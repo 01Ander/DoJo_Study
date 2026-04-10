@@ -27,7 +27,8 @@ console = Console()
 # --- CONFIGURACIÓN ---
 BASE_DIR = Path(__file__).parent.parent.absolute()
 DB_PATH = os.path.join(BASE_DIR, "dojo_agent", "chroma_db")
-IGNORED_DIRS = {".git", ".obsidian", "dojo_agent", "__pycache__", "archive"}
+IGNORED_DIRS = {".git", ".obsidian", "dojo_agent",
+                "__pycache__", "archive", "ideas", "/historial.md"}
 
 # --- TOGGLE: OLLAMA vs LM STUDIO ---
 USE_LM_STUDIO = True   # Cambiar a True para usar el servidor local de LM Studio
@@ -37,13 +38,13 @@ LM_STUDIO_URL = "http://localhost:1234/v1"
 class DojoAgent:
     def __init__(self):
         print("🧠 Inicializando el DoJo Agent y la Base Vectorial Local...")
-        
+
         # Estados Base
         self.active_mode = "GLOBAL"
         self.active_campaign = None
         self.active_mission = None
         self.chat_history = []  # Memoria conversacional a corto plazo
-        
+
         # 1. Modelos
         if USE_LM_STUDIO:
             print("🚀 Conectando a LM Studio (API OpenAI Local)...")
@@ -56,9 +57,9 @@ class DojoAgent:
         else:
             print("🦙 Usando Ollama (gemma4:latest)...")
             self.llm = ChatOllama(model="gemma4:latest")
-            
+
         self.embeddings = OllamaEmbeddings(model="nomic-embed-text")
-        
+
         # 2. Base de Datos Vectorial
         self.vectorstore = Chroma(
             collection_name="dojo_knowledge",
@@ -66,7 +67,7 @@ class DojoAgent:
             persist_directory=DB_PATH
         )
         self.retriever = self.vectorstore.as_retriever(search_kwargs={"k": 6})
-        
+
         # 3. Inicializar Cadena (Chain)
         self.build_chain()
 
@@ -84,7 +85,7 @@ class DojoAgent:
             "Historial de la Conversación Reciente:\n{chat_history}\n\n"
             "Pregunta/Comentario actual del Estudiante: {question}\n\nRespuesta:"
         )
-        
+
         if self.active_mode == "MAIN":
             persona = (
                 "Eres 'El Instructor'.\n"
@@ -98,7 +99,7 @@ class DojoAgent:
                 "Eres 'El Product Manager Técnico'.\n"
                 "- Rol: Definir misiones, Criterios de Aceptación (DoD) y casos borde.\n"
                 "- Tarea: Sé extremadamente preciso con los requerimientos técnicos.\n"
-                "- Idioma: Inglés Técnico Mandatorio."
+                "- Idioma: Bilingüe permitido."
             )
         elif self.active_mode == "WORK":
             persona = (
@@ -106,7 +107,7 @@ class DojoAgent:
                 "- Rol: Revisar código y arquitectura bajo principios SOLID/Clean Code.\n"
                 "- Tarea 1: ANTI-CODEPENDENCIA Y MÉTODO SOCRÁTICO. Guía mediante preguntas y pistas. No entregues soluciones literales ni bloques de código funcionales a la primera; obliga al Operador a razonar el fallo.\n"
                 "- Tarea 2: GUARDIÁN DE EMPLEABILIDAD. RECHAZA escribir o revisar código si el Operador no ha definido explícitamente el 'Business Context' y el 'ROI' de lo que está haciendo.\n"
-                "- Idioma: Inglés Técnico Mandatorio."
+                "- Idioma: Bilingüe permitido."
             )
         elif self.active_mode == "THINK":
             persona = (
@@ -115,7 +116,7 @@ class DojoAgent:
                 "- Tarea: Aquí tienes libertad total. Ofrece opiniones directas, analiza el sistema y debate ideas sin restricciones socráticas.\n"
                 "- Objetivo: Ayudar al usuario a razonar sobre la arquitectura global o su progreso."
             )
-        else: # GLOBAL
+        else:  # GLOBAL
             persona = "Eres 'El Arquitecto', guardián de los manifiestos del DoJo. Tu objetivo es asegurar la alineación con los principios locales del repositorio. Responde en el mismo idioma que el usuario."
 
         return f"{global_rules}\n\nMODO ACTIVO: {persona}\n\n{base}"
@@ -124,7 +125,7 @@ class DojoAgent:
         """Reconstruye el cerebro dinámico cuando cambia el Modo."""
         template = self.get_prompt_template()
         self.prompt = ChatPromptTemplate.from_template(template)
-        
+
         self.chain = (
             {
                 "context": lambda x: self.retriever.invoke(x["question"]),
@@ -140,15 +141,16 @@ class DojoAgent:
         """Indexa o re-indexa un archivo Markdown en ChromaDB."""
         relative_path = str(Path(file_path).relative_to(BASE_DIR))
         is_journal = "journal.md" in relative_path
-        
+
         # [FIX 1] Silence the visual print for auto-logged journals to avoid terminal tearing
         if not is_journal:
             print(f"\n🔄 Asimilando: {relative_path}")
-        
+
         # Cachear IDs viejos antes de subir los nuevos (RAG Atomicity)
         old_ids = []
         try:
-            existing_docs = self.vectorstore.get(where={"source": relative_path})
+            existing_docs = self.vectorstore.get(
+                where={"source": relative_path})
             if existing_docs and existing_docs["ids"]:
                 old_ids = existing_docs["ids"]
         except Exception:
@@ -157,69 +159,80 @@ class DojoAgent:
         try:
             loader = TextLoader(file_path, encoding='utf-8')
             docs = loader.load()
-            
+
             for doc in docs:
                 doc.metadata["source"] = relative_path
                 # [FIX] Inyectar la ruta en el contenido para que el buscador RAG vea los nombres de las carpetas ("B00")
                 doc.page_content = f"[Ruta del Archivo: {relative_path}]\n\n{doc.page_content}"
-                
-            text_splitter = RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=200)
+
+            text_splitter = RecursiveCharacterTextSplitter(
+                chunk_size=1000, chunk_overlap=200)
             splits = text_splitter.split_documents(docs)
             new_ids = [str(uuid.uuid4()) for _ in splits]
-            
+
             if splits:
                 self.vectorstore.add_documents(documents=splits, ids=new_ids)
-                
+
             # [Claude FIX] Solo borramos lo viejo cuando sabemos que lo nuevo se añadió al DB exitosamente.
             if old_ids:
                 self.vectorstore.delete(ids=old_ids)
-                
+
         except Exception as e:
             if not is_journal:
-                print(f"   [Error] al leer/asimilar archivo {relative_path}: {e}")
+                print(
+                    f"   [Error] al leer/asimilar archivo {relative_path}: {e}")
 
     def run_query(self, user_input):
         print(f"Modo [{self.active_mode}] -> Consultando...\n")
-        
+
         # === INYECCIÓN INVISIBLE DE CONTEXTO ===
         enhanced_query = user_input
         if self.active_campaign and self.active_mission:
             # Hybrid RAG: Buscar requerimientos.md físico para forzar al LLM a leerlo
             physical_context = ""
-            mission_dir = os.path.join(BASE_DIR, "subjects", "python", "campaigns", self.active_campaign, "missions")
+            mission_dir = os.path.join(
+                BASE_DIR, "subjects", "python", "campaigns", self.active_campaign, "missions")
             if os.path.exists(mission_dir):
-                dirs = [d for d in os.listdir(mission_dir) if os.path.isdir(os.path.join(mission_dir, d))]
-                real_mission = next((d for d in dirs if d.lower() == self.active_mission.lower()), self.active_mission)
-                req_path = os.path.join(mission_dir, real_mission, "requirements.md")
+                dirs = [d for d in os.listdir(mission_dir) if os.path.isdir(
+                    os.path.join(mission_dir, d))]
+                real_mission = next((d for d in dirs if d.lower(
+                ) == self.active_mission.lower()), self.active_mission)
+                req_path = os.path.join(
+                    mission_dir, real_mission, "requirements.md")
                 if os.path.exists(req_path):
                     with open(req_path, "r", encoding="utf-8") as f:
                         physical_context = f"\n[DOCUMENTO FÍSICO DE LA MISION ACTIVA]:\n{f.read()[:2000]}\n"
-                        
-                journal_path = os.path.join(mission_dir, real_mission, "journal.md")
+
+                journal_path = os.path.join(
+                    mission_dir, real_mission, "journal.md")
                 if os.path.exists(journal_path):
                     with open(journal_path, "r", encoding="utf-8") as f:
                         lines = f.readlines()
-                        journal_tail = "".join(lines[-10:]) if len(lines) > 10 else "".join(lines)
+                        journal_tail = "".join(
+                            lines[-10:]) if len(lines) > 10 else "".join(lines)
                         physical_context += f"\n[BITÁCORA/ÚLTIMAS ACCIONES DE AYER]:\n{journal_tail}\n"
-                        
+
             enhanced_query = f"(Estoy trabajando activamente en la Campaña {self.active_campaign}, Misión {self.active_mission}). {physical_context}\n\nPregunta Principal: {user_input}"
 
         # [FIX 4] Truncate historical Q&A aggressively (Context Window Safety)
         history_text = ""
         for u, a in self.chat_history[-4:]:
             short_u = u[:300] + "...[pregunta truncada]" if len(u) > 300 else u
-            short_a = a[:500] + "...[respuesta truncada]" if len(a) > 500 else a
+            short_a = a[:500] + \
+                "...[respuesta truncada]" if len(a) > 500 else a
             history_text += f"Estudiante: {short_u}\nSistema: {short_a}\n---\n"
 
         response_text = ""
         try:
             # Retenemos el stream de la consola para pasarlo por glow al finalizar
-            print("🧠 Generando respuesta (renderizador Glow activado)...", end="\r", flush=True)
+            print("🧠 Generando respuesta (renderizador Glow activado)...",
+                  end="\r", flush=True)
             for chunk in self.chain.stream({"question": enhanced_query, "chat_history": history_text}):
                 response_text += chunk
-            
-            print(" " * 80, end="\r", flush=True) # Limpiamos la línea de carga
-            
+
+            # Limpiamos la línea de carga
+            print(" " * 80, end="\r", flush=True)
+
             # Mapa de limpieza global para artefactos de LaTeX que Glow/Terminals no renderizan por defecto
             latex_replacements = {
                 "$\\rightarrow$": "→", "$\\leftarrow$": "←", "$\\uparrow$": "↑", "$\\downarrow$": "↓",
@@ -231,29 +244,34 @@ class DojoAgent:
             }
             for latex_sym, unicode_sym in latex_replacements.items():
                 response_text = response_text.replace(latex_sym, unicode_sym)
-            
+
             # Renderizamos la respuesta completa usando glow
             try:
-                subprocess.run(["glow", "-"], input=response_text.encode('utf-8'))
+                subprocess.run(
+                    ["glow", "-"], input=response_text.encode('utf-8'))
             except FileNotFoundError:
-                print(response_text) # Fallback a texto normal si glow no está instalado
-                print("\n[Sistema] Tip: 'glow' no se encontró en tu sistema. (brew install glow)")
+                # Fallback a texto normal si glow no está instalado
+                print(response_text)
+                print(
+                    "\n[Sistema] Tip: 'glow' no se encontró en tu sistema. (brew install glow)")
         except Exception as e:
-            print(f"\n[⚠️ Alerta Cognitiva] Límite de Tokens de Contexto Excedido o fallo en LLM.")
-            print(f"Solución Crítica: Usa el comando `/mode {self.active_mode.lower()}` para resetear de golpe tu memoria conversacional.")
+            print(
+                f"\n[⚠️ Alerta Cognitiva] Límite de Tokens de Contexto Excedido o fallo en LLM.")
+            print(
+                f"Solución Crítica: Usa el comando `/mode {self.active_mode.lower()}` para resetear de golpe tu memoria conversacional.")
             print(f"Detalle: {e}")
             return ""
-            
+
         # Guardar en memoria a corto plazo si hubo respuesta
         if response_text.strip():
             self.chat_history.append((user_input, response_text))
         else:
             print(f"\n[⚠️ Respuesta Vacía] El modelo no generó contenido. Verifica los logs de LM Studio o sube el 'Context Length' en la configuración del modelo.")
             return ""
-        
+
         # [FIX] Capping the internal list to prevent RAM Leak
         self.chat_history = self.chat_history[-10:]
-        
+
         # Opcional: auto-loggear los resúmenes del agente en la bitácora
         self._auto_log_agent_output(user_input, response_text)
         print("\n")
@@ -266,46 +284,56 @@ class DojoAgent:
         if not os.path.exists(journal_path):
             try:
                 with open(journal_path, "w") as f:
-                    f.write(f"# Journal - {self.active_mission}\n\n## Bitácora Cronológica\n")
+                    f.write(
+                        f"# Journal - {self.active_mission}\n\n## Bitácora Cronológica\n")
             except Exception as e:
-                print(f"[Error del Sistema] No se pudo crear el Journal Base: {e}")
+                print(
+                    f"[Error del Sistema] No se pudo crear el Journal Base: {e}")
 
     def _auto_log_agent_output(self, user_input, response_text):
         """Intenta hacer un resumen pasivo para la bitácora unificada."""
         if not self.active_campaign or not self.active_mission or not response_text.strip():
             return
-            
-        summary = response_text[:150].replace('\n', ' ') + "..." if len(response_text) > 150 else response_text
-        user_short = user_input[:50].replace('\n', ' ') + "..." if len(user_input) > 50 else user_input
-        
-        mission_path = os.path.join(BASE_DIR, "subjects", "python", "campaigns", self.active_campaign, "missions", self.active_mission)
+
+        summary = response_text[:150].replace(
+            '\n', ' ') + "..." if len(response_text) > 150 else response_text
+        user_short = user_input[:50].replace(
+            '\n', ' ') + "..." if len(user_input) > 50 else user_input
+
+        mission_path = os.path.join(BASE_DIR, "subjects", "python", "campaigns",
+                                    self.active_campaign, "missions", self.active_mission)
         journal_path = os.path.join(mission_path, "journal.md")
-        
+
         self._ensure_journal_exists(journal_path)
 
         timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         try:
             with open(journal_path, "a", encoding="utf-8") as f:
-                f.write(f"- **[Agent | {timestamp}]:** ({self.active_mode}) Q: '{user_short}' -> A: {summary}\n")
+                f.write(
+                    f"- **[Agent | {timestamp}]:** ({self.active_mode}) Q: '{user_short}' -> A: {summary}\n")
         except Exception:
             pass
 
 
 class OperatorCLI:
     """Capa Middleware para procesamiento de lenguaje natural y Slash Commands."""
+
     def __init__(self, agent):
         self.agent = agent
 
     def process_input(self, user_input):
         lower_input = user_input.lower().strip()
-        
+
         # 1. NLP Heuristics Rígidas (Búsqueda exactmatch de directorios locales)
         if ("iniciar" in lower_input or "vamos a" in lower_input or "empezar" in lower_input) and "mision" in lower_input:
-            campaigns_dir = os.path.join(BASE_DIR, "subjects", "python", "campaigns")
+            campaigns_dir = os.path.join(
+                BASE_DIR, "subjects", "python", "campaigns")
             if os.path.exists(campaigns_dir):
-                valid_campaigns = [d.lower() for d in os.listdir(campaigns_dir) if os.path.isdir(os.path.join(campaigns_dir, d))]
-                detected_campaign = next((c for c in valid_campaigns if c in lower_input), None)
-                
+                valid_campaigns = [d.lower() for d in os.listdir(
+                    campaigns_dir) if os.path.isdir(os.path.join(campaigns_dir, d))]
+                detected_campaign = next(
+                    (c for c in valid_campaigns if c in lower_input), None)
+
                 if detected_campaign:
                     match = re.search(r'mision\s+([a-z0-9_]+)', lower_input)
                     if match:
@@ -319,32 +347,35 @@ class OperatorCLI:
             if len(parts) >= 3:
                 self._handle_start(parts[1], parts[2])
             else:
-                print("[Sistema] Uso: /start [Campaña] [Misión] o 'vamos a iniciar en py-basico la mision b00'")
+                print(
+                    "[Sistema] Uso: /start [Campaña] [Misión] o 'vamos a iniciar en py-basico la mision b00'")
             return True
-            
+
         if lower_input.startswith("/mode"):
             parts = user_input.split()
             if len(parts) >= 2:
                 mode = parts[1].upper()
                 if mode in ["GLOBAL", "MAIN", "EXERCISES", "WORK", "THINK"]:
                     self.agent.active_mode = mode
-                    self.agent.chat_history.clear() # Limpiar memoria al cambiar persona
+                    self.agent.chat_history.clear()  # Limpiar memoria al cambiar persona
                     self.agent.build_chain()
-                    print(f"[Sistema] Modalidad de Personalidad cambiada a: {mode}. (Memoria restablecida)")
+                    print(
+                        f"[Sistema] Modalidad de Personalidad cambiada a: {mode}. (Memoria restablecida)")
                 else:
-                    print("[Sistema] Modos válidos: GLOBAL, MAIN, EXERCISES, WORK, THINK")
+                    print(
+                        "[Sistema] Modos válidos: GLOBAL, MAIN, EXERCISES, WORK, THINK")
             return True
-            
+
         if lower_input.startswith("/log"):
             message = user_input[4:].strip()
             self._handle_log(message)
             return True
-            
+
         if lower_input.startswith("/audit"):
             query = user_input[6:].strip()
             self._handle_audit(query)
             return True
-            
+
         return False
 
     def _resolve_case_insensitive_path(self, base_path, target_name):
@@ -357,72 +388,90 @@ class OperatorCLI:
         return target_name
 
     def _handle_start(self, raw_campaign, raw_mission):
-        campaigns_dir = os.path.join(BASE_DIR, "subjects", "python", "campaigns")
-        
+        campaigns_dir = os.path.join(
+            BASE_DIR, "subjects", "python", "campaigns")
+
         # Resolver Case Sensitivity real dictada por el Sistema Operativo
-        actual_campaign = self._resolve_case_insensitive_path(campaigns_dir, raw_campaign)
+        actual_campaign = self._resolve_case_insensitive_path(
+            campaigns_dir, raw_campaign)
         missions_dir = os.path.join(campaigns_dir, actual_campaign, "missions")
-        actual_mission = self._resolve_case_insensitive_path(missions_dir, raw_mission)
-        
+        actual_mission = self._resolve_case_insensitive_path(
+            missions_dir, raw_mission)
+
         mission_path = os.path.join(missions_dir, actual_mission)
-        
+
         if os.path.exists(mission_path):
             self.agent.active_campaign = actual_campaign
             self.agent.active_mission = actual_mission
-            print(f"[Sistema] ¡Contexto Fijado! Trabajando en Campaña: {actual_campaign} | Misión: {actual_mission}")
-            print(f"[Sistema] Tip: Puedes purgar tus dudas ahora ejecutando: /log [mensaje]")
+            print(
+                f"[Sistema] ¡Contexto Fijado! Trabajando en Campaña: {actual_campaign} | Misión: {actual_mission}")
+            print(
+                f"[Sistema] Tip: Puedes purgar tus dudas ahora ejecutando: /log [mensaje]")
         else:
-            print(f"[Sistema] Misión Inválida. La ruta {actual_campaign}/missions/{actual_mission} no existe.")
-            print("[Sistema] Buscando sugerencias basdas en tu DoJo para una auditoría externa...\n")
-            docs = self.agent.vectorstore.similarity_search(f"estructura campaña {actual_campaign} requerimientos mision {actual_mission}", k=2)
+            print(
+                f"[Sistema] Misión Inválida. La ruta {actual_campaign}/missions/{actual_mission} no existe.")
+            print(
+                "[Sistema] Buscando sugerencias basdas en tu DoJo para una auditoría externa...\n")
+            docs = self.agent.vectorstore.similarity_search(
+                f"estructura campaña {actual_campaign} requerimientos mision {actual_mission}", k=2)
             print("="*40)
             print("Copia lo siguiente a Gemini Web:")
-            print("\nI need to create a new module/mission based on my engineering setup.")
-            print(f"The campaign is {actual_campaign} and the intended mission is {actual_mission}.")
+            print(
+                "\nI need to create a new module/mission based on my engineering setup.")
+            print(
+                f"The campaign is {actual_campaign} and the intended mission is {actual_mission}.")
             print("My relevant DoJo context:")
             for d in docs:
-                print(f"-> From {d.metadata.get('source')}:\n{d.page_content.strip()[:300]}...\n")
-            print("Please help me generate the `requirements.md` structure for this mission.")
+                print(
+                    f"-> From {d.metadata.get('source')}:\n{d.page_content.strip()[:300]}...\n")
+            print(
+                "Please help me generate the `requirements.md` structure for this mission.")
             print("="*40)
 
     def _handle_log(self, message):
         if not self.agent.active_campaign or not self.agent.active_mission:
-            print("[Sistema] Operación Bloqueada: No hay misión activa. Lanza una sesión primero.")
+            print(
+                "[Sistema] Operación Bloqueada: No hay misión activa. Lanza una sesión primero.")
             return
-            
-        mission_path = os.path.join(BASE_DIR, "subjects", "python", "campaigns", self.agent.active_campaign, "missions", self.agent.active_mission)
+
+        mission_path = os.path.join(BASE_DIR, "subjects", "python", "campaigns",
+                                    self.agent.active_campaign, "missions", self.agent.active_mission)
         journal_path = os.path.join(mission_path, "journal.md")
-        
+
         # [FIX 3] Forzar la creación si fue borrado manualmente
         self.agent._ensure_journal_exists(journal_path)
-        
+
         timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         log_entry = f"\n- **[User | {timestamp}]:** {message}\n"
-        
+
         try:
             with open(journal_path, "a") as f:
                 f.write(log_entry)
-            print(f"[Sistema] Bitácora guardada localmente en Misión: {self.agent.active_mission}.")
+            print(
+                f"[Sistema] Bitácora guardada localmente en Misión: {self.agent.active_mission}.")
         except Exception as e:
             print(f"[Error del Sistema] No se pudo escribir el archivo: {e}")
 
     def _handle_audit(self, query):
         if not query:
-            print("[Sistema] Falta la pregunta. Ejemplo: /audit Oye Gemini, ¿cómo uso Abstract Base Classes?")
+            print(
+                "[Sistema] Falta la pregunta. Ejemplo: /audit Oye Gemini, ¿cómo uso Abstract Base Classes?")
             return
-            
+
         print("\n[Audit Payload -> Generando Prompt de Alta Densidad]")
         print("Copia TODO lo siguiente y pégalo en Gemini Web:\n")
         print("="*50)
         print("Estoy aplicando mi ecosistema de estudio DoJo (Python, OOP, TDD, Clean Architecture).")
         if self.agent.active_mission:
-            print(f"Estoy atascado en mi Campaña: {self.agent.active_campaign}, Misión: {self.agent.active_mission}.")
-            
+            print(
+                f"Estoy atascado en mi Campaña: {self.agent.active_campaign}, Misión: {self.agent.active_mission}.")
+
         print("\nNecesito resolver esta duda profunda como Senior Engineer:")
         print(f"\"\"\"{query}\"\"\"\n")
-        
+
         docs = self.agent.vectorstore.similarity_search(query, k=3)
-        print("He extraído las porciones exactas de mi código y reglas locales (RAG Context):")
+        print(
+            "He extraído las porciones exactas de mi código y reglas locales (RAG Context):")
         for d in docs:
             print(f"--- ARCHIVO LOCAL: {d.metadata.get('source')} ---")
             print(f"{d.page_content.strip()}")
@@ -447,11 +496,12 @@ class DojoWatcher(FileSystemEventHandler):
     def on_modified(self, event):
         if not event.is_directory and self.is_valid_file(event.src_path):
             self.agent.process_file(event.src_path)
-            
+
             # [FIX 1] Evitar destrozar la terminal al asimilar el Journal.
             relative = str(Path(event.src_path).relative_to(BASE_DIR))
             if "journal.md" not in relative:
                 print("\nDoJo Prompt >> ", end="", flush=True)
+
 
 def index_all_existing_files(agent: DojoAgent):
     print("Sincronizando Estado Base...")
@@ -462,49 +512,51 @@ def index_all_existing_files(agent: DojoAgent):
             watcher = DojoWatcher(agent)
             if watcher.is_valid_file(file_path):
                 relative_path = str(Path(file_path).relative_to(BASE_DIR))
-                existing_docs = agent.vectorstore.get(where={"source": relative_path})
+                existing_docs = agent.vectorstore.get(
+                    where={"source": relative_path})
                 if not existing_docs or not existing_docs["ids"]:
                     agent.process_file(file_path)
+
 
 if __name__ == "__main__":
     print("="*60)
     print("   THE DOJO OPERATOR CLI (Modo: Lógica Interactiva y RAG)")
     print("="*60)
-    
+
     agent = DojoAgent()
     operator = OperatorCLI(agent)
-    
+
     index_all_existing_files(agent)
-    
+
     event_handler = DojoWatcher(agent)
     observer = Observer()
     observer.schedule(event_handler, str(BASE_DIR), recursive=True)
     observer.start()
-    
+
     print("\n🟢 Ojos, Memoria e Interfaz en línea. Monitorizando archivos...")
     print("Tip: Puedes navegar por los modos escribiendo '/mode work' o iniciar sesiones con NLP.\n")
-    
+
     try:
         while True:
-            time.sleep(0.5) 
+            time.sleep(0.5)
             query = input("\nDoJo Prompt >> ")
-            
+
             if query.lower().strip() in ['exit', 'quit']:
                 print("\nApagando Infraestructura...")
                 break
-                
+
             if query.strip() != "":
                 # 1. Pasa por el Middleware (Comandos e Interceptores)
                 was_intercepted = operator.process_input(query)
-                
+
                 # 2. Si no es comando, pasa a la Mente del Agente (RAG LLM)
                 if not was_intercepted:
                     print("\n[Respuesta]:")
                     agent.run_query(query)
-                
+
     except KeyboardInterrupt:
         print("\nInterrupción detectada. Apagando...")
-        
+
     finally:
         observer.stop()
         observer.join()
