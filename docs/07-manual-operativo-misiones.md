@@ -23,10 +23,24 @@ Un bloque típico de Deep Work de 90 minutos se debe ver así:
 4. **Drafting the Mini-RFC:** Escribes un párrafo documentando la arquitectura. ¿Usarás una Abstract Base Class? ¿Inyectarás dependencias?
 5. Defines explícitamente cuáles son los Tests que deberán pasar y el **Social DoD** (README legible para HR/PMs) si es una misión Boss.
 
-### Fase B: TDD (Test-Driven Development) (30 mins)
-1. Abres VS Code. Creas tu archivo `test_module.py`.
+### Fase B: Estructuración y TDD (30 mins)
+
+Antes de escribir código, prepara tu entorno físico. Dentro de la carpeta de tu misión (ej. `B00/`), crea la siguiente estructura S.O.L.I.D. si no existe:
+```text
+Misión_O_Proyecto/
+├── requirements.md & Mini-RFC.md
+├── data/             (Datos crudos para probar, ej. raw.csv)
+├── src/              (Tu código fuente real)
+│   ├── __init__.py
+│   └── extractor.py
+└── tests/            (Tus pruebas unitarias)
+    ├── __init__.py
+    └── test_extractor.py
+```
+
+1. Abres VS Code. Vas a tu carpeta `tests/` y creas tu archivo `test_extractor.py` (o similar).
 2. Escribes los Unit Tests básicos basados en tu Mini-RFC.
-3. Ejecutas `pytest`. Los tests **deben fallar** (porque aún no has escrito el código real).
+3. Ejecutas `pytest tests/`. Los tests **deben fallar** (porque aún no existe el código en `src/`).
 
 ### Fase C: Ejecución y Refactor (40 mins)
 1. Vas al archivo madre (ej. `extractor.py`). Escribes la lógica mínima para que el test pase.
