@@ -71,6 +71,7 @@ class DojoAgent:
             "REGLAS GLOBALES DEL DOJO OPERATOR:\n"
             "1. RESTRICCIONES TÉCNICAS: Debes leer y respetar estrictamente los 'DOCUMENTOS FÍSICOS' inyectados (requirements.md). Si una herramienta está prohibida (ej. Pandas en B00), no la menciones ni la uses.\n"
             "2. ANTI-LEAKAGE (Regla Crítica): NUNCA imprimas tu proceso de razonamiento interno, meta-análisis cognitivo, ni frases como 'Analysis:', 'Constraint Check:', o 'Action:'. Responde directamente a la pregunta de forma natural y conversacional.\n"
+            "3. ROUTING TEÓRICO: Si el Operador indica que 'no sabe cómo escribir el código' o carece de teoría, DEBES detener el proceso de TDD y sugerirle EXPLICÍTAMENTE que cambie a `/mode main` para solicitar ejemplos de código real (usando Domain Shifting).\n"
         )
 
         base = (
