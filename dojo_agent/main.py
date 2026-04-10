@@ -3,6 +3,7 @@ import re
 import time
 import uuid
 import threading
+import subprocess
 from datetime import datetime
 from pathlib import Path
 
@@ -17,7 +18,11 @@ from langchain_core.prompts import ChatPromptTemplate
 from langchain_core.runnables import RunnablePassthrough
 from langchain_core.output_parsers import StrOutputParser
 from langchain_openai import ChatOpenAI
+from rich.console import Console
+from rich.markdown import Markdown
+from rich.live import Live
 
+console = Console()
 
 # --- CONFIGURACIÓN ---
 BASE_DIR = Path(__file__).parent.parent.absolute()
@@ -208,9 +213,31 @@ class DojoAgent:
 
         response_text = ""
         try:
+            # Retenemos el stream de la consola para pasarlo por glow al finalizar
+            print("🧠 Generando respuesta (renderizador Glow activado)...", end="\r", flush=True)
             for chunk in self.chain.stream({"question": enhanced_query, "chat_history": history_text}):
-                print(chunk, end="", flush=True)
                 response_text += chunk
+            
+            print(" " * 80, end="\r", flush=True) # Limpiamos la línea de carga
+            
+            # Mapa de limpieza global para artefactos de LaTeX que Glow/Terminals no renderizan por defecto
+            latex_replacements = {
+                "$\\rightarrow$": "→", "$\\leftarrow$": "←", "$\\uparrow$": "↑", "$\\downarrow$": "↓",
+                "$\\leftrightarrow$": "↔", "$\\Rightarrow$": "⇒", "$\\Leftarrow$": "⇐", "$\\Leftrightarrow$": "⇔",
+                "$\\implies$": "⟹", "$\\iff$": "⟺", "$\\bullet$": "•", "$\\circ$": "○",
+                "$\\checkmark$": "✓", "$\\surd$": "√", "$\\times$": "×", "$\\approx$": "≈",
+                "$\\neq$": "≠", "$\\leq$": "≤", "$\\geq$": "≥", "$\\pm$": "±",
+                "$\\in$": "∈", "$\\notin$": "∉", "$\\subset$": "⊂", "$\\supset$": "⊃"
+            }
+            for latex_sym, unicode_sym in latex_replacements.items():
+                response_text = response_text.replace(latex_sym, unicode_sym)
+            
+            # Renderizamos la respuesta completa usando glow
+            try:
+                subprocess.run(["glow", "-"], input=response_text.encode('utf-8'))
+            except FileNotFoundError:
+                print(response_text) # Fallback a texto normal si glow no está instalado
+                print("\n[Sistema] Tip: 'glow' no se encontró en tu sistema. (brew install glow)")
         except Exception as e:
             print(f"\n[⚠️ Alerta Cognitiva] Límite de Tokens de Contexto Excedido o fallo en LLM.")
             print(f"Solución Crítica: Usa el comando `/mode {self.active_mode.lower()}` para resetear de golpe tu memoria conversacional.")
