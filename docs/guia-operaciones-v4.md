@@ -1,4 +1,4 @@
-# ⛩️ DoJo Study v4.0 — Guía de Operaciones
+ # ⛩️ DoJo Study v4.0 — Guía de Operaciones
 
 > Este documento es tu referencia rápida. Si te pierdes, vuelve aquí.
 
@@ -64,21 +64,7 @@ Tu historial de conversación se guarda automáticamente en Hermes (SQLite). La 
 
 ## ⚡ Comandos rápidos (cheat sheet)
 
-### 🎯 Atajos rápidos (1 solo comando)
-
-Configurados en Hermes para que no tengas que recordar la secuencia:
-
-```
-/tutor       →  Activa dojo-tutor + Qwen3.6 Plus (barato)
-/reviewer    →  Activa dojo-reviewer + Qwen3.6 Plus (barato)
-/architect   →  Activa dojo-architect + Gemini 3.1 Pro (premium)
-```
-
-> ⚠️ Después de usar `/architect`, vuelve al modelo barato con: `/model qwen/qwen3.6-plus`
-
----
-
-### 📋 Secuencia completa (si prefieres hacerlo manual)
+### 📋 Cambiar personalidad
 
 #### Quiero aprender teoría o ver ejemplos:
 ```
@@ -120,19 +106,19 @@ Configurados en Hermes para que no tengas que recordar la secuencia:
 
 #### Cargar protocolo de Domain Shifting (usar con Tutor):
 ```
-/tutor
+/personality dojo-tutor
 /domain-shifting
 ```
 
 #### Cargar protocolo Socrático (usar con Reviewer):
 ```
-/reviewer
+/personality dojo-reviewer
 /socratic-review
 ```
 
 #### Cargar template Mini-RFC (usar con Reviewer):
 ```
-/reviewer
+/personality dojo-reviewer
 /mini-rfc
 ```
 
