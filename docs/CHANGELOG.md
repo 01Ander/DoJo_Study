@@ -1,5 +1,34 @@
 # DoJo Version Log
 
+## 4.0.0 - 2026-04-13
+
+### 🏗️ BREAKING: Platform Migration to Hermes Agent
+
+Complete architectural migration from custom Python monolith (`main.py`) to **Hermes Agent** (NousResearch) as the runtime platform.
+
+### Added
+- `.hermes.md` — DoJo Constitution as Hermes Context File (auto-injected)
+- 3 Hermes Personalities: `dojo-tutor`, `dojo-reviewer`, `dojo-architect`
+- 6 DoJo Skills (`dojo_agent/skills/dojo/`): `dojo-start`, `dojo-log`, `domain-shifting`, `socratic-review`, `mini-rfc`
+- `CHANGELOG.md` (root-level)
+- `docs/guia-operaciones-v4.md` — Step-by-step operations guide
+- Multi-model support via OpenRouter: Qwen3.6 Plus (default), Gemma 4 31B (free), Gemini 3.1 Pro (premium)
+
+### Changed
+- `/mode` commands → `/personality` commands
+- `/start` → `/dojo-start`, `/log` → `/dojo-log`
+- `/audit` removed (replaced by personality + model switch)
+- `05-estructura-chats` rewritten for personality-based interaction
+- `09-dojo-agent.md` completely rewritten for Hermes architecture
+- `07-manual-operativo-misiones.md` updated with new commands
+- `00-index.md` updated with new entries
+- RAG (ChromaDB) → Context Files + Skills
+- Conversational memory (Python list) → SQLite + FTS5 persistent
+
+### Archived
+- `dojo_agent/main.py` → `archive/legacy_main_v3.py`
+- `dojo_agent/requirements.txt` → `archive/legacy_requirements_v3.txt`
+
 ## 3.3.4 - 2026-04-09
 
 ### Added

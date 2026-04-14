@@ -1,60 +1,107 @@
-# DoJo Study – High Performance Engineering System v3.3.4 (The Employability Edition)
+# ⛩️ DoJo Study: High Performance Engineering Framework v4.0
 
-**DoJo Study** es un marco operativo de aprendizaje inmersivo y de alto rendimiento, diseñado para la formación rigurosa hacia el perfil de **Data & Automation Engineer**. Operando bajo estándares corporativos reales (Arquitectura Limpia, TDD, SOLID), el DoJo v3.3.4 evoluciona de ser un laboratorio técnico a un **Framework de Ingeniería de Negocio**.
+DoJo Study es un framework de aprendizaje inmersivo y de alto rendimiento diseñado para la formación rigurosa de perfiles en **Data & Automation Engineering**. Más que un repositorio de cursos, es un sistema de entrenamiento técnico que aplica estándares corporativos reales para garantizar que el estudiante no solo aprenda sintaxis, sino que desarrolle la mentalidad de un Ingeniero Senior.
 
-Esta versión, forjada bajo el **"Employability Patch"**, integra la justificación económica y el valor de negocio (ROI) como requisitos técnicos tan estrictos como la sintaxis misma.
-
----
-
-## 🏛️ Los 6 Pilares del ADN DoJo
-
-1.  **Deep Work (La Inmersión):** Bloques de 90 min de concentración absoluta sin distracciones.
-2.  **English-Only Zone:** Interfaz lingüística 100% inglesa para código, documentación y arquitectura.
-3.  **Architecture First (Mini-RFCs):** Prohibido codear sin un diseño previo justificado.
-4.  **Test-Driven Development (TDD):** El código solo nace para hacer pasar una prueba que ya falló.
-5.  **Bi-Modal Energy management:** Respeto absoluto al ciclo de flujo y **Weekend Rest Days** mandatorios.
-6.  **The Business Translation (ROI):** *Ningún código se escribe en el vacío*. Todo artefacto técnico debe resolver un problema de negocio, reducir costos o mitigar riesgos operativos.
+## 🎯 El Objetivo
+El sistema busca eliminar la brecha entre la educación académica y el entorno profesional, integrando la **justificación económica y el valor de negocio (ROI)** como requisitos técnicos tan estrictos como la funcionalidad del código.
 
 ---
 
-## 🧠 The DoJo Agent & Operator CLI (v3.3.4)
+## 🚀 Quick Start
 
-Integrado profundamente en el sistema, corre un **DoJo Operator CLI** local (Hybrid RAG) local. En su versión actual, incluye el **Guardián de Empleabilidad**:
+### 1. Requisitos Previos
+- **[Hermes Agent](https://github.com/NousResearch/hermes-agent)** instalado y corriendo.
+- Cuenta en **[OpenRouter](https://openrouter.ai)** con API key configurada.
+- (Opcional) **[Ollama](https://ollama.com/)** como fallback local con `gemma4:e4b`.
 
-*   **Interceptor de Valor:** El Agente rechazará propuestas técnicas que no definan explícitamente el **Business Context** y el **ROI**.
-*   **Socratic Coaching:** El sistema fungen como un Reviewer Senior, guiando al Operador mediante preguntas para fomentar la autonomía lógica y evitar la codependencia de la IA.
-*   **Context Window Segura:** Sincronización en tiempo real con archivos físicos para inyección de requerimientos (`requirements.md`).
+### 2. Instalación de Hermes Agent
+```bash
+curl -fsSL https://hermes-agent.nousresearch.com/install.sh | bash
+hermes setup  # Configura OpenRouter API key y modelo default
+```
 
----
+### 3. Configurar DoJo Skills
+Agrega el directorio de skills del DoJo a tu configuración de Hermes:
+```yaml
+# En ~/.hermes/config.yaml
+skills:
+  external_dirs:
+    - ~/Documents/DoJo/DoJo_Study/dojo_agent/skills
+```
 
-## 🛡️ Protocolo de Resiliencia: Protocol Yellow
+### 4. Modelos Configurados
 
-Diseñado para asegurar la sostenibilidad a largo plazo y evitar el burnout:
-- **Study Gatekeeper:** Evaluación de fricción previa a la sesión. Si Friction > 6, la sesión se aborta en favor de un descanso obligatorio.
-- **Timeout AI (Umbral Dinámico):** Límites de tiempo (30/60 min) de lucha independiente antes de escalar la asistencia de la IA.
-- **Graceful Degradation:** Levers de emergencia (De-abstracción, cambio de idioma temporal) para mantener la consistencia en días de alto voltaje cognitivo.
+| Rol | Modelo | Costo |
+|---|---|---|
+| **Tutor / Reviewer** | Qwen3.6 Plus (OpenRouter) | $0.325 / $1.95 per M tokens |
+| **Scribe** (auto-logging) | Gemma 4 31B (OpenRouter) | **FREE** |
+| **Architect** | Gemini 3.1 Pro / Opus 4.6 | Premium |
+| **Fallback** | Gemma 4 e4b (Ollama local) | $0 |
 
----
+### 5. Ejecución
+```bash
+cd ~/Documents/DoJo/DoJo_Study
+hermes  # Inicia el agente con contexto del DoJo
+```
 
-## 🏗️ Estructura del Repositorio
+### 6. Comandos Básicos
+```bash
+# Personalidades (antes: /mode)
+/personality dojo-tutor      # Instructor + Domain Shifting
+/personality dojo-reviewer   # Pair Programmer Socrático
+/personality dojo-architect  # Visión macro + debate
 
-```text
-dojo-study/
-├─ README.md             <- (The Map)
-├─ docs/                 <- (Constitución, Manuales y Protocolos Core)
-├─ dojo_agent/           <- (AI Co-Pilot: Chromadb + Socratic Guard)
-├─ templates/            <- (Plantillas de Misiones y Campañas con ROI)
-├─ subjects/
-│  └─ python/            <- (Data Engineering Tracks & Active Campaigns)
-└─ archive/              <- (Histórico v2.0 - Canadá)
+# Skills del DoJo
+/dojo-start py-basico B00   # Fijar campaña y misión activa
+/dojo-log "Completé X..."   # Registrar en bitácora
+/domain-shifting             # Cargar protocolo de analogías
+/socratic-review             # Cargar protocolo socrático
+/mini-rfc                    # Cargar template de diseño
+
+# Cambio de modelo
+/model openrouter/qwen/qwen3.6-plus    # Para coding
+/model gemini-3.1-pro                   # Para arquitectura
 ```
 
 ---
 
-## ✅ Definition of Done (DoD) Global
+## ⚙️ Metodología de Entrenamiento
+El framework se basa en una estructura de progresión jerárquica:
 
-Para sellar cualquier artefacto en el DoJo:
-1. **Business Justification:** Contexto de negocio y ROI definidos.
-2. **Social README:** Documentación legible para stakeholders no técnicos (RRHH/PMs).
-3. **Mypy & TDD:** Tipado fuerte y cobertura total de tests unitarios.
-4. **Professional English:** Gramática y terminología técnica impecable.
+- **Campaigns (Campañas):** Rutas de aprendizaje temáticas (ej. `PY-BASICO`, `PY-POO-FINANCE`).
+- **Missions (Misiones):** Unidades de trabajo autónomas con objetivos específicos.
+- **Journals (Bitácoras):** Registros cronológicos de progreso, errores y reflexiones del estudiante.
+- **Mini-RFCs:** Documentos de diseño previo. En el DoJo, está prohibido codificar sin un diseño justificado.
+
+---
+
+## 🤖 El DoJo Agent v4.0 (Multi-Agent sobre Hermes)
+
+El sistema integra un ecosistema multi-agente sobre **Hermes Agent** (NousResearch) con personalidades especializadas y modelos cost-optimizados:
+
+- **`dojo-tutor` (Instructor):** Provee teoría y ejemplos mediante "Domain Shifting" (analogías externas). Genera código funcional real para obligar al estudiante a "traducir" la lógica.
+- **`dojo-reviewer` (Senior Reviewer):** Pair Programmer socrático. Bloquea el avance si no existe un contexto de negocio definido. Guía el código mediante preguntas, nunca con respuestas directas.
+- **`dojo-architect` (Analista):** Visión sistémica del DoJo completo. Audita coherencia, propone refactorizaciones y debate sobre arquitectura y patrones de diseño.
+
+### Auto-Logging (Scribe)
+Después de cada interacción significativa, el agente delega automáticamente a un sub-agente (Gemma 4 31B, FREE) que registra un resumen en la bitácora de la misión activa.
+
+---
+
+## ✅ Definition of Done (DoD) Global
+Para que un artefacto técnico sea considerado "completado":
+
+1. **Business Justification:** El código debe resolver un problema real con un ROI definido.
+2. **Architecture First:** El diseño debe estar documentado y validado antes de la primera línea de código.
+3. **TDD & Type Safety:** Implementación obligatoria de Test-Driven Development y tipado fuerte con Mypy.
+4. **Professional English:** Toda la documentación técnica y el código deben estar redactados en inglés profesional.
+
+---
+
+## 📁 Estructura del Repositorio
+- `/subjects` — Tracks de aprendizaje, campañas activas y misiones.
+- `/dojo_agent/skills` — Skills de Hermes Agent para el DoJo (session-start, journal-log, etc.).
+- `/templates` — Plantillas estandarizadas para misiones, campañas y registros diarios.
+- `/docs` — Documentación operativa y manuales.
+- `/archive` — Código legacy del agente monolítico v3.x.
+- `.hermes.md` — Constitución del DoJo Agent (inyectada automáticamente por Hermes).
