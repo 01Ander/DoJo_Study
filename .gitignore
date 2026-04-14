@@ -6,7 +6,12 @@ __pycache__/
 dojo_core.md
 historial.md
 
-# DoJo Agent
+# DoJo Agent (Legacy v3 — ya no se usa pero por si acaso)
 dojo_agent/.venv/
 dojo_agent/chroma_db/
+
+# Ideas (drafts personales, no versionados)
 ideas/
+
+# Hermes Agent (vive en ~/.hermes/, no en el repo)
+# Solo .hermes.md está en el repo (es el Context File)

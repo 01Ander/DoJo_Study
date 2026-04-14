@@ -60,9 +60,9 @@ Estar en inmersión no significa sufrir horas seguidas un TypeError de Python o 
 ### A. Estancamiento Teórico (Antes de codear)
 Si intentas redactar tu Mini-RFC (Fase A) y te das cuenta de que no dominas la teoría necesaria para proponer una solución:
 - **Detén el Deep Work** inmediatamente. Tu objetivo pasa de "Terminar la Misión" a "Cerrar la Brecha Teórica".
-- **Invoca al Instructor:** Cambia el chat a `/mode main` y pídele que te explique el patrón con **Ejemplos de Código Python Real**. Para proteger tu aprendizaje, el instructor usará *Domain Shifting* (analogías como videojuegos o zoológicos en lugar de tu problema financiero). No intentes programar (ni usar `/mode work`) hasta que la teoría esté clara.
+- **Invoca al Instructor:** Cambia a `/personality dojo-tutor` y pídele que te explique el patrón con **Ejemplos de Código Python Real**. Para proteger tu aprendizaje, el instructor usará *Domain Shifting* (analogías como videojuegos o zoológicos en lugar de tu problema financiero). No intentes programar (ni usar `/personality dojo-reviewer`) hasta que la teoría esté clara.
 
 ### B. Estancamiento Práctico (Codiando)
 Si llevas 25 minutos trabado en el mismo error de código y tu Friction Level sube a 7 o más:
-- Invoca el **[Protocolo Yellow](../docs/08-protocol-yellow.md)**: Utiliza sus palancas (De-abstracción, Mocking, Español) para aislar la lógica o bajar la carga cognitiva. Usa `/mode work` para pedir pistas Socráticas.
+- Invoca el **[Protocolo Yellow](../docs/08-protocol-yellow.md)**: Utiliza sus palancas (De-abstracción, Mocking, Español) para aislar la lógica o bajar la carga cognitiva. Usa `/personality dojo-reviewer` para pedir pistas Socráticas.
 - Si esto no funciona o la frustración continúa, asume un **Rest Day** inminente y sal de la pantalla. El cerebro reestructurará el problema mientras descansas.

@@ -22,9 +22,9 @@ El control de tiempo: Fase Cero (English Commando), Deep Work Blocks (con Hiperf
 **→ [`04-estructura-campanas.md`](04-estructura-campanas.md)**
 Cómo transformar simples conceptos de código en Pipelines y Módulos de Ingeniería de Software reales.
 
-### 5. Estructura de Interacción IA
+### 5. Estructura de Interacción IA (Personalidades)
 **→ [`05-estructura-chats-XX-MAIN-EXERCISES-WORK.md`](05-estructura-chats-XX-MAIN-EXERCISES-WORK.md)**
-Reglas de Pair Programming, Revisiones de Arquitectura, y la delimitación del inglés en los entornos de trabajo (EXERCISES/WORK).
+Personalidades del DoJo Agent: `dojo-tutor`, `dojo-reviewer` y `dojo-architect`. Reglas de Domain Shifting, Método Socrático y Override del Operador.
 
 ### 6. Syllabus Maestro
 **→ [`06-syllabus-maestro.md`](06-syllabus-maestro.md)**
@@ -38,9 +38,13 @@ Los flujos estrictos de operación diaria: Mini-RFC -> TDD -> Implementación ->
 **→ [`08-protocol-yellow.md`](08-protocol-yellow.md)**
 Mecanismo universal de resiliencia cognitiva. Define las palancas (De-abstracción, Español, Splitting) para mitigar el burnout sin detener el avance.
 
-### 9. The DoJo Agent (AI Co-Pilot)
+### 9. The DoJo Agent v4.0 (Hermes Agent)
 **→ [`09-dojo-agent.md`](09-dojo-agent.md)**
-Arquitectura, tecnologías e instrucciones de arranque de tu Asistente Local (RAG Watchdog interactivo basado en Ollama).
+Arquitectura multi-agente sobre Hermes Agent (NousResearch). Personalidades, Skills, modelos cost-optimizados (OpenRouter) y flujo operativo.
+
+### 10. Guía de Operaciones v4.0
+**→ [`guia-operaciones-v4.md`](guia-operaciones-v4.md)**
+Referencia rápida paso a paso: cómo iniciar sesiones, cambiar personalidades, fijar misiones y registrar avances. Cheat sheet de comandos.
 
 ---
 
