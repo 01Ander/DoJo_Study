@@ -104,6 +104,16 @@ Tu historial de conversación se guarda automáticamente en Hermes (SQLite). La 
 /dojo-log Completé el primer test de la calculadora
 ```
 
+#### Pausar bloque de deep work (funciona con CUALQUIER personalidad):
+```
+/stop_sesion
+```
+
+#### Cerrar misión formalmente (funciona con CUALQUIER personalidad):
+```
+/dojo-done
+```
+
 #### Cargar protocolo de Domain Shifting (usar con Tutor):
 ```
 /personality dojo-tutor
@@ -159,6 +169,8 @@ Tu historial de conversación se guarda automáticamente en Hermes (SQLite). La 
 │
 ├── dojo_agent/skills/dojo/       ← Skills del DoJo (versionados en git)
 │   ├── session-start/            ← /dojo-start
+│   ├── session-pause/            ← /stop_sesion
+│   ├── mission-done/             ← /dojo-done
 │   ├── journal-log/              ← /dojo-log
 │   ├── domain-shifting/          ← /domain-shifting
 │   ├── socratic-review/          ← /socratic-review
@@ -196,6 +208,11 @@ Tu historial de conversación se guarda automáticamente en Hermes (SQLite). La 
 
 5. "Tengo este código, revísame..."  ← Trabajo normal
 
+5.5. Si necesito pausar (almuerzo, descanso):
+   /stop_sesion                      ← Guarda estado a disco, registra en journal
+   (puedes cerrar Hermes y suspender el Mac)
+   Cuando vuelvas: hermes → /dojo-start (sin args) → retoma automáticamente
+
 6. /dojo-log "Terminé tests de..."   ← Registro mi avance
 
 7. Si me atasco en teoría:
@@ -208,8 +225,8 @@ Tu historial de conversación se guarda automáticamente en Hermes (SQLite). La 
 9. Cuando termino con Architect:
    /model qwen/qwen3.6-plus          ← Vuelvo al barato
 
-10. Cerrar terminal al terminar.
-   Todo se guarda automático.
+10. Al terminar la misión:
+    /dojo-done                       ← Cierre formal
 ```
 
 ---

@@ -20,11 +20,42 @@ Cuando el Operador quiere comenzar a trabajar en una misión específica de una 
 ```
 Ejemplo: `/dojo-start py-basico B00`
 
+O sin argumentos para retomar una sesión pausada:
+```
+/dojo-start
+```
+
 ## Procedure
 
 **IMPORTANTE: El directorio raíz del proyecto es `~/Documents/DoJo/DoJo_Study/`. NO busques archivos fuera de este directorio. NUNCA hagas búsquedas en `/home`, `/Users` ni en la raíz del sistema.**
 
-Dado los argumentos `[campaña]` y `[misión]`, sigue estos pasos exactos:
+### Paso 0: Detectar sesión pausada (NUEVO)
+
+Si el usuario ejecuta `/dojo-start` **SIN argumentos** (sin campaña ni misión):
+
+1. Verificar si existe el archivo `~/Documents/DoJo/DoJo_Study/.dojo-session.json`
+2. Si existe y tiene `"status": "paused"`:
+   - Leer los campos `campaign`, `mission`, `block_number`, `paused_at`, `next_step`
+   - Mostrar al Operador:
+     ```
+     [Sistema] 🔄 Sesión pausada detectada
+     Campaña: {campaign} | Misión: {mission}
+     Pausada a las: {paused_at}
+     Bloque anterior: {block_number}
+     Siguiente paso anotado: {next_step o "ninguno"}
+     
+     ¿Retomar esta sesión? (sí/no)
+     ```
+   - Si el Operador dice **sí**: Continuar con el paso 1 usando los valores de `campaign` y `mission` del archivo JSON. Registrar en el journal:
+     ```
+     - **[Sistema | YYYY-MM-DD HH:MM — Inicio de bloque {block_number + 1}]:** Sesión retomada.
+     ```
+   - Si el Operador dice **no**: Preguntar campaña y misión como normalmente.
+3. Si NO existe el archivo: Pedir campaña y misión como normalmente.
+
+Si el usuario ejecuta `/dojo-start` **CON argumentos** (ej: `/dojo-start py-basico B01`):
+- Ignorar `.dojo-session.json` y proceder normalmente con los argumentos dados.
+- Si existe `.dojo-session.json` de una misión DIFERENTE, advertir: *"Hay una sesión pausada de {otra misión}. ¿Descartarla?"*
 
 1. **Construir la ruta de la misión** (case-insensitive, las campañas en disco usan MAYÚSCULAS):
    - Campañas: `~/Documents/DoJo/DoJo_Study/subjects/python/campaigns/`

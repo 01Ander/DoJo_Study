@@ -8,7 +8,7 @@ Type: B (Integration)
 Campaign Code: PY-BASICO  
 Mission Code: B00  
 Title: The Data Resilience Assessment
-Status: 🟢 Ready
+Status: ✅ Completada
 
 ---
 

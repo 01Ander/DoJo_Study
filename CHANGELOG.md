@@ -2,6 +2,22 @@
 
 All notable changes to DoJo Study will be documented in this file.
 
+## [4.1.0] - 2026-04-16
+
+### Added
+- **Skills Expansion:** Created `/dojo-done` to formally close missions, log them to the journal, and update their states.
+- **Cognitive Sustainability:** Created `/stop_sesion` allowing Operators to pause a Deep Work block mid-session, persisting state into `.dojo-session.json`.
+- **Session Inference:** Enhanced `/dojo-start` with a local state scanning algorithm to automatically suggest resuming paused sessions.
+- **Mission B01:** Formally created the *Log Analyzer* B01 mission within PY-BASICO, enforcing Phase 2 (Socratic Reviewer) methodology.
+
+### Changed
+- `.hermes.md` Constitution updated with new available skills.
+- `docs/guia-operaciones-v4.md` updated with new fast-commands and workflow references.
+- Added `.dojo-session.json` to `.gitignore`.
+- Marked `PY-BASICO/missions/B00/requirements.md` as completed.
+
+---
+
 ## [4.0.0] - 2026-04-13
 
 ### 🏗️ BREAKING: Platform Migration to Hermes Agent

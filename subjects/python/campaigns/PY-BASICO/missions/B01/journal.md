@@ -1,3 +1,1 @@
-# Journal - B01
-
-## Bitácora Cronológica
+<!-- Initialized journal -->
