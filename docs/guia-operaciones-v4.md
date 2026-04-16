@@ -1,4 +1,4 @@
-# ⛩️ DoJo Study v4.0 — Guía de Operaciones
+ # ⛩️ DoJo Study v4.0 — Guía de Operaciones
 
 > Este documento es tu referencia rápida. Si te pierdes, vuelve aquí.
 
@@ -64,21 +64,7 @@ Tu historial de conversación se guarda automáticamente en Hermes (SQLite). La 
 
 ## ⚡ Comandos rápidos (cheat sheet)
 
-### 🎯 Atajos rápidos (1 solo comando)
-
-Configurados en Hermes para que no tengas que recordar la secuencia:
-
-```
-/tutor       →  Activa dojo-tutor + Qwen3.6 Plus (barato)
-/reviewer    →  Activa dojo-reviewer + Qwen3.6 Plus (barato)
-/architect   →  Activa dojo-architect + Gemini 3.1 Pro (premium)
-```
-
-> ⚠️ Después de usar `/architect`, vuelve al modelo barato con: `/model qwen/qwen3.6-plus`
-
----
-
-### 📋 Secuencia completa (si prefieres hacerlo manual)
+### 📋 Cambiar personalidad
 
 #### Quiero aprender teoría o ver ejemplos:
 ```
@@ -118,21 +104,31 @@ Configurados en Hermes para que no tengas que recordar la secuencia:
 /dojo-log Completé el primer test de la calculadora
 ```
 
+#### Pausar bloque de deep work (funciona con CUALQUIER personalidad):
+```
+/stop_sesion
+```
+
+#### Cerrar misión formalmente (funciona con CUALQUIER personalidad):
+```
+/dojo-done
+```
+
 #### Cargar protocolo de Domain Shifting (usar con Tutor):
 ```
-/tutor
+/personality dojo-tutor
 /domain-shifting
 ```
 
 #### Cargar protocolo Socrático (usar con Reviewer):
 ```
-/reviewer
+/personality dojo-reviewer
 /socratic-review
 ```
 
 #### Cargar template Mini-RFC (usar con Reviewer):
 ```
-/reviewer
+/personality dojo-reviewer
 /mini-rfc
 ```
 
@@ -173,6 +169,8 @@ Configurados en Hermes para que no tengas que recordar la secuencia:
 │
 ├── dojo_agent/skills/dojo/       ← Skills del DoJo (versionados en git)
 │   ├── session-start/            ← /dojo-start
+│   ├── session-pause/            ← /stop_sesion
+│   ├── mission-done/             ← /dojo-done
 │   ├── journal-log/              ← /dojo-log
 │   ├── domain-shifting/          ← /domain-shifting
 │   ├── socratic-review/          ← /socratic-review
@@ -210,6 +208,11 @@ Configurados en Hermes para que no tengas que recordar la secuencia:
 
 5. "Tengo este código, revísame..."  ← Trabajo normal
 
+5.5. Si necesito pausar (almuerzo, descanso):
+   /stop_sesion                      ← Guarda estado a disco, registra en journal
+   (puedes cerrar Hermes y suspender el Mac)
+   Cuando vuelvas: hermes → /dojo-start (sin args) → retoma automáticamente
+
 6. /dojo-log "Terminé tests de..."   ← Registro mi avance
 
 7. Si me atasco en teoría:
@@ -222,8 +225,8 @@ Configurados en Hermes para que no tengas que recordar la secuencia:
 9. Cuando termino con Architect:
    /model qwen/qwen3.6-plus          ← Vuelvo al barato
 
-10. Cerrar terminal al terminar.
-   Todo se guarda automático.
+10. Al terminar la misión:
+    /dojo-done                       ← Cierre formal
 ```
 
 ---

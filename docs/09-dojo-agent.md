@@ -67,7 +67,19 @@ Registra tus avances manualmente:
 ```
 > Además, después de cada interacción significativa, el agente puede delegar automáticamente a un sub-agente Scribe (Gemma 4, FREE) que registra un resumen en tu journal.
 
-### 4. Skills On-Demand
+### 4. Pausas y Cierres (Gestión de Misión)
+Si precisas interrumpir tu sesión de *Deep Work*, usa:
+```
+/stop_sesion
+```
+> Persiste el contexto localmente en `.dojo-session.json` de manera que al usar `/dojo-start` después del receso, te proponga reanudar exactamente en el bloque que dejaste.
+
+Cuando cumples todos los criterios *Definition of Done* de una misión, ciérrala con:
+```
+/dojo-done
+```
+
+### 5. Skills On-Demand
 ```
 /domain-shifting     → Carga reglas de analogía de dominio
 /socratic-review     → Carga protocolo socrático del Reviewer

@@ -1,0 +1,6 @@
+REJECTED: {'id': 'TXN-002', 'timestamp': '02/04/2026 11:45', 'amount': ' -20.00', 'currency': 'USD', 'category': 'Food', 'description': 'Coffee shop', 'status': 'completed'} | Reason: Non-positive amount: '-20.0'
+REJECTED: {'id': 'TXN-003', 'timestamp': '2026-04-03', 'amount': '', 'currency': 'EUR', 'category': 'Groceries', 'description': 'Supermarket', 'status': 'pending'} | Reason: could not convert string to float: ''
+REJECTED: {'id': 'TXN-005', 'timestamp': 'INVALID_DATE', 'amount': '100.00', 'currency': 'USD', 'category': 'Tech', 'description': 'Subscription', 'status': 'failed'} | Reason: Unknown date format: 'INVALID_DATE'
+REJECTED: {'id': 'TXN-006', 'timestamp': '2026-04-05 14:20:00', 'amount': '-5.50', 'currency': 'CAD', 'category': 'Transport', 'description': 'Bus fare', 'status': 'completed'} | Reason: Non-positive amount: '-5.5'
+REJECTED: {'id': 'TXN-008', 'timestamp': '2026-04-07 20:15:00', 'amount': '999999.99', 'currency': 'XYZ', 'category': 'Investment', 'description': 'Suspicious entry', 'status': 'completed'} | Reason: Suspiciously large amount: $'999999.99'
+REJECTED: {'id': 'TXN-009', 'timestamp': '', 'amount': '45.00', 'currency': 'USD', 'category': 'Food', 'description': 'Dinner', 'status': 'completed'} | Reason: Unknown date format: ''

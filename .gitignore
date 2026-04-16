@@ -15,3 +15,5 @@ ideas/
 
 # Hermes Agent (vive en ~/.hermes/, no en el repo)
 # Solo .hermes.md está en el repo (es el Context File)
+.dojo-session.json
+venv/
