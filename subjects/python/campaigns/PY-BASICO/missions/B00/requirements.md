@@ -34,9 +34,9 @@ Build a lightweight, bulletproof ETL script that reads a simulated flat file (CS
 
 ## Required Testing (TDD / QA)
 List the unit tests or edge cases that MUST be covered by `pytest` (or equivalent) for this mission to be accepted.
-- [ ] Test Case 1: The date parser successfully normalizes different date formats (e.g., `12-31-2023` and `2023/12/31`) into standard ISO-8601 (`YYYY-MM-DD`).
-- [ ] Test Case 2: The type-casting logic raises a specific custom-logged exception when finding an alphanumeric string in a currency field instead of crashing implicitly.
-- [ ] Test Case 3: The aggregation engine correctly yields the Total, Mean, and Count for an overlapping Category dict.
+- [X] Test Case 1: The date parser successfully normalizes different date formats (e.g., `12-31-2023` and `2023/12/31`) into standard ISO-8601 (`YYYY-MM-DD`).
+- [X] Test Case 2: The type-casting logic raises a specific custom-logged exception when finding an alphanumeric string in a currency field instead of crashing implicitly.
+- [X] Test Case 3: The aggregation engine correctly yields the Total, Mean, and Count for an overlapping Category dict.
 
 ---
 
