@@ -1,4 +1,4 @@
-# 06 - Syllabus Maestro (Data & Automation Engineer)
+# 05 - Syllabus Maestro (Data & Automation Engineer)
 Versión 1.0 – DoJo Study
 
 Este documento reúne el mapa completo de habilidades necesarias para avanzar hacia el perfil **Data & Automation Engineer**.  

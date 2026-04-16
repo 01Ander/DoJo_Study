@@ -17,3 +17,4 @@ ideas/
 # Solo .hermes.md está en el repo (es el Context File)
 .dojo-session.json
 venv/
+.mypy_cache/

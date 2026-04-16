@@ -1,4 +1,4 @@
-# Protocol Yellow (Graceful Degradation)
+# 07 - Protocolo Yellow (Graceful Degradation)
 
 > *"Protocol Yellow is an Engineering Tool, not a failure. It prioritizes long-term consistency over short-term perfection."*
 > — DoJo Philosophy
