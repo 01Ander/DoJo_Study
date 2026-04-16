@@ -32,11 +32,11 @@ Misiones Permitidas:
 **Requisito indispensable:** Registro del Deep Work Block en el Daily Log (Métricas de Enfoque). Si se supera la ventana de 4 horas continuas (hiperfoco), es forzoso establecer un cierre y aterrizaje seguro (comer, caminar, desconectar del IDE).
 
 ### Modo 0: Rest Day (Desconexión)
-**Estado:** Valle cognitivo, saturación mental, bloqueos inexplicables o **Fin de Semana (Sábado/Domingo)**. El "Vacío".
+**Estado:** Valle cognitivo, saturación mental, bloqueos inexplicables o **Fin de Semana (Sábado tarde/Domingo)**. El "Vacío".
 
 Protocolo OBLIGATORIO:
 - **Zero-Code Policy:** Prohibido abrir el editor o tocar código.
-- **Mandato Semanal:** Sábados y Domingos son Rest Days por diseño, independientemente de la carga semanal.
+- **Mandato Semanal:** Sábados por la tarde y Domingos son Rest Days por diseño, independientemente de la carga semanal.
 - **Trazabilidad Mínima:** Abrir `task.md` o el log diario sólo para apuntar qué detuvo el progreso ("Muro Técnico" o "Fatiga").
 - Asumir el "Valle" sin culpa. Este estado en un entorno de inmersión total no denota debilidad, sino una necesidad neurobiológica de asentar el conocimiento y reiniciar el sistema Dopaminérgico.
 
@@ -44,7 +44,7 @@ Protocolo OBLIGATORIO:
 
 ## 🛡️ Protocolo Yellow (Graceful Degradation)
 
-En escasos momentos donde se está a mitad de un problema y no se justifica "apagar el sistema" pero el nivel de fricción supera 7, se debe invocar el **[Protocolo Yellow](08-protocol-yellow.md)**:
+En escasos momentos donde se está a mitad de un problema y no se justifica "apagar el sistema" pero el nivel de fricción supera 7, se debe invocar el **[Protocolo Yellow](07-protocol-yellow.md)**:
 - Habilita estrategias formales de reducción de carga (e.g. pasar de OOP a funciones nativas, traducir documentación al español, usar datos mock).
 - Delega a Pair Programming pasivo o abandona el objetivo en pro de un "Micro-Goal".
 *Si esto falla, se invocará un Rest Day inminente o una Pausa Obligatoria de 15 minutos.*

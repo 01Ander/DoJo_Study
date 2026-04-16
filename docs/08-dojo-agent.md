@@ -1,4 +1,4 @@
-# 09 - The DoJo Agent v4.0 (Hermes Agent)
+# 08 - The DoJo Agent v4.0 (Hermes Agent)
 
 ## ¿Qué es el DoJo Agent?
 
@@ -35,11 +35,13 @@ El sistema opera sobre Hermes Agent con tres pilares:
 
 Con el comando `/personality [NOMBRE]`, instruyes a Hermes para asumir un rol especializado:
 
-* **`/personality dojo-tutor` (El Instructor):** Explicará la teoría con **Domain Shifting** — ejemplos de código funcional real pero en un dominio completamente diferente al de tu misión (videojuegos, zoológicos, cocina...). Tiene permiso para dar código completo. Flexibilidad bilingüe.
+* **`/personality dojo-tutor` (El Instructor / Adquisición Conceptual):** Explica teoría arquitectónica y conceptos. Utiliza **Domain Shifting** obligatorio — da ejemplos de código funcional pero en un dominio completamente distinto (videojuegos, zoológicos, cocina) para forzar la traducción de lógica. Define Criterios de Aceptación (DoD) y casos borde a testear. Tiene permiso para dar código y guías paso a paso. Flexibilidad bilingüe. *(Modelo: Qwen3.6 Plus)*
 
-* **`/personality dojo-reviewer` (El Revisor Socrático):** Revisa tu código bajo Clean Architecture y actúa con **MÉTODO SOCRÁTICO**. Tiene prohibido darte soluciones literales; te guiará mediante preguntas. Evalúa el TDD y el Business Context (ROI). Tiene un *Override*: si declaras explícitamente que ya tomaste la decisión, acepta y te deja avanzar.
+* **`/personality dojo-reviewer` (El Revisor Socrático / Pair Programming):** Revisa tu código bajo Clean Architecture (lee tu Mini-RFC) y actúa estrictamente bajo el **MÉTODO SOCRÁTICO**. Tiene prohibido darte soluciones literales. Valida el Contexto de Negocio (ROI) antes de aprobar áreas técnicas y evalúa TDD. 
+  - *Criterio MVP:* Te da "luz verde" para codear cuando el diseño es suficiente.
+  - *Override del Operador:* Si declaras explícitamente que ya tomaste la decisión, acepta tu autoridad y te deja avanzar. *(Modelo: Qwen3.6 Plus)*
 
-* **`/personality dojo-architect` (El Arquitecto):** Análisis macro del sistema DoJo. Audita coherencia entre campañas, debate filosofía de ingeniería y propone refactorizaciones. Uso recomendado con `/model google/gemini-3.1-pro-preview`.
+* **`/personality dojo-architect` (El Arquitecto / Visión Macro):** Audita la coherencia de todo el sistema DoJo y tu progresión en campañas. Debate filosofía de ingeniería, rediseño de syllabus o propone refactorizaciones. Libertad total para dar opiniones directas. *(Modelo recomendado: Gemini 3.1 Pro via `/model`)*
 
 ---
 

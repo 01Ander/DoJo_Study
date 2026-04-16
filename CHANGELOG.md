@@ -2,6 +2,16 @@
 
 All notable changes to DoJo Study will be documented in this file.
 
+## [4.1.1] - 2026-04-16
+
+### Changed
+- **System Documentation DRYing:** Centralized AI operational personality logic (`dojo-tutor`, `reviewer`, `architect`) strictly into `08-dojo-agent.md` and `.hermes.md`.
+- **System Documentation Normalization:** Removed deprecated file `05-estructura-chats-XX-MAIN-EXERCISES-WORK.md`, shifting index numbering accordingly for a cleaner `docs/` structure.
+- **Rest Day Clarification:** Resolved conflicting timelines. Architect windows are strictly Saturday mornings (if necessary). Absolute Rest Days (*Zero-Code Policy*) cover Saturday afternoons and Sundays across all core docs.
+- **Git Hygiene:** Added `.mypy_cache/` to `.gitignore` and purged cached development artifacts from tracked mission folders.
+
+---
+
 ## [4.1.0] - 2026-04-16
 
 ### Added
@@ -109,7 +119,7 @@ DoJo Study migra de un agente monolítico custom (`main.py`, 565 líneas, LangCh
 - **Audit Payload Generator:** Added `/audit` command to auto-generate high-density RAG queries containing exact local codebase implementations, optimizing external cloud evaluations.
 - **The DoJo Agent (AI Co-Pilot):** Created a fully local RAG interactive system based on `ChromaDB` and `gemma4:latest` using `nomic-embed-text` embeddings.
 - **Agent Delta Updates Watchdog:** Implemented a Python background process (`dojo_agent/main.py`) to monitor and index live changes of the workspace ignoring legacy archives.
-- **System Documentation:** Appended `09-dojo-agent.md` to formally document the architectural boundaries and terminal deployment of the Data Engineering Co-pilot.
+- **System Documentation:** Appended `08-dojo-agent.md` to formally document the architectural boundaries and terminal deployment of the Data Engineering Co-pilot.
 
 ### Changed
 - **Mission Modularization Architecture:** Refactored all static `.md` missions across `PY-BASICO` and `PY-POO-FINANCE` into full directory packages containing `requirements.md`, the `code/` logic, and an auto-managed `journal.md` for historical traceability.
@@ -120,11 +130,11 @@ DoJo Study migra de un agente monolítico custom (`main.py`, 565 líneas, LangCh
 ## [3.2.1] - 2026-04-05
 
 ### Added
-- **Protocol Yellow (Graceful Degradation):** Introduced `08-protocol-yellow.md` as a universal cognitive resilience mechanism to prevent Operator burnout.
+- **Protocol Yellow (Graceful Degradation):** Introduced `07-protocol-yellow.md` as a universal cognitive resilience mechanism to prevent Operator burnout.
 - **Friction Level Tracking:** Embedded `Friction Level: [ ] / 10` KPI directly into the headers of all mission files and templates.
 
 ### Changed
-- **Energy System & Operations:** Replaced the generic "Degradación Transitoria" with formal links and triggers for Protocol Yellow in `03-sistema-energia.md` and `07-manual-operativo-misiones.md`.
+- **Energy System & Operations:** Replaced the generic "Degradación Transitoria" with formal links and triggers for Protocol Yellow in `03-sistema-energia.md` and `06-manual-operativo-misiones.md`.
 - **Mission Resilience Protocols:** Updated files `B00_assessment`, `M01_extractors`, and `M02_entities` allowing Language Switch (Spanish logic), De-abstraction, and Mock Data prioritization when friction peaks.
 
 ## [3.2.0] - 2026-04-03
@@ -132,7 +142,7 @@ DoJo Study migra de un agente monolítico custom (`main.py`, 565 líneas, LangCh
 ### Added
 - **English-Only Zone:** Established English as the mandatory language for all code, variable naming, Docstrings, and commit messages. Spanish restricted to journal/personal reflections.
 - **English Commando Block:** Integrated a new required 30-60min startup sequence in `03-sistema-energia.md` utilizing Busuu and Duolingo.
-- **Syllabus English Integration:** Added a 3-phase, 12-month linguistic acquisition plan aligned with full immersion to `06-syllabus-maestro.md`.
+- **Syllabus English Integration:** Added a 3-phase, 12-month linguistic acquisition plan aligned with full immersion to `05-syllabus-maestro.md`.
 - **Mini-RFC & TDD Prerequisites:** Updated `mission-template.md`. Writing an architecture RFC and failing a `pytest` module are now hard requirements before writing logic.
 - **Binary Performance Model:** Discarded 'low energy' concepts. You're either in a Deep Work Session or taking a Rest Day (`03-sistema-energia.md`).
 - **Archive System:** Moved all original DoJo v2.0 templates and documents into `/archive/v2_canada/`.

@@ -1,4 +1,4 @@
-# 07 - Manual Operativo Misiones
+# 06 - Manual Operativo Misiones
 
 Este manual es tu estándar operativo cuando entras al bloque de **Deep Work**. Su estricto cumplimiento garantiza calidad de software, trazabilidad profesional, y fluidez en tu Inmersión Lingüística (Inglés).
 
@@ -64,5 +64,5 @@ Si intentas redactar tu Mini-RFC (Fase A) y te das cuenta de que no dominas la t
 
 ### B. Estancamiento Práctico (Codiando)
 Si llevas 25 minutos trabado en el mismo error de código y tu Friction Level sube a 7 o más:
-- Invoca el **[Protocolo Yellow](../docs/08-protocol-yellow.md)**: Utiliza sus palancas (De-abstracción, Mocking, Español) para aislar la lógica o bajar la carga cognitiva. Usa `/personality dojo-reviewer` para pedir pistas Socráticas.
+- Invoca el **[Protocolo Yellow](../docs/07-protocol-yellow.md)**: Utiliza sus palancas (De-abstracción, Mocking, Español) para aislar la lógica o bajar la carga cognitiva. Usa `/personality dojo-reviewer` para pedir pistas Socráticas.
 - Si esto no funciona o la frustración continúa, asume un **Rest Day** inminente y sal de la pantalla. El cerebro reestructurará el problema mientras descansas.
