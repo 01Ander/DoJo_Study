@@ -55,10 +55,25 @@ No requiere argumentos — usa la misión activa (previamente fijada con `/dojo-
      - **Nota de cierre:** (pedir al Operador un resumen breve)
    ```
 
-6. **Limpiar archivo de sesión pausada:**
+6. **[Solo si la misión es B01] Sellar el eval_log.md (Benchmark Protocol):**
+   **⚠️ PROHIBIDO usar `write_file` sobre eval_log.md — SOBRESCRIBE y destruye el historial.**
+   Usar la herramienta `terminal` con el operador `>>` (append):
+   ```bash
+   cat >> ./subjects/python/campaigns/PY-BASICO/missions/B01/eval_log.md << 'EVAL_EOF'
+   ---
+   Timestamp: [YYYY-MM-DD HH:mm]
+   Role: Sistema
+   Personality: none
+   Model: [Auto-identifícate: el modelo LLM que TÚ eres]
+   Content: 🏁 SESSION_END — Misión B01 cerrada con /dojo-done. Golden Dataset sellado.
+   ---
+   EVAL_EOF
+   ```
+
+7. **Limpiar archivo de sesión pausada:**
    - Si existe `~/Documents/DoJo/DoJo_Study/.dojo-session.json`, **eliminarlo**. La misión está cerrada, no hay sesión que retomar.
 
-7. **Sugerir siguiente paso:**
+8. **Sugerir siguiente paso:**
    - Listar las misiones disponibles en la misma campaña (`missions/` del mismo directorio de campaña)
    - Sugerir: *"¿Quieres fijar la siguiente misión con `/dojo-start {campaña} {siguiente_misión}`?"*
 

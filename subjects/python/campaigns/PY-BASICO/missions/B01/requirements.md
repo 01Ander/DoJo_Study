@@ -4,9 +4,9 @@
 
 
 ## Identification
-Type: B (Integration)  
-Campaign Code: PY-BASICO  
-Mission Code: B01  
+Type: B (Integration)
+Campaign Code: PY-BASICO
+Mission Code: B01
 Title: The Server Log Analyser
 Status: 🟢 Ready
 
@@ -23,7 +23,7 @@ Status: 🟢 Ready
 
 **Protocol Yellow (Muro de Contención):** This assessment continues to solidify brute fundamentals. It focuses on text/CSV parsing, timestamp manipulation, and frequency mapping using basic dictionaries and loops.
 
-**Modo de trabajo:** Esta misión se ejecuta en **Fase 2 (Reviewer Socrático)**. 
+**Modo de trabajo:** Esta misión se ejecuta en **Fase 2 (Reviewer Socrático)**.
 El Operador implementa solo. El Reviewer hace preguntas, NO da código. 
 Si la fricción sube >7, escalar a Tutor temporalmente.
 Referencia permitida: código de B00 como documentación.
@@ -68,3 +68,63 @@ List the unit tests or edge cases that MUST be covered by `pytest` (or equivalen
 
 ## Architectural/Friction Notes
 *Log any code smells, friction discovered, or future scaling ideas to be picked up by the Architect role.*
+
+---
+
+## 🔬 Benchmark Protocol (ACTIVO — Solo Misión B01)
+
+**Propósito:** Esta misión opera bajo un protocolo de captura de datos activo. Todas las interacciones Operador↔Agente deben quedar registradas en `eval_log.md` para análisis comparativo de modelos.
+
+**Modelo bajo evaluación:** Gemma 4 (via Google AI Studio — capa gratuita)  
+**Modelo de referencia (frontera):** Por definir  
+**Objetivo:** Construir un Golden Dataset de la sesión B01 para medir eficiencia de respuesta, calidad socrática y consumo de tokens.
+
+### Instrucción Operacional (OBLIGATORIA para el Agente)
+
+Al finalizar **cada turno de la conversación** (tanto entrada del Operador como tu propia respuesta), debes registrar la interacción en:
+
+```
+./subjects/python/campaigns/PY-BASICO/missions/B01/eval_log.md
+```
+
+#### ⚠️ PROCEDIMIENTO CRÍTICO — USAR TERMINAL, NO WRITE_FILE
+
+**PROHIBIDO usar `write_file` sobre `eval_log.md`.** Esa herramienta SOBRESCRIBE y destruye el historial.
+
+**OBLIGATORIO usar la herramienta `terminal`** con el operador `>>` (append) de bash. Ejemplo:
+
+```bash
+cat >> ./subjects/python/campaigns/PY-BASICO/missions/B01/eval_log.md << 'EVAL_EOF'
+---
+Timestamp: [2026-04-17 14:30]
+Role: Agent
+Personality: dojo-reviewer
+Model: [TU MODELO ACTUAL — auto-identifícate, ej: qwen/qwen3.5-coder, gemma-4-27b-it, etc.]
+Content:
+[Aquí va el texto completo de la respuesta]
+---
+EVAL_EOF
+```
+
+El operador `>>` **garantiza** que el contenido se añade al final sin borrar nada. Usa heredoc (`<< 'EVAL_EOF'`) para manejar contenido multilinea con caracteres especiales.
+
+**Formato estricto de cada entrada:**
+
+```
+---
+Timestamp: [YYYY-MM-DD HH:mm]
+Role: [User | Agent]
+Personality: [dojo-tutor | dojo-reviewer | dojo-architect | none]
+Model: [Auto-identifícate: escribe el nombre/ID exacto del modelo LLM que TÚ eres en este momento]
+Content:
+[Texto completo del mensaje]
+---
+```
+
+**Reglas del protocolo:**
+- El logging ocurre en **tiempo real** (por turno, no al final de la sesión).
+- Captura **todos** los turnos sin excepción: preguntas, respuestas socráticas, correcciones, hints.
+- Si una respuesta incluye código, el código también se registra en el campo `Content`.
+- El campo `Model` es de **auto-identificación**: TÚ como agente debes reportar qué modelo LLM eres. No copies un nombre de ejemplo — escribe tu identidad real (la que ves en tu configuración, ej: `qwen/qwen3.5-coder`, `google/gemma-4-27b-it`, etc.). Si el Operador cambia de modelo mid-sesión, el nuevo modelo debe auto-identificarse.
+- Este protocolo se **desactiva automáticamente** al ejecutar `/dojo-done` en esta misión.
+- No menciones el protocolo al Operador en cada turno — simplemente ejecútalo silenciosamente.

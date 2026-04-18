@@ -72,7 +72,7 @@ Registra tus avances manualmente:
 ### 4. Pausas y Cierres (Gestión de Misión)
 Si precisas interrumpir tu sesión de *Deep Work*, usa:
 ```
-/stop_sesion
+/stop-sesion
 ```
 > Persiste el contexto localmente en `.dojo-session.json` de manera que al usar `/dojo-start` después del receso, te proponga reanudar exactamente en el bloque que dejaste.
 
