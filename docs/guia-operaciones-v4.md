@@ -106,7 +106,7 @@ Tu historial de conversación se guarda automáticamente en Hermes (SQLite). La 
 
 #### Pausar bloque de deep work (funciona con CUALQUIER personalidad):
 ```
-/stop_sesion
+/stop-sesion
 ```
 
 #### Cerrar misión formalmente (funciona con CUALQUIER personalidad):
@@ -169,7 +169,7 @@ Tu historial de conversación se guarda automáticamente en Hermes (SQLite). La 
 │
 ├── dojo_agent/skills/dojo/       ← Skills del DoJo (versionados en git)
 │   ├── session-start/            ← /dojo-start
-│   ├── session-pause/            ← /stop_sesion
+│   ├── session-pause/            ← /stop-sesion
 │   ├── mission-done/             ← /dojo-done
 │   ├── journal-log/              ← /dojo-log
 │   ├── domain-shifting/          ← /domain-shifting
@@ -209,7 +209,7 @@ Tu historial de conversación se guarda automáticamente en Hermes (SQLite). La 
 5. "Tengo este código, revísame..."  ← Trabajo normal
 
 5.5. Si necesito pausar (almuerzo, descanso):
-   /stop_sesion                      ← Guarda estado a disco, registra en journal
+   /stop-sesion                      ← Guarda estado a disco, registra en journal
    (puedes cerrar Hermes y suspender el Mac)
    Cuando vuelvas: hermes → /dojo-start (sin args) → retoma automáticamente
 

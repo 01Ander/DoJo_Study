@@ -35,20 +35,35 @@ Si el usuario ejecuta `/dojo-start` **SIN argumentos** (sin campaña ni misión)
 
 1. Verificar si existe el archivo `~/Documents/DoJo/DoJo_Study/.dojo-session.json`
 2. Si existe y tiene `"status": "paused"`:
-   - Leer los campos `campaign`, `mission`, `block_number`, `paused_at`, `next_step`
+   - Leer los campos `campaign`, `mission`, `block_number`, `paused_at`, `next_step` y `personality`
    - Mostrar al Operador:
      ```
      [Sistema] 🔄 Sesión pausada detectada
      Campaña: {campaign} | Misión: {mission}
+     Personalidad: {personality o "none"}
      Pausada a las: {paused_at}
      Bloque anterior: {block_number}
      Siguiente paso anotado: {next_step o "ninguno"}
      
      ¿Retomar esta sesión? (sí/no)
      ```
-   - Si el Operador dice **sí**: Continuar con el paso 1 usando los valores de `campaign` y `mission` del archivo JSON. Registrar en el journal:
+   - Si el Operador dice **sí**: Continuar con el paso 1 usando los valores de `campaign` y `mission` del archivo JSON. **Debes adoptar inmediatamente la `personality` recuperada del archivo JSON y DEBES pedirle al Operador que ejecute explícitamente el comando `/personality {personality}` para inyectar correctamente el contexto a nivel sistema de Hermes.** Registrar en el journal:
      ```
      - **[Sistema | YYYY-MM-DD HH:MM — Inicio de bloque {block_number + 1}]:** Sesión retomada.
+     ```
+     **[Solo si la misión retomada es B01]** Registrar marcador de reanudación en `eval_log.md`:
+     **⚠️ PROHIBIDO usar `write_file` sobre eval_log.md — SOBRESCRIBE y destruye el historial.**
+     Usar la herramienta `terminal` con el operador `>>` (append):
+     ```bash
+     cat >> ./subjects/python/campaigns/PY-BASICO/missions/B01/eval_log.md << 'EVAL_EOF'
+     ---
+     Timestamp: [YYYY-MM-DD HH:mm]
+     Role: Sistema
+     Personality: none
+     Model: [Auto-identifícate: el modelo LLM que TÚ eres]
+     Content: ▶️ SESSION_RESUME — Bloque {block_number + 1} iniciado. Sesión retomada con /dojo-start.
+     ---
+     EVAL_EOF
      ```
    - Si el Operador dice **no**: Preguntar campaña y misión como normalmente.
 3. Si NO existe el archivo: Pedir campaña y misión como normalmente.

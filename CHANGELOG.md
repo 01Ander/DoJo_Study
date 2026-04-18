@@ -2,6 +2,18 @@
 
 All notable changes to DoJo Study will be documented in this file.
 
+## [4.1.2] - 2026-04-17
+
+### Added
+- **Mini-RFC Template Prioritization:** Marked the creation of a standardized Mini-RFC template as a high-priority feature in the pending ideas list.
+- **Automated Dojo Logging Template:** Explicitly defined a new feature request to standardize the `/dojo-log` skill, forcing the LLM to auto-identify and fetch precise timings via the WakaTime API when writing to the mission journal.
+
+### Changed
+- **Testing Configuration:** Migrated `SETUP_TESTING.md` from the isolated B01 mission folder to the `PY-BASICO` campaign root for global, campaign-wide testing guidelines.
+- **Implemented Live Features:** Cleared `/stop_sesion` and `/stop` de-anchoring ideas from `ideas-in-live.md` as they have now been fully integrated into the live agent skills (`session-pause` and `mission-done`).
+
+---
+
 ## [4.1.1] - 2026-04-16
 
 ### Changed
@@ -16,7 +28,7 @@ All notable changes to DoJo Study will be documented in this file.
 
 ### Added
 - **Skills Expansion:** Created `/dojo-done` to formally close missions, log them to the journal, and update their states.
-- **Cognitive Sustainability:** Created `/stop_sesion` allowing Operators to pause a Deep Work block mid-session, persisting state into `.dojo-session.json`.
+- **Cognitive Sustainability:** Created `/stop-sesion` allowing Operators to pause a Deep Work block mid-session, persisting state into `.dojo-session.json`.
 - **Session Inference:** Enhanced `/dojo-start` with a local state scanning algorithm to automatically suggest resuming paused sessions.
 - **Mission B01:** Formally created the *Log Analyzer* B01 mission within PY-BASICO, enforcing Phase 2 (Socratic Reviewer) methodology.
 

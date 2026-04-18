@@ -16,11 +16,11 @@ Cuando el Operador necesita pausar su bloque de deep work (ej: almuerzo, descans
 
 ## Usage
 ```
-/stop_sesion
+/stop-sesion
 ```
 No requiere argumentos. Opcionalmente puede incluir un mensaje con el siguiente paso:
 ```
-/stop_sesion Voy a almorzar. Siguiente paso: escribir tests de export_report
+/stop-sesion Voy a almorzar. Siguiente paso: escribir tests de export_report
 ```
 
 ## Procedure
@@ -29,7 +29,11 @@ No requiere argumentos. Opcionalmente puede incluir un mensaje con el siguiente 
 
 1. **Verificar misión activa.** Si no hay misión fijada con `/dojo-start`, indicar que no hay sesión activa que pausar.
 
-2. **Escribir archivo de estado** en `~/Documents/DoJo/DoJo_Study/.dojo-session.json`:
+2. **Validación de Cierre Preventivo (Anti-Premature Closure):** ANTES de pausar, verifica si en la conversación reciente hubo dudas operativas, revisión de código o cambios de personalidad. Si es así, **DEBES PREGUNTAR** obligatoriamente al Operador:
+   `[Sistema] Antes de pausar: ¿La duda operativa fue resuelta? ¿Necesitas verificar algo antes de pausar?`
+   *Nota: Solo procede al siguiente paso si el Operador confirma que puede pausar o si se invoca `/stop-sesion` con la instrucción clara de "forzar" o sin dudas pendientes.*
+
+3. **Escribir archivo de estado** en `~/Documents/DoJo/DoJo_Study/.dojo-session.json`:
    ```json
    {
      "campaign": "{CAMPAÑA}",
@@ -45,12 +49,28 @@ No requiere argumentos. Opcionalmente puede incluir un mensaje con el siguiente 
    - Si el archivo no existe, usar `block_number: 1`.
    - Usar `write_file` para crear/sobrescribir el archivo.
 
-3. **Registrar pausa en `journal.md`** de la misión activa:
+4. **[Solo si la misión activa es B01] Registrar marcador de pausa en `eval_log.md`:**
+   **⚠️ PROHIBIDO usar `write_file` sobre eval_log.md — SOBRESCRIBE y destruye el historial.**
+   Usar la herramienta `terminal` con el operador `>>` (append):
+   ```bash
+   cat >> ./subjects/python/campaigns/PY-BASICO/missions/B01/eval_log.md << 'EVAL_EOF'
+   ---
+   Timestamp: [YYYY-MM-DD HH:mm]
+   Role: Sistema
+   Personality: none
+   Model: [Auto-identifícate: el modelo LLM que TÚ eres]
+   Content: ⏸️ SESSION_PAUSE — Bloque {N} cerrado. El Operador ha pausado la sesión con /stop-sesion.
+   ---
+   EVAL_EOF
+   ```
+   Esto asegura que el Golden Dataset mantenga integridad cronológica entre bloques.
+
+5. **Registrar pausa en `journal.md`** de la misión activa:
    ```
    - **[Sistema | YYYY-MM-DD HH:MM — Pausa de bloque {N}]:** {mensaje del operador si lo hay, o "Pausa de bloque de deep work."}
    ```
 
-4. **Mostrar resumen al Operador:**
+6. **Mostrar resumen al Operador:**
    ```
    [Sistema] ⏸️ Bloque {N} pausado | Campaña: {CAMPAÑA} | Misión: {MISIÓN}
    
