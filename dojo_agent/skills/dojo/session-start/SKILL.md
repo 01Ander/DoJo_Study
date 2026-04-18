@@ -1,7 +1,7 @@
 ---
 name: dojo-start
 description: Inicia una sesión de estudio fijando Campaña y Misión activa del DoJo
-version: 1.1.0
+version: 1.2.0
 metadata:
   hermes:
     tags: [dojo, session, study]
@@ -79,6 +79,13 @@ Si el usuario ejecuta `/dojo-start` **CON argumentos** (ej: `/dojo-start py-basi
      `~/Documents/DoJo/DoJo_Study/subjects/python/campaigns/PY-BASICO/missions/B00/`
 
 2. **Leer `requirements.md`** de esa ruta usando la herramienta `read_file`. No ejecutes scripts Python ni hagas `find`. Lee el archivo directamente.
+
+2.5. **Actualizar Status en `requirements.md`** (Bidireccionalidad):
+   - Leer la línea que contiene `Status:` en la sección `## Identification`
+   - Si el valor actual es `🟢 Ready`, cambiarlo a `🔵 En Ejecución`
+   - Si ya es `🔵 En Ejecución` o `✅ Completada`, NO cambiar nada
+   - Usar `write_file` para hacer la modificación. No tocar ninguna otra línea del archivo.
+   - **NOTA:** Solo ejecutar este paso cuando el Operador confirma que va a trabajar en esta misión (después del paso 0 de detección de sesión pausada, si aplica).
 
 3. **Leer `journal.md`** de esa misma ruta (si existe). Solo las últimas 15 líneas.
 

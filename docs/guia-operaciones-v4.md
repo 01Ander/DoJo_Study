@@ -132,6 +132,11 @@ Tu historial de conversación se guarda automáticamente en Hermes (SQLite). La 
 /mini-rfc
 ```
 
+#### Capturar idea rápida (funciona con CUALQUIER personalidad):
+```
+/dojo-idea Automatizar la carga de datos crudos con un script CLI
+```
+
 ### Modelos (referencia rápida)
 
 | Modelo | Costo | Cuándo |
@@ -174,6 +179,7 @@ Tu historial de conversación se guarda automáticamente en Hermes (SQLite). La 
 │   ├── journal-log/              ← /dojo-log
 │   ├── domain-shifting/          ← /domain-shifting
 │   ├── socratic-review/          ← /socratic-review
+│   ├── idea-capture/             ← /dojo-idea
 │   └── mini-rfc/                 ← /mini-rfc
 │
 ├── archive/                      ← Código legacy (main.py v3)
@@ -228,6 +234,32 @@ Tu historial de conversación se guarda automáticamente en Hermes (SQLite). La 
 10. Al terminar la misión:
     /dojo-done                       ← Cierre formal
 ```
+
+---
+
+## 🚑 Protocolo de Triaje en Vivo
+
+> Cuando detectas un bug o carencia del sistema DoJo DURANTE una sesión de deep work, usa este árbol de decisión. **NO abras "dos frentes" de trabajo.**
+
+```
+¿El bug me BLOQUEA continuar mi misión actual?
+│
+├── SÍ → ¿Lo puedo parchear en < 5 minutos?
+│         │
+│         ├── SÍ → ⚡ Parchea en vivo. Registra con /dojo-log "Hotfix: [qué hice]"
+│         │
+│         └── NO → 🛑 STOP. Registra con /dojo-idea "BUG BLOQUEANTE: [descripción]"
+│                   Usa workaround temporal y sigue. Agenda para próxima ventana Architect.
+│
+└── NO → 💡 Registra con /dojo-idea "[descripción]" y SIGUE TRABAJANDO.
+          No abras el archivo. No investigues. Vuelve a tu misión.
+```
+
+### Reglas del Triaje
+1. **Si no bloquea, no lo toques.** `/dojo-idea` y sigue.
+2. **Si bloquea pero es complejo, busca workaround.** El workaround te desbloquea; la solución real va a la ventana Architect.
+3. **Nunca dediques más de 5 minutos a un parche en vivo.** Si pasan 5 minutos y no está resuelto, aplica regla 2.
+4. **Los bugs del sistema NO son tu misión.** Tu misión es aprender a codear. El sistema es infraestructura.
 
 ---
 
