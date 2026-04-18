@@ -2,6 +2,22 @@
 
 All notable changes to DoJo Study will be documented in this file.
 
+## [4.2.0] - 2026-04-18
+
+### 🏗️ "The On-Demand Automation Update"
+
+### Added
+- **Idea Capture Skill:** Created `/dojo-idea` for atomic, fire-and-forget idea registration during deep work sessions.
+- **Mini-RFC Template:** Created `templates/mini-rfc-template.md` with guided questions across 6 sections (Business Context, Technical Scope, Architecture Decision, Edge Cases, Testing Strategy, Approval Checklist).
+- **Triage Protocol:** Formalized a binary decision tree in `guia-operaciones-v4.md` for handling bugs detected during deep work (patch vs defer).
+- **WakaTime Integration:** `/dojo-log --summary` now attempts to inject coding time from the local WakaTime API (best-effort with graceful fallback).
+
+### Changed
+- **Bidirectional Meta-Documents:** `/dojo-start` now updates mission Status from `🟢 Ready` to `🔵 En Ejecución` when starting work.
+- **Journal Log v2:** Upgraded `/dojo-log` to v2.0.0 with structured summary templates, LLM model auto-identification, and `--summary` mode.
+
+---
+
 ## [4.1.2] - 2026-04-17
 
 ### Added
