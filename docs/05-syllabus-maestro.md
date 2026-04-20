@@ -167,15 +167,15 @@ Cada área corresponde a un código base (ENG, PY, SQL, QA, etc.), que se usará
 **Fase 1 (Mes 1-3): Adquisición Base y Recepción Pasiva**
 - Fundamentos de gramática en Busuu.
 - Refuerzo diario en Duolingo.
-- Consumo pasivo de documentación técnica y tutoriales 100% en inglés.
+- Consumo pasivo de documentación técnica y tutoriales de manera "English friendly" en primeras instancias, hasta que el operador maneje un mejor nivel de inglés.
 
 **Fase 2 (Mes 4-6): Producción Escrita**
-- Redacción de Mini-RFCs, Readmes, y Commits (Git) exclusivamente en inglés.
+- Redacción de Mini-RFCs, Readmes, y Commits (Git) con un enfoque "English friendly", priorizando el inglés donde se pueda.
 - Participación escrita en foros o discord técnico.
 
 **Fase 3 (Mes 7-12): Fluidez Verbal y Entrevistas**
-- Simulacros de entrevistas técnicas en inglés.
-- "Pair Programming" hablando en voz alta en inglés.
+- Simulacros de entrevistas técnicas "English friendly".
+- "Pair Programming" hablando en voz alta introduciendo vocabulario en inglés.
 
 ---
 

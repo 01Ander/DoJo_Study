@@ -1,12 +1,12 @@
 # 06 - Manual Operativo Misiones
 
-Este manual es tu estándar operativo cuando entras al bloque de **Deep Work**. Su estricto cumplimiento garantiza calidad de software, trazabilidad profesional, y fluidez en tu Inmersión Lingüística (Inglés).
+Este manual es tu estándar operativo cuando entras al bloque de **Deep Work**. Su estricto cumplimiento garantiza calidad de software, trazabilidad profesional, y fluidez en tu Inmersión Lingüística (apuntando a un formato "English friendly en primeras instancias").
 
 ---
 
 ## 1. Reglas Sagradas de Operación
 
-1. **English-Only Zone:** Dentro de tu IDE, consola, y documentación técnica, el español no existe. Variables, Commits, Readmes y logs se escriben obligatoriamente en inglés.
+1. **English Friendly:** Dentro de tu IDE, consola, y documentación técnica, el estándar es "English friendly en primeras instancias, hasta que el operador maneje un mejor nivel de inglés". Variables, Commits, Readmes y logs se escriben priorizando el inglés, pero sin bloqueo si se necesita usar algo de español coyuntural.
 2. **Code Comes Last (Architecture First):** Prohibido abrir archivos de código `.py` sin antes haber llenado la sección de `Mini-RFC` en tu plantilla de misión y definido el diseño lógico.
 3. **Test-Driven:** Prohibido escribir la lógica de negocio sin que primero falle su prueba unitaria en `pytest` (Red-Green-Refactor).
 
@@ -45,7 +45,7 @@ Misión_O_Proyecto/
 ### Fase C: Ejecución y Refactor (40 mins)
 1. Vas al archivo madre (ej. `extractor.py`). Escribes la lógica mínima para que el test pase.
 2. Ejecutas `pytest`. Si está en verde (Green), refactorizas el código para hacerlo más legible o aplicar tipado fuerte (`typing`).
-3. Escribes los Docstrings y comentarios clarificadores (todo en Inglés).
+3. Escribes los Docstrings y comentarios clarificadores (formato "English friendly").
 
 ### Fase D: Commit y Cierre
 1. Emites un git commit semántico: `feat: add abstract extractor interface`.

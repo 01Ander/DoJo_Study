@@ -13,10 +13,10 @@ El marco temporal y atencional del DoJo se rige por un **Modelo Binario**: se es
 
 ### Fase Cero: English Commando (30-60 min)
 **Estado:** Recién despierto o inicio de jornada.
-Antes de abrir el editor de código, el cerebro debe "setearse" en modo inglés.
+Antes de abrir el editor de código, el cerebro debe "setearse" en modo "English friendly".
 - Practicar Busuu Premium (Ruta Gramatical).
 - Repasar Duolingo.
-- Escuchar un podcast o leer documentación técnica en inglés.
+- Escuchar un podcast o leer documentación técnica preferentemente en inglés, en un entorno English friendly.
 *Este bloque actúa como el encendido del sistema cognitivo.*
 
 ### Modo 1: Deep Work (Inmersión Técnica)

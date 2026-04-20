@@ -8,7 +8,7 @@ Este es el índice principal de la documentación del **DoJo Study**, el ecosist
 
 ### 1. Núcleo del DoJo
 **→ [`01-dojo-core.md`](01-dojo-core.md)**
-Manifiesto fundacional. Define la Inmersión Total, Modo Operador vs. Arquitecto, English-Only Zone y la Mitigación de Riesgos (Infoxicación, Interferencia del Francés).
+Manifiesto fundacional. Define la Inmersión Total, Modo Operador vs. Arquitecto, entorno English Friendly y la Mitigación de Riesgos (Infoxicación, Interferencia del Francés).
 
 ### 2. Misiones Framework
 **→ [`02-misiones-framework.md`](02-misiones-framework.md)**

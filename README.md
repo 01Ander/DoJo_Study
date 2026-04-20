@@ -94,7 +94,7 @@ Para que un artefacto técnico sea considerado "completado":
 1. **Business Justification:** El código debe resolver un problema real con un ROI definido.
 2. **Architecture First:** El diseño debe estar documentado y validado antes de la primera línea de código.
 3. **TDD & Type Safety:** Implementación obligatoria de Test-Driven Development y tipado fuerte con Mypy.
-4. **Professional English:** Toda la documentación técnica y el código deben estar redactados en inglés profesional.
+4. **English Friendly:** Toda la documentación técnica y el código se fomentan en formato "English friendly en primeras instancias, hasta que el operador maneje un mejor nivel de inglés".
 
 ---
 
