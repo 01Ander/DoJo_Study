@@ -487,3 +487,233 @@ Model: qwen3.5:397b-cloud
 Content: ⏸️ SESSION_PAUSE — Bloque 5 cerrado. El Operador ha pausado la sesión con /stop-sesion.
 ---
 
+---
+Timestamp: [2026-04-20 12:45]
+Role: Sistema
+Personality: dojo-reviewer
+Model: qwen3.5:cloud
+Content: ▶️ SESSION_RESUME — Bloque 6 iniciado. Sesión retomada con /dojo-start.
+---
+---
+Timestamp: [2026-04-20 12:47]
+Role: User
+Personality: dojo-reviewer
+Model: qwen3.5:cloud
+Content:
+Quisiera ir en orden con los test, es decir terminal el ultimo test case que me solicitan. Asi que me pondre a hacer el aggregation engine.
+---
+---
+Timestamp: [2026-04-20 12:52]
+Role: User
+Personality: dojo-reviewer
+Model: qwen3.5:cloud
+Content:
+funciona todo.
+---
+---
+Timestamp: [2026-04-20 12:53]
+Role: Agent
+Personality: dojo-reviewer
+Model: qwen3.5:cloud
+Content:
+✅ **Test Case 3 COMPLETADO — 7/7 Tests Passing**
+
+Todos los tests de B01 están verdes:
+- Test Case 1 (Date normalization): 3/3 ✅
+- Test Case 2 (Log parsing + error handling): 3/3 ✅
+- Test Case 3 (Aggregation engine): 1/1 ✅
+
+**Estado actual:** El Operador completó todos los tests requeridos en requirements.md.
+
+**Siguiente paso:** Implementar el bucle principal `process_logs` que:
+1. Lea el archivo CSV/log línea por línea
+2. Orqueste las llamadas a parse_log_line
+3. Capture líneas fallidas en ignored_logs.txt
+4. Use aggregation_logs para métricas
+5. Exporte summary_report.json
+---
+---
+Timestamp: [2026-04-20 12:55]
+Role: User
+Personality: dojo-reviewer
+Model: qwen3.5:cloud
+Content:
+Pienso en crear la funcion load_logs que va a cargar los logs en una lista de diccionarios y ya. Posteriormente creare el orquestador, quien hara los llamados a todas las funciones. Claro esta, faltaria la ultima funcion que haga la creacion y escritura del JSON.
+---
+---
+Timestamp: [2026-04-20 12:57]
+Role: User
+Personality: dojo-reviewer
+Model: qwen3.5:cloud
+Content:
+Una funcion, una tarea. Y ya. tres funciones para tres tareas.
+---
+---
+Timestamp: [2026-04-20 13:00]
+Role: Agent
+Personality: dojo-reviewer
+Model: qwen3.5:cloud
+Content:
+✅ **test_load_inventory_returns_list_of_dicts PASSED**
+
+Función `load_logs` implementada y testeada correctamente.
+
+**Observaciones del Reviewer:**
+1. `load_logs` usa csv.DictReader → devuelve strings, NO hace parsing de tipos
+2. El test asertera strings ("400", "1271") no ints
+3. Faltan: orquestador + write_json + manejo de ignored_logs.txt
+
+**Siguiente paso:** Implementar las 2 funciones restantes.
+---
+---
+Timestamp: [2026-04-20 13:02]
+Role: User
+Personality: dojo-reviewer
+Model: qwen3.5:cloud
+Content:
+Opcion A, el load solo carga y ya. Y corregido el dict[str, str]. Procedere con el write json primero y su respectivo test
+---
+---
+Timestamp: [2026-04-20 13:04]
+Role: User
+Personality: dojo-reviewer
+Model: qwen3.5:cloud
+Content:
+la funcion de escribir el reporte es la misma que se uso en b00 asi que no hay mucho problema con ella, igual que el test, que se aprobo. Por otra parte veo en b00 que antes de hacer el run pipeline, tenemos una funcion de verificacion total, que es la encargada de escribir el log de errores y entregar la lista con las lineas correctas; en este caso esa funcion nos quitaria la lineas ERROR que vienen en el csv y pasaria a los diccionarios, y despues las demas funciones validarian los campos de cada uno. Si?
+---
+---
+Timestamp: [2026-04-20 13:06]
+Role: User
+Personality: dojo-reviewer
+Model: qwen3.5:cloud
+Content:
+No, perdon, me confunfi con la logica de b00. En este caso ya existe una funcion que valida: `parse_log_line`, que valida una sola linea, entonces lo que podria hacer es: igual que en b00, crear una funcion que llame a parse log y haga las validaciones, guarde la lista de valores correctos que despues el orquestador usara para hacer el sumary, y la funcion validadora haya el write log_erros.
+---
+---
+Timestamp: [2026-04-20 13:08]
+Role: User
+Personality: dojo-reviewer
+Model: qwen3.5:cloud
+Content:
+No se si existe una forma mas facil de recostruir el csv. pero en ese caso algo en la logica esta fallando, por que si tengo un csv y una funcion que recibe lineas de csv, porque convierto a dict y despues lo tengo que devolver?
+---
+---
+Timestamp: [2026-04-20 13:10]
+Role: User
+Personality: dojo-reviewer
+Model: qwen3.5:cloud
+Content:
+La opcion B es la mas eficiente en sentido de menos codigo, sin embargo si asumo esa opcion, creo que estaria violando los requeriments, ya que el test 2 obliga la verificacion de linea por linea. En ese caso, si estoy en lo correcto, debo asumir la opcion a, cargar una lista de str directamente y despues si pasarla a parse line
+---
+---
+Timestamp: [2026-04-20 13:11]
+Role: Agent
+Personality: dojo-reviewer
+Model: qwen3.5:cloud
+Content:
+✅ **Análisis correcto del Operador**
+
+El Operador identificó correctamente que:
+- Opción B viola Test Case 2 (requiere parse_log_line para validación línea por línea)
+- Opción A mantiene el contrato: load_logs → list[str] → process_logs → parse_log_line
+
+**Decisión arquitectónica:** Opción A confirmada.
+---
+---
+Timestamp: [2026-04-20 13:15]
+Role: Agent
+Personality: dojo-reviewer
+Model: qwen3.5:cloud
+Content:
+✅ **10/10 Tests Passing**
+
+Todos los tests de B01 están verdes:
+- Test Case 1 (Date normalization): 3/3 ✅
+- Test Case 2 (Log parsing + error handling): 3/3 ✅
+- Test Case 3 (Aggregation engine): 1/1 ✅
+- load_logs: 1/1 ✅
+- export_report: 1/1 ✅
+- process_logs: 1/1 ✅
+
+**Siguiente paso:** Implementar el pipeline/orchestrator final.
+---
+---
+Timestamp: [2026-04-20 14:00]
+Role: User
+Personality: dojo-reviewer
+Model: qwen3.5:cloud
+Content:
+Finalizada la codificacion de B01, 11/11 test aprovados y script principal funcionando. Falta verificacion por LLM ya que son bastantes registros. Sesion de deep work completada. Wakatime: Coding 1hr15m, writting test 54m, writings docs8m. En la siguiente sesion, se realiza el social readme. Sensaciones generales positivas. Bastante absorcion de informacion del codigo de B00. Las preguntas socraticas de qwen fueron puntuales y adecuadas, ayudando a aclarar y tener cierta perspectiva sobre el codigo. El llm quizas por uso hoy estaba mas lento, pero funciono bien. Se consume toda la cuota de una sesion con ollama en modo free, no indica cuanto se gasto, pero se llego casi al limite. Agrega tus comentarios.
+---
+---
+Timestamp: [2026-04-20 14:00]
+Role: Agent
+Personality: dojo-reviewer
+Model: qwen3.5:cloud
+Content:
+✅ **B01 — Bloque 6 Completado**
+
+**Comentarios del Reviewer:**
+
+1. **Rendimiento Técnico:** 11/11 tests passing es un resultado sólido. Implementaste todo el pipeline ETL siguiendo TDD estricto — eso es ingeniería profesional, no scripting amateur.
+
+2. **Arquitectura:** Separaste responsabilidades correctamente (load → process → aggregate → export). Eso demuestra que entendés el principio de Single Responsibility.
+
+3. **Sobre las preguntas socráticas:** Mi rol no es darte código, es forzarte a razonar. Si sentiste que las preguntas te dieron perspectiva, entonces el método funcionó. Eso es empleabilidad senior — saber pensar antes de tipear.
+
+4. **Sobre el consumo de cuota Ollama:** Es un buen dato para el Architect. Si B01 generó este consumo, podemos optimizar el routing de modelos para B02+ (usar OpenRouter directo cuando el contexto es pesado, reservar Ollama para iteraciones rápidas).
+
+5. **Pendiente:** El Social README no es "documentación decorativa" — es tu capa de visibilidad para HR/PMs. Hacelo en la próxima sesión con el mismo rigor que el código.
+
+**Estado:** B01 lista para `/dojo-done` cuando completes el README.
+
+---
+---
+Timestamp: [2026-04-20 14:05]
+Role: Sistema
+Personality: none
+Model: google/gemini-2.5-pro-preview-05-06
+Content: ⏸️ SESSION_PAUSE — Bloque 6 cerrado. El Operador ha pausado la sesión con /stop-sesion.
+---
+---
+Timestamp: [2026-04-20 20:35]
+Role: Sistema
+Personality: dojo-reviewer
+Model: qwen/qwen3.6-plus
+Content: ▶️ SESSION_RESUME — Bloque 1 iniciado. Sesión retomada con /dojo-start. Tarea pendiente: Completar Social README y ejecutar /dojo-done.
+---
+---
+Timestamp: [2026-04-20 20:45]
+Role: Agent
+Personality: dojo-reviewer
+Model: qwen/qwen3.6-plus
+Content: Revisión Socrática — Purga de dead code y docstring fix en etl.py. Operador corrigió: 1) Eliminó bloque validate_log muerto, 2) Corregido dict duplicado, 3) Agregada granularidad de endpoints en aggregation, 4) Fix docstring load_logs (list[str], no list[dict]). Tests verdes confirmados por operador. Pendiente: Social README.
+---
+---
+Timestamp: [2026-04-20 20:50]
+Role: Agent
+Personality: dojo-reviewer
+Model: qwen/qwen3.6-plus
+Content: Operador corrige al Reviewer: DoD #4 permite documentacion en Hybrid-English o simplified English (el requisito de "professional English" aplica SOLO a naming de variables/funciones/clases). El Social README califica como documentacion.
+---
+---
+Timestamp: [2026-04-20 21:00]
+Role: Agent
+Personality: dojo-reviewer
+Model: qwen/qwen3.6-plus
+Content: Revision final de B01. Code etl.py limpio (dead code removed, docstrings fixed, aggregation docstring aligned). Social README con contenido bilingue aprobado. Luces verdes para /dojo-done. Notas post-cierre menores: Return vs Returns en export_report, docstring _safe_cast_int puede mejorarse.
+---
+---
+Timestamp: [2026-04-20 22:05]
+Role: Sistema
+Personality: dojo-reviewer
+Model: qwen/qwen3.6-plus
+Content: 🏁 MISSION_COMPLETE — B01 completada. Todos los DoD verificados. Code limpio, tests 11/11, Social README bilingue aprobado. Benchmark Protocol desactivado.
+---
+---
+Timestamp: [2026-04-20 22:05]
+Role: Sistema
+Personality: dojo-reviewer
+Model: qwen/qwen3.6-plus
+Content: 🏁 SESSION_END — Misión B01 cerrada con /dojo-done. Golden Dataset sellado. Todas las entradas de benchmark capturadas.
+---

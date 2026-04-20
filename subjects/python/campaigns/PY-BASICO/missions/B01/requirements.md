@@ -8,7 +8,7 @@ Type: B (Integration)
 Campaign Code: PY-BASICO
 Mission Code: B01
 Title: The Server Log Analyser
-Status: 🟢 Ready
+Status: ✅ Completada
 
 ---
 
@@ -40,9 +40,9 @@ Build a lightweight, bulletproof ETL script that reads a simulated flat server l
 
 ## Required Testing (TDD / QA)
 List the unit tests or edge cases that MUST be covered by `pytest` (or equivalent) for this mission to be accepted.
-- [ ] Test Case 1: The log parser correctly handles dates and times, converting string formatted datetime into standardized ISO-8601 strings.
-- [ ] Test Case 2: The parsing loop appropriately catches index or casting errors on malformed lines and continues execution without crashing.
-- [ ] Test Case 3: The aggregation engine tallies accurate request counts and HTTP status totals, utilizing `defaultdict`.
+- [X] Test Case 1: The log parser correctly handles dates and times, converting string formatted datetime into standardized ISO-8601 strings.
+- [X] Test Case 2: The parsing loop appropriately catches index or casting errors on malformed lines and continues execution without crashing.
+- [X] Test Case 3: The aggregation engine tallies accurate request counts and HTTP status totals, utilizing `defaultdict`.
 
 ---
 
