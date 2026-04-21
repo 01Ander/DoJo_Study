@@ -1,4 +1,4 @@
- # ⛩️ DoJo Study v4.0 — Guía de Operaciones
+# 09 - Guía de Operaciones (Hermes Agent)
 
 > Este documento es tu referencia rápida. Si te pierdes, vuelve aquí.
 
