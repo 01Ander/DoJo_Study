@@ -3,7 +3,7 @@
 ## General Information
 Campaign Name: POO Financial Pipelines (Data Engineering Edition)  
 Campaign Code: PY-POO-FINANCE  
-Version: 3.2 (Production Ready)  
+Version: 3.3 (Production Ready)  
 Status: 🟢 Ready  
 
 ---
@@ -28,6 +28,7 @@ The engine must ingest raw transactional data, isolate the inputs dynamically vi
 ## 🏗️ Mission Structure (Engineering Modules)
 
 ### Main Missions (M - Core Architecture)
+- **M00: Hello, Classes — From Functions to Objects.** (Bridge mission: Refactor procedural ETL from PY-BASICO B01 into a `LogAnalyzer` class. Introduces `class`, `__init__`, `self`, and instance methods without advanced patterns).
 - **M01: Abstract Extractors & Interface Segregation.** (Enforce `abc` Abstract Base Classes mapping to dynamic mock CSV parsers).
 - **M02: Domain Entities & Polymorphism.** (Mapping raw outputs into memory-safe instantiated objects differentiating between `Income` and `Expense`).
 - **M03: The Transformation Engine.** (Stateless calculation layer dedicated purely to metrics extraction leveraging `collections`).
@@ -55,4 +56,4 @@ The engine must ingest raw transactional data, isolate the inputs dynamically vi
 2. **Mini-RFC Drafts Pre-Deployment:** Documentation mapping the design trade-offs resides properly inside all mission files before execution.
 3. **Decoupled Mechanics:** Input parsing modifications strictly don't cascade down into the Transformation layer. 
 4. **Social README (Visibility Layer):** Include a `README.md` at the campaign root that explains the project's business impact and architecture in simple terms for non-technical stakeholders (HR/PMs).
-5. **100% Technical English:** Total supremacy of english over naming conventions, comments, and deployment instructions.
+5. **English Friendly:** Naming (variables, classes, methods) MUST remain in professional English. Documentation (docstrings, comments, deployment instructions) can be Hybrid-English or simplified English. Exception logs can be bilingual (Spanish/English). This aligns with the system-wide "English Friendly" standard.

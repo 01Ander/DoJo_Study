@@ -20,6 +20,7 @@ Las campañas se alinean rigurosamente con los módulos avanzados del Syllabus M
 
 | Código        | Enfoque del Proyecto                       | Estado       |
 |---------------|-------------------------------------------|--------------|
+| **PY-BASICO**      | Python Core Fundamentals & Data Assessment | 🟢 Ready     |
 | **PY-POO-FINANCE** | ETL Modular, Abstracción, Patrones, Pytest | 🟢 Ready     |
 | **PY-API-AUTO**    | FastApi, Automation Scripts, OAuth         | 🟡 Pending   |
 | **DE-ETL-BATCH**   | Pandas pesado, DuckDB, Pipelines Batch     | 🟡 Pending   |

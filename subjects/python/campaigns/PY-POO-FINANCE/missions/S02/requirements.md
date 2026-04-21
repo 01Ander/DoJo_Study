@@ -44,7 +44,7 @@ List the unit tests or edge cases that MUST be covered by `pytest` (or equivalen
 ## Completion Criteria & Definition of Done (DoD)
 - [ ] Manual `ValueError` checks in `__init__` files eradicated entirely, subsumed by Pydantic validation.
 - [ ] `financial_pipeline.log` successfully produced upon execution with clear timestamp tracking.
-- [ ] **100% English Compliance:** Log messages must declare systems actions concisely, e.g., `ERROR: Malformed schema encountered in Extractor node.`
+- [ ] **English Friendly:** Naming (classes, methods, variables) MUST remain in professional English. Log messages should be in English (e.g., `ERROR: Malformed schema encountered in Extractor node.`). Documentation (docstrings, comments) can be Hybrid-English or simplified English.
 - [ ] Type Hinting matches the rigorous Pydantic expectations natively.
 
 ---

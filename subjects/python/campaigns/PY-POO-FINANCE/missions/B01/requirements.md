@@ -44,7 +44,7 @@ List the unit tests or edge cases that MUST be covered by `pytest` (or equivalen
 ## Completion Criteria & Definition of Done (DoD)
 - [ ] The app responds effectively to native flags like `python cli.py --help` printing documented arguments properly.
 - [ ] A dedicated `README_PROJECT.md` exists detailing how to install the tool globally and invoke it.
-- [ ] **100% English Compliance:** CLI `--help` messages, progress descriptions, and errors logged to the terminal console must be structurally flawless English.
+- [ ] **English Friendly:** Naming (commands, arguments, classes) MUST remain in professional English. CLI `--help` messages and terminal output should be in English. Documentation (docstrings, comments) can be Hybrid-English or simplified English.
 - [ ] SOLID: The CLI module holds absolutely NO business logic. It merely acts as a switchboard collecting variables and passing them into the `PipelineOrchestrator`.
 
 ---
