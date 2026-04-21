@@ -2,6 +2,14 @@
 
 All notable changes to DoJo Study will be documented in this file.
 
+## [4.2.2] - 2026-04-20
+
+### Changed
+- **Documentation Core Alignment:** Refactored overarching docs (`00-index.md`, `04-estructura-campanas.md`, `05-syllabus-maestro.md`, `06-manual-operativo-misiones.md`) to establish the Isolated Topology (with `code/` envelope), validate LLM ideation workflows, and standardize `/dojo-log` over legacy trackers.
+- **Operations Guide Wiki Conversion:** Cleaned and transformed `09-guia-operaciones-v4.md` into a streamlined Cheat Sheet Wiki, purging all v3 legacy transitions and standardizing the header format.
+
+---
+
 ## [4.2.1] - 2026-04-20
 
 ### Changed
