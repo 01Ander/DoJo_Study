@@ -45,7 +45,7 @@ List the unit tests or edge cases that MUST be covered by `pytest` (or equivalen
 - [ ] Tests execute correctly (`pytest`).
 - [ ] Code passes static analysis (e.g., `flake8`, `mypy`).
 - [ ] The core script (`main.py`) barely contains logic; it simply glues dependencies and calls `pipeline.run()`.
-- [ ] **100% English Compliance:** Code is crystal clear and reads natively like a professional english manual.
+- [ ] **English Friendly:** Naming (variables, methods, classes) MUST remain in professional English. Documentation (docstrings, comments) can be Hybrid-English or simplified English. Exception logs can be bilingual (Spanish/English).
 
 ---
 

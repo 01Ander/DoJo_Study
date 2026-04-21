@@ -4,7 +4,7 @@
 
 Es la capa táctica que convierte el marco de Ingeniería de Software en tareas accionables. Actualmente, una misión **no es un ejercicio rápido de sintaxis**; es un módulo funcional de un pipeline mayor.
 
-El aprendizaje inicia definiendo **Arquitectura** (Mini-RFC), luego escribiendo las **Pruebas** (TDD) y finalmente **Implementando** la lógica en un entorno 100% en inglés.
+El aprendizaje inicia definiendo **Arquitectura** (Mini-RFC), luego escribiendo las **Pruebas** (TDD) y finalmente **Implementando** la lógica en un entorno de trabajo "English friendly".
 
 ---
 
@@ -40,9 +40,9 @@ Ensamblaje del pipeline completo. Sirve para lanzar el producto como un CLI, una
 ## El Proceso de Desarrollo (The Operator Workflow)
 
 1. **Abrir Bloque de "Deep Work" (90 mins).**  
-2. **Definir el `Mini-RFC`:** Escribir en la plantilla de misión, en inglés, por qué se usará X patrón de diseño.
+2. **Definir el `Mini-RFC`:** Escribir en la plantilla de misión, en formato "English friendly", por qué se usará X patrón de diseño.
 3. **Draft de Tests (TDD):** Crear el archivo en la carpeta `tests/` y fallar intencionalmente comprobando inputs/outputs esperados.
-4. **Implementación:** Programar la lógica en VS Code (Nomenclatura y Docstrings en inglés puro).
+4. **Implementación:** Programar la lógica en VS Code (Nomenclatura y Docstrings en formato "English friendly").
 5. **Cierre:** Si supera 4h, generar el *Friction Log* y salir del IDE.
 
 ***Nota:*** Las misiones de "Observación (O)" y "Optimización (OPT)" fueron dadas de baja. En el sistema actual, si sientes la necesidad de hacer misiones pequeñas por falta de energía, debes invocar el protocolo **Rest Day** de inmediato (Zero-Code policy).

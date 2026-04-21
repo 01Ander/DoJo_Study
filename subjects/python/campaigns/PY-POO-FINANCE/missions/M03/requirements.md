@@ -45,7 +45,7 @@ List the unit tests or edge cases that MUST be covered by `pytest` (or equivalen
 - [ ] Tests execute correctly (`pytest`).
 - [ ] Module integrates seamlessly, accepting strictly typed `List[Transaction]`.
 - [ ] Logic respects the Single Responsibility Principle (The engine only calculates, it doesn't deal with file I/O).
-- [ ] **100% English Compliance:** Clear technical lexicon when defining calculation methods (`compute_margins`, `aggregate_group`, etc.).
+- [ ] **English Friendly:** Naming (variables, methods, classes) MUST remain in professional English. Documentation (docstrings, comments) can be Hybrid-English or simplified English. Exception logs can be bilingual (Spanish/English).
 
 ---
 

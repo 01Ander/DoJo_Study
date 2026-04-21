@@ -51,20 +51,6 @@ Si el usuario ejecuta `/dojo-start` **SIN argumentos** (sin campaña ni misión)
      ```
      - **[Sistema | YYYY-MM-DD HH:MM — Inicio de bloque {block_number + 1}]:** Sesión retomada.
      ```
-     **[Solo si la misión retomada es B01]** Registrar marcador de reanudación en `eval_log.md`:
-     **⚠️ PROHIBIDO usar `write_file` sobre eval_log.md — SOBRESCRIBE y destruye el historial.**
-     Usar la herramienta `terminal` con el operador `>>` (append):
-     ```bash
-     cat >> ./subjects/python/campaigns/PY-BASICO/missions/B01/eval_log.md << 'EVAL_EOF'
-     ---
-     Timestamp: [YYYY-MM-DD HH:mm]
-     Role: Sistema
-     Personality: none
-     Model: [Auto-identifícate: el modelo LLM que TÚ eres]
-     Content: ▶️ SESSION_RESUME — Bloque {block_number + 1} iniciado. Sesión retomada con /dojo-start.
-     ---
-     EVAL_EOF
-     ```
    - Si el Operador dice **no**: Preguntar campaña y misión como normalmente.
 3. Si NO existe el archivo: Pedir campaña y misión como normalmente.
 

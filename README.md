@@ -1,6 +1,6 @@
-# ⛩️ DoJo Study: High Performance Engineering Framework v4.2.0
+# ⛩️ DoJo Study: High Performance Engineering Framework v4.2.1
 
-DoJo Study es un framework de aprendizaje inmersivo y de alto rendimiento diseñado para la formación rigurosa de perfiles en **Data & Automation Engineering**. Más que un repositorio de cursos, es un sistema de entrenamiento técnico que aplica estándares corporativos reales para garantizar que el estudiante no solo aprenda sintaxis, sino que desarrolle la mentalidad de un Ingeniero Senior.
+DoJo Study es un framework de aprendizaje inmersivo y de alto rendimiento diseñado para la formación rigursa de perfiles en **Data & Automation Engineering**. Basado en la metodología de **Aislamiento Estructural de Misiones**, garantiza que el código, los datos y la teoría residan en entornos desacoplados para simular sprints reales de ingeniería.
 
 ## 🎯 El Objetivo
 El sistema busca eliminar la brecha entre la educación académica y el entorno profesional, integrando la **justificación económica y el valor de negocio (ROI)** como requisitos técnicos tan estrictos como la funcionalidad del código.
@@ -66,12 +66,12 @@ hermes  # Inicia el agente con contexto del DoJo
 ---
 
 ## ⚙️ Metodología de Entrenamiento
-El framework se basa en una estructura de progresión jerárquica:
+El framework se basa en una estructura de progresión jerárquica y el estándar de **Topología Aislada**:
 
-- **Campaigns (Campañas):** Rutas de aprendizaje temáticas (ej. `PY-BASICO`, `PY-POO-FINANCE`).
-- **Missions (Misiones):** Unidades de trabajo autónomas con objetivos específicos.
+- **Campaigns (Campañas):** Rutas de aprendizaje temáticas (ej. `PY-POO-FINANCE`).
+- **Missions (Misiones):** Unidades de trabajo desacopladas. Cada misión encapsula su propia lógica de ejecución en un subdirectorio `code/` independiente (src, tests, data).
 - **Journals (Bitácoras):** Registros cronológicos de progreso, errores y reflexiones del estudiante.
-- **Mini-RFCs:** Documentos de diseño previo. En el DoJo, está prohibido codificar sin un diseño justificado.
+- **Mini-RFCs:** Documentos de diseño previo obligatorios para la fase de arquitectura.
 
 ---
 
@@ -94,7 +94,7 @@ Para que un artefacto técnico sea considerado "completado":
 1. **Business Justification:** El código debe resolver un problema real con un ROI definido.
 2. **Architecture First:** El diseño debe estar documentado y validado antes de la primera línea de código.
 3. **TDD & Type Safety:** Implementación obligatoria de Test-Driven Development y tipado fuerte con Mypy.
-4. **Professional English:** Toda la documentación técnica y el código deben estar redactados en inglés profesional.
+4. **English Friendly:** Toda la documentación técnica y el código se fomentan en formato "English friendly en primeras instancias, hasta que el operador maneje un mejor nivel de inglés".
 
 ---
 

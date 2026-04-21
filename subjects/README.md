@@ -40,12 +40,16 @@ El centro neural del avance son las Campañas. Cada directorio de una campaña m
 ```text
 PY-POO-FINANCE/
 ├─ campaign.md         <- Documento de proyecto (Contexto & Requisitos)
-├─ src/                <- Código fuente 100% en inglés
-├─ tests/              <- Unit Tests (TDD / Pytest)
-└─ missions/           <- Tickets de Jira simulados. 
-   ├─ M01.md
-   ├─ S01.md
-   └─ B01.md
+└─ missions/           <- Sprints / Épicas del proyecto
+   ├─ M01/
+   │  ├─ requirements.md <- Detalles y requisitos del ticket
+   │  ├─ Mini-RFC.md     <- Propuesta de arquitectura y diseño
+   │  ├─ journal.md      <- Bitácora de aprendizaje/problemas (opcional)
+   │  └─ code/           <- Entorno de ejecución principal
+   │     ├─ src/         <- Código fuente (Python)
+   │     ├─ tests/       <- Pruebas unitarias
+   │     └─ data/        <- Archivos de datos, logs o mocks
+   └─ B01/ ...
 ```
 
 ### Reglas para Misiones:
@@ -59,7 +63,7 @@ PY-POO-FINANCE/
 
 Al operar en el entorno de `subjects/`, te sometes obligatoriamente a estas 3 directrices:
 
-1. **English-Only Zone:** Las carpetas, nombres de archivo, variables de código, tests y Documentos Técnicos de las Misiones (`.md`) **SE ESCRIBEN EN INGLÉS**. No negociable. Esto es mitigación pura de la barrera lingüística.
+1. **English Friendly:** Las carpetas, nombres de archivo, variables de código, tests y Documentos Técnicos de las Misiones (`.md`) **SE FOMENTAN EN INGLÉS** (enfoque "English friendly en primeras instancias, hasta que el operador maneje un mejor nivel de inglés"). Se permite el español de forma transicional.
 2. **Architecture First:** Jamás abres `src/` sin haber escrito antes el campo *Mini-RFC* de tu misión actual detallando el patrón de diseño a usar.
 3. **Fail First (TDD):** El desarrollo funcional no existe si no escribiste primero la prueba y la hiciste fallar nativamente en la consola.
 

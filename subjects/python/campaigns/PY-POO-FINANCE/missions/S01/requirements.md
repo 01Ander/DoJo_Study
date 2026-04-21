@@ -44,7 +44,7 @@ List the unit tests or edge cases that MUST be covered by `pytest` (or equivalen
 ## Completion Criteria & Definition of Done (DoD)
 - [ ] Output terminal proves minimum 80% Coverage explicitly.
 - [ ] A local `.coveragerc` file configures the test suite to ignore non-vital code blocks.
-- [ ] **100% English Compliance:** All test function names describe the business behavior (e.g., `test_pipeline_rejects_invalid_file_format_safely`).
+- [ ] **English Friendly:** Naming (test functions, variables) MUST remain in professional English (e.g., `test_pipeline_rejects_invalid_file_format_safely`). Documentation (docstrings, comments) can be Hybrid-English or simplified English.
 - [ ] SOLID: Test modules decouple logic correctly using mock objects rather than invoking real databases or disks where possible.
 
 ---

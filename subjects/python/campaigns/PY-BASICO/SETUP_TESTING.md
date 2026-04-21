@@ -174,7 +174,7 @@ git commit -m "feat: implement normalize_logs_date with TDD"
 
 - [ ] Todos los tests pasan (`pytest -v`)
 - [ ] Mypy no reporta errores (`mypy src/`)
-- [ ] El código sigue el DoD (tipado fuerte, docstrings en inglés)
+- [ ] El código sigue el DoD (tipado fuerte, docstrings "English friendly")
 - [ ] El journal.md está actualizado con el avance
 
 ---

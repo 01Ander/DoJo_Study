@@ -8,7 +8,7 @@ Python es la espina dorsal funcional para alcanzar el portafolio de **Data & Aut
 
 Al entrar a esta carpeta o a cualquier de sus campañas, activas obligatoriamente la Inmersión:
 
-- **100% English Coverage:** Toda clase, variable, docstring y log se reporta en inglés fluido.
+- **English Friendly Coverage:** Toda clase, variable, docstring y log se apunta a mantener en un formato "English friendly en primeras instancias, hasta que el operador maneje un mejor nivel de inglés".
 - **Design Patterns First:** Los "pequeños ejercicios" no existen. Abordamos POO (Clases Abstractas, Factory, Inversión de Dependencias) como el suelo mínimo de desarrollo.
 - **Tests Are Not Optional:** Cada misión debe tener correspondencia directa en una carpeta de `tests/` con asserts ejecutados en `pytest`.
 
@@ -20,6 +20,7 @@ Las campañas se alinean rigurosamente con los módulos avanzados del Syllabus M
 
 | Código        | Enfoque del Proyecto                       | Estado       |
 |---------------|-------------------------------------------|--------------|
+| **PY-BASICO**      | Python Core Fundamentals & Data Assessment | ✅ Done      |
 | **PY-POO-FINANCE** | ETL Modular, Abstracción, Patrones, Pytest | 🟢 Ready     |
 | **PY-API-AUTO**    | FastApi, Automation Scripts, OAuth         | 🟡 Pending   |
 | **DE-ETL-BATCH**   | Pandas pesado, DuckDB, Pipelines Batch     | 🟡 Pending   |
@@ -30,7 +31,7 @@ Las campañas se alinean rigurosamente con los módulos avanzados del Syllabus M
 ## 3. Workflow Diario 
 
 1. Levantas tu entorno `venv`.
-2. Escribes el **Mini-RFC** de tu misión en inglés documentando la estructura.
+2. Escribes el **Mini-RFC** de tu misión con un enfoque "English friendly" documentando la estructura.
 3. Te atoras en **Red-Green-Refactor**.
 4. Validas convenciones (`mypy`, `flake8`).
 5. Haces Push con un mensaje semántico: `feat(etl): abstract extractor implementations`.
