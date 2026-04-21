@@ -47,10 +47,11 @@ Para evitar la fatiga de decisión, el DoJo separa diseño de ejecución:
 
 ## Estructura de Estudio Integrada
 
-El aprendizaje se estructura sobre campañas (proyectos) que se disgregan en misiones. Los chats de IA fungen el rol de Pair Programming:
+El aprendizaje se estructura sobre campañas (proyectos reales) que se disgregan en misiones (tickets o entregables aislados). La asistencia técnica de la IA evolucionó de historiales de chat estáticos hacia un ecosistema dinámico de personalidades a través de **Hermes Agent**:
 
-- **XX-MAIN / XX-WORK:** Acompañamiento en diseño arquitectónico, Pair Programming y debates técnicos (TDD, Patrones).
-- **XX-EXERCISES:** Estructuración de las misiones como PRs ficticios o módulos medibles.
+- **`/personality dojo-tutor`:** Acompañamiento teórico, generación de ejemplos didácticos aislados y modelamiento mental mediante el "*Domain Shifting*" (analogías externas).
+- **`/personality dojo-reviewer`:** Rol estricto de Pair Programming Socrático. No ofrece la solución ni escribe código por ti; guía exclusivamente mediante preguntas, revisa PRs ficticios y audita el cumplimiento del TDD y el Clean Code.
+- **`/personality dojo-architect`:** Visión macro del ecosistema completo. Útil en Modo Arquitecto para debatir patrones de diseño a gran escala, escalabilidad futura de aplicaciones y reestructuración del *Syllabus* general.
 
 ### Sistema de Estado del Progreso (Progress Status)
 
