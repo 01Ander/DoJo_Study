@@ -38,8 +38,8 @@ Mecanismo universal de resiliencia cognitiva. Define las palancas (De-abstracci�
 **→ [`08-dojo-agent.md`](08-dojo-agent.md)**
 Arquitectura multi-agente sobre Hermes Agent (NousResearch). Estructura de interacción IA, Personalidades (`dojo-tutor`, `dojo-reviewer`, `dojo-architect`), Skills y flujo operativo.
 
-### 9. Guía de Operaciones v4.0
-**→ [`guia-operaciones-v4.md`](guia-operaciones-v4.md)**
+### 9. Guía de Operaciones (Hermes Agent)
+**→ [`09-guia-operaciones-v4.md`](09-guia-operaciones-v4.md)**
 Referencia rápida paso a paso: cómo iniciar sesiones, cambiar personalidades, fijar misiones y registrar avances. Cheat sheet de comandos.
 
 ---

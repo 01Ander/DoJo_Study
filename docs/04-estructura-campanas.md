@@ -38,7 +38,7 @@ Para las ramas de Git y las carpetas, la nomenclatura debe indicar el enfoque de
 ## Flujo Operativo del "Arquitecto" (Creación de la Campaña)
 
 El día de mantenimiento (Modo Arquitecto), tu responsabilidad al abrir una campaña es:
-1. Documentar el estado esperado del componente de software.
+1. Documentar el estado esperado del componente de software. La ideación y diseño de la campaña se puede delegar activamente a un modelo LLM de frontera (ej. Claude Opus) para asegurar altos estándares y patrones corporativos.
 2. Definir 4-6 misiones como "Módulos de Sistema Mínimo Viable (MVP)".
 3. Mapear explícitamente los inputs y outputs de estos módulos.
 4. Generar el esqueleto `tests/` que se debe ir llenando durante la campaña.

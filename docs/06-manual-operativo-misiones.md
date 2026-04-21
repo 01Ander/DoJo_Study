@@ -25,17 +25,20 @@ Un bloque típico de Deep Work de 90 minutos se debe ver así:
 
 ### Fase B: Estructuración y TDD (30 mins)
 
-Antes de escribir código, prepara tu entorno físico. Dentro de la carpeta de tu misión (ej. `B00/`), crea la siguiente estructura S.O.L.I.D. si no existe:
+Antes de escribir código, prepara tu entorno físico. Dentro de la carpeta de tu misión (ej. `M01/`), asegúrate de tener la siguiente estructura de Topología Aislada si no existe:
 ```text
-Misión_O_Proyecto/
-├── requirements.md & Mini-RFC.md
-├── data/             (Datos crudos para probar, ej. raw.csv)
-├── src/              (Tu código fuente real)
-│   ├── __init__.py
-│   └── extractor.py
-└── tests/            (Tus pruebas unitarias)
-    ├── __init__.py
-    └── test_extractor.py
+M01/
+├── requirements.md
+├── Mini-RFC.md
+├── journal.md
+└── code/
+    ├── data/             (Datos crudos para probar, ej. raw.csv)
+    ├── src/              (Tu código fuente real)
+    │   ├── __init__.py
+    │   └── extractor.py
+    └── tests/            (Tus pruebas unitarias)
+        ├── __init__.py
+        └── test_extractor.py
 ```
 
 1. Abres VS Code. Vas a tu carpeta `tests/` y creas tu archivo `test_extractor.py` (o similar).
@@ -49,7 +52,7 @@ Misión_O_Proyecto/
 
 ### Fase D: Commit y Cierre
 1. Emites un git commit semántico: `feat: add abstract extractor interface`.
-2. Vas a tu `daily-log-template.md` y marcas tu bloque de **Deep Work** completado. Reportas fricciones si las hubo.
+2. Usas la skill `/dojo-log` en Hermes para registrar la finalización de tu bloque de **Deep Work** y dejar una traza formal de tu jornada en el `journal.md`. Reportas fricciones si las hubo.
 
 ---
 
