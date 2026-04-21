@@ -37,7 +37,7 @@ Misiones Permitidas:
 Protocolo OBLIGATORIO:
 - **Zero-Code Policy:** Prohibido abrir el editor o tocar código.
 - **Mandato Semanal:** Sábados por la tarde y Domingos son Rest Days por diseño, independientemente de la carga semanal.
-- **Trazabilidad Mínima:** Abrir `task.md` o el log diario sólo para apuntar qué detuvo el progreso ("Muro Técnico" o "Fatiga").
+- **Trazabilidad Mínima:** Usar la skill `/dojo-log` para registrar brevemente qué detuvo el progreso ("Muro Técnico" o "Fatiga") antes de cerrar la sesión.
 - Asumir el "Valle" sin culpa. Este estado en un entorno de inmersión total no denota debilidad, sino una necesidad neurobiológica de asentar el conocimiento y reiniciar el sistema Dopaminérgico.
 
 ---
