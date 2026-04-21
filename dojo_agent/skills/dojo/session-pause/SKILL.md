@@ -49,28 +49,12 @@ No requiere argumentos. Opcionalmente puede incluir un mensaje con el siguiente 
    - Si el archivo no existe, usar `block_number: 1`.
    - Usar `write_file` para crear/sobrescribir el archivo.
 
-4. **[Solo si la misión activa es B01] Registrar marcador de pausa en `eval_log.md`:**
-   **⚠️ PROHIBIDO usar `write_file` sobre eval_log.md — SOBRESCRIBE y destruye el historial.**
-   Usar la herramienta `terminal` con el operador `>>` (append):
-   ```bash
-   cat >> ./subjects/python/campaigns/PY-BASICO/missions/B01/eval_log.md << 'EVAL_EOF'
-   ---
-   Timestamp: [YYYY-MM-DD HH:mm]
-   Role: Sistema
-   Personality: none
-   Model: [Auto-identifícate: el modelo LLM que TÚ eres]
-   Content: ⏸️ SESSION_PAUSE — Bloque {N} cerrado. El Operador ha pausado la sesión con /stop-sesion.
-   ---
-   EVAL_EOF
-   ```
-   Esto asegura que el Golden Dataset mantenga integridad cronológica entre bloques.
-
-5. **Registrar pausa en `journal.md`** de la misión activa:
+4. **Registrar pausa en `journal.md`** de la misión activa:
    ```
    - **[Sistema | YYYY-MM-DD HH:MM — Pausa de bloque {N}]:** {mensaje del operador si lo hay, o "Pausa de bloque de deep work."}
    ```
 
-6. **Mostrar resumen al Operador:**
+5. **Mostrar resumen al Operador:**
    ```
    [Sistema] ⏸️ Bloque {N} pausado | Campaña: {CAMPAÑA} | Misión: {MISIÓN}
    
