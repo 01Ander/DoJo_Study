@@ -40,12 +40,16 @@ El centro neural del avance son las Campañas. Cada directorio de una campaña m
 ```text
 PY-POO-FINANCE/
 ├─ campaign.md         <- Documento de proyecto (Contexto & Requisitos)
-├─ src/                <- Código fuente "English friendly"
-├─ tests/              <- Unit Tests (TDD / Pytest)
-└─ missions/           <- Tickets de Jira simulados. 
-   ├─ M01.md
-   ├─ S01.md
-   └─ B01.md
+└─ missions/           <- Sprints / Épicas del proyecto
+   ├─ M01/
+   │  ├─ requirements.md <- Detalles y requisitos del ticket
+   │  ├─ Mini-RFC.md     <- Propuesta de arquitectura y diseño
+   │  ├─ journal.md      <- Bitácora de aprendizaje/problemas (opcional)
+   │  └─ code/           <- Entorno de ejecución principal
+   │     ├─ src/         <- Código fuente (Python)
+   │     ├─ tests/       <- Pruebas unitarias
+   │     └─ data/        <- Archivos de datos, logs o mocks
+   └─ B01/ ...
 ```
 
 ### Reglas para Misiones:
