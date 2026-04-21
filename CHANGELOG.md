@@ -2,6 +2,15 @@
 
 All notable changes to DoJo Study will be documented in this file.
 
+## [4.2.1] - 2026-04-20
+
+### Changed
+- **Mission Structural Standardization:** Mandated and implemented a strict, isolated topology for all missions. Each mission now holds its own `requirements.md`, `Mini-RFC.md`, `journal.md`, and an isolated `code/` execution directory (`src/`, `tests/`, `data/`).
+- **Campaign Pure Nomenclature:** Cleaned all mission folder names in `PY-POO-FINANCE` to strictly use alphanumeric IDs (e.g., `M01`, `B01`) without descriptive suffixes, maintaining descriptions only in Markdown lists.
+- **Legacy Freezing:** Officially marked the `PY-BASICO` campaign as `✅ Done` in the global Python scope, anchoring it as legacy and excluding it from the new `code/` folder topology requirements. 
+
+---
+
 ## [4.2.0] - 2026-04-18
 
 ### 🏗️ "The On-Demand Automation Update"
