@@ -6,7 +6,7 @@ metadata:
   hermes:
     tags: [dojo, session, study]
     category: dojo
-    requires_toolsets: [file]
+    requires_toolsets: [file, terminal]
 ---
 
 # DoJo Session Start
@@ -35,23 +35,18 @@ Si el usuario ejecuta `/dojo-start` **SIN argumentos** (sin campaña ni misión)
 
 1. Verificar si existe el archivo `~/Documents/DoJo/DoJo_Study/.dojo-session.json`
 2. Si existe y tiene `"status": "paused"`:
-   - Leer los campos `campaign`, `mission`, `block_number`, `paused_at`, `next_step` y `personality`
-   - Mostrar al Operador:
+   - Leer los campos `campaign`, `mission`, `block_number`, `paused_at`, `next_step` y `personality`.
+   - **RETOMA AUTOMÁTICA (ZERO-SHOT):** NO pidas confirmación (`¿Retomar esta sesión?`). Asume directamente que sí.
+   - Muestra el resumen al Operador:
      ```
-     [Sistema] 🔄 Sesión pausada detectada
+     [Sistema] 🔄 Sesión retomada automáticamente
      Campaña: {campaign} | Misión: {mission}
      Personalidad: {personality o "none"}
-     Pausada a las: {paused_at}
-     Bloque anterior: {block_number}
      Siguiente paso anotado: {next_step o "ninguno"}
-     
-     ¿Retomar esta sesión? (sí/no)
      ```
-   - Si el Operador dice **sí**: Continuar con el paso 1 usando los valores de `campaign` y `mission` del archivo JSON. **Debes adoptar inmediatamente la `personality` recuperada del archivo JSON y DEBES pedirle al Operador que ejecute explícitamente el comando `/personality {personality}` para inyectar correctamente el contexto a nivel sistema de Hermes.** Registrar en el journal:
-     ```
-     - **[Sistema | YYYY-MM-DD HH:MM — Inicio de bloque {block_number + 1}]:** Sesión retomada.
-     ```
-   - Si el Operador dice **no**: Preguntar campaña y misión como normalmente.
+   - Continúa con la carga de contexto usando los valores de `campaign` y `mission` del archivo JSON. **Debes adoptar inmediatamente la `personality` recuperada del archivo JSON e indicar al Operador si necesita hacer algún ajuste manual.**
+   - Registra en el journal de la misión agregando al final del archivo `journal.md`:
+     `- **[Sistema | YYYY-MM-DD HH:MM — Inicio de bloque {block_number + 1}]:** Sesión retomada.`
 3. Si NO existe el archivo: Pedir campaña y misión como normalmente.
 
 Si el usuario ejecuta `/dojo-start` **CON argumentos** (ej: `/dojo-start py-basico B01`):
@@ -72,6 +67,12 @@ Si el usuario ejecuta `/dojo-start` **CON argumentos** (ej: `/dojo-start py-basi
    - Si ya es `🔵 En Ejecución` o `✅ Completada`, NO cambiar nada
    - Usar `write_file` para hacer la modificación. No tocar ninguna otra línea del archivo.
    - **NOTA:** Solo ejecutar este paso cuando el Operador confirma que va a trabajar en esta misión (después del paso 0 de detección de sesión pausada, si aplica).
+
+2.8. **Registrar inicio de sesión en `journal.md`** de la misión:
+   - Usa la herramienta `terminal` para hacer un append atómico (`echo >>`) al archivo `journal.md`. Esto aplica tanto si es la primera vez que se inicia como si se retoma sin archivo de pausa.
+   ```bash
+   echo "\n- **[Sistema | YYYY-MM-DD HH:MM — Inicio de sesión]:** Misión {MISIÓN} de la campaña {CAMPAÑA} fijada como activa." >> ~/Documents/DoJo/DoJo_Study/subjects/python/campaigns/{CAMPAÑA}/missions/{MISIÓN}/journal.md
+   ```
 
 3. **Leer `journal.md`** de esa misma ruta (si existe). Solo las últimas 15 líneas.
 
