@@ -2,6 +2,14 @@
 
 All notable changes to DoJo Study will be documented in this file.
 
+## [4.2.3] - 2026-04-22
+
+### Changed
+- **Zero-Shot Skill Optimization:** Refactored `/dojo-done`, `/dojo-start`, and `/stop-sesion` skills to execute atomically (Zero-Shot) without multi-turn conversational confirmations. This drastically reduces token consumption during context-heavy session transitions while retaining full semantic logging capabilities.
+- **Journal Logging Consolidation:** Uncoupled `/dojo-log` from the `/dojo-done` completion flow. `/dojo-done` now directly and autonomously generates both the Tutor's reflection and the System's closure log in a single request.
+
+---
+
 ## [4.2.2] - 2026-04-20
 
 ### Changed

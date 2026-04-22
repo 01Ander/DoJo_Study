@@ -1,6 +1,6 @@
 # Engineering Mission Template
 
-**Friction Level:** [ ] / 10 *(If > 7, activate [Protocol Yellow](../../../../../docs/07-protocol-yellow.md))*
+**Friction Level:** [0] / 10 *(If > 7, activate [Protocol Yellow](../../../../../docs/07-protocol-yellow.md))*
 
 
 ## Identification
@@ -8,7 +8,7 @@ Type: M (Core Architecture)
 Campaign Code: PY-POO-FINANCE
 Mission Code: M00
 Title: Hello, Classes — From Functions to Objects
-Status: 🟢 Ready
+Status: ✅ Completada
 
 ---
 
@@ -20,20 +20,20 @@ Status: 🟢 Ready
 
 **Modo de trabajo:** Esta misión se ejecuta en **Fase 1 (Tutor)**.
 El Tutor proporciona código explicado con Domain Shifting. El Operador reescribe y asimila.
-Referencia permitida: código de B01 como base de refactoreo.
+Referencia permitida: código de B00 como base de refactoreo.
 
 ---
 
 ## Technical Objective
-Convert the procedural `etl.py` from PY-BASICO B01 (server log analyser) into an object-oriented `LogAnalyzer` class. The resulting class must encapsulate all pipeline steps as methods, hold configuration as instance attributes, and produce identical output to the original procedural version.
+Convert the procedural `etl.py` from PY-BASICO B00 (server log analyser) into an object-oriented `LogAnalyzer` class. The resulting class must encapsulate all pipeline steps as methods, hold configuration as instance attributes, and produce identical output to the original procedural version.
 
 ---
 
 ## Required Testing (TDD / QA)
 List the unit tests or edge cases that MUST be covered by `pytest` (or equivalent) for this mission to be accepted.
-- [ ] Test Case 1: `LogAnalyzer` can be instantiated with valid file paths, and its attributes (`input_path`, `output_path`, `log_path`) are correctly stored.
-- [ ] Test Case 2: `LogAnalyzer.run()` processes a mock dirty CSV and produces a valid `summary_report.json` identical to the procedural pipeline output.
-- [ ] Test Case 3: Calling a private method directly (e.g., `analyzer._load_logs()`) returns the expected `list[str]` — demonstrating that helper methods are encapsulated within the object.
+- [X] Test Case 1: `LogAnalyzer` can be instantiated with valid file paths, and its attributes (`input_path`, `output_path`, `log_path`) are correctly stored.
+- [X] Test Case 2: `LogAnalyzer.run()` processes a mock dirty CSV and produces a valid `summary_report.json` identical to the procedural pipeline output.
+- [X] Test Case 3: Calling a private method directly (e.g., `analyzer._load_logs()`) returns the expected `list[str]` — demonstrating that helper methods are encapsulated within the object.
 
 ---
 

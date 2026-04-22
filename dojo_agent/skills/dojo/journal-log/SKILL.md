@@ -12,7 +12,7 @@ metadata:
 # DoJo Journal Log
 
 ## When to Use
-Cuando el Operador quiere registrar un avance, reflexión, error o duda en la bitácora de la misión activa. Este skill también se usa internamente por `/stop-sesion` y `/dojo-done` para entradas de sistema.
+Cuando el Operador quiere registrar un avance, reflexión, error o duda en la bitácora de la misión activa. Este skill también se usa internamente por `/stop-sesion` para resumir bloques. Nota: Para cerrar misiones, usa exclusivamente `/dojo-done`.
 
 ## Usage
 ```
