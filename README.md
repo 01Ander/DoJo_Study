@@ -1,4 +1,4 @@
-# ⛩️ DoJo Study: High Performance Engineering Framework v4.2.2
+# ⛩️ DoJo Study: High Performance Engineering Framework v4.2.3
 
 DoJo Study es un framework de aprendizaje inmersivo y de alto rendimiento diseñado para la formación rigursa de perfiles en **Data & Automation Engineering**. Basado en la metodología de **Aislamiento Estructural de Misiones**, garantiza que el código, los datos y la teoría residan en entornos desacoplados para simular sprints reales de ingeniería.
 

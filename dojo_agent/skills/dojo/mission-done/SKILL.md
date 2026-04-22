@@ -33,10 +33,12 @@ Si no se provee argumento, tú autogeneras la nota de cierre basándote en el co
       - Asume que los DoD están completos si el usuario ejecutó el comando. No le preguntes confirmación.
    
    b. **Registrar Retrospectiva y Cierre en `journal.md`:**
-      - Agrega AL MISMO TIEMPO (en un solo append/escritura) la **Reflexión del Tutor** y el **Log del Sistema**.
-      - **IMPORTANTE:** Para la reflexión del Tutor, usa el conocimiento acumulado en tu contexto de la sesión. NO pierdas esta valiosa retroalimentación. Escríbela tú mismo evaluando el desempeño del Operador.
+      - Agrega AL MISMO TIEMPO (en un solo append/escritura) el **Comentario del Operador**, la **Reflexión del Tutor** y el **Log del Sistema**.
+      - **IMPORTANTE:** SIEMPRE incluye primero el comentario exacto proporcionado por el usuario en el comando `/dojo-done`. Luego, genera la reflexión del Tutor evaluando el desempeño del Operador basándote en el contexto de la sesión.
       - Formato a agregar al final del journal:
         ```markdown
+        - **[User | YYYY-MM-DD HH:MM]:** {El argumento literal o nota de cierre proporcionada por el Operador al ejecutar el comando. NO LO RESUMAS, escríbelo en crudo}
+
         - **[Tutor | YYYY-MM-DD HH:MM]:** {Genera aquí tu reflexión profunda sobre la sesión, el desempeño del Operador, áreas de mejora y asimilación conceptual. Basealo en tu memoria de la conversación actual}
         
         ---
@@ -44,7 +46,7 @@ Si no se provee argumento, tú autogeneras la nota de cierre basándote en el co
         - **[Sistema | YYYY-MM-DD HH:MM — MISIÓN {CÓDIGO} COMPLETADA]:**
           - **Tests finales:** Pasados (según contexto de la sesión)
           - **DoD:** Completo
-          - **Nota de cierre:** {Usa el argumento del comando, o autogenera un breve resumen técnico}
+          - **Nota de cierre:** Resumen técnico y métricas de costos de API / WakaTime / Tokens consumidos.
         ```
    
    c. **Limpiar archivo de sesión pausada:**

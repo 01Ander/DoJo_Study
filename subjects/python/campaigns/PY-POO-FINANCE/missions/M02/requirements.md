@@ -1,6 +1,6 @@
 # Engineering Mission Template
 
-**Friction Level:** [ ] / 10 *(If > 7, activate [Protocol Yellow](../../../../../docs/07-protocol-yellow.md))*
+**Friction Level:** [1] / 10 *(If > 7, activate [Protocol Yellow](../../../../../docs/07-protocol-yellow.md))*
 
 
 ## Identification
@@ -8,7 +8,7 @@ Type: M (Core Architecture)
 Campaign Code: PY-POO-FINANCE
 Mission Code: M02
 Title: Domain Entities and Transaction Polymorphism
-Status: 🟢 Ready
+Status: ✅ Completada
 
 ---
 
@@ -27,9 +27,9 @@ Ingest the raw dictionaries yielded by the Extractor layer and instantiate stric
 
 ## Required Testing (TDD / QA)
 List the unit tests or edge cases that MUST be covered by `pytest` (or equivalent) for this mission to be accepted.
-- [ ] Test Case 1: Attempting to instantiate an `Income` entity with `amount = -50` raises a custom `ValueError`.
-- [ ] Test Case 2: Ensure `Expense` objects store amounts as absolute positive values internally, regardless of raw input format.
-- [ ] Test Case 3: Both `Income` and `Expense` correctly inherit from the `Transaction` base class (`isinstance` checks).
+- [X] Test Case 1: Attempting to instantiate an `Income` entity with `amount = -50` raises a custom `ValueError`.
+- [X] Test Case 2: Ensure `Expense` objects store amounts as absolute positive values internally, regardless of raw input format.
+- [X] Test Case 3: Both `Income` and `Expense` correctly inherit from the `Transaction` base class (`isinstance` checks).
 
 ---
 

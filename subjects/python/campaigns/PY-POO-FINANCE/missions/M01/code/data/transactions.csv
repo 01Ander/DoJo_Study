@@ -1,0 +1,21 @@
+id,date,description,amount,currency,type,category
+1,2024-01-01,Pago de Nómina,2500.00,USD,Income,Ingresos
+2,2024-01-02,Supermercado,-150.50,USD,Expense,Alimentación
+3,2024-01-03,Suscripción Netflix,-15.99,USD,Expense,Entretenimiento
+4,2024-01-05,Factura Luz,-60.20,USD,Expense,Servicios
+5,2024-01-08,Restaurante,-45.00,USD,Expense,Alimentación
+6,2024-01-10,Venta de equipo usado,300.00,USD,Income,Ingresos
+7,2024-01-12,Gasolina,-40.00,USD,Expense,Transporte
+8,2024-01-15,Compra de libros,-35.50,USD,Expense,Educación
+9,2024-01-16,Suscripción Gimnasio,-50.00,USD,Expense,Salud
+10,2024-01-18,Cafetería,-8.50,USD,Expense,Alimentación
+11,2024-01-20,Factura Internet,-45.00,USD,Expense,Servicios
+12,2024-01-22,Cine,-24.00,USD,Expense,Entretenimiento
+13,2024-01-25,Transferencia a ahorros,-500.00,USD,Expense,Ahorro
+14,2024-01-28,Farmacia,-22.30,USD,Expense,Salud
+15,2024-01-30,Supermercado,-120.00,USD,Expense,Alimentación
+16,2024-02-01,Pago de Nómina,2500.00,USD,Income,Ingresos
+17,2024-02-03,Suscripción Spotify,-10.99,USD,Expense,Entretenimiento
+18,2024-02-05,Factura Agua,-30.50,USD,Expense,Servicios
+19,2024-02-10,Cena romántica,-85.00,USD,Expense,Alimentación
+20,2024-02-14,Regalo,-60.00,USD,Expense,Varios
