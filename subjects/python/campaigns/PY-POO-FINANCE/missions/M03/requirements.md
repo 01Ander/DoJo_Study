@@ -1,6 +1,6 @@
 # Engineering Mission Template
 
-**Friction Level:** [ ] / 10 *(If > 7, activate [Protocol Yellow](../../../../../docs/07-protocol-yellow.md))*
+**Friction Level:** [5] / 10 *(If > 7, activate [Protocol Yellow](../../../../../docs/07-protocol-yellow.md))*
 
 
 ## Identification
@@ -8,7 +8,7 @@ Type: M (Core Architecture)
 Campaign Code: PY-POO-FINANCE
 Mission Code: M03
 Title: The Transformation and Analytics Engine
-Status: 🟢 Ready
+Status: ✅ Completada
 
 ---
 
@@ -27,9 +27,9 @@ Develop a calculation layer that ingests normalized Domain Entities (produced in
 
 ## Required Testing (TDD / QA)
 List the unit tests or edge cases that MUST be covered by `pytest` (or equivalent) for this mission to be accepted.
-- [ ] Test Case 1: Providing an empty list of `Transaction` entities yields zeros across all analytical outputs organically, without crashing.
-- [ ] Test Case 2: The `AnalyticsEngine.calculate_net_balance()` correctly subtracts total expenses from total income using parsed Domain Entities.
-- [ ] Test Case 3: Given a list of identical categories, `aggregate_by_category()` accurately sums them utilizing `collections.defaultdict`.
+- [X] Test Case 1: Providing an empty list of `Transaction` entities yields zeros across all analytical outputs organically, without crashing.
+- [X] Test Case 2: The `AnalyticsEngine.calculate_net_balance()` correctly subtracts total expenses from total income using parsed Domain Entities.
+- [X] Test Case 3: Given a list of identical categories, `aggregate_by_category()` accurately sums them utilizing `collections.defaultdict`.
 
 ---
 
@@ -42,10 +42,10 @@ List the unit tests or edge cases that MUST be covered by `pytest` (or equivalen
 ---
 
 ## Completion Criteria & Definition of Done (DoD)
-- [ ] Tests execute correctly (`pytest`).
-- [ ] Module integrates seamlessly, accepting strictly typed `List[Transaction]`.
-- [ ] Logic respects the Single Responsibility Principle (The engine only calculates, it doesn't deal with file I/O).
-- [ ] **English Friendly:** Naming (variables, methods, classes) MUST remain in professional English. Documentation (docstrings, comments) can be Hybrid-English or simplified English. Exception logs can be bilingual (Spanish/English).
+- [X] Tests execute correctly (`pytest`).
+- [X] Module integrates seamlessly, accepting strictly typed `List[Transaction]`.
+- [X] Logic respects the Single Responsibility Principle (The engine only calculates, it doesn't deal with file I/O).
+- [X] **English Friendly:** Naming (variables, methods, classes) MUST remain in professional English. Documentation (docstrings, comments) can be Hybrid-English or simplified English. Exception logs can be bilingual (Spanish/English).
 
 ---
 
