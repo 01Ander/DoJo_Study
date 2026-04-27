@@ -31,7 +31,7 @@ IGNORED_DIRS = {".git", ".obsidian", "dojo_agent",
                 "__pycache__", "archive", "ideas", "/historial.md"}
 
 # --- TOGGLE: OLLAMA vs LM STUDIO ---
-USE_LM_STUDIO = False   # Cambiar a True para usar el servidor local de LM Studio
+USE_LM_STUDIO = True   # Cambiar a True para usar el servidor local de LM Studio
 LM_STUDIO_URL = "http://localhost:1234/v1"
 
 
@@ -55,8 +55,8 @@ class DojoAgent:
                 streaming=True
             )
         else:
-            print("🦙 Usando Ollama (qwen3.5:397b-cloud)...")
-            self.llm = ChatOllama(model="qwen3.5:397b-cloud")
+            print("🦙 Usando Ollama (gemma4:latest)...")
+            self.llm = ChatOllama(model="gemma4:latest")
 
         self.embeddings = OllamaEmbeddings(model="nomic-embed-text")
 
