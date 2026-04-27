@@ -1,6 +1,6 @@
 # Engineering Mission Template
 
-**Friction Level:** [ ] / 10 *(If > 7, activate [Protocol Yellow](../../../../../docs/07-protocol-yellow.md))*
+**Friction Level:** [3] / 10 *(If > 7, activate [Protocol Yellow](../../../../../docs/07-protocol-yellow.md))*
 
 
 ## Identification
@@ -8,7 +8,7 @@ Type: M (Core Architecture)
 Campaign Code: PY-POO-FINANCE
 Mission Code: M04
 Title: Outputs, Loaders, and the Pipeline Orchestrator
-Status: 🟢 Ready
+Status: ✅ Completada
 
 ---
 
@@ -27,9 +27,9 @@ Close the ETL loop by developing the Load component (writing an aggregated summa
 
 ## Required Testing (TDD / QA)
 List the unit tests or edge cases that MUST be covered by `pytest` (or equivalent) for this mission to be accepted.
-- [ ] Test Case 1: `AbstractLoader` enforces `load_data()` signature natively.
-- [ ] Test Case 2: `JSONLoader` effectively writes synthetic data. (Utilize `tmp_path` fixture in Pytest to prevent polluting your disk).
-- [ ] Test Case 3: The `FinancialPipeline` constructor correctly verifies that valid `Extractor` and `Loader` instances have been injected before allowing execution.
+- [X] Test Case 1: `AbstractLoader` enforces `load_data()` signature natively.
+- [X] Test Case 2: `JSONLoader` effectively writes synthetic data. (Utilize `tmp_path` fixture in Pytest to prevent polluting your disk).
+- [X] Test Case 3: The `FinancialPipeline` constructor correctly verifies that valid `Extractor` and `Loader` instances have been injected before allowing execution.
 
 ---
 
@@ -42,10 +42,10 @@ List the unit tests or edge cases that MUST be covered by `pytest` (or equivalen
 ---
 
 ## Completion Criteria & Definition of Done (DoD)
-- [ ] Tests execute correctly (`pytest`).
-- [ ] Code passes static analysis (e.g., `flake8`, `mypy`).
-- [ ] The core script (`main.py`) barely contains logic; it simply glues dependencies and calls `pipeline.run()`.
-- [ ] **English Friendly:** Naming (variables, methods, classes) MUST remain in professional English. Documentation (docstrings, comments) can be Hybrid-English or simplified English. Exception logs can be bilingual (Spanish/English).
+- [X] Tests execute correctly (`pytest`).
+- [X] Code passes static analysis (e.g., `flake8`, `mypy`).
+- [X] The core script (`main.py`) barely contains logic; it simply glues dependencies and calls `pipeline.run()`.
+- [X] **English Friendly:** Naming (variables, methods, classes) MUST remain in professional English. Documentation (docstrings, comments) can be Hybrid-English or simplified English. Exception logs can be bilingual (Spanish/English).
 
 ---
 

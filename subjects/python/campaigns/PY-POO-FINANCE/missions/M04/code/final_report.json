@@ -1,0 +1,11 @@
+{
+    "gross_income": 10000.0,
+    "total_expenses": 445.5,
+    "net_balance": 9554.5,
+    "expenses_by_category": {
+        "Groceries": 120.5,
+        "Entertainment": 45.0,
+        "Housing": 200.0,
+        "Transport": 80.0
+    }
+}
