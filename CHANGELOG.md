@@ -2,6 +2,21 @@
 
 All notable changes to DoJo Study will be documented in this file.
 
+## [4.3.0] - 2026-04-28
+
+### 🏗️ "The Cumulative Campaigns & Exit Gates Update"
+
+### Added
+- **Campaign Types:** Introduced `ADDITIVE` and `CUMULATIVE` campaign topologies in core framework, resolving code duplication and import friction for progressive projects.
+- **Exit Gates (EG):** Formalized the `EG` mission type as a final assimilation checkpoint mandatory at the end of a campaign, run in strict Phase 2 (Reviewer) mode.
+- **Next Mission Check:** `dojo-done` now intelligently scans the filesystem to suggest the remaining active missions or the Exit Gate instead of hallucinating sequence names.
+
+### Changed
+- **DoJo Start Topology Support:** `/dojo-start` now reads the `Campaign Type` to guide the Operator correctly to the central `src/` directory for `CUMULATIVE` campaigns.
+- **PY-POO-FINANCE Consolidation:** Fully refactored the entire Python OOP campaign into a `CUMULATIVE` structure. Consolidated all isolated `code/` silos into a single root `src/` and `tests/` environment. Added `EG01` for validation.
+
+---
+
 ## [4.2.3] - 2026-04-22
 
 ### Changed
