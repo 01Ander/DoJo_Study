@@ -25,21 +25,38 @@ Un bloque típico de Deep Work de 90 minutos se debe ver así:
 
 ### Fase B: Estructuración y TDD (30 mins)
 
-Antes de escribir código, prepara tu entorno físico. Dentro de la carpeta de tu misión (ej. `M01/`), asegúrate de tener la siguiente estructura de Topología Aislada si no existe:
+Antes de escribir código, prepara tu entorno físico. La estructura de carpetas depende del **tipo de campaña** declarado en `campaign.md`:
+
+**Si Campaign Type = ADDITIVE (default):**
 ```text
 M01/
 ├── requirements.md
-├── Mini-RFC.md
 ├── journal.md
 └── code/
-    ├── data/             (Datos crudos para probar, ej. raw.csv)
-    ├── src/              (Tu código fuente real)
-    │   ├── __init__.py
+    ├── data/
+    ├── src/
     │   └── extractor.py
-    └── tests/            (Tus pruebas unitarias)
-        ├── __init__.py
+    └── tests/
         └── test_extractor.py
 ```
+
+**Si Campaign Type = CUMULATIVE:**
+```text
+CAMPAÑA/
+├── campaign.md
+├── src/                  ← código centralizado (crece cada misión)
+│   └── extractor.py
+├── tests/                ← tests acumulados
+│   └── test_extractor.py
+├── data/
+└── missions/
+    ├── M01/
+    │   ├── requirements.md
+    │   └── journal.md
+    └── M02/              ← solo docs, no code
+```
+
+> **Importante:** En campañas CUMULATIVE, NO crear carpetas `code/` dentro de las misiones. El código siempre va en la raíz de la campaña.
 
 1. Abres VS Code. Vas a tu carpeta `tests/` y creas tu archivo `test_extractor.py` (o similar).
 2. Escribes los Unit Tests básicos basados en tu Mini-RFC.

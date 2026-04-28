@@ -1,10 +1,6 @@
-from src.transactions import Income, Expense
-from pathlib import Path
 from datetime import date
 import pytest
-import sys
-M02 = Path(__file__).resolve().parents[3] / "M02" / "code"
-sys.path.insert(0, str(M02))
+from src.transactions import Income, Expense
 
 
 class TestAnalyticsEngine:

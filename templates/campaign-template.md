@@ -4,6 +4,7 @@
 Campaign Name:  
 Campaign Code:  
 Version:  
+Campaign Type: [ADDITIVE | CUMULATIVE]
 
 ---
 
@@ -47,6 +48,14 @@ Example:
 
 ---
 
+### Exit Gate (EG)
+Ejercicio integrador de verificación de asimilación. Se ejecuta al completar TODAS las misiones.
+Modo: Fase 2 obligatoria (Reviewer — sin código directo).
+
+- EG01: [Descripción del ejercicio que valida los conceptos core de la campaña]
+
+---
+
 ## Required Knowledge
 List the theoretical concepts that appear throughout the campaign.  
 Important: this is reference only; theory is not the starting point.
@@ -60,6 +69,8 @@ Example:
 - Can write simple scripts using conditionals and loops.
 - Can process lists and dictionaries.
 - Can read and interpret input data.
+
+> Nota: Los Domain Criteria se validan formalmente mediante el Exit Gate (EG01).
 
 ---
 

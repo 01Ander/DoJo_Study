@@ -1,14 +1,9 @@
 """Integration test: M01 CSV output -> M02 factory -> List[Transaction]."""
 from src.transactions import Transaction, Income, Expense, map_all
-import sys
 import csv
 from pathlib import Path
 
-CSV_PATH = Path(__file__).resolve().parent.parent.parent.parent / \
-    "M01" / "code" / "data" / "transactions.csv"
-# Add M01 to path so we can import the extractor
-# M01_PATH = Path(file).resolve().parent.parent.parent / "M01" / "code"
-# sys.path.insert(0, str(M01_PATH))
+CSV_PATH = Path(__file__).resolve().parent.parent / "data" / "data.csv"
 
 
 def load_raw_dicts():

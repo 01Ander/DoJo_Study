@@ -54,7 +54,11 @@ El Operador siempre proporcionará una nota o comentario de cierre. Usa ese text
 
 3. **Respuesta final al usuario:**
    - Reporta que todo fue ejecutado (Requirements actualizado, Journal escrito, Sesión limpiada).
-   - Sugiere el siguiente paso listando las siguientes misiones de la campaña.
+   - **Ejecutar `list_dir`** de la carpeta `missions/` de la campaña activa para obtener la lista real de misiones.
+   - **Check de última misión:** Si TODAS las misiones en `missions/` tienen `Status: ✅ Completada` en su `requirements.md` (excepto las EG):
+     → Mostrar: "🚪 Todas las misiones completadas. Exit Gate disponible: `/dojo-start {campaña} EG01`"
+   - **Si no es la última:** Listar las misiones restantes que NO tengan `Status: ✅ Completada`.
+   - **IMPORTANTE:** NO inventes nombres de misiones. Solo lista las que existen en el filesystem.
 
 ## Pitfalls
 - Requiere una misión activa (previamente fijada con `/dojo-start`).

@@ -35,6 +35,37 @@ Para las ramas de Git y las carpetas, la nomenclatura debe indicar el enfoque de
 
 ---
 
+## 🔀 Tipos de Campaña (Topología de Código)
+
+Cada campaña debe declarar su tipo de acuerdo a la naturaleza de sus misiones:
+
+### ADDITIVE (Scripts Independientes)
+Las misiones son ejercicios aislados. Cada misión tiene su propia carpeta `code/` con `src/` y `tests/` independientes. No hay imports entre misiones.
+- **Criterio:** ¿Cada misión puede ejecutarse sin importar nada de las otras? → ADDITIVE
+- **Ejemplo:** PY-BASICO (cada misión es un script diferente)
+- **Topología:**
+  ```text
+  CAMPAÑA/missions/M01/code/src/
+  CAMPAÑA/missions/M01/code/tests/
+  CAMPAÑA/missions/M02/code/src/   ← independiente de M01
+  ```
+
+### CUMULATIVE (Proyecto Progresivo)
+Las misiones construyen un solo proyecto. El código vive en la raíz de la campaña (`src/` y `tests/`) y crece orgánicamente misión tras misión. Las carpetas de misión solo contienen documentación (`requirements.md` + `journal.md`).
+- **Criterio:** ¿La misión N+1 necesita importar código de la misión N? → CUMULATIVE
+- **Ejemplo:** PY-POO-FINANCE (pipeline ETL progresivo)
+- **Topología:**
+  ```text
+  CAMPAÑA/src/             ← código centralizado
+  CAMPAÑA/tests/           ← tests acumulados
+  CAMPAÑA/missions/M01/    ← solo journal.md + requirements.md
+  CAMPAÑA/missions/M02/    ← solo journal.md + requirements.md
+  ```
+
+> **Regla:** El tipo DEBE ser declarado en `campaign.md` bajo el campo `Campaign Type:`. Si no se declara, se asume ADDITIVE (comportamiento legacy).
+
+---
+
 ## Flujo Operativo del "Arquitecto" (Creación de la Campaña)
 
 El día de mantenimiento (Modo Arquitecto), tu responsabilidad al abrir una campaña es:

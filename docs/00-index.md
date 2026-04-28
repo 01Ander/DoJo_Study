@@ -12,7 +12,7 @@ Manifiesto fundacional. Define la Inmersión Total, Modo Operador vs. Arquitecto
 
 ### 2. Misiones Framework
 **→ [`02-misiones-framework.md`](02-misiones-framework.md)**
-Explica la taxonomía de la ejecución técnica: Main Missions (TDD), Scaling Refactors y Boss Missions Integradas.
+Explica la taxonomía de la ejecución técnica: Main Missions (TDD), Scaling Refactors, Boss Missions Integradas, y Exit Gates (EG).
 
 ### 3. Sistema de Rendimiento Binario
 **→ [`03-sistema-energia.md`](03-sistema-energia.md)**
