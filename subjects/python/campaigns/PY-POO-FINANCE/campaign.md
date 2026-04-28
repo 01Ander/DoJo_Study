@@ -5,6 +5,7 @@ Campaign Name: POO Financial Pipelines (Data Engineering Edition)
 Campaign Code: PY-POO-FINANCE  
 Version: 3.3 (Production Ready)  
 Status: 🟢 Ready  
+Campaign Type: CUMULATIVE
 
 ---
 
@@ -40,6 +41,9 @@ The engine must ingest raw transactional data, isolate the inputs dynamically vi
 
 ### Boss Mission (B - Continuous Integration)
 - **B01: The Financial Projector CLI.** (Wrap the orchestrator onto a consumable, native Terminal App using `Typer` or `Click` yielding rich progress bars).
+
+### Exit Gate (EG - Verificación de Asimilación)
+- **EG01: New Extractor Integration.** (Implementar un `JSONExtractor` completo que cumpla `AbstractExtractor`, con test escrito antes del código, en Fase 2 pura — sin andamiaje del tutor).
 
 ---
 

@@ -59,6 +59,16 @@ Si el usuario ejecuta `/dojo-start` **CON argumentos** (ej: `/dojo-start py-basi
    - Ejemplo: si el usuario dice `py-basico B00`, la ruta es:
      `~/Documents/DoJo/DoJo_Study/subjects/python/campaigns/PY-BASICO/missions/B00/`
 
+### Paso 1.5: Detectar Campaign Type
+- Leer `campaign.md` de la campaña activa (ruta: `~/Documents/DoJo/DoJo_Study/subjects/python/campaigns/{CAMPAÑA}/campaign.md`)
+- Buscar el campo `Campaign Type:` en el archivo
+- **Si es `CUMULATIVE`:**
+  - El código fuente está en `{CAMPAÑA}/src/`, NO en `{CAMPAÑA}/missions/{MISIÓN}/code/src/`
+  - Los tests están en `{CAMPAÑA}/tests/`
+  - Informar al Operador: "[Sistema] Campaña CUMULATIVE detectada. Código en {CAMPAÑA}/src/"
+- **Si es `ADDITIVE` o no está definido:**
+  - Comportamiento actual (buscar en `missions/{MISIÓN}/code/`)
+
 2. **Leer `requirements.md`** de esa ruta usando la herramienta `read_file`. No ejecutes scripts Python ni hagas `find`. Lee el archivo directamente.
 
 2.5. **Actualizar Status en `requirements.md`** (Bidireccionalidad):

@@ -4,7 +4,7 @@
 
 
 ## Identification
-Type: [M (Core) | S (Refactor/Scaling) | B (Integration)]  
+Type: [M (Core) | S (Refactor/Scaling) | B (Integration) | EG (Exit Gate)]  
 Campaign Code: [e.g., PY-POO-FINANCE]  
 Mission Code: [e.g., M01]  
 Title: [Short, direct technical scope]

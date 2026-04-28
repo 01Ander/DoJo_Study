@@ -35,6 +35,15 @@ Ensamblaje del pipeline completo. Sirve para lanzar el producto como un CLI, una
 - `B01: Serverless Streamlit Dashboard`
 - `B02: Typer CLI Execution`
 
+### 5️ Exit Gate (EG - Verificación de Asimilación)
+Ejercicio integrador ejecutado al completar TODAS las misiones de una campaña. Valida que los conceptos fueron asimilados, no solo completados.
+- Modo obligatorio: **Fase 2** (Reviewer — el tutor NO da código, solo preguntas socráticas).
+- El operador debe escribir tests y código de forma independiente.
+- Si no se aprueba, se generan misiones de refuerzo específicas.
+*Ejemplos:*
+- `EG01: Implementar un nuevo Extractor que cumpla el contrato ABC`
+- `EG01: Resolver un pipeline end-to-end sin andamiaje`
+
 ---
 
 ## El Proceso de Desarrollo (The Operator Workflow)

@@ -16,9 +16,9 @@ Cuando el Operador ha completado los Criterios de Aceptación de una misión y q
 
 ## Usage
 ```
-/dojo-done ["Opcional: Nota de cierre del operador"]
+/dojo-done <mensaje_de_cierre_del_operador>
 ```
-Si no se provee argumento, tú autogeneras la nota de cierre basándote en el contexto de la sesión.
+El Operador siempre proporcionará una nota o comentario de cierre. Usa ese texto íntegramente para la bitácora.
 
 ## Procedure
 
@@ -33,10 +33,12 @@ Si no se provee argumento, tú autogeneras la nota de cierre basándote en el co
       - Asume que los DoD están completos si el usuario ejecutó el comando. No le preguntes confirmación.
    
    b. **Registrar Retrospectiva y Cierre en `journal.md`:**
-      - Agrega AL MISMO TIEMPO (en un solo append/escritura) la **Reflexión del Tutor** y el **Log del Sistema**.
-      - **IMPORTANTE:** Para la reflexión del Tutor, usa el conocimiento acumulado en tu contexto de la sesión. NO pierdas esta valiosa retroalimentación. Escríbela tú mismo evaluando el desempeño del Operador.
+      - Agrega AL MISMO TIEMPO (en un solo append/escritura) el **Comentario del Operador**, la **Reflexión del Tutor** y el **Log del Sistema**.
+      - **IMPORTANTE:** SIEMPRE incluye primero el comentario exacto proporcionado por el usuario en el comando `/dojo-done`. Luego, genera la reflexión del Tutor evaluando el desempeño del Operador basándote en el contexto de la sesión.
       - Formato a agregar al final del journal:
         ```markdown
+        - **[User | YYYY-MM-DD HH:MM]:** {El argumento literal o nota de cierre proporcionada por el Operador al ejecutar el comando. NO LO RESUMAS, escríbelo en crudo}
+
         - **[Tutor | YYYY-MM-DD HH:MM]:** {Genera aquí tu reflexión profunda sobre la sesión, el desempeño del Operador, áreas de mejora y asimilación conceptual. Basealo en tu memoria de la conversación actual}
         
         ---
@@ -44,7 +46,7 @@ Si no se provee argumento, tú autogeneras la nota de cierre basándote en el co
         - **[Sistema | YYYY-MM-DD HH:MM — MISIÓN {CÓDIGO} COMPLETADA]:**
           - **Tests finales:** Pasados (según contexto de la sesión)
           - **DoD:** Completo
-          - **Nota de cierre:** {Usa el argumento del comando, o autogenera un breve resumen técnico}
+          - **Nota de cierre:** Resumen técnico y métricas de costos de API / WakaTime / Tokens consumidos.
         ```
    
    c. **Limpiar archivo de sesión pausada:**
@@ -52,7 +54,11 @@ Si no se provee argumento, tú autogeneras la nota de cierre basándote en el co
 
 3. **Respuesta final al usuario:**
    - Reporta que todo fue ejecutado (Requirements actualizado, Journal escrito, Sesión limpiada).
-   - Sugiere el siguiente paso listando las siguientes misiones de la campaña.
+   - **Ejecutar `list_dir`** de la carpeta `missions/` de la campaña activa para obtener la lista real de misiones.
+   - **Check de última misión:** Si TODAS las misiones en `missions/` tienen `Status: ✅ Completada` en su `requirements.md` (excepto las EG):
+     → Mostrar: "🚪 Todas las misiones completadas. Exit Gate disponible: `/dojo-start {campaña} EG01`"
+   - **Si no es la última:** Listar las misiones restantes que NO tengan `Status: ✅ Completada`.
+   - **IMPORTANTE:** NO inventes nombres de misiones. Solo lista las que existen en el filesystem.
 
 ## Pitfalls
 - Requiere una misión activa (previamente fijada con `/dojo-start`).
@@ -61,7 +67,7 @@ Si no se provee argumento, tú autogeneras la nota de cierre basándote en el co
 - **NUNCA preguntes por confirmación.** Ejecuta el comando inmediatamente asumiendo que el usuario sabe lo que hace.
 - **NO** hagas `view_file` de `requirements.md` ni `journal.md` si ya tienes el contexto. Solo escribe en ellos directamente.
 - Siempre eliminar `.dojo-session.json` al cerrar misión para evitar sesiones fantasma.
-
+- **EVITA EL ERROR [Errno 63] File name too long:** El texto de este comando (`/dojo-done ...`) es un mensaje de chat, NO una ruta de archivo. Al invocar tus herramientas de escritura, el parámetro `TargetFile` DEBE ser estrictamente la ruta real a `requirements.md` o `journal.md`. **NUNCA** coloques el texto del operador ni el string `/dojo-done` en los parámetros de ruta. Extrae su nota e insértala únicamente como *contenido* a escribir.
 ## Verification
 - `requirements.md` tiene `Status: ✅ Completada`
 - `journal.md` tiene la reflexión del Tutor y la entrada de cierre del Sistema con timestamp
