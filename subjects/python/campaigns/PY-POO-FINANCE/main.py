@@ -5,7 +5,7 @@ from src.pipeline import FinancialPipeline
 
 
 def main():
-    extractor = CSVExtractor('data.csv')
+    extractor = CSVExtractor('data/data.csv')
 
     engine = AnalyticsEngine()
     loader = JSONLoader()

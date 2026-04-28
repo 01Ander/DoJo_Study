@@ -1,6 +1,6 @@
 # Engineering Mission Template
 
-**Friction Level:** [ ] / 10 *(If > 7, activate [Protocol Yellow](../../../../../docs/07-protocol-yellow.md))*
+**Friction Level:** [2] / 10 *(If > 7, activate [Protocol Yellow](../../../../../docs/07-protocol-yellow.md))*
 
 
 ## Identification
@@ -8,7 +8,7 @@ Type: S (Scaling Refactor)
 Campaign Code: PY-POO-FINANCE
 Mission Code: S02
 Title: Robust Validation with Pydantic & Centralized Logging
-Status: 🟢 Ready
+Status: ✅ Completada
 
 ---
 
@@ -27,9 +27,9 @@ Hard-wire the data flow. When transactions enter the system, they must be valida
 
 ## Required Testing (TDD / QA)
 List the unit tests or edge cases that MUST be covered by `pytest` (or equivalent) for this mission to be accepted.
-- [ ] Test Case 1: Passing incorrectly typed data to the Pydantic schema immediately correctly raises a validation error instead of passing silently.
-- [ ] Test Case 2: The Logging instance successfully writes an `ERROR` level message into a local `app.log` file tracking what transaction failed sanitization.
-- [ ] Test Case 3: Proper formatting of the Date field is strictly delegated and enforced by Pydantic's internal validators natively.
+- [X] Test Case 1: Passing incorrectly typed data to the Pydantic schema immediately correctly raises a validation error instead of passing silently.
+- [X] Test Case 2: The Logging instance successfully writes an `ERROR` level message into a local `app.log` file tracking what transaction failed sanitization.
+- [X] Test Case 3: Proper formatting of the Date field is strictly delegated and enforced by Pydantic's internal validators natively.
 
 ---
 
