@@ -93,7 +93,13 @@ Si el usuario ejecuta `/dojo-start` **CON argumentos** (ej: `/dojo-start py-basi
    - Estado de la misión (basado en journal.md)
    - Resumen de requirements.md
    - Siguiente paso sugerido
+
+   ⚠️ REGLA TDD OBLIGATORIA: Escribir tests ANTES del código fuente.
+   Flujo: 1) Test (Red) → 2) Implementación mínima (Green) → 3) Refactor.
+   NO se permite escribir en src/ sin tener al menos un test fallando en tests/.
    ```
+   
+   **CRÍTICO PARA MODELOS LIGEROS:** El bloque `⚠️ REGLA TDD OBLIGATORIA` DEBE aparecer siempre en la respuesta al Operador. Esta directiva NO es opcional — es la regla más importante del sistema. Si el Operador intenta escribir código en `src/` sin tests existentes, el agente DEBE detenerlo y redirigirlo a `tests/` primero.
 
 5. **Preguntar** con qué personalidad quiere trabajar (`/personality dojo-tutor`, `/personality dojo-reviewer`, `/personality dojo-architect`), solo si no tiene una activa.
 

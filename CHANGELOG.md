@@ -15,6 +15,13 @@ All notable changes to DoJo Study will be documented in this file.
 - **DoJo Start Topology Support:** `/dojo-start` now reads the `Campaign Type` to guide the Operator correctly to the central `src/` directory for `CUMULATIVE` campaigns.
 - **PY-POO-FINANCE Consolidation:** Fully refactored the entire Python OOP campaign into a `CUMULATIVE` structure. Consolidated all isolated `code/` silos into a single root `src/` and `tests/` environment. Added `EG01` for validation.
 
+### Fixed
+- **TDD Enforcement for Lightweight Models:** Hardened `/dojo-start` Step 4 with a mandatory `⚠️ REGLA TDD OBLIGATORIA` block that the agent MUST include in its output. Prevents lightweight models (e.g., `qwen3.6-flash`) from skipping the test-first workflow. The directive is now impossible to ignore regardless of model reasoning capacity.
+- **Resolved Ideas Cleanup:** Cleared 5 items from `ideas-in-live.md` that were addressed by this release (hallucination fix, TDD enforcement, architecture evaluation, path optimization, skills audit).
+
+### Operational Note
+- **Architect Session Pattern Observed:** Refactoring and system maintenance sessions naturally align with Monday evenings (~6pm) coinciding with Antigravity credit refresh cycles. Saturday sessions are optional. This cadence is now the de facto Architect rhythm.
+
 ---
 
 ## [4.2.3] - 2026-04-22
