@@ -1,0 +1,6 @@
+2026-04-28 17:46:32,350 - src.pipeline - INFO - Pipeline START
+2026-04-28 17:46:32,350 - src.pipeline - INFO - PROGRESS: 6 raw records extracted
+2026-04-28 17:46:32,352 - src.pipeline - INFO - PROGRESS: 6 transactions mapped
+2026-04-28 17:46:32,352 - src.analytics_engine - INFO - Report: gross_income=10000.0, total_expenses=445.5, net_balance=9554.5
+2026-04-28 17:46:32,352 - src.analytics_engine - INFO - Categories: {'Groceries': 120.5, 'Entertainment': 45.0, 'Housing': 200.0, 'Transport': 80.0}
+2026-04-28 17:46:32,352 - src.pipeline - INFO - Pipeline END

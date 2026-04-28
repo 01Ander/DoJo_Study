@@ -18,3 +18,4 @@ ideas/
 .dojo-session.json
 venv/
 .mypy_cache/
+.vscode/

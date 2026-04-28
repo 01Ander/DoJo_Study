@@ -1,9 +1,8 @@
-from dataclasses import dataclass
+from pydantic import BaseModel, field_validator
 from datetime import date, datetime
 
 
-@dataclass
-class Transaction:
+class Transaction(BaseModel):
     id: str
     amount: float
     date: date
@@ -12,18 +11,20 @@ class Transaction:
     category: str = ""
 
 
-@dataclass
 class Income(Transaction):
-    def __post_init__(self) -> None:
-        if self.amount < 0:
+    @field_validator("amount")
+    @classmethod
+    def must_be_positive(cls, v: float) -> float:
+        if v < 0:
             raise ValueError("Amount must be positive")
+        return v
 
 
-@dataclass
 class Expense(Transaction):
-    def __post_init__(self) -> None:
-        amount = abs(float(self.amount))
-        self.amount = amount
+    @field_validator("amount")
+    @classmethod
+    def ensure_positive(cls, v: float) -> float:
+        return abs(v)
 
 
 def create_transaction(raw_data: dict) -> Transaction:

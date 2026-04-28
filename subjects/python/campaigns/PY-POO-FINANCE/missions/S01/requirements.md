@@ -1,6 +1,6 @@
 # Engineering Mission Template
 
-**Friction Level:** [ ] / 10 *(If > 7, activate [Protocol Yellow](../../../../../docs/07-protocol-yellow.md))*
+**Friction Level:** [2] / 10 *(If > 7, activate [Protocol Yellow](../../../../../docs/07-protocol-yellow.md))*
 
 
 ## Identification
@@ -8,7 +8,7 @@ Type: S (Scaling Refactor)
 Campaign Code: PY-POO-FINANCE
 Mission Code: S01
 Title: Automated TDD Suite & Coverage Validation
-Status: 🟢 Ready
+Status: ✅ Completada
 
 ---
 
@@ -27,9 +27,9 @@ Elevate the project's quality assurance to industrial standards by consolidating
 
 ## Required Testing (TDD / QA)
 List the unit tests or edge cases that MUST be covered by `pytest` (or equivalent) for this mission to be accepted.
-- [ ] Test Case 1: E2E Pipeline processes a mocked dirty CSV and successfully triggers the mocked JSON Loader without any intermediate state errors.
-- [ ] Test Case 2: The pipeline gracefully handles complete structural failure (e.g., injecting an unreadable format) by capturing the Exception natively without dumping a traceback to the user.
-- [ ] Test Case 3: `pytest-cov` strictly reports above an 80% coverage on the `src/` directory.
+- [X] Test Case 1: E2E Pipeline processes a mocked dirty CSV and successfully triggers the mocked JSON Loader without any intermediate state errors.
+- [X] Test Case 2: The pipeline gracefully handles complete structural failure (e.g., injecting an unreadable format) by capturing the Exception natively without dumping a traceback to the user.
+- [X] Test Case 3: `pytest-cov` strictly reports above an 80% coverage on the `src/` directory.
 
 ---
 
@@ -42,10 +42,10 @@ List the unit tests or edge cases that MUST be covered by `pytest` (or equivalen
 ---
 
 ## Completion Criteria & Definition of Done (DoD)
-- [ ] Output terminal proves minimum 80% Coverage explicitly.
-- [ ] A local `.coveragerc` file configures the test suite to ignore non-vital code blocks.
-- [ ] **English Friendly:** Naming (test functions, variables) MUST remain in professional English (e.g., `test_pipeline_rejects_invalid_file_format_safely`). Documentation (docstrings, comments) can be Hybrid-English or simplified English.
-- [ ] SOLID: Test modules decouple logic correctly using mock objects rather than invoking real databases or disks where possible.
+- [X] Output terminal proves minimum 80% Coverage explicitly.
+- [X] A local `.coveragerc` file configures the test suite to ignore non-vital code blocks.
+- [X] **English Friendly:** Naming (test functions, variables) MUST remain in professional English (e.g., `test_pipeline_rejects_invalid_file_format_safely`). Documentation (docstrings, comments) can be Hybrid-English or simplified English.
+- [X] SOLID: Test modules decouple logic correctly using mock objects rather than invoking real databases or disks where possible.
 
 ---
 
