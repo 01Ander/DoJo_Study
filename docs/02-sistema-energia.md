@@ -44,7 +44,7 @@ Protocolo OBLIGATORIO:
 
 ## 🛡️ Protocolo Yellow (Graceful Degradation)
 
-En escasos momentos donde se está a mitad de un problema y no se justifica "apagar el sistema" pero el nivel de fricción supera 7, se debe invocar el **[Protocolo Yellow](07-protocol-yellow.md)**:
+En escasos momentos donde se está a mitad de un problema y no se justifica "apagar el sistema" pero el nivel de fricción supera 7, se debe invocar el **[Protocolo Yellow](04-protocol-yellow.md)**:
 - Habilita estrategias formales de reducción de carga (e.g. pasar de OOP a funciones nativas, traducir documentación al español, usar datos mock).
 - Delega a Pair Programming pasivo o abandona el objetivo en pro de un "Micro-Goal".
 *Si esto falla, se invocará un Rest Day inminente o una Pausa Obligatoria de 15 minutos.*

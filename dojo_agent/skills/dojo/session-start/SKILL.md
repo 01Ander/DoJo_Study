@@ -81,7 +81,7 @@ Si el usuario ejecuta `/dojo-start` **CON argumentos** (ej: `/dojo-start py-basi
 2.8. **Registrar inicio de sesión en `journal.md`** de la misión:
    - Usa la herramienta `terminal` para hacer un append atómico (`echo >>`) al archivo `journal.md`. Esto aplica tanto si es la primera vez que se inicia como si se retoma sin archivo de pausa.
    ```bash
-   echo "\n- **[Sistema | YYYY-MM-DD HH:MM — Inicio de sesión]:** Misión {MISIÓN} de la campaña {CAMPAÑA} fijada como activa." >> ~/Documents/DoJo/DoJo_Study/subjects/python/campaigns/{CAMPAÑA}/missions/{MISIÓN}/journal.md
+   echo "- **[Sistema | YYYY-MM-DD HH:MM — Inicio de sesión]:** Misión {MISIÓN} de la campaña {CAMPAÑA} fijada como activa." >> ~/Documents/DoJo/DoJo_Study/subjects/python/campaigns/{CAMPAÑA}/missions/{MISIÓN}/journal.md
    ```
 
 3. **Leer `journal.md`** de esa misma ruta (si existe). Solo las últimas 15 líneas.

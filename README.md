@@ -1,6 +1,6 @@
-# ⛩️ DoJo Study: High Performance Engineering Framework v4.3.0
+# ⛩️ DoJo Study: High Performance Engineering Framework v5.0.0 (Beta)
 
-DoJo Study es un framework de aprendizaje inmersivo y de alto rendimiento diseñado para la formación rigursa de perfiles en **Data & Automation Engineering**. Basado en la metodología de **Aislamiento Estructural de Misiones**, garantiza que el código, los datos y la teoría residan en entornos desacoplados para simular sprints reales de ingeniería.
+DoJo Study es un framework de aprendizaje inmersivo y de alto rendimiento diseñado para la formación rigurosa de perfiles en **Data & Automation Engineering**. Basado en la metodología de **Campaign as Course** (v5.0), garantiza que el conocimiento teórico, la práctica guiada y los proyectos finales residan en entornos desacoplados para asegurar una asimilación real.
 
 ## 🎯 El Objetivo
 El sistema busca eliminar la brecha entre la educación académica y el entorno profesional, integrando la **justificación económica y el valor de negocio (ROI)** como requisitos técnicos tan estrictos como la funcionalidad del código.
@@ -65,13 +65,13 @@ hermes  # Inicia el agente con contexto del DoJo
 
 ---
 
-## ⚙️ Metodología de Entrenamiento
+## ⚙️ Metodología de Entrenamiento (v5.0: Campaign as Course)
 El framework se basa en una estructura de progresión jerárquica y el estándar de **Topología Aislada**:
 
-- **Campaigns (Campañas):** Rutas de aprendizaje temáticas (ej. `PY-POO-FINANCE`).
-- **Missions (Misiones):** Unidades de trabajo desacopladas. Cada misión encapsula su propia lógica de ejecución en un subdirectorio `code/` independiente (src, tests, data).
-- **Journals (Bitácoras):** Registros cronológicos de progreso, errores y reflexiones del estudiante.
-- **Mini-RFCs:** Documentos de diseño previo obligatorios para la fase de arquitectura.
+- **Campaigns (Campañas):** Rutas de aprendizaje modulares con tipología `CORE-SUBTEMA` (ej. `PY-POO`, `DE-ETL`).
+- **Theory & Exercises:** Adquisición de conocimiento pre-generado y práctica guiada de Testing Progresivo (niveles 1-5).
+- **Study Journals:** Bitácoras donde el estudiante escribe con sus propias palabras (Técnica Feynman) para consolidar conceptos.
+- **Boss Project:** El proyecto final donde se integra todo lo aprendido en un artefacto monolítico con despliegue progresivo.
 
 ---
 
@@ -99,9 +99,9 @@ Para que un artefacto técnico sea considerado "completado":
 ---
 
 ## 📁 Estructura del Repositorio
-- `/subjects` — Tracks de aprendizaje, campañas activas y misiones.
-- `/dojo_agent/skills` — Skills de Hermes Agent para el DoJo (session-start, journal-log, etc.).
-- `/templates` — Plantillas estandarizadas para misiones, campañas y registros diarios.
-- `/docs` — Documentación operativa y manuales.
-- `/archive` — Código legacy del agente monolítico v3.x.
-- `.hermes.md` — Constitución del DoJo Agent (inyectada automáticamente por Hermes).
+- `/subjects` — Tracks de aprendizaje y campañas activas.
+- `/dojo_agent/skills` — Skills de Hermes Agent para el DoJo.
+- `/templates` — Plantillas estandarizadas para el contenido de aprendizaje.
+- `/docs` — Documentación oficial numerada del 00 al 07 (index, manifiesto, syllabus, campaign-as-course, etc.).
+- `/archive` — Código legacy.
+- `.hermes.md` — Constitución del DoJo Agent.

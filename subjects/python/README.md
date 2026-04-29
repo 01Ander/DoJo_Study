@@ -10,7 +10,7 @@ Al entrar a esta carpeta o a cualquier de sus campañas, activas obligatoriament
 
 - **English Friendly Coverage:** Toda clase, variable, docstring y log se apunta a mantener en un formato "English friendly en primeras instancias, hasta que el operador maneje un mejor nivel de inglés".
 - **Design Patterns First:** Los "pequeños ejercicios" no existen. Abordamos POO (Clases Abstractas, Factory, Inversión de Dependencias) como el suelo mínimo de desarrollo.
-- **Tests Are Not Optional:** Cada misión debe tener correspondencia directa en una carpeta de `tests/` con asserts ejecutados en `pytest`.
+- **Tests Are Not Optional:** Cada Misión (fase del Boss) debe tener correspondencia directa en una carpeta de `tests/` con asserts ejecutados en `pytest`.
 
 ---
 
@@ -21,7 +21,7 @@ Las campañas se alinean rigurosamente con los módulos avanzados del Syllabus M
 | Código        | Enfoque del Proyecto                       | Estado       |
 |---------------|-------------------------------------------|--------------|
 | **PY-BASICO**      | Python Core Fundamentals & Data Assessment | ✅ Done      |
-| **PY-POO-FINANCE** | ETL Modular, Abstracción, Patrones, Pytest | 🟢 Ready     |
+| **PY-POO**         | ETL Modular, Abstracción, Patrones, Pytest | 🔵 Beta v5   |
 | **PY-API-AUTO**    | FastApi, Automation Scripts, OAuth         | 🟡 Pending   |
 | **DE-ETL-BATCH**   | Pandas pesado, DuckDB, Pipelines Batch     | 🟡 Pending   |
 | **PY-CLOUD**       | AWS Boto3, Lambda Deployments, SQS         | 🟡 Pending   |
@@ -31,7 +31,7 @@ Las campañas se alinean rigurosamente con los módulos avanzados del Syllabus M
 ## 3. Workflow Diario 
 
 1. Levantas tu entorno `venv`.
-2. Escribes el **Mini-RFC** de tu misión con un enfoque "English friendly" documentando la estructura.
+2. Escribes el **Mini-RFC** de tu Misión (fase) con un enfoque "English friendly" documentando la estructura.
 3. Te atoras en **Red-Green-Refactor**.
 4. Validas convenciones (`mypy`, `flake8`).
 5. Haces Push con un mensaje semántico: `feat(etl): abstract extractor implementations`.

@@ -3,7 +3,7 @@
 Este documento reúne el mapa completo de habilidades necesarias para avanzar hacia el perfil **Data & Automation Engineer**.  
 El syllabus funciona como una visión global: una guía macro que define las áreas de estudio, sus componentes y los bloques fundamentales, antes de convertirlos en campañas dentro del sistema DoJo.
 
-Cada área corresponde a un código base (ENG, PY, SQL, QA, etc.), que se usará para generar campañas y misiones dentro de `subjects/`.
+Cada área corresponde a un código base (ENG, PY, SQL, QA, etc.), que se usará para generar Campaigns (cursos) y Missions (fases prácticas) dentro de `subjects/`.
 
 ---
 

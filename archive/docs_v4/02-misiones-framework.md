@@ -1,5 +1,6 @@
 # 02 - Misiones Framework
 
+> ⚠️ **DEPRECADO en v5.0.** Ver `docs/07-campaign-as-course.md`
 ## ¿Qué es el Framework de Misiones?
 
 Es la capa táctica que convierte el marco de Ingeniería de Software en tareas accionables. Actualmente, una misión **no es un ejercicio rápido de sintaxis**; es un módulo funcional de un pipeline mayor.
