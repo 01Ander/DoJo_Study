@@ -18,51 +18,23 @@
 - ~~Optimización de Búsqueda en `/dojo-start`~~ → Paso 1.5 detecta Campaign Type, rutas directas
 - ~~Auditoría y Limpieza de Skills (parcial)~~ → Silos eliminados. Pendiente: validar `socratic-review`
 
+## ✅ Absorbido / Descartado en v5.0 (2026-04-29)
+
+### Protocolo de Fases de Aprendizaje (14-abril) → **Absorbido**
+El diseño de Fase 1 (Tutor + Scaffolding) y Fase 2 (Reviewer Estricto) fue
+implementado implícitamente por `lore/ → quests/ → grimoire.md → boss/`:
+- **Fase 1** = Lore + Quests (aprendizaje guiado con soluciones progresivas)
+- **Fase 2** = Boss (implementación autónoma con Reviewer Socrático)
+- **Transición** = DM audita el Grimoire antes de autorizar el Boss
+
+### Skills Tracker (`unseen → exposed → practicing → assimilated`) → **Descartado**
+Redundante dentro de una campaign individual. El Grimoire ya cumple esta función:
+cada entrada Feynman evidencia `exposed → practicing`, y cada fase del Boss
+completada evidencia `assimilated`. Un tracker separado duplicaría información.
+
+> **Reevaluar si:** tras completar 2+ campaigns, se detecta pérdida de retención
+> de conceptos cross-campaign. Ahí sí tendría sentido un tracker macro de
+> spaced repetition entre campaigns. Hasta entonces, el Grimoire es suficiente.
+
 ## 🔍 Evaluación Pendiente
 - **Rol dual del Tutor en temas nuevos (14-abril):** Tutor asume review light en temas nuevos. Es CORRECTO — cambiar personalidad cada 5 min rompe el flujo. Reviewer separado aplica cuando los conceptos YA están comprendidos. **Estado: Funciona por default, formalizar si se vuelve inconsistente.**
-
-## 🏗️ Diseño: Protocolo de Fase 1 — Andamiaje Activo (14-abril)
-
-### Concepto
-No es tutorial hell. Es **aprendizaje situado**: el problema llega primero, la teoría llega convocada por el problema. El Tutor actúa como senior que construye junto al Operador, no como un video de YouTube.
-
-### Flujo de Fase 1 (Tutor con Scaffolding)
-1. Operador describe la lógica que necesita ("necesito agrupar por categoría y sumar")
-2. Tutor da código funcional con Domain Shifting + explicación línea por línea
-3. Operador reescribe el código EN SU ARCHIVO (no copy-paste ciego)
-4. ⚡ PAUSA OBLIGATORIA: Tutor ESPERA los comentarios del Operador
-   → "¿Qué entiendes que hace cada línea?"
-   → "¿Qué parte no te queda clara?"
-5. Operador responde con su análisis del código
-6. Tutor valida la comprensión o corrige malentendidos
-7. Si Tutor confirma comprensión → Concepto marcado como "exposed" en Skills Tracker
-
-### Flujo de Fase 2 (Reviewer Estricto)
-1. Operador implementa SOLO, usando conceptos de Fase 1
-2. Reviewer hace preguntas socráticas, NO da código
-3. Si el Operador resuelve sin ayuda → Concepto pasa a "practicing"
-4. Si lo usa correctamente en otro contexto → Concepto pasa a "assimilated"
-
-### Skills Tracker — Ciclo de Vida de un Concepto
-unseen → exposed → practicing → assimilated
-  │         │          │            │
-  │     Fase 1:     Fase 2:     Se usó sin
-  │     Tutor dio   Operador    ayuda en otro
-  │     código,     lo usó      contexto o
-  │     Operador    solo con    misión
-  │     lo analizó  Reviewer
-  │     y explicó
-  │
-  Sin contacto previo
-
-### Mecanismo de Transición (Fase 1 → Fase 2)
-**¿Cuándo se retira el andamiaje para un concepto específico?**
-- Cuando el Operador puede **explicar** el código sin mirarlo (validado por Tutor en paso 6)
-- Cuando el Skills Tracker muestra `exposed` para TODOS los conceptos de un bloque funcional
-- El Reviewer es la prueba: si el Operador necesita que le den código de vuelta, el concepto vuelve a Fase 1
-
-### Conexión con Protocol Yellow
-- **Dificultad Deseable (Bjork):** La fricción con pytest y type hints es señal POSITIVA. No eliminar la incomodidad, preservarla.
-- **Zona de Desarrollo Próximo (Vygotsky):** Si Tutor da código que el Operador no puede procesar → fuera de zona. Si da código que ya domina → también fuera. El calibrado es el arte.
-
-### Estado: DISEÑO. Pendiente formalización en v4.5 como `docs/11-fases-aprendizaje.md`.
