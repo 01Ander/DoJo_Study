@@ -1,6 +1,6 @@
 # Engineering Mission Template
 
-**Friction Level:** [ ] / 10 *(If > 7, activate [Protocol Yellow](../../../../../docs/07-protocol-yellow.md))*
+**Friction Level:** [2] / 10 *(If > 7, activate [Protocol Yellow](../../../../../docs/07-protocol-yellow.md))*
 
 
 ## Identification
@@ -8,7 +8,7 @@ Type: B (Integration / Boss)
 Campaign Code: PY-POO-FINANCE
 Mission Code: B01
 Title: The Financial Projector Command Line Interface (CLI)
-Status: 🟢 Ready
+Status: ❌ Descartada
 
 ---
 
@@ -21,7 +21,7 @@ Status: 🟢 Ready
 ---
 
 ## Technical Objective
-Wrap the entire `PipelineOrchestrator` in a formal CLI application. The user must be able to invoke the script passing the `--input_file` path, defining an `--output_format` flag, and receiving dynamic visual feedback concerning processing states straight onto the console. 
+Wrap the entire `PipelineOrchestrator` in a formal CLI application. The user must be able to invoke the script passing the `--input_file` path, defining an `--output_format` flag, and receiving dynamic visual feedback concerning processing states straight onto the console.
 
 ---
 
@@ -51,3 +51,7 @@ List the unit tests or edge cases that MUST be covered by `pytest` (or equivalen
 
 ## Architectural/Friction Notes
 *Log any code smells, friction discovered, or future scaling ideas to be picked up by the Architect role.*
+
+[2026-04-29] B01 descartada. Causa: inestabilidad del provider DeepSeek v4-flash
+(generó código sin pedirlo — violación de Regla 3). Misión no completada por el
+Operador. Se cierra PY-POO v4 y se relanza como beta del sistema v5.

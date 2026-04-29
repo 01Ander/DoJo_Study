@@ -2,6 +2,34 @@
 
 All notable changes to DoJo Study will be documented in this file.
 
+## [5.0.0-proposal] - 2026-04-29
+
+### 🏗️ "The Campaign as Course Update (Beta)"
+
+### Added
+- **Campaign as Course Architecture:** Approved RFC v3 transitioning the DoJo from a mission-based scaffolding model to a course-based model. Formalizes the separation between theoretical knowledge acquisition (`theory/`), progressive guided practice (`exercises/`), and autonomous execution (Boss Final).
+- **Study Journal:** Introduced `study-journal.md` as a dedicated learning artifact for the Operator to synthesize concepts using the Feynman Technique before executing code.
+- **Dungeon Master Role:** Elevated the DoJo Agent from an active tutor to a DM/Auditor. The DM now verifies `study-journal.md` completion and acts as a gatekeeper to authorize access to the Boss Final.
+- **Testing Gradation System:** Designed a 5-level scaffolding system specifically for TDD (from "read a test" to "write from scratch") to systematically eliminate the "Testing Wall" friction observed in v4.
+- **DoJo v5 Beta Launch:** Initiated `PY-POO` as the inaugural pilot campaign to validate the new architectural model, explicitly discarding the previous `PY-POO-FINANCE` v4 B01 mission due to excessive LLM friction and provider instability.
+
+---
+
+## [4.3.1] - 2026-04-29
+
+### 🛡️ Hotfix: Dependency Installation Guard
+
+### Added
+- **Rule 4 — Dependency Installation Protection:** Added a new inviolable rule to `.hermes.md` (Agent Constitution) that **prohibits the agent from automatically executing `pip install`, `npm install`, or any package installation command**. The agent must instead provide step-by-step installation instructions (package name, exact command, post-install verification, venv context) for the Operator to execute manually. Triggered by DeepSeek v4-flash auto-installing dependencies during PY-POO B01 without Operator intervention.
+- **Rule 1 — Execution Steps Clarification:** Explicitly declared in Rule 1 (Restricciones Técnicas) that the `Execution Steps (Implementation Plan)` section in every `requirements.md` contains instructions **for the Operator**, not tasks for the agent to auto-execute. The agent's role is to **guide**, not **perform**.
+- **Mission Template Guard:** Annotated the `Execution Steps` section in `templates/mission-template.md` with a visible `⚠️ AGENT DIRECTIVE` blockquote so all future missions inherit this protection at generation time.
+- **Pedagogical Rationale:** Managing dependencies (virtual environments, package managers, version pinning) is a core engineering skill. Automating it defeats the learning objective, especially in Tutor/Reviewer modes.
+
+### Changed
+- **Constitution Rule Renumbering:** Renumbered all rules after the new insertion (old 4→5, old 5→6, old 6→7, old 7→8) to maintain sequential consistency. Also fixed a pre-existing duplicate rule numbering issue (two `### 5.` existed before this patch).
+
+---
+
 ## [4.3.0] - 2026-04-28
 
 ### 🏗️ "The Cumulative Campaigns & Exit Gates Update"
