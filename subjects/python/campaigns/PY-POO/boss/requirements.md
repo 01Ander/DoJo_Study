@@ -41,4 +41,4 @@ No intentes hacer todo el Boss de golpe. Sigue las fases en orden. **Aplica TDD 
 ---
 
 ## 🛠️ Diagnóstico Quirúrgico (En caso de atasco)
-Si fallas al implementar una fase o los tests se vuelven un muro infranqueable (Friction > 8), acude al **Reviewer Socrático**. Si el Reviewer detecta una falla fundamental en el concepto, te indicará pausar el Boss y regresar a repasar el capítulo asociado (ej. "Vuelve a leer el Cap 02 de Theory y repite el Ejercicio B").
+Si fallas al implementar una fase o los tests se vuelven un muro infranqueable (Friction > 8), acude al **Reviewer Socrático**. Si el Reviewer detecta una falla fundamental en el concepto, te indicará pausar el Boss y regresar a repasar el capítulo asociado (ej. "Vuelve a leer el Cap 02 de Lore y repite la Quest B").

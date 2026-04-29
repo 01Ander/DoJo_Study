@@ -1,4 +1,4 @@
-# 📓 Study Journal — PY-POO
+# 📓 Grimoire — PY-POO
 
 Este documento es tu registro académico. Después de leer cada capítulo en `lore/` y completar su laboratorio en `quests/`, debes documentar tu asimilación aquí utilizando la **Técnica Feynman**.
 
@@ -41,27 +41,6 @@ Este documento es tu registro académico. Después de leer cada capítulo en `lo
 > [Tu respuesta aquí...]
 
 2. ¿Por qué una clase abstracta no puede ser instanciada (crear un objeto de ella)?
-> [Tu respuesta aquí...]
-
-**Friction Log (Opcional):**
-> [¿Qué te costó más trabajo entender?]
-
----
-
-## Capítulo 05: Testing with Pytest
-**Fecha de finalización:** YYYY-MM-DD
-**Métricas:**
-- Tiempo de lectura: __ min
-- Tiempo en ejercicios: __ min
-- Veces que recurrí al Tutor/DM: __ (Objetivo: ≤ 2)
-- Fricción (1-10): __
-- ¿Completé el ejercicio de testing sin ver la solución?: [Sí / No]
-
-**Feynman Synthesis (Tus propias palabras):**
-1. Explica la estructura GIVEN / WHEN / THEN (Arrange / Act / Assert).
-> [Tu respuesta aquí...]
-
-2. ¿Cuál es el propósito exacto de un `fixture` en pytest?
 > [Tu respuesta aquí...]
 
 **Friction Log (Opcional):**
@@ -124,6 +103,27 @@ Este documento es tu registro académico. Después de leer cada capítulo en `lo
 > [Tu respuesta aquí...]
 
 2. ¿Por qué aislar la lectura de archivos (I/O) en su propia clase facilita el testing con Mocks?
+> [Tu respuesta aquí...]
+
+**Friction Log (Opcional):**
+> [¿Qué te costó más trabajo entender?]
+
+---
+
+## Capítulo 05: Testing with Pytest
+**Fecha de finalización:** YYYY-MM-DD
+**Métricas:**
+- Tiempo de lectura: __ min
+- Tiempo en ejercicios: __ min
+- Veces que recurrí al Tutor/DM: __ (Objetivo: ≤ 2)
+- Fricción (1-10): __
+- ¿Completé el ejercicio de testing sin ver la solución?: [Sí / No]
+
+**Feynman Synthesis:**
+1. Explica la estructura GIVEN / WHEN / THEN (Arrange / Act / Assert).
+> [Tu respuesta aquí...]
+
+2. ¿Cuál es el propósito exacto de un `fixture` en pytest?
 > [Tu respuesta aquí...]
 
 **Friction Log (Opcional):**
