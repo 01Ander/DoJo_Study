@@ -40,10 +40,10 @@ El centro neural del avance son las Campañas. Cada directorio de una campaña m
 ```text
 PY-POO/
 ├─ campaign.md         <- Documento de la Campaign (Contexto & Requisitos)
-├─ study-journal.md    <- Grimoire / Bitácora Feynman
-├─ theory/             <- Lore (Lecciones teóricas)
-├─ exercises/          <- Quests (Laboratorios guiados)
-└─ project/            <- Final Boss (Proyecto integrador)
+├─ grimoire.md         <- Grimoire / Bitácora Feynman
+├─ lore/               <- Lore (Lecciones teóricas)
+├─ quests/             <- Quests (Laboratorios guiados)
+└─ boss/               <- Boss (Proyecto integrador)
    ├─ requirements.md  <- Requisitos y Missions (Fases) del Boss
    ├─ journal.md       <- Bitácora de aprendizaje técnica
    ├─ src/             <- Código fuente (Python)

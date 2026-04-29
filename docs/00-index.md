@@ -35,7 +35,7 @@ Referencia rápida paso a paso: cómo iniciar sesiones, cambiar personalidades, 
 
 ### 7. Campaign as Course (Modelo v5.0)
 **→ [`07-campaign-as-course.md`](07-campaign-as-course.md)**
-Doc fundacional del nuevo modelo. Mecánicas de `theory/`, `exercises/`, `project/`, `study-journal.md`, ciclo por capítulo, y tipología `CORE-SUBTEMA`.
+Doc fundacional del nuevo modelo. Mecánicas de `lore/`, `quests/`, `boss/`, `grimoire.md`, ciclo por capítulo, y tipología `CORE-SUBTEMA`.
 
 ---
 

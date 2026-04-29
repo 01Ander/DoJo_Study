@@ -90,10 +90,10 @@ El módulo `abc` viene incluido (built-in) en la librería estándar de Python. 
 
 ## 6. Mapa de Ejercicios
 
-Dirígete a `exercises/01-abstractions/` y completa los ejercicios:
+Dirígete a `quests/01-abstractions/` y completa los ejercicios:
 
 ```text
-PY-POO/exercises/01-abstractions/
+PY-POO/quests/01-abstractions/
 ├── 01-interface-segregation.md   (Tipo A: Implementación ABC)
 └── 02-test-structure.md          (Tipo B: Testing Nivel 2)
 ```

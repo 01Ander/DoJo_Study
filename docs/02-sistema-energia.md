@@ -1,4 +1,4 @@
-# 03 - Sistema Energía (Modelo Binario)
+# 02 - Sistema Energía (Modelo Binario)
 
 El marco temporal y atencional del DoJo se rige por un **Modelo Binario**: se está en *Deep Work* (Inmersión Técnica) o en *Rest Day* (Desconexión Profunda). Se elimina la noción de progreso a "energía o medio voltaje" debido al riesgo que esto representa en un esquema inmersivo de tiempo total (8 horas/día).
 

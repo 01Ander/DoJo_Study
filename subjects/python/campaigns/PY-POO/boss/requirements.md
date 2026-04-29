@@ -1,6 +1,6 @@
-# Boss Final: Financial ETL Pipeline CLI
+# Boss: Financial ETL Pipeline CLI
 
-**Estado:** 🔒 Bloqueado (Requiere autorización del DM en `study-journal.md`)
+**Estado:** 🔒 Bloqueado (Requiere autorización del DM en `grimoire.md`)
 
 Este es el proyecto integrador. Aquí aplicarás todos los conceptos aprendidos en los capítulos de teoría y ejercicios, sin andamiaje.
 

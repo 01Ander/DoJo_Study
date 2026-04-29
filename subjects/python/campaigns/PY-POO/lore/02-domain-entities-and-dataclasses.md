@@ -71,10 +71,10 @@ No requieres dependencias externas. El módulo `dataclasses` viene incluido en P
 
 ## 6. Mapa de Ejercicios
 
-Dirígete a `exercises/02-entities/` y completa:
+Dirígete a `quests/02-entities/` y completa:
 
 ```text
-PY-POO/exercises/02-entities/
+PY-POO/quests/02-entities/
 ├── 01-dataclass-creation.md      (Tipo A: Implementación Base)
 └── 02-polymorphism-test.md       (Tipo B: Testing Nivel 2)
 ```

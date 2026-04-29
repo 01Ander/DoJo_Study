@@ -6,7 +6,7 @@
 Tienes una lista de objetos `DailyTemperature` con la propiedad `celsius` y debes calcular el promedio.
 
 ## Tu Tarea
-En `exercises/03-engines/`, crea `weather_engine.py`:
+En `quests/03-engines/`, crea `weather_engine.py`:
 1. Crea una clase `WeatherAnalyticsEngine`.
 2. Implementa un método `get_average_temp(self, days: list) -> float`.
 3. El método debe iterar la lista, sumar los `.celsius` y devolver el promedio. Si la lista está vacía, devuelve 0.0.

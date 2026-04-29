@@ -49,10 +49,10 @@ Python puro.
 
 ## 6. Mapa de Ejercicios
 
-Dirígete a `exercises/03-engines/`:
+Dirígete a `quests/03-engines/`:
 
 ```text
-PY-POO/exercises/03-engines/
+PY-POO/quests/03-engines/
 ├── 01-stateless-logic.md      (Tipo A: Implementación Base)
 └── 02-spaced-repetition.md    (Tipo B: Spaced Repetition + Testing)
 ```

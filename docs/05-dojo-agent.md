@@ -43,7 +43,7 @@ Con el comando `/personality [NOMBRE]`, instruyes a Hermes para asumir un rol es
 
 * **`/personality dojo-architect` (El Arquitecto / Visión Macro):** Audita la coherencia de todo el sistema DoJo y tu progresión en campañas. Debate filosofía de ingeniería, rediseño de syllabus o propone refactorizaciones. Libertad total para dar opiniones directas. *(Modelo recomendado: Gemini 3.1 Pro via `/model`)*
 
-* **`/personality dojo-dm` (El Dungeon Master / Auditor v5.0):** Rol introducido en Campaign as Course. Gatekeeper del Boss Final. Solo interviene para auditar que el `study-journal.md` esté completo. Cuando funciona como tutor (vía `/dojo-ask`), usa el **Estándar de Respuesta Académica**: máximo 3 párrafos, directo, sin verbosidad y usando Domain Shifting estricto. *(Modelo: Gemini 3.1 Pro / Qwen3.6 Plus)*
+* **`/personality dojo-dm` (El Dungeon Master / Auditor v5.0):** Rol introducido en Campaign as Course. Gatekeeper del Boss. Solo interviene para auditar que el `grimoire.md` esté completo. Cuando funciona como tutor (vía `/dojo-ask`), usa el **Estándar de Respuesta Académica**: máximo 3 párrafos, directo, sin verbosidad y usando Domain Shifting estricto. *(Modelo: Gemini 3.1 Pro / Qwen3.6 Plus)*
 
 ---
 
@@ -78,7 +78,7 @@ Si precisas interrumpir tu sesión de *Deep Work*, usa:
 ```
 > Persiste el contexto localmente en `.dojo-session.json` de manera que al usar `/dojo-start` después del receso, te proponga reanudar exactamente en el bloque que dejaste.
 
-Cuando cumples todos los criterios *Definition of Done* de una Mission (fase) o Final Boss, ciérrala con:
+Cuando cumples todos los criterios *Definition of Done* de una Mission (fase) o Boss, ciérrala con:
 ```
 /dojo-done
 ```

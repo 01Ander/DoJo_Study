@@ -98,10 +98,10 @@ python --version
 
 ## 5. Mapa de Ejercicios
 
-Ahora, dirígete a `exercises/00-classes/` y completa los ejercicios en orden:
+Ahora, dirígete a `quests/00-classes/` y completa los ejercicios en orden:
 
 ```text
-PY-POO/exercises/00-classes/
+PY-POO/quests/00-classes/
 ├── 01-concept-modeling.md  (Tipo A: Implementación Base)
 └── 02-test-reading.md      (Tipo B: Testing Nivel 1)
 ```

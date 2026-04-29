@@ -6,7 +6,7 @@
 Tienes que modelar ítems en un inventario de un videojuego.
 
 ## Tu Tarea
-Dentro de esta carpeta (`exercises/02-entities/`), crea `inventory.py`:
+Dentro de esta carpeta (`quests/02-entities/`), crea `inventory.py`:
 
 1. Importa `dataclass`.
 2. Crea una dataclass `Weapon` con: `name` (str), `damage` (int), `durability` (float).

@@ -1,4 +1,4 @@
-# 09 - Guía de Operaciones (Hermes Agent)
+# 06 - Guía de Operaciones (Hermes Agent)
 
 > Este documento es tu referencia rápida (Wiki Operativa). Si te pierdes en los comandos o flujos del DoJo, vuelve aquí.
 
@@ -89,7 +89,7 @@ Para salir de Hermes, escribe `/exit`.
 ├── CHANGELOG.md                  ← Historial de versiones del marco
 │
 ├── subjects/python/campaigns/    ← Área principal de construcción y campañas
-│   ├── PY-POO/project/
+│   ├── PY-POO/boss/
 │   │   ├── src/                  ← Entorno de ejecución puro
 │   │   ├── requirements.md       ← Lo que carga /dojo-start
 │   │   └── journal.md            ← Lo que actualiza /dojo-log

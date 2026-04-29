@@ -6,7 +6,7 @@
 Quieres hacer un script que salude al jugador cargando su "Save File".
 
 ## Tu Tarea
-En `exercises/07-cli/`, crea `cli.py`:
+En `quests/07-cli/`, crea `cli.py`:
 1. Importa `argparse`.
 2. Crea el `ArgumentParser`.
 3. Añade un argumento obligatorio `--savefile`.

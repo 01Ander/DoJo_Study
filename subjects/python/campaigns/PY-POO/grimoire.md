@@ -1,8 +1,8 @@
 # 📓 Study Journal — PY-POO
 
-Este documento es tu registro académico. Después de leer cada capítulo en `theory/` y completar su laboratorio en `exercises/`, debes documentar tu asimilación aquí utilizando la **Técnica Feynman**.
+Este documento es tu registro académico. Después de leer cada capítulo en `lore/` y completar su laboratorio en `quests/`, debes documentar tu asimilación aquí utilizando la **Técnica Feynman**.
 
-> **⚠️ Regla del DM:** El DoJo Agent (Dungeon Master) auditará este documento. Si detecta que estás copiando y pegando, o que no comprendes el concepto central, **denegará tu acceso al Boss Final**.
+> **⚠️ Regla del DM:** El DoJo Agent (Dungeon Master) auditará este documento. Si detecta que estás copiando y pegando, o que no comprendes el concepto central, **denegará tu acceso al Boss**.
 
 ---
 

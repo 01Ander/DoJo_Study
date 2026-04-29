@@ -59,10 +59,10 @@ def test_raises_invalid_transaction():
 
 ## 5. Mapa de Ejercicios
 
-Dirígete a `exercises/06-logging/`:
+Dirígete a `quests/06-logging/`:
 
 ```text
-PY-POO/exercises/06-logging/
+PY-POO/quests/06-logging/
 ├── 01-custom-exceptions.md      (Tipo A: Lanzar Errores)
 └── 02-test-exceptions.md        (Tipo B: Testing Nivel 2)
 ```

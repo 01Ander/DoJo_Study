@@ -3,7 +3,7 @@
 **Objetivo:** Probar un Orquestador aislando las dependencias con Mocks.
 
 ## Tu Tarea
-En `exercises/04-orchestration/`, asume que tu `RecipePipeline` del ejercicio anterior ya existe.
+En `quests/04-orchestration/`, asume que tu `RecipePipeline` del ejercicio anterior ya existe.
 Crea un test completo en `test_pipeline.py` usando `from unittest.mock import Mock`.
 
 1. Crea un mock para el reader que devuelva `["Pizza"]` al llamar a `read_recipes`.

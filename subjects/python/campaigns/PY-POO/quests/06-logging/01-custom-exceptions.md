@@ -6,7 +6,7 @@
 Tu procesador de pagos no admite tarjetas expiradas.
 
 ## Tu Tarea
-En `exercises/06-logging/`, crea `payments.py`:
+En `quests/06-logging/`, crea `payments.py`:
 1. Define una excepción personalizada vacía `ExpiredCardError`.
 2. Crea una clase `PaymentProcessor` con un método `charge(self, card_year: int)`.
 3. Si `card_year` es menor a 2024, lanza tu `ExpiredCardError`. De lo contrario, retorna `True`.

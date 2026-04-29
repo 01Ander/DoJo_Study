@@ -116,10 +116,10 @@ Pytest NO es nativo. Debe instalarse.
 
 ## 6. Mapa de Ejercicios
 
-Dirígete a `exercises/05-testing/` y completa los ejercicios:
+Dirígete a `quests/05-testing/` y completa los ejercicios:
 
 ```text
-PY-POO/exercises/05-testing/
+PY-POO/quests/05-testing/
 ├── 01-fixture-creation.md       (Tipo B: Nivel 3 - Fixtures)
 └── 02-test-from-scratch.md      (Tipo B: Nivel 4 - Test Completo)
 ```

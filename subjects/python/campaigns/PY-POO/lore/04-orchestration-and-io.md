@@ -55,10 +55,10 @@ def test_game_pipeline():
 
 ## 5. Mapa de Ejercicios
 
-Dirígete a `exercises/04-orchestration/`:
+Dirígete a `quests/04-orchestration/`:
 
 ```text
-PY-POO/exercises/04-orchestration/
+PY-POO/quests/04-orchestration/
 ├── 01-pipeline-assembly.md      (Tipo A: Inyección de Dependencias)
 └── 02-mocking-io.md             (Tipo B: Testing con Mocks)
 ```

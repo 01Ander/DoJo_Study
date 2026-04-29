@@ -16,7 +16,7 @@ def add_item(cart: dict, item_name: str, price: float):
 ```
 
 ## Tu Tarea
-Crea un archivo `shopping_cart.py` dentro de esta carpeta (`exercises/00-classes/`) y diseña la clase `ShoppingCart`.
+Crea un archivo `shopping_cart.py` dentro de esta carpeta (`quests/00-classes/`) y diseña la clase `ShoppingCart`.
 
 1. Define el constructor `__init__` que reciba `customer_id`.
 2. Inicializa internamente `items` (como lista vacía) y `total` (como 0.0).

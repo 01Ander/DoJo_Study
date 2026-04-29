@@ -28,7 +28,7 @@ The engine must ingest raw transactional data, isolate the inputs dynamically vi
 
 ## 🏗️ Syllabus (Course Structure)
 
-### Capa Teórica y Laboratorios (`theory/` y `exercises/`)
+### Capa Teórica y Laboratorios (`lore/` y `quests/`)
 - **Cap 00: Hello, Classes — From Functions to Objects.** `class`, `__init__`, `self`.
 - **Cap 01: Abstract Classes & Interfaces.** `abc`, `ABC`, `abstractmethod`, contratos lógicos.
 - **Cap 02: Domain Entities & Polymorphism.** Herencia, constructores `super()`, polimorfismo.
@@ -38,7 +38,7 @@ The engine must ingest raw transactional data, isolate the inputs dynamically vi
 - **Cap 06: Validation & Logging.** Pydantic models, error handling strategies.
 - **Cap 07: CLI Applications.** Typer/Click, arg parsing, terminal styling.
 
-### 🛡️ Boss Final: The Financial Projector CLI (`project/`)
+### 🛡️ Boss: The Financial Projector CLI (`boss/`)
 Proyecto monolítico con fases internas desbloqueables (Solo accesible bajo auditoría del DM).
 1. **Extraction Layer:** Implementar `AbstractExtractor` y dependencias (CSV/JSON).
 2. **Domain Entities:** Modelar Transacciones (Income/Expense).
@@ -56,7 +56,7 @@ Proyecto monolítico con fases internas desbloqueables (Solo accesible bajo audi
 ---
 
 ## ✅ Definition of Done (DoD) Global
-1. **Academic Assimilation:** `study-journal.md` completado y auditado por el DM usando la Técnica Feynman para cada capítulo.
-2. **Test-Driven Mechanics:** Todo código de producción en el Boss Final debe originarse tras un test fallido.
+1. **Academic Assimilation:** `grimoire.md` completado y auditado por el DM usando la Técnica Feynman para cada capítulo.
+2. **Test-Driven Mechanics:** Todo código de producción en el Boss debe originarse tras un test fallido.
 3. **Architecture First:** Documentación de trade-offs de diseño en el `journal.md` del Boss.
 4. **English Friendly:** Nomenclatura en inglés. Bitácoras y dudas conceptuales en español.

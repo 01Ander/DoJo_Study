@@ -6,7 +6,7 @@
 Tienes un `RecipeReader` y un `CalorieCalculator`.
 
 ## Tu Tarea
-En `exercises/04-orchestration/`, crea `pipeline.py`:
+En `quests/04-orchestration/`, crea `pipeline.py`:
 1. Crea la clase `RecipePipeline`.
 2. En el constructor, inyecta los objetos `reader` y `calculator`.
 3. Implementa `execute(self, file_path)`. Debe usar el reader para leer el archivo pasándole la ruta, pasar los datos leídos al calculator, y retornar el resultado final.
