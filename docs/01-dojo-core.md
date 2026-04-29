@@ -31,7 +31,7 @@ Esta versión (establecida en Colombia bajo disponibilidad de 8+ horas diarias d
 
 ### 1. La Dualidad de Roles (Operador vs. Arquitecto)
 Para evitar la fatiga de decisión, el DoJo separa diseño de ejecución:
-- **Modo Operador:** (Días de inmersión/Lunes-Viernes) Ejecución pura. El sistema es inmutable. El objetivo es escribir código, testing y cumplir misiones.
+- **Modo Operador:** (Días de inmersión/Lunes-Viernes) Ejecución pura. El sistema es inmutable. El objetivo es escribir código, testing y avanzar capítulos y Bosss.
 - **Modo Arquitecto:** (Ventanas fijas, ej. Miércoles tarde o Sábado en la mañana si es estrictamente necesario) Único momento para editar estructura, diseñar campañas o reestructurar el "Syllabus".
 - **Rest Days Obligatorios:** Sábados por la tarde y Domingos son días de desconexión absoluta (*Zero-Code Policy*). No son opcionales; son el requisito neurobiológico para sostener la inmersión de 8h diarias.
 
@@ -40,26 +40,27 @@ Para evitar la fatiga de decisión, el DoJo separa diseño de ejecución:
 - **Interferencia del Francés:** Confusión semántica y gramatical por idioma base previo. -> **Mitigación:** Inmersión de contenido support en DoJo Vida.
 - **Infoxicación:** Máximo de 1 a 2 campañas activas. Prohibido saltar si una no está cerrada.
 - **Hiperfoco:** Tras bloques prolongados (4h+), se debe ejecutar el registro de cierre obligatorio.
-- **Sobreingeniería:** Prohibido refactorizar "porque sí"; requiere un Mini-RFC en la misión.
+- **Sobreingeniería:** Prohibido refactorizar "porque sí"; requiere justificación en el journal.
 - **Muros Técnicos:** Estancamientos continuados requieren reportarse o degradarse transitoriamente.
 
 ---
 
 ## Estructura de Estudio Integrada
 
-El aprendizaje se estructura sobre campañas (proyectos reales) que se disgregan en misiones (tickets o entregables aislados). La asistencia técnica de la IA evolucionó de historiales de chat estáticos hacia un ecosistema dinámico de personalidades a través de **Hermes Agent**:
+El aprendizaje se estructura sobre el modelo **Campaign as Course**, abandonando las "misiones" progresivas aisladas en favor de un enfoque pedagógico de Libro + Laboratorio + Boss. La asistencia técnica de la IA evolucionó hacia un ecosistema dinámico de personalidades a través de **Hermes Agent**:
 
-- **`/personality dojo-tutor`:** Acompañamiento teórico, generación de ejemplos didácticos aislados y modelamiento mental mediante el "*Domain Shifting*" (analogías externas).
-- **`/personality dojo-reviewer`:** Rol estricto de Pair Programming Socrático. No ofrece la solución ni escribe código por ti; guía exclusivamente mediante preguntas, revisa PRs ficticios y audita el cumplimiento del TDD y el Clean Code.
-- **`/personality dojo-architect`:** Visión macro del ecosistema completo. Útil en Modo Arquitecto para debatir patrones de diseño a gran escala, escalabilidad futura de aplicaciones y reestructuración del *Syllabus* general.
+- **`/personality dojo-dm`:** (El Auditor). Gatekeeper del Boss. Revisa el `grimoire.md` validando que la técnica Feynman demuestre asimilación antes de permitir programar.
+- **`/personality dojo-tutor`:** Acompañamiento teórico puntual. Utiliza el "*Domain Shifting*" obligatorio (analogías externas) y respuestas bajo el Estricto Estándar Académico para no romper el Flow.
+- **`/personality dojo-reviewer`:** Rol estricto de Pair Programming Socrático durante el Boss. No ofrece la solución ni escribe código por ti; te guía a reparar los conceptos fallidos.
+- **`/personality dojo-architect`:** Visión macro del ecosistema completo. Útil en Modo Arquitecto para debatir patrones de diseño a gran escala y reestructuración del *Syllabus* general.
 
 ### Sistema de Estado del Progreso (Progress Status)
 
-- 🟢 **Ready**: Listo para ejecutarse (Mini-RFC diagramado).
+- 🟢 **Ready**: Listo para ejecutarse.
 - 🟡 **Pending**: Planificado.
 - 🔵 **In Progress**: En desarrollo (Modo Operador activo).
 - 🔴 **Not Started**: Sin prioridad.
-- 🟣 **Blocked**: Requisito externo o Muro Técnico.
+- 🔒 **Blocked**: Proyecto final bloqueado, a la espera de auditoría del DM.
 
 ---
 
@@ -70,4 +71,4 @@ El aprendizaje se estructura sobre campañas (proyectos reales) que se disgregan
 3. **El tiempo es el recurso crítico.** (El "Reloj de Arena"). Usar presupuestos para herramientas aceleradoras es válido.
 4. **Respeta el ciclo de flujo.** Reconoce cuándo estás en expansión cognitiva ("Flow") y cuándo se impone el "Vacío" necesario por fatiga fisiológica, en cuyo caso corresponde el Rest Day.
 5. **English Friendly.** Todo el código (variables, clases, métodos) y toda documentación técnica (Mini-RFCs, Readmes, Logs de Commit) se fomenta en inglés. Operaremos en un entorno "English friendly en primeras instancias, hasta que el operador maneje un mejor nivel de inglés". El español se permite de transición o como red de seguridad y para reflexiones personales (DoJo Cerebro/Vida).
-6. **The Business Translation (Valor de Negocio).** Ningún código se escribe en el vacío. Todo artefacto técnico es una respuesta a un problema de negocio. Es obligatorio definir el Contexto de Negocio y el ROI (Retorno de Inversión) antes de implementar. Las Boss Missions requieren una métrica de impacto real y legibilidad para perfiles no técnicos (Social README).
+6. **The Business Translation (Valor de Negocio).** Ningún código se escribe en el vacío. Todo artefacto técnico es una respuesta a un problema de negocio. Es obligatorio definir el Contexto de Negocio y el ROI antes de implementar. Los Bosss requieren una métrica de impacto real.

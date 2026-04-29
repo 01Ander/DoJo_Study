@@ -8,39 +8,34 @@ Este es el índice principal de la documentación del **DoJo Study**, el ecosist
 
 ### 1. Núcleo del DoJo
 **→ [`01-dojo-core.md`](01-dojo-core.md)**
-Manifiesto fundacional. Define la Inmersión Total, Modo Operador vs. Arquitecto, entorno English Friendly y la Mitigación de Riesgos (Infoxicación, Interferencia del Francés).
+Manifiesto fundacional. Define la Inmersión Total, Modo Operador vs. Arquitecto, entorno English Friendly y la Mitigación de Riesgos.
 
-### 2. Misiones Framework
-**→ [`02-misiones-framework.md`](02-misiones-framework.md)**
-Explica la taxonomía de la ejecución técnica: Main Missions (TDD), Scaling Refactors, Boss Missions Integradas, y Exit Gates (EG).
 
-### 3. Sistema de Rendimiento Binario
-**→ [`03-sistema-energia.md`](03-sistema-energia.md)**
-El control de tiempo: Fase Cero (English Commando), Deep Work Blocks (con Hiperfoco) y Rest Days (Desconexión pura).
+### 2. Sistema de Rendimiento Binario
+**→ [`02-sistema-energia.md`](02-sistema-energia.md)**
+El control de tiempo: Fase Cero, Deep Work Blocks y Rest Days.
 
-### 4. Arquitectura de Campañas
-**→ [`04-estructura-campanas.md`](04-estructura-campanas.md)**
-Cómo transformar simples conceptos de código en Pipelines y Módulos de Ingeniería de Software reales.
 
-### 5. Syllabus Maestro
-**→ [`05-syllabus-maestro.md`](05-syllabus-maestro.md)**
-El Blueprint general del Data Engineer, incluyendo las 3 fases inmersivas de Inglés a 12 meses.
+### 3. Syllabus Maestro
+**→ [`03-syllabus-maestro.md`](03-syllabus-maestro.md)**
+El Blueprint general del Data Engineer.
 
-### 6. Manual Operativo de Misiones (Deep Work Loop)
-**→ [`06-manual-operativo-misiones.md`](06-manual-operativo-misiones.md)**
-Los flujos estrictos de operación diaria: Mini-RFC -> TDD -> Implementación -> Commit Semántico.
 
-### 7. Protocolo Yellow (Graceful Degradation)
-**→ [`07-protocol-yellow.md`](07-protocol-yellow.md)**
-Mecanismo universal de resiliencia cognitiva. Define las palancas (De-abstracción, Español, Splitting) para mitigar el burnout sin detener el avance.
+### 4. Protocolo Yellow (Graceful Degradation)
+**→ [`04-protocol-yellow.md`](04-protocol-yellow.md)**
+Mecanismo universal de resiliencia cognitiva.
 
-### 8. The DoJo Agent v4.0 (Hermes Agent)
-**→ [`08-dojo-agent.md`](08-dojo-agent.md)**
-Arquitectura multi-agente sobre Hermes Agent (NousResearch). Estructura de interacción IA, Personalidades (`dojo-tutor`, `dojo-reviewer`, `dojo-architect`), Skills y flujo operativo.
+### 5. The DoJo Agent v4.0 & v5.0 (Hermes Agent)
+**→ [`05-dojo-agent.md`](05-dojo-agent.md)**
+Arquitectura multi-agente. Estructura de interacción IA, rol del DM (Gatekeeper) y Skills (`/dojo-ask`).
 
-### 9. Guía de Operaciones (Hermes Agent)
-**→ [`09-guia-operaciones-v4.md`](09-guia-operaciones-v4.md)**
-Referencia rápida paso a paso: cómo iniciar sesiones, cambiar personalidades, fijar misiones y registrar avances. Cheat sheet de comandos.
+### 6. Guía de Operaciones (Hermes Agent)
+**→ [`06-guia-operaciones-v5.md`](06-guia-operaciones-v5.md)**
+Referencia rápida paso a paso: cómo iniciar sesiones, cambiar personalidades, etc.
+
+### 7. Campaign as Course (Modelo v5.0)
+**→ [`07-campaign-as-course.md`](07-campaign-as-course.md)**
+Doc fundacional del nuevo modelo. Mecánicas de `lore/`, `quests/`, `boss/`, `grimoire.md`, ciclo por capítulo, y tipología `CORE-SUBTEMA`.
 
 ---
 

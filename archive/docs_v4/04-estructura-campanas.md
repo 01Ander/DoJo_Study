@@ -1,5 +1,6 @@
 # 04 - Estructura Campañas
 
+> ⚠️ **DEPRECADO en v5.0.** Ver `docs/07-campaign-as-course.md`. Tipología de campaigns actualizada a `CORE-SUBTEMA`.
 En el DoJo, una **campaña** no es una simple agrupación de ejercicios al azar, sino un **Proyecto de Ingeniería Modular** diseñado para crear un artefacto técnico real y medible. El aprendizaje emerge de la construcción de sistemas profesionales.
 
 ---

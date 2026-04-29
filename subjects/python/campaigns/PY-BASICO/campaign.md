@@ -70,4 +70,4 @@ To successfully seal the `PY-BASICO` campaign, the Developer must:
 ## 6. Derived Future Campaigns
 
 Completing this campaign automatically unlocks:
-- **PY-POO-FINANCE** (Constructing ETL pipelines via SOLID and Object Oriented Design).
+- **PY-POO** (Constructing ETL pipelines via SOLID and Object Oriented Design).

@@ -4,7 +4,7 @@
 Campaign Name: POO Financial Pipelines (Data Engineering Edition)  
 Campaign Code: PY-POO-FINANCE  
 Version: 3.3 (Production Ready)  
-Status: 🟢 Ready  
+Status: 🔒 Archivada (v4) — Ver campaigns/PY-POO para el beta v5
 Campaign Type: CUMULATIVE
 
 ---

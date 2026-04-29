@@ -1,4 +1,4 @@
-# 08 - The DoJo Agent v4.0 (Hermes Agent)
+# 05 - The DoJo Agent v4.0 & v5.0 (Hermes Agent)
 
 ## ¿Qué es el DoJo Agent?
 
@@ -43,6 +43,8 @@ Con el comando `/personality [NOMBRE]`, instruyes a Hermes para asumir un rol es
 
 * **`/personality dojo-architect` (El Arquitecto / Visión Macro):** Audita la coherencia de todo el sistema DoJo y tu progresión en campañas. Debate filosofía de ingeniería, rediseño de syllabus o propone refactorizaciones. Libertad total para dar opiniones directas. *(Modelo recomendado: Gemini 3.1 Pro via `/model`)*
 
+* **`/personality dojo-dm` (El Dungeon Master / Auditor v5.0):** Rol introducido en Campaign as Course. Gatekeeper del Boss. Solo interviene para auditar que el `grimoire.md` esté completo. Cuando funciona como tutor (vía `/dojo-ask`), usa el **Estándar de Respuesta Académica**: máximo 3 párrafos, directo, sin verbosidad y usando Domain Shifting estricto. *(Modelo: Gemini 3.1 Pro / Qwen3.6 Plus)*
+
 ---
 
 ## Flujo Operativo
@@ -56,7 +58,7 @@ hermes
 > Hermes lee `.hermes.md` automáticamente. Las reglas del DoJo se inyectan sin que hagas nada.
 
 ### 2. Anclaje de Contexto
-Fija tu misión activa para que el agente sepa en qué trabajas:
+Fija tu Mission o Campaign activa para que el agente sepa en qué trabajas:
 ```
 /dojo-start py-basico B00
 ```
@@ -69,14 +71,14 @@ Registra tus avances manualmente:
 ```
 > Además, después de cada interacción significativa, el agente puede delegar automáticamente a un sub-agente Scribe (Gemma 4, FREE) que registra un resumen en tu journal.
 
-### 4. Pausas y Cierres (Gestión de Misión)
+### 4. Pausas y Cierres (Gestión de Sesión)
 Si precisas interrumpir tu sesión de *Deep Work*, usa:
 ```
 /stop-sesion
 ```
 > Persiste el contexto localmente en `.dojo-session.json` de manera que al usar `/dojo-start` después del receso, te proponga reanudar exactamente en el bloque que dejaste.
 
-Cuando cumples todos los criterios *Definition of Done* de una misión, ciérrala con:
+Cuando cumples todos los criterios *Definition of Done* de una Mission (fase) o Boss, ciérrala con:
 ```
 /dojo-done
 ```
@@ -86,6 +88,7 @@ Cuando cumples todos los criterios *Definition of Done* de una misión, ciérral
 /domain-shifting     → Carga reglas de analogía de dominio
 /socratic-review     → Carga protocolo socrático del Reviewer
 /mini-rfc            → Carga template de diseño previo
+/dojo-ask            → (v5.0) Consulta al DM sobre un ejercicio específico (ej: /dojo-ask --cap="03" --ex="ex02" --pregunta="...")
 ```
 
 ---

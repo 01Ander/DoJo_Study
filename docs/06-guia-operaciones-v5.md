@@ -1,4 +1,4 @@
-# 09 - Guía de Operaciones (Hermes Agent)
+# 06 - Guía de Operaciones (Hermes Agent)
 
 > Este documento es tu referencia rápida (Wiki Operativa). Si te pierdes en los comandos o flujos del DoJo, vuelve aquí.
 
@@ -22,7 +22,7 @@ hermes
 
 ### Paso 3: Fijar tu misión activa
 ```
-/dojo-start py-POO-FINANCE M00
+/dojo-start PY-POO M00
 ```
 > Esto carga el `requirements.md` y el `journal.md` de esa misión al contexto. El agente ahora sabe exactamente en qué estás trabajando.
 
@@ -53,7 +53,7 @@ Para salir de Hermes, escribe `/exit`.
 
 ## ⚡ Comandos Rápidos (Cheat Sheet)
 
-### 📋 Misiones y Skills
+### 📋 Campañas, Misiones y Skills
 | Comando | Qué hace |
 |---|---|
 | `/dojo-start <campaña> <misión>` | Fija el contexto de la misión actual. |
@@ -89,10 +89,10 @@ Para salir de Hermes, escribe `/exit`.
 ├── CHANGELOG.md                  ← Historial de versiones del marco
 │
 ├── subjects/python/campaigns/    ← Área principal de construcción y campañas
-│   ├── PY-POO-FINANCE/missions/
-│   │   ├── M00/code/             ← Entorno de ejecución puro
-│   │   ├── M00/requirements.md   ← Lo que carga /dojo-start
-│   │   └── M00/journal.md        ← Lo que actualiza /dojo-log
+│   ├── PY-POO/boss/
+│   │   ├── src/                  ← Entorno de ejecución puro
+│   │   ├── requirements.md       ← Lo que carga /dojo-start
+│   │   └── journal.md            ← Lo que actualiza /dojo-log
 │   └── ...
 │
 ├── dojo_agent/skills/dojo/       ← Habilidades de Hermes (versionados en git)

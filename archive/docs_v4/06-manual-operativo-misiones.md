@@ -1,5 +1,6 @@
 # 06 - Manual Operativo Misiones
 
+> ⚠️ **DEPRECADO en v5.0.** Ver `docs/07-campaign-as-course.md`
 Este manual es tu estándar operativo cuando entras al bloque de **Deep Work**. Su estricto cumplimiento garantiza calidad de software, trazabilidad profesional, y fluidez en tu Inmersión Lingüística (apuntando a un formato "English friendly en primeras instancias").
 
 ---

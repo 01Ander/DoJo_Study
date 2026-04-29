@@ -23,7 +23,7 @@ subjects/
 ├─ python/
 │  ├─ campaigns/
 │  │  ├─ PY-BASICO/            <- (Entry level assessment)
-│  │  ├─ PY-POO-FINANCE/       <- (Data Engineering ETL)
+│  │  ├─ PY-POO/               <- (Data Engineering ETL)
 │  │  └─ PY-CLOUD/
 │  └─ README.md
 ├─ sql/
@@ -38,24 +38,23 @@ subjects/
 El centro neural del avance son las Campañas. Cada directorio de una campaña mantiene un estándar de grado corporativo:
 
 ```text
-PY-POO-FINANCE/
-├─ campaign.md         <- Documento de proyecto (Contexto & Requisitos)
-└─ missions/           <- Sprints / Épicas del proyecto
-   ├─ M01/
-   │  ├─ requirements.md <- Detalles y requisitos del ticket
-   │  ├─ Mini-RFC.md     <- Propuesta de arquitectura y diseño
-   │  ├─ journal.md      <- Bitácora de aprendizaje/problemas (opcional)
-   │  └─ code/           <- Entorno de ejecución principal
-   │     ├─ src/         <- Código fuente (Python)
-   │     ├─ tests/       <- Pruebas unitarias
-   │     └─ data/        <- Archivos de datos, logs o mocks
-   └─ B01/ ...
+PY-POO/
+├─ campaign.md         <- Documento de la Campaign (Contexto & Requisitos)
+├─ grimoire.md         <- Grimoire / Bitácora Feynman
+├─ lore/               <- Lore (Lecciones teóricas)
+├─ quests/             <- Quests (Laboratorios guiados)
+└─ boss/               <- Boss (Proyecto integrador)
+   ├─ requirements.md  <- Requisitos y Missions (Fases) del Boss
+   ├─ journal.md       <- Bitácora de aprendizaje técnica
+   ├─ src/             <- Código fuente (Python)
+   ├─ tests/           <- Pruebas unitarias
+   └─ data/            <- Archivos de datos o mocks
 ```
 
-### Reglas para Misiones:
-- **Main Missions (M):** Construcción Core y TDD obligatorios.
-- **Scaling Refactors (S):** Escalabilidad, Logging, Integración Continua (CI).
-- **Boss Missions (B):** La entrega a Producción (CLI, API Web).
+### Reglas para Campaigns y Missions:
+- **Campaign (Materia):** Toda la ruta de aprendizaje modular.
+- **Lore & Quests:** Adquisición teórica y asimilación (requiere técnica Feynman en el Study Journal).
+- **Missions (Fases del Boss):** Unidades del Final Boss con TDD obligatorio.
 
 ---
 

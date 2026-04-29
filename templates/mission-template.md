@@ -5,7 +5,7 @@
 
 ## Identification
 Type: [M (Core) | S (Refactor/Scaling) | B (Integration) | EG (Exit Gate)]  
-Campaign Code: [e.g., PY-POO-FINANCE]  
+Campaign Code: [e.g., PY-POO]  
 Mission Code: [e.g., M01]  
 Title: [Short, direct technical scope]
 Status: [🟢 Ready | 🔵 In Progress]
@@ -33,6 +33,7 @@ List the unit tests or edge cases that MUST be covered by `pytest` (or equivalen
 ---
 
 ## Execution Steps (Implementation Plan)
+> ⚠️ **AGENT DIRECTIVE:** These steps are instructions for the **Operator** to execute manually. The agent MUST NOT auto-execute them (no `pip install`, no file creation, no script runs). Guide and explain — do not perform.
 1.  
 2.  
 3.  
