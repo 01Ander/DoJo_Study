@@ -81,22 +81,35 @@ def test_database_call_without_database():
 
 ## 4. Setup del Entorno (CRÍTICO)
 
-Pytest NO es nativo. Debe instalarse.
+Pytest y Mypy NO son nativos. Deben instalarse en un entorno virtual aislado para no contaminar tu sistema.
 
-1. **Instalación:** 
+1. **Crear y activar el Entorno Virtual (venv):**
    ```bash
-   pip install pytest==8.2.2
+   # Crear el entorno (hazlo solo una vez en la raíz del proyecto)
+   python -m venv .venv
+   
+   # Activar el entorno (hazlo cada vez que abras una nueva terminal)
+   source .venv/bin/activate  # En Mac/Linux
    ```
 
-2. **Verificación:**
+2. **Instalación de dependencias:** 
    ```bash
-   python -m pytest --version
+   pip install pytest mypy
    ```
 
-3. **Ejecución de una suite de tests:**
-   Pytest busca automáticamente todos los archivos que empiecen con `test_`.
+3. **Verificación:**
    ```bash
-   # Para correr todos los tests en la carpeta actual:
+   pytest --version
+   mypy --version
+   ```
+
+4. **Ejecución de validaciones:**
+   Antes de correr los tests, es buena práctica correr `mypy` para validar los tipos estáticos.
+   ```bash
+   # 1. Chequeo de Tipos:
+   mypy tu_archivo.py
+   
+   # 2. Correr todos los tests en la carpeta actual:
    pytest -v
    # O especificando el archivo:
    pytest test_shopping_cart.py -v
@@ -118,8 +131,11 @@ Pytest NO es nativo. Debe instalarse.
 
 Dirígete a `quests/05-testing/` y completa los ejercicios:
 
+- [[01-fixture-creation]]
+- [[02-test-from-scratch]]
+
 ```text
 PY-POO/quests/05-testing/
-├── 01-fixture-creation.md       (Tipo B: Nivel 3 - Fixtures)
-└── 02-test-from-scratch.md      (Tipo B: Nivel 4 - Test Completo)
+├── [[01-fixture-creation]].md       (Tipo B: Nivel 3 - Fixtures)
+└── [[02-test-from-scratch]].md      (Tipo B: Nivel 4 - Test Completo)
 ```

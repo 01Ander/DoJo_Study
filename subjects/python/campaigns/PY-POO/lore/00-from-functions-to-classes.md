@@ -4,6 +4,8 @@ Bienvenido al paradigma Orientado a Objetos (OOP). Hasta ahora, has escrito scri
 
 En OOP, **fusionamos el estado (datos) y el comportamiento (funciones)** en una sola entidad llamada "Objeto".
 
+> 💡 **Nota sobre el código del Lore:** Los fragmentos de código que ves en los capítulos de teoría (`lore/`) son ejemplos conceptuales. Si deseas ejecutarlos y jugar con ellos, la mejor práctica es crear un archivo temporal llamado `scratch.py` en la raíz de tu proyecto, pegar el código ahí y ejecutar `python scratch.py` en tu terminal.
+
 ## 1. El Problema de las Funciones Aisladas
 
 Imagina un sistema de reservas de hotel hecho con diccionarios y funciones:
@@ -100,8 +102,11 @@ python --version
 
 Ahora, dirígete a `quests/00-classes/` y completa los ejercicios en orden:
 
+- [[01-concept-modeling]]
+- [[02-test-reading]]
+
 ```text
 PY-POO/quests/00-classes/
-├── 01-concept-modeling.md  (Tipo A: Implementación Base)
-└── 02-test-reading.md      (Tipo B: Testing Nivel 1)
+├── [[01-concept-modeling]].md  (Tipo A: Implementación Base)
+└── [[02-test-reading]].md      (Tipo B: Testing Nivel 1)
 ```
