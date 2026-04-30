@@ -52,7 +52,8 @@ CAMPAÑA/
 
 ### 2.1 La Capa `lore/`
 Actúa como un libro de texto. Son archivos Markdown con la teoría, código de ejemplo, e instrucciones de entorno.
-- **Regla de Oro:** Siempre utiliza *Domain Shifting*. Si el proyecto de la campaña trata sobre Finanzas, los ejemplos de la teoría deben tratar sobre Zoológicos, Reservas de Hotel, o cualquier otro dominio ajeno. Esto fuerza al Operador a traducir la lógica, evitando el "copy-paste".
+- **Regla de Oro (Domain Shifting):** Siempre utiliza *Domain Shifting*. Si el proyecto de la campaña trata sobre Finanzas, los ejemplos de la teoría deben tratar sobre Zoológicos, Reservas de Hotel, o cualquier otro dominio ajeno. Esto fuerza al Operador a traducir la lógica, evitando el "copy-paste".
+- **Regla de Oro (Zero Assumption):** Jamás se asume ninguna dependencia preinstalada, configuración de entorno (como `venv`), ni conocimiento de herramientas externas a menos que se hayan enseñado explícitamente en campañas anteriores. Cada pieza de Lore que introduzca una herramienta nueva (ej. `pytest`, `mypy`) debe incluir sus instrucciones explícitas de setup partiendo desde conocimiento cero.
 
 ### 2.2 La Capa `quests/`
 Contiene la práctica deliberada, dividida por capítulos homólogos a la teoría.
