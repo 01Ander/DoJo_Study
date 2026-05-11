@@ -92,8 +92,11 @@ El módulo `abc` viene incluido (built-in) en la librería estándar de Python. 
 
 Dirígete a `quests/01-abstractions/` y completa los ejercicios:
 
+- [[01-interface-segregation]]
+- [[02-test-structure]]
+
 ```text
 PY-POO/quests/01-abstractions/
-├── 01-interface-segregation.md   (Tipo A: Implementación ABC)
-└── 02-test-structure.md          (Tipo B: Testing Nivel 2)
+├── [[01-interface-segregation]].md   (Tipo A: Implementación ABC)
+└── [[02-test-structure]].md          (Tipo B: Testing Nivel 2)
 ```

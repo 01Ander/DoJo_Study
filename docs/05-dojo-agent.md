@@ -1,10 +1,12 @@
-# 05 - The DoJo Agent v4.0 & v5.0 (Hermes Agent)
+# 05 - The DoJo Agent v5.1 (Hermes Agent — Mundodisco Edition)
 
 ## ¿Qué es el DoJo Agent?
 
-Es el componente "vivo" e interactivo del ecosistema DoJo. Originalmente un script Python monolítico con RAG local, ha evolucionado a un ecosistema multi-agente sobre **[Hermes Agent](https://github.com/NousResearch/hermes-agent)** (NousResearch) — una plataforma profesional de agentes IA con herramientas, memoria persistente y delegación de sub-agentes.
+Es el componente "vivo" e interactivo del ecosistema DoJo. Originalmente un script Python monolítico con RAG local, ha evolucionado a un agente ligero sobre **[Hermes Agent](https://github.com/NousResearch/hermes-agent)** (NousResearch) con personalidades y skills inspiradas en el Mundodisco de Terry Pratchett.
 
-El objetivo del Agente es reducir la carga cognitiva (*Protocol Yellow*), actuando como múltiples *Personalidades* especializadas dependiendo de tus necesidades de estudio y blindando el flujo técnico.
+El objetivo del Agente es reducir la carga cognitiva (*Protocol Yellow*), actuando como personalidades especializadas que guían sin resolver, y como gatekeeper (DM) que audita el progreso antes de autorizar el Rite final.
+
+> GNU Terry Pratchett.
 
 ---
 
@@ -12,38 +14,32 @@ El objetivo del Agente es reducir la carga cognitiva (*Protocol Yellow*), actuan
 
 El sistema opera sobre Hermes Agent con tres pilares:
 
-1. **Constitución (`.hermes.md`):** Archivo en la raíz del repo que Hermes inyecta automáticamente al abrir en este directorio. Contiene las reglas globales del DoJo, el Definition of Done, restricciones anti-leakage y la estructura del sistema.
+1. **Constitución (`.hermes.md`):** Archivo en la raíz del repo que Hermes inyecta automáticamente al abrir en este directorio. Contiene las reglas globales del DoJo, el Definition of Done, restricciones y la estructura del sistema.
 
 2. **Personalidades (`~/.hermes/personalities/`):** Archivos Markdown que definen el comportamiento de cada modo de trabajo. Se cambian con `/personality`.
 
-3. **Skills (`dojo_agent/skills/dojo/`):** Paquetes de instrucciones y scripts que Hermes carga on-demand como slash commands (`/dojo-start`, `/dojo-log`, etc.). Versionados en el repo con git.
-
----
-
-## Modelos LLM (Cost-Optimized via OpenRouter)
-
-| Rol | Modelo | Costo | Cuándo |
-|---|---|---|---|
-| **Tutor / Reviewer** | Qwen3.6 Plus | $0.325 / $1.95 per M | Default, uso diario |
-| **Scribe** (auto-logging) | Gemma 4 31B | **FREE** | Automático (sub-agente) |
-| **Architect** | Gemini 3.1 Pro | Premium | Solo con `/model` explícito |
-| **Fallback** | Gemma 4 e4b (Ollama) | $0 | Si OpenRouter cae |
+3. **Skills (`dojo_agent/skills/dojo/`):** Paquetes de instrucciones que Hermes carga on-demand como slash commands. Versionados en el repo con git.
 
 ---
 
 ## Personalidades de Operación (`/personality`)
 
-Con el comando `/personality [NOMBRE]`, instruyes a Hermes para asumir un rol especializado:
+### 🧙 `/personality wizard` (El Mago — Adquisición Conceptual)
 
-* **`/personality dojo-tutor` (El Instructor / Adquisición Conceptual):** Explica teoría arquitectónica y conceptos. Utiliza **Domain Shifting** obligatorio — da ejemplos de código funcional pero en un dominio completamente distinto (videojuegos, zoológicos, cocina) para forzar la traducción de lógica. Define Criterios de Aceptación (DoD) y casos borde a testear. Tiene permiso para dar código y guías paso a paso. Flexibilidad bilingüe. *(Modelo: Qwen3.6 Plus)*
+Inspirado en los magos de la Universidad Invisible. Domina el conocimiento arcano y enseña con **Domain Shifting** obligatorio — da ejemplos de código funcional pero en un dominio completamente distinto al del ejercicio, forzando al Operador a traducir la lógica. Define Criterios de Aceptación y casos borde a testear. Tiene permiso para dar código y guías paso a paso. Flexibilidad bilingüe.
 
-* **`/personality dojo-reviewer` (El Revisor Socrático / Pair Programming):** Revisa tu código bajo Clean Architecture (lee tu Mini-RFC) y actúa estrictamente bajo el **MÉTODO SOCRÁTICO**. Tiene prohibido darte soluciones literales. Valida el Contexto de Negocio (ROI) antes de aprobar áreas técnicas y evalúa TDD. 
-  - *Criterio MVP:* Te da "luz verde" para codear cuando el diseño es suficiente.
-  - *Override del Operador:* Si declaras explícitamente que ya tomaste la decisión, acepta tu autoridad y te deja avanzar. *(Modelo: Qwen3.6 Plus)*
+### 🧹 `/personality witch` (La Bruja — Headología / Pair Programming)
 
-* **`/personality dojo-architect` (El Arquitecto / Visión Macro):** Audita la coherencia de todo el sistema DoJo y tu progresión en campañas. Debate filosofía de ingeniería, rediseño de syllabus o propone refactorizaciones. Libertad total para dar opiniones directas. *(Modelo recomendado: Gemini 3.1 Pro via `/model`)*
+Inspirada en las brujas del Mundodisco. Practica **headología** — el método socrático con otro nombre. Nunca da la respuesta directa. Revisa código bajo Clean Architecture con 4 niveles de escalación progresiva (pregunta abierta → pista → referencia teórica → override del operador). Criterio MVP para evitar parálisis por análisis.
 
-* **`/personality dojo-dm` (El Dungeon Master / Auditor v5.0):** Rol introducido en Campaign as Course. Gatekeeper del Boss. Solo interviene para auditar que el `grimoire.md` esté completo. Cuando funciona como tutor (vía `/dojo-ask`), usa el **Estándar de Respuesta Académica**: máximo 3 párrafos, directo, sin verbosidad y usando Domain Shifting estricto. *(Modelo: Gemini 3.1 Pro / Qwen3.6 Plus)*
+---
+
+## Skills Disponibles
+
+| Comando | Nombre | Función |
+|---|---|---|
+| `/scry [chronicle]` | Scry (Adivinación del DM) | Audita el progreso: verifica grimoire y quests, autoriza el Rite. Modo `--deep` para evaluación cualitativa. |
+| `/scroll [idea]` | Scroll (Pergamino Rápido) | Captura atómica de ideas sin romper el deep work. Fire-and-forget. |
 
 ---
 
@@ -57,55 +53,46 @@ hermes
 ```
 > Hermes lee `.hermes.md` automáticamente. Las reglas del DoJo se inyectan sin que hagas nada.
 
-### 2. Anclaje de Contexto
-Fija tu Mission o Campaign activa para que el agente sepa en qué trabajas:
+### 2. Elegir Personalidad
 ```
-/dojo-start py-basico B00
-```
-> Esto carga `requirements.md` y las últimas entradas de `journal.md` al contexto activo.
-
-### 3. Ejecución y Bitácoras
-Registra tus avances manualmente:
-```
-/dojo-log No logro entender cómo funciona la herencia aquí. Voy a reiniciar mañana.
-```
-> Además, después de cada interacción significativa, el agente puede delegar automáticamente a un sub-agente Scribe (Gemma 4, FREE) que registra un resumen en tu journal.
-
-### 4. Pausas y Cierres (Gestión de Sesión)
-Si precisas interrumpir tu sesión de *Deep Work*, usa:
-```
-/stop-sesion
-```
-> Persiste el contexto localmente en `.dojo-session.json` de manera que al usar `/dojo-start` después del receso, te proponga reanudar exactamente en el bloque que dejaste.
-
-Cuando cumples todos los criterios *Definition of Done* de una Mission (fase) o Boss, ciérrala con:
-```
-/dojo-done
+/personality wizard     # Necesito aprender teoría o ver ejemplos
+/personality witch      # Voy a codear y necesito pair programming socrático
 ```
 
-### 5. Skills On-Demand
+### 3. Flujo Académico (Capítulos)
+El avance por los capítulos es offline:
 ```
-/domain-shifting     → Carga reglas de analogía de dominio
-/socratic-review     → Carga protocolo socrático del Reviewer
-/mini-rfc            → Carga template de diseño previo
-/dojo-ask            → (v5.0) Consulta al DM sobre un ejercicio específico (ej: /dojo-ask --cap="03" --ex="ex02" --pregunta="...")
+📖 Leer lore/Cap-N en Obsidian
+✏️  Completar quests/Cap-N en VS Code
+📓 Escribir grimoire.md en Obsidian
+🔄 Repetir
 ```
+
+### 4. Verificar Progreso (DM Gate)
+Cuando creas que completaste todos los capítulos:
+```
+/scry PY-POO
+```
+> El DM verifica tu grimoire y tus quests. Si todo pasa: Rite desbloqueado.
+
+### 5. Rite (Proyecto Final)
+Con el Rite desbloqueado, activa `/personality witch` para pair programming socrático.
 
 ---
 
 ## Referencia Rápida
 
-| v3 (Legacy) | v4 (Hermes) |
-|---|---|
-| `python dojo_agent/main.py` | `hermes` |
-| `/mode main` | `/personality dojo-tutor` |
-| `/mode exercises` | `/personality dojo-tutor` (unificado) |
-| `/mode work` | `/personality dojo-reviewer` |
-| `/mode think` / `/mode global` | `/personality dojo-architect` |
-| `/start py-basico B00` | `/dojo-start py-basico B00` |
-| `/log mensaje` | `/dojo-log mensaje` |
-| `/audit pregunta` | `/personality dojo-architect` + preguntar |
+| v3 (Legacy) | v4 (Hermes) | v5.1 (Mundodisco) |
+|---|---|---|
+| `python dojo_agent/main.py` | `hermes` | `hermes` |
+| `/mode main` | `/personality dojo-tutor` | `/personality wizard` |
+| `/mode work` | `/personality dojo-reviewer` | `/personality witch` |
+| `/mode think` | `/personality dojo-architect` | Antigravity (externo) |
+| `/start py-basico B00` | `/dojo-start py-basico B00` | Eliminado (flujo offline) |
+| `/log mensaje` | `/dojo-log mensaje` | Eliminado (grimoire es el registro) |
+| — | `/dojo-idea mensaje` | `/scroll mensaje` |
+| — | — | `/scry PY-POO` |
 
 ---
 
-> *Nota: El código legacy del agente monolítico (v3) está archivado en `archive/legacy_main_v3.py` como referencia histórica.*
+> *Nota: El código legacy del agente monolítico (v3) está archivado en `archive/legacy_main_v3.py`. Las skills v4 están archivadas en `archive/agent_v4_skills/`.*

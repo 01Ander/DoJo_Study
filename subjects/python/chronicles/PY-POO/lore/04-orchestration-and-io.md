@@ -57,8 +57,11 @@ def test_game_pipeline():
 
 Dirígete a `quests/04-orchestration/`:
 
+- [[01-pipeline-assembly]]
+- [[02-mocking-io]]
+
 ```text
 PY-POO/quests/04-orchestration/
-├── 01-pipeline-assembly.md      (Tipo A: Inyección de Dependencias)
-└── 02-mocking-io.md             (Tipo B: Testing con Mocks)
+├── [[01-pipeline-assembly]].md      (Tipo A: Inyección de Dependencias)
+└── [[02-mocking-io]].md             (Tipo B: Testing con Mocks)
 ```

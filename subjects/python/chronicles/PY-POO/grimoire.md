@@ -2,25 +2,25 @@
 
 Este documento es tu registro académico. Después de leer cada capítulo en `lore/` y completar su laboratorio en `quests/`, debes documentar tu asimilación aquí utilizando la **Técnica Feynman**.
 
-> **⚠️ Regla del DM:** El DoJo Agent (Dungeon Master) auditará este documento. Si detecta que estás copiando y pegando, o que no comprendes el concepto central, **denegará tu acceso al Boss**.
+> **⚠️ Regla del DM:** El DoJo Agent (Dungeon Master) auditará este documento (`/scry`). Si detecta que estás copiando y pegando, o que no comprendes el concepto central, **denegará tu acceso al Rite**.
 
 ---
 
 ## Capítulo 00: From Functions to Classes
 **Fecha de finalización:** YYYY-MM-DD
 **Métricas:**
-- Tiempo de lectura: __ min
-- Tiempo en ejercicios: __ min
-- Veces que recurrí al Tutor/DM: __ (Objetivo: ≤ 2)
-- Fricción (1-10): __
-- ¿Completé el ejercicio de testing (Nivel 1) sin ver la solución?: [Sí / No]
+- Tiempo de lectura: 3 min
+- Tiempo en ejercicios: 22 min
+- Veces que recurrí al Tutor/DM: 0 (Objetivo: ≤ 2)
+- Fricción (1-10): 1
+- ¿Completé el ejercicio de testing (Nivel 1) sin ver la solución?: [Sí]
 
 **Feynman Synthesis (Tus propias palabras):**
 1. ¿Cuál es el problema fundamental que resuelven las clases que las funciones simples no pueden?
-> [Tu respuesta aquí...]
+> La facilidad de crear planos que se puedan replicar miles de veces. Poder asegurar las caracteristicas propias de cada clase, otorgando una capa de seguridad de que fuera de la clase estas caracteristicas no podran ser modificadas tan facilmente.
 
 2. ¿Qué es `self` en Python y por qué es obligatorio en los métodos de instancia?
-> [Tu respuesta aquí...]
+> Self es el apuntador hacia el objeto creado. En quien indica a que objeto se le esta aplicando un metodo sin tener que equivocarse si existen mas objetos y pueda aplicar precisamente el metodo al objeto preciso. 
 
 **Friction Log (Opcional):**
 > [¿Qué te costó más trabajo entender?]

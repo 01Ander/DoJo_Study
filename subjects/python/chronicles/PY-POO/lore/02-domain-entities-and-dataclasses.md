@@ -73,8 +73,11 @@ No requieres dependencias externas. El módulo `dataclasses` viene incluido en P
 
 Dirígete a `quests/02-entities/` y completa:
 
+- [[01-dataclass-creation]]
+- [[02-polymorphism-test]]
+
 ```text
 PY-POO/quests/02-entities/
-├── 01-dataclass-creation.md      (Tipo A: Implementación Base)
-└── 02-polymorphism-test.md       (Tipo B: Testing Nivel 2)
+├── [[01-dataclass-creation]].md      (Tipo A: Implementación Base)
+└── [[02-polymorphism-test]].md       (Tipo B: Testing Nivel 2)
 ```

@@ -47,12 +47,12 @@ Para evitar la fatiga de decisión, el DoJo separa diseño de ejecución:
 
 ## Estructura de Estudio Integrada
 
-El aprendizaje se estructura sobre el modelo **Campaign as Course**, abandonando las "misiones" progresivas aisladas en favor de un enfoque pedagógico de Libro + Laboratorio + Boss. La asistencia técnica de la IA evolucionó hacia un ecosistema dinámico de personalidades a través de **Hermes Agent**:
+El aprendizaje se estructura sobre el modelo **Campaign as Course**, abandonando las "misiones" progresivas aisladas en favor de un enfoque pedagógico de Lore + Quests + Rite. La asistencia técnica de la IA evolucionó hacia un ecosistema de personalidades a través de **Hermes Agent**:
 
-- **`/personality dojo-dm`:** (El Auditor). Gatekeeper del Boss. Revisa el `grimoire.md` validando que la técnica Feynman demuestre asimilación antes de permitir programar.
-- **`/personality dojo-tutor`:** Acompañamiento teórico puntual. Utiliza el "*Domain Shifting*" obligatorio (analogías externas) y respuestas bajo el Estricto Estándar Académico para no romper el Flow.
-- **`/personality dojo-reviewer`:** Rol estricto de Pair Programming Socrático durante el Boss. No ofrece la solución ni escribe código por ti; te guía a reparar los conceptos fallidos.
-- **`/personality dojo-architect`:** Visión macro del ecosistema completo. Útil en Modo Arquitecto para debatir patrones de diseño a gran escala y reestructuración del *Syllabus* general.
+- **`/scry` (DM Gatekeeper):** Skill de auditoría. Escudriña el `grimoire.md` validando que la Técnica Feynman demuestre asimilación antes de desbloquear el Rite.
+- **`/personality wizard` (El Mago):** Acompañamiento teórico puntual. Utiliza el "*Domain Shifting*" obligatorio (analogías externas) y genera código funcional real.
+- **`/personality witch` (La Bruja):** Headología aplicada (método socrático). Pair programming durante el Rite. No ofrece la solución ni escribe código; te guía a descubrirla.
+- **Arquitecto:** Rol externalizado a Antigravity. Ventana fija los Lunes tarde/noche.
 
 ### Sistema de Estado del Progreso (Progress Status)
 

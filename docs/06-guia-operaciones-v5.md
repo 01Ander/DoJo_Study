@@ -1,4 +1,4 @@
-# 06 - Guía de Operaciones (Hermes Agent)
+# 06 - Guía de Operaciones (Hermes Agent — Mundodisco Edition)
 
 > Este documento es tu referencia rápida (Wiki Operativa). Si te pierdes en los comandos o flujos del DoJo, vuelve aquí.
 
@@ -15,72 +15,43 @@ hermes
 
 ### Paso 2: Elegir tu modo de trabajo
 ```
-/personality dojo-tutor       # Necesito aprender teoría o ver ejemplos
-/personality dojo-reviewer    # Voy a codear y necesito pair programming socrático
-/personality dojo-architect   # Quiero analizar el ecosistema macro o debatir diseño
+/personality wizard       # Necesito aprender teoría o ver ejemplos (Domain Shifting)
+/personality witch        # Voy a codear y necesito pair programming (Headología)
 ```
 
-### Paso 3: Fijar tu misión activa
-```
-/dojo-start PY-POO M00
-```
-> Esto carga el `requirements.md` y el `journal.md` de esa misión al contexto. El agente ahora sabe exactamente en qué estás trabajando.
-
-### Paso 4: Trabajar normalmente
+### Paso 3: Trabajar normalmente
 Haz preguntas, pide reviews, debate la arquitectura. El agente se comporta según la personalidad activa:
-- **Tutor**: Te da código real pero con *Domain Shifting* (dominio diferente al tuyo, ej. zoologico vs finanzas).
-- **Reviewer**: Te hace preguntas socráticas, **no** te da la respuesta ni código copiable.
-- **Architect**: Te provee opiniones directas, análisis y refactorización a gran escala.
+- **Wizard**: Te da código real pero con *Domain Shifting* (dominio diferente al tuyo).
+- **Witch**: Te hace preguntas socráticas (headología), **no** te da la respuesta ni código copiable.
 
-### Paso 5: Registrar avances
+### Paso 4: Verificar progreso antes del Rite
 ```
-/dojo-log Completé el primer test del módulo. Descubrí que necesito manejar el edge case de lista vacía.
+/scry PY-POO
 ```
-> Escribe en el `journal.md` de la misión con timestamp dinámico garantizando trazabilidad.
+> El DM audita tu grimoire y tus quests. Si todo pasa: Rite desbloqueado.
 
-### Paso 6: Pausar o Terminar
-Si vas a pausar tu bloque:
-```
-/stop-sesion
-```
-Si vas a cerrar tu proyecto/misión del todo:
-```
-/dojo-done
-```
 Para salir de Hermes, escribe `/exit`.
 
 ---
 
 ## ⚡ Comandos Rápidos (Cheat Sheet)
 
-### 📋 Campañas, Misiones y Skills
+### 📋 Skills
 | Comando | Qué hace |
 |---|---|
-| `/dojo-start <campaña> <misión>` | Fija el contexto de la misión actual. |
-| `/dojo-log <mensaje>` | Registra tu avance o fricciones en el `journal.md`. |
-| `/stop-sesion` | Pausa el bloque de Deep Work guardando tu estado actual. |
-| `/dojo-done` | Cierra formalmente la misión y te invita a pasar a la siguiente. |
-| `/dojo-idea <mensaje>` | Captura ideas o bugs que te sacan del flujo para verlos luego. |
+| `/scry [chronicle]` | Auditoría del DM: valida grimoire y quests, autoriza el Rite. |
+| `/scry [chronicle] --deep` | Auditoría cualitativa: evalúa la calidad de las síntesis Feynman. |
+| `/scroll [idea]` | Captura una idea o bug rápidamente sin romper tu flujo de deep work. |
 
-### 🛠 Protocolos Especiales
-| Comando | Requisito | Función |
-|---|---|---|
-| `/domain-shifting` | `/personality dojo-tutor` | Pide explicaciones teóricas con analogías ajenas. |
-| `/socratic-review` | `/personality dojo-reviewer` | Solicita una revisión profunda a tu código bajo TDD. |
-| `/mini-rfc` | `/personality dojo-reviewer` | Carga un template estructurado para diseñar software. |
-
-### 🧠 Cambio de Modelos
-| Modelo | Costo | Escenario Ideal |
-|---|---|---|
-| **Qwen3.6 Plus** (default) | Muy Bajo | Tutor, Reviewer, operaciones del día a día. |
-| **Gemini 3.1 Pro** | Premium | Arquitectura pura. Se activa al invocar `/architect`. |
-| **Gemma 4 31B** | **FREE** | Auto-logging (Scribe sub-agente). Funciona en background. |
-
-> **Tip:** Tras debatir con `dojo-architect` en Gemini, recuerda volver al modelo operativo con `/model openrouter/qwen/qwen3.6-plus`.
+### 🎭 Personalidades
+| Comando | Cuándo usarlo |
+|---|---|
+| `/personality wizard` | Necesito que me expliquen un concepto con ejemplos. |
+| `/personality witch` | Necesito code review o pair programming socrático. |
 
 ---
 
-## 📁 Estructura del Ecosistema Operable
+## 📁 Estructura del Ecosistema
 
 ```text
 ~/Documents/DoJo/DoJo_Study/
@@ -88,20 +59,22 @@ Para salir de Hermes, escribe `/exit`.
 ├── README.md                     ← Índice del repo
 ├── CHANGELOG.md                  ← Historial de versiones del marco
 │
-├── subjects/python/campaigns/    ← Área principal de construcción y campañas
-│   ├── PY-POO/boss/
-│   │   ├── src/                  ← Entorno de ejecución puro
-│   │   ├── requirements.md       ← Lo que carga /dojo-start
-│   │   └── journal.md            ← Lo que actualiza /dojo-log
-│   └── ...
+├── subjects/python/chronicles/    ← Área principal de chronicles
+│   └── PY-POO/
+│       ├── chronicle.md          ← Descripción de alto nivel
+│       ├── grimoire.md           ← Bitácora Feynman del Operador
+│       ├── lore/                 ← Capítulos teóricos (la Biblioteca)
+│       ├── quests/               ← Laboratorios prácticos
+│       └── rite/                 ← Proyecto final (rito de paso)
+│           ├── requirements.md
+│           ├── journal.md
+│           ├── src/
+│           ├── tests/
+│           └── data/
 │
-├── dojo_agent/skills/dojo/       ← Habilidades de Hermes (versionados en git)
-│   ├── session-start/            ← `/dojo-start`
-│   ├── session-pause/            ← `/stop-sesion`
-│   ├── mission-done/             ← `/dojo-done`
-│   ├── journal-log/              ← `/dojo-log`
-│   ├── idea-capture/             ← `/dojo-idea`
-│   └── ...
+├── dojo_agent/skills/dojo/       ← Skills de Hermes (versionados en git)
+│   ├── scry/                     ← `/scry` — Auditoría del DM
+│   └── scroll/                   ← `/scroll` — Pergamino rápido de ideas
 │
 └── docs/                         ← Manuales y documentación maestra
 
@@ -109,6 +82,8 @@ Para salir de Hermes, escribe `/exit`.
 ├── config.yaml                   ← Config de tu instancia (external_dirs)
 ├── .env                          ← API keys (OpenRouter)
 └── personalities/                ← Archivos prompt de Personalidades
+    ├── wizard.md                 ← El Mago (Tutor)
+    └── witch.md                  ← La Bruja (Reviewer)
 ```
 
 ---
@@ -118,20 +93,20 @@ Para salir de Hermes, escribe `/exit`.
 > Cuando detectes un bug o carencia en la infraestructura del DoJo DURANTE una sesión de deep work técnica, usa este árbol de decisión. **NO abras "dos frentes" de trabajo.**
 
 ```text
-¿El bug de infraestructura me BLOQUEA continuar mi código de la misión?
+¿El bug de infraestructura me BLOQUEA continuar mi código?
 │
 ├── SÍ → ¿Lo puedo parchear en < 5 minutos?
 │         │
-│         ├── SÍ → ⚡ Parchea en vivo. Registra: `/dojo-log Hotfix en entorno: [tu_acción]`
+│         ├── SÍ → ⚡ Parchea en vivo.
 │         │
-│         └── NO → 🛑 STOP. Registra: `/dojo-idea BUG SISTEMA: [descripción]`
-│                   Usa workaround temporal o mockup y sigue. Agenda arreglarlo para la próxima ventana de Modo Arquitecto.
+│         └── NO → 🛑 STOP. Registra: `/scroll BUG SISTEMA: [descripción]`
+│                   Usa workaround temporal y sigue. Arreglarlo el próximo lunes.
 │
-└── NO → 💡 Registra la mejora: `/dojo-idea Mover configuración de X a Y` y SIGUE TU CÓDIGO.
+└── NO → 💡 Registra la mejora: `/scroll Mover configuración de X a Y` y SIGUE.
           No abras archivos de configuración. No investigues. Vuelve al código.
 ```
 
 ### ❓ Troubleshooting de Hermes
 - **Los skills no aparecen en `/skills`:** Verifica que `~/.hermes/config.yaml` tenga la variable `external_dirs` apuntando a `~/Documents/DoJo/DoJo_Study/dojo_agent/skills`.
-- **Las personalidades fallan:** Revisa que los archivos de prompt se encuentren físicamente en `~/.hermes/personalities/`.
+- **Las personalidades fallan:** Revisa que los archivos se encuentren en `~/.hermes/personalities/` (`wizard.md`, `witch.md`).
 - **Fallo de LLM:** Revisa tu cuota o `OPENROUTER_API_KEY` en `~/.hermes/.env`.

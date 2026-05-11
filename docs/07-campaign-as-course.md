@@ -1,30 +1,34 @@
-# 07 - Campaign as Course (Modelo v5.0)
+# 07 - Campaign as Course (Modelo v5.1 — Mundodisco Edition)
 
-> **Implementado en:** v5.0
+> **Implementado en:** v5.0, actualizado en v5.1
 > **RFC de referencia:** `ideas/proposal-study-guide-layer.md`
+> GNU Terry Pratchett.
 
-Este documento define la arquitectura "Campaign as Course", el modelo pedagógico estándar del DoJo a partir de la v5.0.
+Este documento define la arquitectura "Campaign as Course", el modelo pedagógico estándar del DoJo a partir de la v5.0, con la nomenclatura Mundodisco adoptada en v5.1.
 
-## 0. El Glosario RPG (Nomenclatura Oficial)
+## 0. El Glosario Mundodisco (Nomenclatura Oficial)
 
-Para mantener la identidad del DoJo mientras adoptamos un modelo académico riguroso, esta es la traducción oficial de términos:
+Para mantener la identidad del DoJo mientras adoptamos un modelo académico riguroso, esta es la traducción oficial de términos, inspirada en el Mundodisco de Terry Pratchett:
 
-| RPG Term | Equivalente Académico | Descripción en v5 |
+| Término Disco | Equivalente Académico | Descripción en v5.1 |
 |---|---|---|
-| **Campaign** | Curso / Materia | Ruta completa de aprendizaje (ej. `PY-POO`) |
-| **Lore** | Lección Teórica | Archivos `.md` en `lore/` con conceptos |
+| **Chronicle** | Curso / Materia | Ruta completa de aprendizaje (ej. `PY-POO`). Antes: Campaign. |
+| **Lore** | Lección Teórica | Archivos `.md` en `lore/` con conceptos. La Biblioteca de la UU. |
 | **Quest** | Laboratorio / Ejercicio | Práctica guiada en `quests/` |
 | **Grimoire** | Bitácora Feynman | Documento de síntesis del Operador (`grimoire.md`) |
-| **Boss** | Proyecto Integrador | Artefacto monolítico que demuestra dominio total en `boss/` |
-| **Dungeon Master (DM)** | Auditor / Gatekeeper | El agente que verifica el `grimoire.md` |
+| **Rite** | Proyecto Integrador | Rito de paso que demuestra dominio total, en `rite/`. Antes: Boss. |
+| **Wizard** | Tutor / Instructor | Personalidad que enseña con Domain Shifting |
+| **Witch** | Reviewer / Pair Programmer | Personalidad socrática (headología) |
+| **Scry** | Auditoría del DM | Skill que valida progreso y autoriza el Rite |
+| **Scroll** | Captura de idea | Skill atómica de registro rápido |
+| **Dungeon Master (DM)** | Auditor / Gatekeeper | El agente que verifica el `grimoire.md` vía `/scry` |
 | **Operator** | Estudiante | Quien ejecuta el aprendizaje |
-| **Architect** | Diseñador del Sistema | Rol de mantenimiento del DoJo |
 
 ---
 
 ## 1. Topología `CORE-SUBTEMA`
 
-Las campañas dejan de tener sufijos históricos (`-FINANCE`, `-V2`). Su tipología es estrictamente `CORE-SUBTEMA`.
+Las chronicles usan tipología estrictamente `CORE-SUBTEMA`.
 
 **Ejemplos Válidos:**
 - `PY-POO` (Python Object Oriented)
@@ -35,24 +39,25 @@ Las campañas dejan de tener sufijos históricos (`-FINANCE`, `-V2`). Su tipolog
 - `PY-POO-LEGACY`
 - `DE-ETL-V2`
 
-## 2. Anatomía de una Campaña v5.0
+## 2. Anatomía de una Chronicle v5.1
 
-La estructura abandona el esquema de misiones progresivas "ciegas" en favor de un enfoque estructurado de Curso + Laboratorio:
+La estructura adopta un enfoque de Curso + Laboratorio:
 
 ```
-CAMPAÑA/
-├── campaign.md          ← Descripción de alto nivel
-├── grimoire.md     ← Bitácora académica (Técnica Feynman)
-├── lore/              ← Libro de texto estático (.md)
-├── quests/           ← Laboratorios atómicos y testing
-└── boss/             ← Boss (monolito)
-    ├── journal.md       ← Bitácora clásica técnica (solo para el Boss)
-    └── requirements.md  ← Requisitos y fases del Boss
+CHRONICLE/
+├── chronicle.md         ← Descripción de alto nivel
+├── grimoire.md          ← Bitácora académica (Técnica Feynman)
+├── lore/                ← Libro de texto estático (.md)
+├── quests/              ← Laboratorios atómicos y testing
+└── rite/                ← Rite (proyecto final)
+    ├── journal.md       ← Bitácora clásica técnica (solo para el Rite)
+    └── requirements.md  ← Requisitos y fases del Rite
 ```
 
 ### 2.1 La Capa `lore/`
 Actúa como un libro de texto. Son archivos Markdown con la teoría, código de ejemplo, e instrucciones de entorno.
-- **Regla de Oro:** Siempre utiliza *Domain Shifting*. Si el proyecto de la campaña trata sobre Finanzas, los ejemplos de la teoría deben tratar sobre Zoológicos, Reservas de Hotel, o cualquier otro dominio ajeno. Esto fuerza al Operador a traducir la lógica, evitando el "copy-paste".
+- **Regla de Oro (Domain Shifting):** Siempre utiliza *Domain Shifting*. Si el proyecto de la chronicle trata sobre Finanzas, los ejemplos de la teoría deben tratar sobre Zoológicos, Reservas de Hotel, o cualquier otro dominio ajeno. Esto fuerza al Operador a traducir la lógica, evitando el "copy-paste".
+- **Regla de Oro (Zero Assumption):** Jamás se asume ninguna dependencia preinstalada, configuración de entorno (como `venv`), ni conocimiento de herramientas externas a menos que se hayan enseñado explícitamente en chronicles anteriores. Cada pieza de Lore que introduzca una herramienta nueva (ej. `pytest`, `mypy`) debe incluir sus instrucciones explícitas de setup partiendo desde conocimiento cero.
 
 ### 2.2 La Capa `quests/`
 Contiene la práctica deliberada, dividida por capítulos homólogos a la teoría.
@@ -61,15 +66,15 @@ Contiene la práctica deliberada, dividida por capítulos homólogos a la teorí
 
 ### 2.3 `grimoire.md` (El Requisito Socrático)
 El aprendizaje pasivo no existe. Después de leer cada capítulo y hacer sus ejercicios, el Operador *debe* escribir en esta bitácora qué comprendió, usando sus propias palabras (Técnica Feynman).
-- Solo cuando el DM certifica que este documento refleja una verdadera asimilación, se autoriza el acceso al Boss.
+- Solo cuando el DM certifica (vía `/scry`) que este documento refleja una verdadera asimilación, se autoriza el acceso al Rite.
 
-### 2.4 La Capa `boss/` (Boss)
-El proyecto final reemplaza las "Misiones" v4. Es un desarrollo monolítico (una CLI, una API, un pipeline) compuesto por fases internas desbloqueables.
-- **Diagnóstico Quirúrgico:** Si el Operador falla gravemente en la Fase 2 del Boss (ej: Polimorfismo), no reinicia el Boss. El Reviewer diagnostica y le envía de regreso al Capítulo 02 de Teoría y Ejercicios específicos.
+### 2.4 La Capa `rite/` (Rite)
+El proyecto final. Es un desarrollo monolítico (una CLI, una API, un pipeline) compuesto por fases internas desbloqueables.
+- **Diagnóstico Quirúrgico:** Si el Operador falla gravemente en una fase del Rite (ej: Polimorfismo), no reinicia el Rite. La Witch diagnostica y le envía de regreso al Capítulo de Lore y Quests específicos.
 
 ## 3. El Flujo de Trabajo (Ciclo por Capítulo)
 
-El Operador no pide código al LLM. Avanza offline o con el IDE:
+El Operador avanza offline o con el IDE:
 
 ```ascii
 📖 Leer lore/Cap-N  (sin LLM)
@@ -80,18 +85,23 @@ El Operador no pide código al LLM. Avanza offline o con el IDE:
      ↓
 Repetir con el siguiente capítulo
      ↓
-DM audita grimoire.md → autoriza Boss
+DM audita grimoire.md (/scry) → autoriza Rite
      ↓
-🔨 Desarrollar Boss (apoyo del Reviewer Socrático)
+🔨 Desarrollar Rite (apoyo de la Witch / headología)
 ```
 
 ## 4. El Dungeon Master (DM / Gatekeeper)
 
-El rol del DoJo Agent muta de "explicador interactivo" a Auditor y Gatekeeper.
+El rol del DoJo Agent como DM se ejerce mediante la skill `/scry`:
 
-### Estándar de Respuesta Académica
-Cuando el Operador utiliza la skill `/dojo-ask` para resolver dudas de la capa de teoría, el DM responde bajo este estándar restrictivo para proteger la concentración (flow) del Operador:
-- **Límite Estructural:** Máximo 3 párrafos por explicación.
-- **Tono:** Claro y directo. Sin verbosidad ni preámbulos tipo "Claro, aquí tienes la explicación".
-- **Fragmentación:** Si la duda requiere una respuesta inmensa, el DM la divide: *"Esta pregunta tiene dos partes, ¿comenzamos por X o por Y?"*
-- **Precisión Contextual:** La respuesta debe basarse estrictamente en la teoría leída, sin alucinar con bibliotecas externas.
+### `/scry [chronicle]` — Auditoría Estructural
+Verifica automáticamente:
+- Grimoire: campos llenos, métricas completas, respuestas Feynman escritas
+- Quests: archivos `.py` existentes y con contenido
+- Reporte: PASS/FAIL por capítulo
+
+### `/scry [chronicle] --deep` — Auditoría Cualitativa
+Evalúa la calidad de las síntesis Feynman:
+- ¿Demuestra comprensión genuina?
+- ¿Es copy-paste del lore?
+- Se sugiere usar un modelo con mayores capacidades para esta evaluación.

@@ -41,15 +41,18 @@ Este bloque asegura que `main()` **solo corra** si alguien ejecuta el archivo de
 
 Este es el último eslabón de tu entrenamiento. Con esto, sabes cómo abstraer I/O, crear entidades, procesar sin estado, orquestar, loggear errores y exponer el programa al mundo empaquetado en una CLI.
 
-**¡Estás listo para el Boss!**
-Dirígete a `boss/requirements.md` para iniciar.
+**¡Estás listo para el Rite!**
+Dirígete a `rite/requirements.md` para iniciar.
 
 ## 4. Mapa de Ejercicios
 
 Dirígete a `quests/07-cli/`:
 
+- [[01-argparse-basics]]
+- [[02-cli-orchestration]]
+
 ```text
 PY-POO/quests/07-cli/
-├── 01-argparse-basics.md        (Tipo A: Parsing Básico)
-└── 02-cli-orchestration.md      (Tipo B: Ensamblaje Completo)
+├── [[01-argparse-basics]].md        (Tipo A: Parsing Básico)
+└── [[02-cli-orchestration]].md      (Tipo B: Ensamblaje Completo)
 ```
