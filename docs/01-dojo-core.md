@@ -47,7 +47,7 @@ Para evitar la fatiga de decisión, el DoJo separa diseño de ejecución:
 
 ## Estructura de Estudio Integrada
 
-El aprendizaje se estructura sobre el modelo **Campaign as Course** (v5.1 — Mundodisco Edition), abandonando las "misiones" progresivas aisladas en favor de un enfoque pedagógico de Lore + Quests + Rite. La asistencia técnica de la IA evolucionó hacia un ecosistema de personalidades a través de **Hermes Agent**:
+El aprendizaje se estructura sobre el modelo **Campaign as Course**, abandonando las "misiones" progresivas aisladas en favor de un enfoque pedagógico de Lore + Quests + Rite. La asistencia técnica de la IA evolucionó hacia un ecosistema de personalidades a través de **Hermes Agent**:
 
 - **`/scry` (DM Gatekeeper):** Skill de auditoría. Escudriña el `grimoire.md` validando que la Técnica Feynman demuestre asimilación antes de desbloquear el Rite.
 - **`/personality wizard` (El Mago):** Acompañamiento teórico puntual. Utiliza el "*Domain Shifting*" obligatorio (analogías externas) y genera código funcional real.
