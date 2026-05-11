@@ -51,8 +51,11 @@ Python puro.
 
 Dirígete a `quests/03-engines/`:
 
+- [[01-stateless-logic]]
+- [[02-spaced-repetition]]
+
 ```text
 PY-POO/quests/03-engines/
-├── 01-stateless-logic.md      (Tipo A: Implementación Base)
-└── 02-spaced-repetition.md    (Tipo B: Spaced Repetition + Testing)
+├── [[01-stateless-logic]].md      (Tipo A: Implementación Base)
+└── [[02-spaced-repetition]].md    (Tipo B: Spaced Repetition + Testing)
 ```

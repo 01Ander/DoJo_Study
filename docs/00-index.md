@@ -33,9 +33,9 @@ Arquitectura multi-agente. Estructura de interacción IA, rol del DM (Gatekeeper
 **→ [`06-guia-operaciones-v5.md`](06-guia-operaciones-v5.md)**
 Referencia rápida paso a paso: cómo iniciar sesiones, cambiar personalidades, etc.
 
-### 7. Campaign as Course (Modelo v5.0)
+### 7. Campaign as Course (Modelo v5.1 — Mundodisco Edition)
 **→ [`07-campaign-as-course.md`](07-campaign-as-course.md)**
-Doc fundacional del nuevo modelo. Mecánicas de `lore/`, `quests/`, `boss/`, `grimoire.md`, ciclo por capítulo, y tipología `CORE-SUBTEMA`.
+Doc fundacional del nuevo modelo. Mecánicas de `lore/`, `quests/`, `rite/`, `grimoire.md`, ciclo por capítulo, tipología `CORE-SUBTEMA`, y nomenclatura Mundodisco.
 
 ---
 

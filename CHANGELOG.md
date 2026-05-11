@@ -2,6 +2,35 @@
 
 All notable changes to DoJo Study will be documented in this file.
 
+## [5.1.0] - 2026-05-11
+
+### 🧙 "The Discworld Update"
+
+> GNU Terry Pratchett.
+
+### Added
+- **Nomenclatura Mundodisco:** El sistema adopta terminología inspirada en el Mundodisco de Terry Pratchett. `boss/` → `rite/` (rito de paso), `campaign.md` → `chronicle.md` (crónica), personalidades renombradas a `wizard` (mago/tutor) y `witch` (bruja/reviewer), skills renombradas a `/scry` (auditoría del DM) y `/scroll` (captura de ideas).
+- **Skill `/scry` (DM Gatekeeper):** Nueva skill que audita el progreso académico del Operador. Verifica completitud del `grimoire.md`, existencia de código en `quests/`, y autoriza acceso al Rite. Modo `--deep` para evaluación cualitativa Feynman.
+- **Firma Pratchett:** Las personalidades generan una nota al pie original en el espíritu narrativo de Terry Pratchett al final de cada respuesta. Observacional, cálida, ligeramente absurda, nunca repetida.
+
+### Changed
+- **Personalidad `wizard` v5.1:** Reemplaza a `dojo-tutor`. Absorbe el protocolo de Domain Shifting completo (tabla de dominios, reglas de analogía, escalación).
+- **Personalidad `witch` v5.1:** Reemplaza a `dojo-reviewer`. Absorbe el protocolo Socrático completo como "headología" (4 niveles de escalación, checklist de code review, criterio MVP).
+- **Constitución `.hermes.md` v5.1:** Nomenclatura Mundodisco. Skills reducidas de 9 a 2. Personalidades reducidas de 3 a 2.
+- **Modelo de Rendimiento:** Ventana de Arquitecto movida de Sábados a Lunes tarde/noche (coincide con refresh de tokens). Rol de Arquitecto externalizado a Antigravity.
+- **Skill `/scroll` v2.0:** Renombrada de `/dojo-idea`. Misma funcionalidad atómica.
+- **NotebookLM eliminado** del toolkit. Lectura directa es suficiente.
+
+### Removed
+- **7 skills eliminadas:** `/dojo-start`, `/stop-sesion`, `/dojo-log`, `/dojo-done`, `/mini-rfc`, `/domain-shifting`, `/socratic-review`. Funcionalidades absorbidas por personalidades o reemplazadas por el flujo offline de v5 (lore → quests → grimoire).
+- **Personalidad `dojo-architect`:** Rol externalizado a Antigravity. No requiere personalidad dentro de Hermes.
+- **Directorio huérfano `mission-status/`:** Eliminado (estaba vacío).
+
+### Archived
+- Skills v4 archivadas en `archive/agent_v4_skills/` para referencia histórica.
+
+---
+
 ## [5.0.0-proposal] - 2026-04-29
 
 ### 🏗️ "The Campaign as Course Update (Beta)"

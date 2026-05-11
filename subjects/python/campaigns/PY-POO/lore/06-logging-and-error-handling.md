@@ -61,8 +61,11 @@ def test_raises_invalid_transaction():
 
 Dirígete a `quests/06-logging/`:
 
+- [[01-custom-exceptions]]
+- [[02-test-exceptions]]
+
 ```text
 PY-POO/quests/06-logging/
-├── 01-custom-exceptions.md      (Tipo A: Lanzar Errores)
-└── 02-test-exceptions.md        (Tipo B: Testing Nivel 2)
+├── [[01-custom-exceptions]].md      (Tipo A: Lanzar Errores)
+└── [[02-test-exceptions]].md        (Tipo B: Testing Nivel 2)
 ```
