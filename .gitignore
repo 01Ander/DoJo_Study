@@ -1,22 +1,25 @@
+# Obsidian
 .obsidian/
+*.base
+
+# DoJo legacy / personal
 daily-logs/
-__pycache__/
-*.pyc
-.DS_Store
 dojo_core.md
 historial.md
 
-# DoJo Agent (Legacy v3 — ya no se usa pero por si acaso)
+# Python
+__pycache__/
+*.pyc
+venv/
+.mypy_cache/
+
+# DoJo Agent (Legacy v3)
 dojo_agent/.venv/
 dojo_agent/chroma_db/
 
-# Ideas (drafts personales, no versionados)
-ideas/
-
-# Hermes Agent (vive en ~/.hermes/, no en el repo)
-# Solo .hermes.md está en el repo (es el Context File)
+# Hermes Agent session state
 .dojo-session.json
-venv/
-.mypy_cache/
+
+# IDE / OS
+.DS_Store
 .vscode/
-Sin título.base
