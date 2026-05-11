@@ -1,6 +1,6 @@
-# ⛩️ DoJo Study: High Performance Engineering Framework v5.1 (Mundodisco Edition)
+# ⛩️ DoJo Study — High Performance Engineering Framework
 
-DoJo Study es un framework de aprendizaje inmersivo y de alto rendimiento diseñado para la formación rigurosa de perfiles en **Data & Automation Engineering**. Basado en la metodología de **Campaign as Course** (v5.1), con nomenclatura inspirada en el Mundodisco de Terry Pratchett, garantiza que el conocimiento teórico, la práctica guiada y los proyectos finales residan en entornos desacoplados para asegurar una asimilación real.
+DoJo Study es un framework de aprendizaje inmersivo y de alto rendimiento diseñado para la formación rigurosa de perfiles en **Data & Automation Engineering**. Basado en la metodología de **Campaign as Course**, con nomenclatura inspirada en el Mundodisco de Terry Pratchett, garantiza que el conocimiento teórico, la práctica guiada y los proyectos finales residan en entornos desacoplados para asegurar una asimilación real.
 
 > GNU Terry Pratchett.
 
@@ -15,13 +15,7 @@ El sistema busca eliminar la brecha entre la educación académica y el entorno 
 - **[Hermes Agent](https://github.com/NousResearch/hermes-agent)** instalado y corriendo.
 - Cuenta en **[OpenRouter](https://openrouter.ai)** con API key configurada.
 
-### 2. Instalación de Hermes Agent
-```bash
-curl -fsSL https://hermes-agent.nousresearch.com/install.sh | bash
-hermes setup  # Configura OpenRouter API key y modelo default
-```
-
-### 3. Configurar DoJo Skills
+### 2. Configurar DoJo Skills
 Agrega el directorio de skills del DoJo a tu configuración de Hermes:
 ```yaml
 # En ~/.hermes/config.yaml
@@ -30,13 +24,13 @@ skills:
     - ~/Documents/DoJo/DoJo_Study/dojo_agent/skills
 ```
 
-### 4. Ejecución
+### 3. Ejecución
 ```bash
 cd ~/Documents/DoJo/DoJo_Study
 hermes  # Inicia el agente con contexto del DoJo
 ```
 
-### 5. Comandos Básicos
+### 4. Comandos Básicos
 ```bash
 # Personalidades (Arquetipos Mundodisco)
 /personality wizard      # 🧙 El Mago — Instructor + Domain Shifting
@@ -50,7 +44,7 @@ hermes  # Inicia el agente con contexto del DoJo
 
 ---
 
-## ⚙️ Metodología de Entrenamiento (v5.1: Campaign as Course)
+## ⚙️ Metodología de Entrenamiento (Campaign as Course)
 El framework se basa en una estructura de progresión jerárquica con nomenclatura del Mundodisco:
 
 - **Chronicles (Crónicas):** Rutas de aprendizaje modulares con tipología `CORE-SUBTEMA` (ej. `PY-POO`, `DE-ETL`).
@@ -61,7 +55,7 @@ El framework se basa en una estructura de progresión jerárquica con nomenclatu
 
 ---
 
-## 🤖 El DoJo Agent v5.1 (Hermes Agent — Mundodisco Edition)
+## 🤖 El DoJo Agent (Hermes — Mundodisco Edition)
 
 El sistema integra un agente sobre **Hermes Agent** (NousResearch) con personalidades inspiradas en el Mundodisco:
 
@@ -70,6 +64,16 @@ El sistema integra un agente sobre **Hermes Agent** (NousResearch) con personali
 
 ### Auditoría del DM (`/scry`)
 Antes de acceder al Rite, el Dungeon Master escudriña tu grimoire y tus quests. Solo cuando el progreso es verificado, el Rite se desbloquea.
+
+---
+
+## 📅 Modelo de Rendimiento
+
+| Día | Modo | Actividad |
+|---|---|---|
+| **Martes a Viernes** | Operador | Estudiar: lore → quests → grimoire. No se modifica el sistema. |
+| **Lunes tarde/noche** | Arquitecto | Refactorización del framework (con Antigravity). |
+| **Sábado y Domingo** | Descanso | Desconexión obligatoria. |
 
 ---
 
@@ -84,9 +88,18 @@ Para que un artefacto técnico sea considerado "completado":
 ---
 
 ## 📁 Estructura del Repositorio
-- `/subjects/python/chronicles` — Chronicles activas (PY-POO, PY-BASICO, etc.).
-- `/dojo_agent/skills` — Skills de Hermes Agent (`/scry`, `/scroll`).
-- `/templates` — Plantillas estandarizadas para el contenido de aprendizaje.
-- `/docs` — Documentación oficial numerada del 00 al 07.
-- `/archive` — Código legacy y skills v4 archivadas.
-- `.hermes.md` — Constitución del DoJo Agent (v5.1).
+```text
+DoJo_Study/
+├── .hermes.md                          ← Constitución del DoJo Agent
+├── README.md
+├── CHANGELOG.md
+├── subjects/python/chronicles/         ← Chronicles activas
+│   ├── PY-POO/                         ← Chronicle actual
+│   └── PY-BASICO/                      ← Chronicle completada (legacy)
+├── dojo_agent/skills/dojo/             ← Skills de Hermes
+│   ├── scry/                           ← /scry — Auditoría del DM
+│   └── scroll/                         ← /scroll — Pergamino rápido
+├── templates/                          ← Plantillas estandarizadas
+├── docs/                               ← Documentación (00-07)
+└── archive/                            ← Legacy (agent v3, skills v4)
+```
