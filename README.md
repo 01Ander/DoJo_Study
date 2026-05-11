@@ -1,6 +1,8 @@
-# ⛩️ DoJo Study: High Performance Engineering Framework v5.0.0 (Beta)
+# ⛩️ DoJo Study: High Performance Engineering Framework v5.1 (Mundodisco Edition)
 
-DoJo Study es un framework de aprendizaje inmersivo y de alto rendimiento diseñado para la formación rigurosa de perfiles en **Data & Automation Engineering**. Basado en la metodología de **Campaign as Course** (v5.0), garantiza que el conocimiento teórico, la práctica guiada y los proyectos finales residan en entornos desacoplados para asegurar una asimilación real.
+DoJo Study es un framework de aprendizaje inmersivo y de alto rendimiento diseñado para la formación rigurosa de perfiles en **Data & Automation Engineering**. Basado en la metodología de **Campaign as Course** (v5.1), con nomenclatura inspirada en el Mundodisco de Terry Pratchett, garantiza que el conocimiento teórico, la práctica guiada y los proyectos finales residan en entornos desacoplados para asegurar una asimilación real.
+
+> GNU Terry Pratchett.
 
 ## 🎯 El Objetivo
 El sistema busca eliminar la brecha entre la educación académica y el entorno profesional, integrando la **justificación económica y el valor de negocio (ROI)** como requisitos técnicos tan estrictos como la funcionalidad del código.
@@ -12,7 +14,6 @@ El sistema busca eliminar la brecha entre la educación académica y el entorno 
 ### 1. Requisitos Previos
 - **[Hermes Agent](https://github.com/NousResearch/hermes-agent)** instalado y corriendo.
 - Cuenta en **[OpenRouter](https://openrouter.ai)** con API key configurada.
-- (Opcional) **[Ollama](https://ollama.com/)** como fallback local con `gemma4:e4b`.
 
 ### 2. Instalación de Hermes Agent
 ```bash
@@ -29,62 +30,46 @@ skills:
     - ~/Documents/DoJo/DoJo_Study/dojo_agent/skills
 ```
 
-### 4. Modelos Configurados
-
-| Rol | Modelo | Costo |
-|---|---|---|
-| **Tutor / Reviewer** | Qwen3.6 Plus (OpenRouter) | $0.325 / $1.95 per M tokens |
-| **Scribe** (auto-logging) | Gemma 4 31B (OpenRouter) | **FREE** |
-| **Architect** | Gemini 3.1 Pro / Opus 4.6 | Premium |
-| **Fallback** | Gemma 4 e4b (Ollama local) | $0 |
-
-### 5. Ejecución
+### 4. Ejecución
 ```bash
 cd ~/Documents/DoJo/DoJo_Study
 hermes  # Inicia el agente con contexto del DoJo
 ```
 
-### 6. Comandos Básicos
+### 5. Comandos Básicos
 ```bash
-# Personalidades (antes: /mode)
-/personality dojo-tutor      # Instructor + Domain Shifting
-/personality dojo-reviewer   # Pair Programmer Socrático
-/personality dojo-architect  # Visión macro + debate
+# Personalidades (Arquetipos Mundodisco)
+/personality wizard      # 🧙 El Mago — Instructor + Domain Shifting
+/personality witch       # 🧹 La Bruja — Pair Programming Socrático (Headología)
 
-# Skills del DoJo
-/dojo-start py-basico B00   # Fijar campaña y misión activa
-/dojo-log "Completé X..."   # Registrar en bitácora
-/domain-shifting             # Cargar protocolo de analogías
-/socratic-review             # Cargar protocolo socrático
-/mini-rfc                    # Cargar template de diseño
-
-# Cambio de modelo
-/model openrouter/qwen/qwen3.6-plus    # Para coding
-/model gemini-3.1-pro                   # Para arquitectura
+# Skills (Hechizos)
+/scry PY-POO             # 🔮 DM audita tu grimoire y autoriza el Rite
+/scry PY-POO --deep      # 🔮 Auditoría cualitativa (síntesis Feynman)
+/scroll "Idea rápida"    # 📜 Captura una idea sin romper el deep work
 ```
 
 ---
 
-## ⚙️ Metodología de Entrenamiento (v5.0: Campaign as Course)
-El framework se basa en una estructura de progresión jerárquica y el estándar de **Topología Aislada**:
+## ⚙️ Metodología de Entrenamiento (v5.1: Campaign as Course)
+El framework se basa en una estructura de progresión jerárquica con nomenclatura del Mundodisco:
 
-- **Campaigns (Campañas):** Rutas de aprendizaje modulares con tipología `CORE-SUBTEMA` (ej. `PY-POO`, `DE-ETL`).
-- **Theory & Exercises:** Adquisición de conocimiento pre-generado y práctica guiada de Testing Progresivo (niveles 1-5).
-- **Study Journals:** Bitácoras donde el estudiante escribe con sus propias palabras (Técnica Feynman) para consolidar conceptos.
-- **Boss Project:** El proyecto final donde se integra todo lo aprendido en un artefacto monolítico con despliegue progresivo.
+- **Chronicles (Crónicas):** Rutas de aprendizaje modulares con tipología `CORE-SUBTEMA` (ej. `PY-POO`, `DE-ETL`).
+- **Lore:** Capítulos teóricos pre-generados. El conocimiento arcano de la Biblioteca de la Universidad Invisible.
+- **Quests:** Laboratorios prácticos con Testing Progresivo (niveles 1-5).
+- **Grimoire:** Bitácora personal del Operador donde escribe con sus propias palabras (Técnica Feynman).
+- **Rite:** El proyecto final — rito de paso que demuestra dominio total del lore.
 
 ---
 
-## 🤖 El DoJo Agent v4.0 (Multi-Agent sobre Hermes)
+## 🤖 El DoJo Agent v5.1 (Hermes Agent — Mundodisco Edition)
 
-El sistema integra un ecosistema multi-agente sobre **Hermes Agent** (NousResearch) con personalidades especializadas y modelos cost-optimizados:
+El sistema integra un agente sobre **Hermes Agent** (NousResearch) con personalidades inspiradas en el Mundodisco:
 
-- **`dojo-tutor` (Instructor):** Provee teoría y ejemplos mediante "Domain Shifting" (analogías externas). Genera código funcional real para obligar al estudiante a "traducir" la lógica.
-- **`dojo-reviewer` (Senior Reviewer):** Pair Programmer socrático. Bloquea el avance si no existe un contexto de negocio definido. Guía el código mediante preguntas, nunca con respuestas directas.
-- **`dojo-architect` (Analista):** Visión sistémica del DoJo completo. Audita coherencia, propone refactorizaciones y debate sobre arquitectura y patrones de diseño.
+- **`wizard` (El Mago):** Provee teoría y ejemplos mediante "Domain Shifting" (analogías externas). Genera código funcional real para obligar al estudiante a "traducir" la lógica.
+- **`witch` (La Bruja):** Practicante de headología (método socrático). Nunca da la respuesta directa — te hace descubrirla con preguntas. Pair programming para code review.
 
-### Auto-Logging (Scribe)
-Después de cada interacción significativa, el agente delega automáticamente a un sub-agente (Gemma 4 31B, FREE) que registra un resumen en la bitácora de la misión activa.
+### Auditoría del DM (`/scry`)
+Antes de acceder al Rite, el Dungeon Master escudriña tu grimoire y tus quests. Solo cuando el progreso es verificado, el Rite se desbloquea.
 
 ---
 
@@ -93,15 +78,15 @@ Para que un artefacto técnico sea considerado "completado":
 
 1. **Business Justification:** El código debe resolver un problema real con un ROI definido.
 2. **Architecture First:** El diseño debe estar documentado y validado antes de la primera línea de código.
-3. **TDD & Type Safety:** Implementación obligatoria de Test-Driven Development y tipado fuerte con Mypy.
-4. **English Friendly:** Toda la documentación técnica y el código se fomentan en formato "English friendly en primeras instancias, hasta que el operador maneje un mejor nivel de inglés".
+3. **TDD & Type Safety:** Implementación obligatoria de Test-Driven Development y tipado fuerte.
+4. **English Friendly:** Documentación técnica y código en inglés profesional.
 
 ---
 
 ## 📁 Estructura del Repositorio
-- `/subjects` — Tracks de aprendizaje y campañas activas.
-- `/dojo_agent/skills` — Skills de Hermes Agent para el DoJo.
+- `/subjects/python/chronicles` — Chronicles activas (PY-POO, PY-BASICO, etc.).
+- `/dojo_agent/skills` — Skills de Hermes Agent (`/scry`, `/scroll`).
 - `/templates` — Plantillas estandarizadas para el contenido de aprendizaje.
-- `/docs` — Documentación oficial numerada del 00 al 07 (index, manifiesto, syllabus, campaign-as-course, etc.).
-- `/archive` — Código legacy.
-- `.hermes.md` — Constitución del DoJo Agent.
+- `/docs` — Documentación oficial numerada del 00 al 07.
+- `/archive` — Código legacy y skills v4 archivadas.
+- `.hermes.md` — Constitución del DoJo Agent (v5.1).

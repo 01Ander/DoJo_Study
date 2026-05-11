@@ -59,7 +59,7 @@ Para salir de Hermes, escribe `/exit`.
 ├── README.md                     ← Índice del repo
 ├── CHANGELOG.md                  ← Historial de versiones del marco
 │
-├── subjects/python/campaigns/    ← Área principal de chronicles
+├── subjects/python/chronicles/    ← Área principal de chronicles
 │   └── PY-POO/
 │       ├── chronicle.md          ← Descripción de alto nivel
 │       ├── grimoire.md           ← Bitácora Feynman del Operador
