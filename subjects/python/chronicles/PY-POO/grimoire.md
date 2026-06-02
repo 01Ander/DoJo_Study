@@ -7,7 +7,7 @@ Este documento es tu registro académico. Después de leer cada capítulo en `lo
 ---
 
 ## Capítulo 00: From Functions to Classes
-**Fecha de finalización:** YYYY-MM-DD
+**Fecha de finalización:** 2026-05-11
 **Métricas:**
 - Tiempo de lectura: 3 min
 - Tiempo en ejercicios: 22 min
@@ -28,23 +28,23 @@ Este documento es tu registro académico. Después de leer cada capítulo en `lo
 ---
 
 ## Capítulo 01: Abstract Classes and Interfaces
-**Fecha de finalización:** YYYY-MM-DD
+**Fecha de finalización:** 2026-06-02
 **Métricas:**
-- Tiempo de lectura: __ min
-- Tiempo en ejercicios: __ min
-- Veces que recurrí al Tutor/DM: __ (Objetivo: ≤ 2)
-- Fricción (1-10): __
-- ¿Completé el ejercicio de testing (Nivel 1) sin ver la solución?: [Sí / No]
+- Tiempo de lectura: 5 min
+- Tiempo en ejercicios: 20 min
+- Veces que recurrí al Tutor/DM: 0 (Objetivo: ≤ 2)
+- Fricción (1-10): 1
+- ¿Completé el ejercicio de testing (Nivel 1) sin ver la solución?: [Sí]
 
 **Feynman Synthesis (Tus propias palabras):**
 1. ¿Qué es un "contrato" en programación y cómo lo hace cumplir el módulo `abc`?
-> [Tu respuesta aquí...]
+> Un contrato es una "imposición" frente a una clase que se hereda, esto permite que las clases hijas sigan requerimientos, principalmente los metodos y los paramentros de entrada de los mismos, sigan unas reglas especificas que permiten tener una base primaria que se puede repetir o usar en distintos otros contextos que comparten cierta logica, una logica base, pero que los subsiguientes requieren una capa superior, sin tanta necesidad de repetir codigo inecesario y a su vez blindar la logica, para que no se llegue a romper o se intancien clases sin logica prescrita con las reglas puestas.
 
 2. ¿Por qué una clase abstracta no puede ser instanciada (crear un objeto de ella)?
-> [Tu respuesta aquí...]
+> Porque esta no contiene logica, instrucciones o procesos como tal. Hasta el momento, las clases abstractas solo presentan los requerimientos de metodos y sus paramentros que se ingresan a la base de la clase abstracta. Esta es unicamente el molde que sigen las clases hijas.
 
 **Friction Log (Opcional):**
-> [¿Qué te costó más trabajo entender?]
+> []
 
 ---
 
