@@ -49,23 +49,23 @@ Este documento es tu registro académico. Después de leer cada capítulo en `lo
 ---
 
 ## Capítulo 02: Domain Entities y Polimorfismo
-**Fecha de finalización:** YYYY-MM-DD
+**Fecha de finalización:** 2026-06-03
 **Métricas:**
-- Tiempo de lectura: __ min
-- Tiempo en ejercicios: __ min
-- Veces que recurrí al Tutor/DM: __ (Objetivo: ≤ 2)
-- Fricción (1-10): __
-- ¿Completé el ejercicio de testing sin ver la solución?: [Sí / No]
+- Tiempo de lectura: 5 min
+- Tiempo en ejercicios: 25 min
+- Veces que recurrí al Tutor/DM: 1 (Objetivo: ≤ 2)
+- Fricción (1-10): 1
+- ¿Completé el ejercicio de testing sin ver la solución?: Si
 
 **Feynman Synthesis:**
 1. ¿Cuál es la diferencia entre usar un diccionario y una `@dataclass` para representar una entidad?
-> [Tu respuesta aquí...]
+> dataclass permite de cierta manera 'bindar' los paramentros que se establecieron en la creacion de la clase evitando asi posibles errores al modificar en typo por ejemplo, cuando se vayan a modificar los datos puros.
 
 2. Explica qué es el polimorfismo y por qué es útil.
-> [Tu respuesta aquí...]
+> El poliformismo permite recrear un metodo, una accion en distintas entidades, con una respuesta distinta, es decir, hay una base, que es el metodo que se comparte en todas las clases que lo lleven, sin embargo la respuesta de estos metodos internos puede variar dependiendo de la logica del metodo en cuestion. De todas maneras se comparte la base, que seria el nombre y/o llamado de dicho metodo, lo que lo diferencia es la logica interna que puede variar, pero se tiene siempre las mismas entradas.
 
 **Friction Log (Opcional):**
-> [¿Qué te costó más trabajo entender?]
+> Ligera confusion con el dataclass, porque no se habia leido bien que es para evitar posibles errores de typo. Esa fue la unica intervension de DM.
 
 ---
 
