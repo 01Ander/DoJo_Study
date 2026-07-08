@@ -63,6 +63,7 @@ Actúa como un libro de texto. Son archivos Markdown con la teoría, código de 
 Contiene la práctica deliberada, dividida por capítulos homólogos a la teoría.
 - **Testing Progresivo (Scaffolding):** Para eliminar la fricción del TDD, se utiliza un modelo de andamiaje de 5 niveles que va desde "solo leer un test" hasta "escribir todo desde cero".
 - **Spaced Repetition:** Los capítulos avanzados incluyen ejercicios de revisión de capítulos pasados.
+- **Coherencia Secuencial (Regla Crítica):** Todo ejercicio del capítulo N solo puede utilizar conceptos de los capítulos 0..N. Nunca debe requerir conocimiento de capítulos superiores. Los ejercicios de Spaced Repetition solo repasan capítulos **anteriores**, nunca posteriores. Si se detecta una violación, el ejercicio debe reubicarse o reescribirse.
 
 ### 2.3 `grimoire.md` (El Requisito Socrático)
 El aprendizaje pasivo no existe. Después de leer cada capítulo y hacer sus ejercicios, el Operador *debe* escribir en esta bitácora qué comprendió, usando sus propias palabras (Técnica Feynman).

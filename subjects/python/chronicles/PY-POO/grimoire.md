@@ -59,7 +59,7 @@ Este documento es tu registro académico. Después de leer cada capítulo en `lo
 
 **Feynman Synthesis:**
 1. ¿Cuál es la diferencia entre usar un diccionario y una `@dataclass` para representar una entidad?
-> dataclass permite de cierta manera 'bindar' los paramentros que se establecieron en la creacion de la clase evitando asi posibles errores al modificar en typo por ejemplo, cuando se vayan a modificar los datos puros.
+> dataclass permite de cierta manera 'blindar' los paramentros que se establecieron en la creacion de la clase evitando asi posibles errores al modificar en typo por ejemplo, cuando se vayan a modificar los datos puros.
 
 2. Explica qué es el polimorfismo y por qué es útil.
 > El poliformismo permite recrear un metodo, una accion en distintas entidades, con una respuesta distinta, es decir, hay una base, que es el metodo que se comparte en todas las clases que lo lleven, sin embargo la respuesta de estos metodos internos puede variar dependiendo de la logica del metodo en cuestion. De todas maneras se comparte la base, que seria el nombre y/o llamado de dicho metodo, lo que lo diferencia es la logica interna que puede variar, pero se tiene siempre las mismas entradas.
@@ -70,20 +70,20 @@ Este documento es tu registro académico. Después de leer cada capítulo en `lo
 ---
 
 ## Capítulo 03: Stateless Engines y Composición
-**Fecha de finalización:** YYYY-MM-DD
+**Fecha de finalización:** 2026-07-08
 **Métricas:**
-- Tiempo de lectura: __ min
-- Tiempo en ejercicios: __ min
-- Veces que recurrí al Tutor/DM: __ (Objetivo: ≤ 2)
-- Fricción (1-10): __
-- ¿Completé el ejercicio de Spaced Repetition?: [Sí / No]
+- Tiempo de lectura: 2 min
+- Tiempo en ejercicios: 3 min
+- Veces que recurrí al Tutor/DM: 2 (Objetivo: ≤ 2)
+- Fricción (1-10): 3
+- ¿Completé el ejercicio de Spaced Repetition?: Si
 
 **Feynman Synthesis:**
 1. ¿Por qué un "Stateless Engine" no debe guardar estado (variables en `self`)?
-> [Tu respuesta aquí...]
+> No se guada estados en "stateless engine" ya que se busca que la clase no se contamine de informacion que se haya utilizado anteriormente. Esto permite que un estado y/o variable habite unicamente en el lugar donde va a ser utilizada dentro de la propia clase y en su propio metodo, dando asi paso a eliminacion de errores desde la raiz de la propia clase.
 
 2. ¿Cuál es la ventaja de la composición (pasar un objeto a otro) versus la herencia?
-> [Tu respuesta aquí...]
+> Composicion permite generar una estructura organizada y a su vez que las clases no 'hereden' logicas a las cuales no son del mismo tipo, pero si hacen uso de ellas. Un computador es un tipo de electrodomestico? Si/Herencia. Un computador es un tipo de automatizador autonomo? No/Composicion.
 
 **Friction Log (Opcional):**
 > [¿Qué te costó más trabajo entender?]

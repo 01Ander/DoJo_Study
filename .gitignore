@@ -20,6 +20,9 @@ dojo_agent/chroma_db/
 # Hermes Agent session state
 .dojo-session.json
 
+# Warm-up (temporal)
+_warmup/
+
 # IDE / OS
 .DS_Store
 .vscode/
