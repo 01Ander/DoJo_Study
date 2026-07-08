@@ -57,6 +57,7 @@ CHRONICLE/
 ### 2.1 La Capa `lore/`
 Actúa como un libro de texto. Son archivos Markdown con la teoría, código de ejemplo, e instrucciones de entorno.
 - **Regla de Oro (Domain Shifting):** Siempre utiliza *Domain Shifting*. Si el proyecto de la chronicle trata sobre Finanzas, los ejemplos de la teoría deben tratar sobre Zoológicos, Reservas de Hotel, o cualquier otro dominio ajeno. Esto fuerza al Operador a traducir la lógica, evitando el "copy-paste".
+- **Regla de Oro (Densidad y Abstracción):** Para conceptos abstractos (típicamente del Cap 03 en adelante), el lore debe estar "descomprimido". Debe incluir **mínimo 2 analogías claras** de la vida real y **2 a 3 ejemplos de código progresivos** (mostrando el "mal ejemplo" primero y luego la solución óptima).
 - **Regla de Oro (Zero Assumption):** Jamás se asume ninguna dependencia preinstalada, configuración de entorno (como `venv`), ni conocimiento de herramientas externas a menos que se hayan enseñado explícitamente en chronicles anteriores. Cada pieza de Lore que introduzca una herramienta nueva (ej. `pytest`, `mypy`) debe incluir sus instrucciones explícitas de setup partiendo desde conocimiento cero.
 
 ### 2.2 La Capa `quests/`
