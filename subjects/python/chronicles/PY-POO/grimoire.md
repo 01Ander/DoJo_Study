@@ -91,19 +91,19 @@ Este documento es tu registro académico. Después de leer cada capítulo en `lo
 ---
 
 ## Capítulo 04: Orchestration & I/O
-**Fecha de finalización:** YYYY-MM-DD
+**Fecha de finalización:** 2026-07-09
 **Métricas:**
-- Tiempo de lectura: __ min
-- Tiempo en ejercicios: __ min
-- Veces que recurrí al Tutor/DM: __ (Objetivo: ≤ 2)
-- Fricción (1-10): __
+- Tiempo de lectura: 3 min
+- Tiempo en ejercicios: 10 min
+- Veces que recurrí al Tutor/DM: 0 (Objetivo: ≤ 2)
+- Fricción (1-10): 1
 
 **Feynman Synthesis:**
 1. ¿Qué es un Orquestador y qué lógica de negocio debería tener? (Pista: ninguna).
-> [Tu respuesta aquí...]
+> El orquestador es el disparador de eventos, en un orden logico. Este no guarda ninguna logica en absoluto ya que su unica funcion es hacer el llamado a los distintos eventos, clases o metodos en una hoja de ruta establecida.
 
 2. ¿Por qué aislar la lectura de archivos (I/O) en su propia clase facilita el testing con Mocks?
-> [Tu respuesta aquí...]
+> Aislar la lectura de archivos permite manejar una estructura lofica mucho mas estable y menos propensa a errores que puedan ocurrir, aislandolo en su propia clase, permite que ejecute unicamente su accion de lectura y escritura unicamente cuando sea necesario y sea llamado por un orquestador. Esto a su vez permite que no se dependa de que archivos existan ya en maquina o en una conexion a una API, si no, que al usar Mocks, podemos verificar via test si dica clase esta haciendo correctamente su funcion de input o output.
 
 **Friction Log (Opcional):**
 > [¿Qué te costó más trabajo entender?]
