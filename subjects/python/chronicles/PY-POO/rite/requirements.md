@@ -25,7 +25,7 @@ No intentes hacer todo el Boss de golpe. Sigue las fases en orden. **Aplica TDD 
 - Crear una clase abstracta `Transaction` con propiedades `amount` y `date`.
 - Crear subclases `Income` y `Expense`.
 - Sobrescribir el método de representación para imprimir formatos limpios.
-- **Testing Mínimo:** Validar instanciación polimórfica (asegurar que Income suma al neto y Expense resta, o que sus tipos son correctos).
+- **Testing Mínimo:** Validar que `Income` y `Expense` se instancian correctamente, que ambas son subclases de `Transaction`, y que cada una retorna su `amount` con el signo esperado (positivo para Income, negativo para Expense).
 
 ### Fase 3: Transformation Engine (Ref: Cap 03)
 *El núcleo de procesamiento lógico, separado de la entrada/salida.*
@@ -38,7 +38,7 @@ No intentes hacer todo el Boss de golpe. Sigue las fases en orden. **Aplica TDD 
 - Implementar `PipelineOrchestrator` que reciba inyectados el Extractor y el Engine.
 - Usar `argparse` (nativo) en un archivo `cli.py` para invocar el pipeline pasando el archivo de entrada como flag: `--input`.
 - **Logging & Error Handling (Ref: Cap 06):** El Orquestador debe envolver la ejecución en `try/except`, atrapar excepciones de dominio (como `DataSourceNotFoundError`) y registrarlas con `logger.error()`. Configurar `logging.basicConfig` en `cli.py`.
-- **Testing Mínimo (Ref: Cap 05):** Validar el orquestador usando **`unittest.mock.Mock`** para aislar el Extractor y el Engine. Verificar que el pipeline se ejecuta correctamente sin tocar archivos reales.
+- **Testing Mínimo (Ref: Cap 05):** Validar el orquestador usando **`unittest.mock.Mock`** para aislar el Extractor y el Engine. Verificar que al ejecutar el pipeline, este llama a `extractor.extract()` y a `engine.calculate_report()` en orden, sin tocar archivos reales.
 
 ---
 
