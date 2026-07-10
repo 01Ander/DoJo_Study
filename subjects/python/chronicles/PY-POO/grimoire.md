@@ -111,20 +111,20 @@ Este documento es tu registro académico. Después de leer cada capítulo en `lo
 ---
 
 ## Capítulo 05: Testing with Pytest
-**Fecha de finalización:** YYYY-MM-DD
+**Fecha de finalización:** 2026-07-10
 **Métricas:**
-- Tiempo de lectura: __ min
-- Tiempo en ejercicios: __ min
-- Veces que recurrí al Tutor/DM: __ (Objetivo: ≤ 2)
-- Fricción (1-10): __
-- ¿Completé el ejercicio de testing sin ver la solución?: [Sí / No]
+- Tiempo de lectura: 5 min
+- Tiempo en ejercicios: 15 min
+- Veces que recurrí al Tutor/DM: 0 (Objetivo: ≤ 2)
+- Fricción (1-10): 1
+- ¿Completé el ejercicio de testing sin ver la solución?: Si
 
 **Feynman Synthesis:**
 1. Explica la estructura GIVEN / WHEN / THEN (Arrange / Act / Assert).
-> [Tu respuesta aquí...]
+> Esta estructura hace funcion como un orquestador, pero con matices en los test. Dicha estructura permite, inicializar una clase/objeto/metodo, ejecutar una accion y verificar que la accion fue ejecutada de manera correcta.  
 
 2. ¿Cuál es el propósito exacto de un `fixture` en pytest?
-> [Tu respuesta aquí...]
+> Un fixture permite inicializar una clase una unica vez para poder usarla en distintos test sin la teria de tener que inicializarla de nuevo en cada test que se quiera hacer.
 
 **Friction Log (Opcional):**
 > [¿Qué te costó más trabajo entender?]
