@@ -17,6 +17,7 @@ No intentes hacer todo el Boss de golpe. Sigue las fases en orden. **Aplica TDD 
 *El pipeline necesita saber leer de un archivo sin casarse con un formato específico.*
 - Implementar una interfaz `AbstractExtractor` (módulo `abc`) con el método `extract(filepath: str) -> list[dict]`.
 - Implementar `CSVExtractor` que herede de la interfaz y lea `data/transactions.csv`.
+- **Error Handling (Ref: Cap 06):** Si el archivo no existe o la ruta es inválida, lanzar una excepción de dominio `DataSourceNotFoundError` (no usar `FileNotFoundError` genérico).
 - **Testing Mínimo:** Validar que `AbstractExtractor` no se puede instanciar y que `CSVExtractor` retorna los datos correctos.
 
 ### Fase 2: Domain Entities (Ref: Cap 02)
@@ -30,13 +31,14 @@ No intentes hacer todo el Boss de golpe. Sigue las fases en orden. **Aplica TDD 
 *El núcleo de procesamiento lógico, separado de la entrada/salida.*
 - Implementar `AnalyticsEngine` (stateless).
 - Debe tener un método `calculate_report(transactions: list[Transaction]) -> dict` que use `collections.defaultdict` para agregar totales por categoría.
-- **Testing Mínimo:** Validar la agregación usando objetos `Transaction` mockeados en el test.
+- **Testing Mínimo (Ref: Cap 05):** Validar la agregación usando un **`@pytest.fixture`** que provea una lista de objetos `Transaction` de prueba.
 
 ### Fase 4: Orchestration & CLI (Ref: Cap 04 + 07)
 *La interfaz de usuario y el ensamblaje final.*
 - Implementar `PipelineOrchestrator` que reciba inyectados el Extractor y el Engine.
-- Usar `Typer` o `Click` en un archivo `cli.py` para invocar el pipeline pasando el archivo de entrada como flag: `--input-file`.
-- **Testing Mínimo:** Validar invocación de CLI usando `CliRunner` (Exit code 0).
+- Usar `argparse` (nativo) en un archivo `cli.py` para invocar el pipeline pasando el archivo de entrada como flag: `--input`.
+- **Logging & Error Handling (Ref: Cap 06):** El Orquestador debe envolver la ejecución en `try/except`, atrapar excepciones de dominio (como `DataSourceNotFoundError`) y registrarlas con `logger.error()`. Configurar `logging.basicConfig` en `cli.py`.
+- **Testing Mínimo (Ref: Cap 05):** Validar el orquestador usando **`unittest.mock.Mock`** para aislar el Extractor y el Engine. Verificar que el pipeline se ejecuta correctamente sin tocar archivos reales.
 
 ---
 
