@@ -132,39 +132,39 @@ Este documento es tu registro académico. Después de leer cada capítulo en `lo
 ---
 
 ## Capítulo 06: Logging y Error Handling
-**Fecha de finalización:** YYYY-MM-DD
+**Fecha de finalización:** 2026-07-14
 **Métricas:**
-- Tiempo de lectura: __ min
-- Tiempo en ejercicios: __ min
-- Veces que recurrí al Tutor/DM: __ (Objetivo: ≤ 2)
-- Fricción (1-10): __
+- Tiempo de lectura: 4 min
+- Tiempo en ejercicios: 10 min
+- Veces que recurrí al Tutor/DM: 0 (Objetivo: ≤ 2)
+- Fricción (1-10): 1
 
 **Feynman Synthesis:**
 1. ¿Por qué es mejor usar Excepciones de Dominio personalizadas en lugar de un `ValueError` genérico?
-> [Tu respuesta aquí...]
+> Al usar Domain Exceptions tenemos la posibilidad de saber exactamente en que parte del codigo y de la logica se esta presentando un fallo dentro del mismo. Si no fuera asi, no se tendria clariadad al momento de que se presentara dichos fallos 
 
 2. ¿En qué se diferencia usar `logger.error` de usar un simple `print`?
-> [Tu respuesta aquí...]
+> EL logger.error guarda el error que se haya presentado en un archivo externo, permitiendo que este pueda ser observado y analizado a posterior. Al usar un simple print, este mostraria el error en consola, pero si el sistema se reinicia por cualquier razon, la informacion de ese error se perderia y no podria ser corregida de manera oportuna, en dado caso. 
 
 **Friction Log (Opcional):**
-> [¿Qué te costó más trabajo entender?]
+> 
 
 ---
 
 ## Capítulo 07: CLI and Production Assembly
-**Fecha de finalización:** YYYY-MM-DD
+**Fecha de finalización:** 2026-07-14
 **Métricas:**
-- Tiempo de lectura: __ min
-- Tiempo en ejercicios: __ min
-- Veces que recurrí al Tutor/DM: __ (Objetivo: ≤ 2)
-- Fricción (1-10): __
+- Tiempo de lectura: 4 min
+- Tiempo en ejercicios: 8 min
+- Veces que recurrí al Tutor/DM: 0 (Objetivo: ≤ 2)
+- Fricción (1-10): 1
 
 **Feynman Synthesis:**
 1. ¿Para qué sirve el bloque `if __name__ == "__main__":` en Python?
-> [Tu respuesta aquí...]
+> Para que el script, o programa se ejecute unicamente cuando este es llamado explicitamente en consola, evitando asi que se ejecute sin necesidad en otros entornos donde el programa no es requerido en su totalidad.
 
 2. Describe cómo el `cli.py` se convierte en el lugar donde ensamblas ("inyectas") todas las dependencias.
-> [Tu respuesta aquí...]
+> El CLI es la parte visible del programa que tendra acceso el usuario final. Debajo de el esta toda la logica, el codigo de dicho programa, pero el usuario no necesita acceder a el de forma directa. El CLI se encarga de tomar las partes externas del programa y unificarlas en una sola interfas o un par de lineas de codigo, trayendo archivos, buscando las rutas de carga o guardado y ejecutando el orquestador del mismo programa.
 
 **Friction Log (Opcional):**
-> [¿Qué te costó más trabajo entender?]
+> 
