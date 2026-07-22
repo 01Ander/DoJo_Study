@@ -1,6 +1,6 @@
 # Boss: Financial ETL Pipeline CLI
 
-**Estado:** 🔒 Bloqueado (Requiere autorización del DM en `grimoire.md`)
+**Estado:** Aprobado para su realización.
 
 Este es el proyecto integrador. Aquí aplicarás todos los conceptos aprendidos en los capítulos de teoría y ejercicios, sin andamiaje.
 
@@ -24,13 +24,12 @@ No intentes hacer todo el Boss de golpe. Sigue las fases en orden. **Aplica TDD 
 *Los diccionarios no son seguros. Mapeemos los datos a objetos formales con Polimorfismo.*
 - Crear una clase abstracta `Transaction` con propiedades `amount` y `date`.
 - Crear subclases `Income` y `Expense`.
-- Sobrescribir el método de representación para imprimir formatos limpios.
 - **Testing Mínimo:** Validar que `Income` y `Expense` se instancian correctamente, que ambas son subclases de `Transaction`, y que cada una retorna su `amount` con el signo esperado (positivo para Income, negativo para Expense).
 
 ### Fase 3: Transformation Engine (Ref: Cap 03)
 *El núcleo de procesamiento lógico, separado de la entrada/salida.*
 - Implementar `AnalyticsEngine` (stateless).
-- Debe tener un método `calculate_report(transactions: list[Transaction]) -> dict` que use `collections.defaultdict` para agregar totales por categoría.
+- Debe tener un método `calculate_report(transactions: list[Transaction]) -> dict` que agregue totales por categoría.
 - **Testing Mínimo (Ref: Cap 05):** Validar la agregación usando un **`@pytest.fixture`** que provea una lista de objetos `Transaction` de prueba.
 
 ### Fase 4: Orchestration & CLI (Ref: Cap 04 + 07)
