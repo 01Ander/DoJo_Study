@@ -1091,3 +1091,66 @@ funcionaria? Porque en ese caso estaria asumiendo que los numeros vienen sin sig
     — "Dos jefes de zona caídos. El corazón del dungeon late más fuerte."
 
 </details>
+
+**[2026-07-27]** :  Se completa la fase 3, donde se implementa un engine sencillo que agrupa montos por categoria de transaccion. Adicionalmente se objerva que en los requerimientos no se hacia mencion a la categoria de cada transaccion por lo que no se tenia manera de poder hacer este procesamiento, por lo que se implementa un metodo externo encargado de crear una lista de dicts con los valores, type y category, para poder usarlo en el engie con mas facilidad. Relativamente sencillo, aunque se tuvo mucho uso del agent y lo que se habia visto en la version 4 del sistema. 
+<details>
+
+Fase 3: Transformation Engine
+
+    Preguntas y descubrimientos durante la implementación:
+
+    1. Stateless engine — Dudé sobre si el engine debía guardar estado. Se aclaró que no: los atributos solo viven dentro del método, no en init.
+
+    2. Estructura del reporte — No sabía qué forma tendría el dict de retorno. Usamos collections.defaultdict(float) para agregar totales por categoría.
+
+    3. La categoría no estaba en Transaction — La Fase 2 solo definió amount y date. Pero el engine necesita agrupar por categoría. Solución: agregar category al init de Transaction.
+
+    4. **Hueco de diseño: ¿quién conecta los dicts del extractor con los objetos del dominio?** — Identifiqué que nadie estaba convirtiendo list[dict] a list[Transaction]. Creamos
+    build_transactions() como función externa en transactions.py.
+
+    5. Implementación de build_transactions — Bucle simple: por cada dict, leer type, convertir amount a float, crear Income o Expense con category.
+
+    6. Bug: confundí raw_data con row — Dentro del bucle usaba la lista completa en vez de la fila individual. Corregido.
+
+    7. Objeto vs diccionario — En el test de build_transactions intenté acceder a result[0]["amount"] como si fuera un dict, pero es un objeto. Se accede con
+    result[0].amount.
+
+    8. isinstance redundante en el engine — Inicialmente usé if isinstance(txn, Income) + elif isinstance(txn, Expense). Pero ambos llamaban a txn.get_signed_amount(). Se simplificó
+    a una sola línea: polimorfismo puro.
+
+    9. **¿Cómo resuelve Python el método correcto sin preguntar el tipo?** — El tipo ya está fijado desde que build_transactions crea cada objeto. Python lo sabe por la clase del objeto, no necesita que el engine lo especifique.
+
+    10. Cuándo se llama build_transactions — No en el engine (recibe datos ya preparados). Se llamará en el orquestador de la Fase 4.
+
+
+</details>
+
+**[2026-07-31]** :  Bastante ayuda del agent para llegar al punto pero fue relativamente sencillo verlo con la ayuda. Personalmente se va a pedir un proyecto secundario con un poco mas de complejidad o una complejidad similar a la tratada pero para hacerlo sin ayuda del agent directo, que su uso sea muy minimo, para continuar consolidando conceptos aun mas. Por lo demas se completa el rite en 4 sesiones de dias distintos.
+
+<details>
+Resumen del agent: 
+Fase 4: Orchestration & CLI
+
+    Preguntas y descubrimientos durante la implementación:
+
+    1. Diseño del orquestador — Al principio pensé que extractor y engine podían manejarse en una sola función main(), pero el
+    requirements pide un PipelineOrchestrator que reciba ambas dependencias inyectadas por constructor (Dependency Injection).
+
+    2. ¿Dónde entra build_transactions? — El orquestador recibe extractor y engine, pero necesita convertir los dicts del
+    extractor en objetos Transaction. La solución: importar build_transactions directamente dentro del orquestador y llamarla como
+    paso intermedio.
+
+    3. Testing con Mocks — Para aislar el orquestador en el test, usé unittest.mock.Mock para el extractor y el engine. El mock
+    del extractor devuelve una lista de dicts falsos, el mock del engine devuelve un reporte falso. El test verifica que extract() y
+    calculate_report() se llaman en orden, sin tocar archivos reales.
+
+    4. Error de alcance con report — En el try/except del orquestador, el report se asignaba dentro del try pero se
+    retornaba fuera. Si saltaba una excepción, report no existía. Se corrigió inicializando report = {} antes del bloque try.
+
+    5. Logging — Se agregó logging.basicConfig en cli.py y logger.error() en el orquestador para atrapar
+    DataSourceNotFoundError. El logger muestra el progreso y el reporte final en consola.
+
+    6. Ejecución del pipeline — Al correr python -m src.cli --input data/data.csv el pipeline se ejecuta de principio a fin,
+    mostrando el reporte con totales por categoría y signos correctos (Income positivo, Expense negativo).
+
+</details>
