@@ -2,6 +2,28 @@
 
 All notable changes to DoJo Study will be documented in this file.
 
+## [5.2.0] - 2026-08-31
+
+### 🎯 "The Pre-Employment Fast-Track Update"
+
+> Focus is saying no to the hundred other good ideas.
+
+### Added
+- **Syllabus Maestro 2.0 (`docs/03-syllabus-maestro.md`):** Reestructuración integral del blueprint técnico, priorizando al 100% las competencias de inserción laboral en USD (> $1500/mes) para roles de **Data Automation Engineer / Python Automation Developer / ETL Integration Developer** pre-2027.
+- **Syllabus Fase 2 Desacoplado (`docs/08-syllabus-post-empleo-fase2.md`):** Extracción de ramas de especialización secundaria (QA formal complejo, Kubernetes, Terraform, Dashboards BI avanzados, Seguridad profunda) a un documento externo de referencia post-contratación.
+- **Gate de Búsqueda Paralela:** Activación obligatoria de postulaciones continuas (5-10 semanales en portales internacionales) y *Mock Technical Interviews* en inglés en cuanto se apruebe el Rite de `SQL-BASICO`.
+- **Taxonomía Transversal Anti-Fragmentación:** Formalización de directivas que integran `DQ` (Data Quality & Observabilidad) dentro de `DE-PIPELINES`, `GIT-CI` (GitHub Actions pytest) dentro de `PORT-CAPSTONE`, y `ENG-INT` como inmersión transversal continua.
+- **Especificación de Portafolio Unificado (`PORT-CAPSTONE`):** Sustitución de múltiples proyectos pequeños por un único pipeline end-to-end monolítico y robusto (API → Python/Validation → S3 → Pandas/SQL → RDS → Quality Checks → Orquestación Prefect/Airflow → CloudWatch + README y Demo en inglés).
+- **Absorción de RFC 08:** El RFC de repriorización fue validado convergentemente por 4 modelos de IA (ChatGPT, Perplexity, Grok y Gemini), aceptado e integrado directamente en el Core documental (archivado en `ideas/`).
+
+### Changed
+- **Consolidación de SQL (`subjects/sql/README.md`):** `SQL-DESIGN` (modelado dimensional / Star Schema) y `SQL-PYBRIDGE` (integración Python+SQL) fueron absorbidas formalmente dentro de `SQL-BASICO` y `DE-PIPELINES` para evitar proliferación de carpetas.
+- **Constitución `.hermes.md` v5.2:** Actualización de identidad hacia inserción internacional pre-2027, DoD con Data Quality y lista canónica de fuentes de verdad (Docs 00 a 08).
+- **Índice General (`docs/00-index.md`):** Renumeración limpia y contigua de 00 a 08 sin documentos redundantes.
+- **Sistema de Energía (`docs/02-sistema-energia.md`):** Inclusión formal de bloques de empleabilidad activa y mock interviews en la rutina semanal post-gate.
+
+---
+
 ## [5.1.0] - 2026-05-11
 
 ### 🧙 "The Discworld Update"
