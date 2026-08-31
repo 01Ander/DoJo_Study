@@ -1,54 +1,65 @@
-# 02 - Sistema Energía (Modelo Binario)
+# 02 - Sistema Energía (Modelo Binario & Rutina de Empleabilidad)
 
-El marco temporal y atencional del DoJo se rige por un **Modelo Binario**: se está en *Deep Work* (Inmersión Técnica) o en *Rest Day* (Desconexión Profunda). Se elimina la noción de progreso a "energía o medio voltaje" debido al riesgo que esto representa en un esquema inmersivo de tiempo total (8 horas/día).
+El marco temporal y atencional del DoJo se rige por un **Modelo Binario**: se está en *Deep Work* (Inmersión Técnica) o en *Rest Day* (Desconexión Profunda). Se elimina la noción de progreso a "medio voltaje" para garantizar alta retención y ejecución sostenida.
+
+---
 
 ## Objetivo del Sistema
-- Promover el trabajo en bloques concentrados de alta exigencia cognitiva (Arquitectura, TDD, Clean Code).
-- Eliminar la "falsa sensación de productividad" generada por tareas tribales en estados de agotamiento.
-- Fomentar recuperaciones reales y profundas para sostener maratones mensuales de ingeniería de software.
+- Promover el trabajo en bloques concentrados de alta exigencia cognitiva (Arquitectura, TDD, Clean Code, Data Quality).
+- Eliminar la "falsa sensación de productividad" de tareas menores en estados de fatiga.
+- Integrar la rutina de búsqueda laboral activa y entrevistas en paralelo al avance técnico.
 
 ---
 
 ## El Modelo Binario y el Seteo Diario
 
 ### Fase Cero: English Commando (30-60 min)
-**Estado:** Recién despierto o inicio de jornada.
-Antes de abrir el editor de código, el cerebro debe "setearse" en modo "English friendly".
+**Estado:** Inicio de jornada o pre-estudio.
+Antes de abrir el editor de código, el cerebro se sintoniza en modo inglés:
 - Practicar Busuu Premium (Ruta Gramatical).
 - Repasar Duolingo.
-- Escuchar un podcast o leer documentación técnica preferentemente en inglés, en un entorno English friendly.
-*Este bloque actúa como el encendido del sistema cognitivo.*
+- Lectura de documentación técnica o consumo de podcasts técnicos exclusivamente en inglés.
 
-### Modo 1: Deep Work (Inmersión Técnica)
+---
+
+### Modo 1: Deep Work (Inmersión Técnica & Laboratorios)
 **Estado:** Cognitivamente dispuesto. Capacidad para resolver problemas abstractos y estructurar lógicas complejas.
 **Bloques de 60-90 mins**
 
-Misiones Permitidas:
-- Misiones Principales (M) enfocadas a creación e implementación de capas lógicas.
-- Refactorizaciones Arquitectónicas (con planificación de Mini-RFC).
-- Implementación de Tests Automatizados (TDD o Unit Testing) previo al código core.
-- Diseño de sistemas e investigación profunda.
+Actividades Permitidas:
+- Estudio de teoría en `lore/` y resolución de ejercicios prácticos en `quests/`.
+- Síntesis conceptual en `grimoire.md` utilizando la Técnica Feynman.
+- Desarrollo guiado de proyectos integradores en `rite/` bajo TDD estricto.
+- Implementación de Data Quality, pipelines ETL y validaciones.
 
-**Requisito indispensable:** Registro del Deep Work Block en el Daily Log (Métricas de Enfoque). Si se supera la ventana de 4 horas continuas (hiperfoco), es forzoso establecer un cierre y aterrizaje seguro (comer, caminar, desconectar del IDE).
+**Manejo de Hiperfoco:** Si se superan 4 horas continuas de trabajo concentrado, es obligatorio realizar un cierre de bloque y aterrizaje seguro (pausa física, comida, desconexión temporal del IDE).
 
-### Modo 0: Rest Day (Desconexión)
-**Estado:** Valle cognitivo, saturación mental, bloqueos inexplicables o **Fin de Semana (Sábado tarde/Domingo)**. El "Vacío".
+---
+
+### Bloque de Empleabilidad Activa (Post-Gate SQL-BASICO)
+*Se activa automáticamente al aprobar el Rite de `SQL-BASICO`.*
+- **Frecuencia:** 2 a 3 bloques semanales dedicados (45-60 min).
+- **Actividades:**
+  - Envío de 5–10 postulaciones en inglés en portales internacionales (LinkedIn, Wellfound, RemoteOK, Arc.dev).
+  - Optimización continua del perfil de GitHub y CV.
+  - Simulacros socráticos de entrevistas técnicas (*Mock Interviews*) en inglés con la `witch` o el `wizard`.
+
+---
+
+### Modo 0: Rest Day (Desconexión Profunda)
+**Estado:** Valle cognitivo, saturación mental, o **Fin de Semana (Sábado tarde / Domingo)**.
 
 Protocolo OBLIGATORIO:
-- **Zero-Code Policy:** Prohibido abrir el editor o tocar código.
-- **Mandato Semanal:** Sábados por la tarde y Domingos son Rest Days por diseño, independientemente de la carga semanal.
-- **Trazabilidad Mínima:** Usar la skill `/dojo-log` para registrar brevemente qué detuvo el progreso ("Muro Técnico" o "Fatiga") antes de cerrar la sesión.
-- Asumir el "Valle" sin culpa. Este estado en un entorno de inmersión total no denota debilidad, sino una necesidad neurobiológica de asentar el conocimiento y reiniciar el sistema Dopaminérgico.
+- **Zero-Code Policy:** Prohibido abrir el editor o tocar código de producción.
+- **Mandato Semanal:** Sábados por la tarde y Domingos son días de descanso sagrados.
+- **Registro Mínimo:** Si la sesión se interrumpe por fatiga entre semana, registrar brevemente el motivo antes de desconectar.
+- Asumir el descanso sin culpa: es el requerimiento biológico para fijar la memoria a largo plazo y renovar la energía.
 
 ---
 
 ## 🛡️ Protocolo Yellow (Graceful Degradation)
 
-En escasos momentos donde se está a mitad de un problema y no se justifica "apagar el sistema" pero el nivel de fricción supera 7, se debe invocar el **[Protocolo Yellow](04-protocol-yellow.md)**:
-- Habilita estrategias formales de reducción de carga (e.g. pasar de OOP a funciones nativas, traducir documentación al español, usar datos mock).
-- Delega a Pair Programming pasivo o abandona el objetivo en pro de un "Micro-Goal".
-*Si esto falla, se invocará un Rest Day inminente o una Pausa Obligatoria de 15 minutos.*
-
----
-
-El Sistema de Rendimiento Binario asegura que la construcción del perfil **Data Engineer** se realice desde una ejecución metódica, seria, y respetuosa con los ciclos naturales de creación.
+Si durante un bloque de Deep Work la fricción cognitiva supera 7/10 y no se justifica detener la sesión por completo, se debe invocar el **[Protocolo Yellow](04-protocol-yellow.md)**:
+- Habilita reducción temporal de complejidad (e.g. pasar de OOP a funciones simples, usar datasets mock, traducir explicaciones complejas al español).
+- Permite interacción de soporte con el `wizard` (Domain Shifting).
+- Si la fricción no disminuye, se invoca una pausa obligatoria de 15 minutos o se decreta el fin de la sesión técnica.

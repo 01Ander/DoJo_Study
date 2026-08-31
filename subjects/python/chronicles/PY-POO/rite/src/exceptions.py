@@ -1,0 +1,2 @@
+class DataSourceNotFoundError(Exception):
+    pass

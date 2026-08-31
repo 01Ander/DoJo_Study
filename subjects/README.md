@@ -27,6 +27,9 @@ subjects/
 │  │  └─ PY-CLOUD/
 │  └─ README.md
 ├─ sql/
+│  ├─ chronicles/
+│  │  └─ SQL-BASICO/           <- (Data Engineering SQL Foundations)
+│  └─ README.md
 ├─ cloud/
 └─ data/
 ```
