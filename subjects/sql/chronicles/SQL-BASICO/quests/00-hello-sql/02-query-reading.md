@@ -23,6 +23,8 @@ INSERT INTO servers (hostname, ram_gb, ip_address) VALUES ('app-dev-01', 16, '19
 
 ¿Qué valor tendrá la columna `id` del servidor `'app-dev-01'` y qué valor tendrá la columna `ip_address` del servidor `'db-prod-01'`?
 
+Respuesta: 3, NULL
+
 ---
 
 ## Pregunta 2
@@ -32,6 +34,17 @@ Analiza la siguiente consulta y predice qué filas y columnas serán devueltas:
 ```sql
 SELECT hostname FROM servers;
 ```
+
+Respuesta: 
+```sql
+hostname
+----------------
+web-prod-01
+db-prod-01
+app-dev-01
+
+```
+
 
 ---
 

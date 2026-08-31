@@ -7,20 +7,20 @@ Este documento es tu registro académico. Después de leer cada capítulo en `lo
 ---
 
 ## Capítulo 00: Hello, SQL — Introduction to Databases & SQLite
-**Fecha de finalización:** [YYYY-MM-DD]
+**Fecha de finalización:** [2026-08-24]
 **Métricas:**
-- Tiempo de lectura: [min]
-- Tiempo en ejercicios: [min]
-- Veces que recurrí al Tutor/DM: [N] (Objetivo: ≤ 2)
-- Fricción (1-10): [N]
-- ¿Verifiqué la instalación de `sqlite3` en macOS?: [Sí/No]
+- Tiempo de lectura: 8min
+- Tiempo en ejercicios: 5min
+- Veces que recurrí al Tutor/DM: 0 (Objetivo: ≤ 2)
+- Fricción (1-10): 1
+- ¿Verifiqué la instalación de `sqlite3` en macOS?: Sí
 
 **Feynman Synthesis (Tus propias palabras):**
 1. ¿Qué diferencia a SQL (lenguaje declarativo) de un lenguaje como Python (imperativo) al momento de pedir datos?
-> [Tu respuesta aquí]
+> La diferencia es que SQL calcula internamente la mejor ruta para llevar a cabo la operacion de pedir datos,  en cambio en Python y lenguajes similares, se debe ser claro en la ruta que se debe seguir para poder obtener dichos datos.
 
 2. ¿Por qué es fundamental definir tipos de datos explícitos en las columnas de una tabla relacional?
-> [Tu respuesta aquí]
+> Esta es una medida de seguridad que se debe usar para evitar cometer errores a la hora de ingresar datos a las columnas. Cada columna esta descrita con su tipo de dato preciso y debe coincidir con la entrada que se le de, si no es asi SQL indicara el error y no dejara ingresar el dato.
 
 **Friction Log (Opcional):**
 > [¿Qué te costó más trabajo entender?]
@@ -28,22 +28,22 @@ Este documento es tu registro académico. Después de leer cada capítulo en `lo
 ---
 
 ## Capítulo 01: DDL & Relational Modeling
-**Fecha de finalización:** [YYYY-MM-DD]
+**Fecha de finalización:** 2026-08-31
 **Métricas:**
-- Tiempo de lectura: [min]
-- Tiempo en ejercicios: [min]
-- Veces que recurrí al Tutor/DM: [N] (Objetivo: ≤ 2)
-- Fricción (1-10): [N]
+- Tiempo de lectura: 7min
+- Tiempo en ejercicios: 5min
+- Veces que recurrí al Tutor/DM: 3
+- Fricción (1-10): 1
 
 **Feynman Synthesis (Tus propias palabras):**
 1. ¿Qué es una Foreign Key (FK) y qué problema concreto de integridad resuelve en una base de datos?
-> [Tu respuesta aquí]
+> Es la referencia que apunta a un identificador unico de otra tabla. Esta permite generar conexiones con otras tablas de manera que no existan datos acumulados en una sola celda separados por comas, y a la vez exista un unico registro especifico en cada celda que no exista con anterioridad en una tabla principal o padre. 
 
 2. ¿Cuándo se necesita una tabla intermedia (relación N:M) y por qué no se pueden conectar dos tablas directamente en ese escenario?
-> [Tu respuesta aquí]
+> Porque se busca no juntar en una sola celda varios registros separados por coma. Se busca separar registros de manera clara, por esto se requiere una tabla intermedia que haga la conexion de las dos tablas principales. 
 
 **Friction Log (Opcional):**
-> [¿Qué te costó más trabajo entender?]
+> No se habia entendido el uso de ON DELETE CASCADE, el DM dio la claridad para este codigo. 
 
 ---
 
