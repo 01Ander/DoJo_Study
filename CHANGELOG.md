@@ -9,7 +9,7 @@ All notable changes to DoJo Study will be documented in this file.
 > Focus is saying no to the hundred other good ideas.
 
 ### Added
-- **Syllabus Maestro 2.0 (`docs/03-syllabus-maestro.md`):** Reestructuración integral del blueprint técnico, priorizando al 100% las competencias de inserción laboral en USD (> $1500/mes) para roles de **Data Automation Engineer / Python Automation Developer / ETL Integration Developer** pre-2027.
+- **Syllabus Maestro 2.0 (`docs/03-syllabus-maestro.md`):** Reestructuración integral del blueprint técnico, priorizando al 100% las competencias de inserción laboral remota internacional para roles de **Data Automation Engineer / Python Automation Developer / ETL Integration Developer** pre-2027.
 - **Syllabus Fase 2 Desacoplado (`docs/08-syllabus-post-empleo-fase2.md`):** Extracción de ramas de especialización secundaria (QA formal complejo, Kubernetes, Terraform, Dashboards BI avanzados, Seguridad profunda) a un documento externo de referencia post-contratación.
 - **Gate de Búsqueda Paralela:** Activación obligatoria de postulaciones continuas (5-10 semanales en portales internacionales) y *Mock Technical Interviews* en inglés en cuanto se apruebe el Rite de `SQL-BASICO`.
 - **Taxonomía Transversal Anti-Fragmentación:** Formalización de directivas que integran `DQ` (Data Quality & Observabilidad) dentro de `DE-PIPELINES`, `GIT-CI` (GitHub Actions pytest) dentro de `PORT-CAPSTONE`, y `ENG-INT` como inmersión transversal continua.
