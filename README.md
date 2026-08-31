@@ -1,4 +1,4 @@
-# ⛩️ DoJo Study — High Performance Engineering Framework (v5.2)
+# ⛩️ DoJo Study — High Performance Engineering Framework
 
 DoJo Study es un framework de aprendizaje inmersivo y de alto rendimiento diseñado para la formación rigurosa hacia el perfil **Data Automation Engineer / Python Automation Developer / ETL Integration Developer**. Basado en la metodología de **Campaign as Course**, con nomenclatura inspirada en el Mundodisco de Terry Pratchett, garantiza que el conocimiento teórico, la práctica guiada y los proyectos finales residan en entornos desacoplados para asegurar una asimilación real y autónoma.
 
@@ -92,7 +92,7 @@ Para que un artefacto técnico sea considerado completado:
 ## 📁 Estructura del Repositorio
 ```text
 DoJo_Study/
-├── .hermes.md                          ← Constitución del DoJo Agent (v5.2)
+├── .hermes.md                          ← Constitución del DoJo Agent
 ├── README.md                           ← Visión general del ecosistema
 ├── CHANGELOG.md                        ← Registro histórico de versiones
 ├── subjects/                           ← Divisiones de aprendizaje

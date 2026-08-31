@@ -1,10 +1,9 @@
-# 07 - Campaign as Course (Modelo v5.1 — Mundodisco Edition)
+# 07 - Campaign as Course (Mundodisco Edition)
 
-> **Implementado en:** v5.0, actualizado en v5.1
 > **RFC de referencia:** `ideas/proposal-study-guide-layer.md`
 > GNU Terry Pratchett.
 
-Este documento define la arquitectura "Campaign as Course", el modelo pedagógico estándar del DoJo a partir de la v5.0, con la nomenclatura Mundodisco adoptada en v5.1.
+Este documento define la arquitectura "Campaign as Course", el modelo pedagógico estándar del DoJo con la nomenclatura Mundodisco.
 
 ## 0. El Glosario Mundodisco (Nomenclatura Oficial)
 
@@ -39,7 +38,7 @@ Las chronicles usan tipología estrictamente `CORE-SUBTEMA`.
 - `PY-POO-LEGACY`
 - `DE-ETL-V2`
 
-## 2. Anatomía de una Chronicle v5.1
+## 2. Anatomía de una Chronicle
 
 La estructura adopta un enfoque de Curso + Laboratorio:
 

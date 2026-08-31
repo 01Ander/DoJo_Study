@@ -1,4 +1,4 @@
-# 05 - The DoJo Agent v5.1 (Hermes Agent — Mundodisco Edition)
+# 05 - The DoJo Agent (Hermes Agent — Mundodisco Edition)
 
 ## ¿Qué es el DoJo Agent?
 
@@ -82,7 +82,7 @@ Con el Rite desbloqueado, activa `/personality witch` para pair programming socr
 
 ## Referencia Rápida
 
-| v3 (Legacy) | v4 (Hermes) | v5.1 (Mundodisco) |
+| Monolito CLI (Legacy) | Hermes Multi-Skill (Legacy) | Mundodisco (Actual) |
 |---|---|---|
 | `python dojo_agent/main.py` | `hermes` | `hermes` |
 | `/mode main` | `/personality dojo-tutor` | `/personality wizard` |
