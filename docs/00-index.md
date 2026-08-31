@@ -16,7 +16,7 @@ Control de tiempo y atención: Fase Cero (English Commando), Deep Work Blocks, B
 
 ### 3. Syllabus Maestro 2.0 (Pre-Empleo)
 **→ [`03-syllabus-maestro.md`](03-syllabus-maestro.md)**  
-El Blueprint técnico de alta prioridad (100% enfocado en inserción laboral internacional en USD). Cubre Python, SQL, Data Quality, Pipelines ETL, AWS y el Proyecto Capstone.
+El Blueprint técnico de alta prioridad (100% enfocado en inserción laboral remota internacional). Cubre Python, SQL, Data Quality, Pipelines ETL, AWS y el Proyecto Capstone.
 
 ### 4. Protocolo Yellow (Graceful Degradation)
 **→ [`04-protocol-yellow.md`](04-protocol-yellow.md)**  

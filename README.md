@@ -1,11 +1,11 @@
-# ⛩️ DoJo Study — High Performance Engineering Framework
+# ⛩️ DoJo Study — High Performance Engineering Framework (v5.2)
 
-DoJo Study es un framework de aprendizaje inmersivo y de alto rendimiento diseñado para la formación rigurosa de perfiles en **Data & Automation Engineering**. Basado en la metodología de **Campaign as Course**, con nomenclatura inspirada en el Mundodisco de Terry Pratchett, garantiza que el conocimiento teórico, la práctica guiada y los proyectos finales residan en entornos desacoplados para asegurar una asimilación real.
+DoJo Study es un framework de aprendizaje inmersivo y de alto rendimiento diseñado para la formación rigurosa hacia el perfil **Data Automation Engineer / Python Automation Developer / ETL Integration Developer**. Basado en la metodología de **Campaign as Course**, con nomenclatura inspirada en el Mundodisco de Terry Pratchett, garantiza que el conocimiento teórico, la práctica guiada y los proyectos finales residan en entornos desacoplados para asegurar una asimilación real y autónoma.
 
 > GNU Terry Pratchett.
 
 ## 🎯 El Objetivo
-El sistema busca eliminar la brecha entre la educación académica y el entorno profesional, integrando la **justificación económica y el valor de negocio (ROI)** como requisitos técnicos tan estrictos como la funcionalidad del código.
+Acelerar la inserción profesional hacia un **primer empleo remoto internacional** en ingeniería de automatización e integración de datos antes de mediados de 2027. El sistema elimina la brecha entre la educación tradicional y el entorno productivo real, integrando **Data Quality**, **TDD**, **Arquitectura modular** y **justificación de negocio (ROI)** como estándares no negociables.
 
 ---
 
@@ -33,13 +33,13 @@ hermes  # Inicia el agente con contexto del DoJo
 ### 4. Comandos Básicos
 ```bash
 # Personalidades (Arquetipos Mundodisco)
-/personality wizard      # 🧙 El Mago — Instructor + Domain Shifting
-/personality witch       # 🧹 La Bruja — Pair Programming Socrático (Headología)
+/personality wizard      # 🧙 El Mago — Instructor + Domain Shifting (Analogías)
+/personality witch       # 🧹 La Bruja — Pair Programming Socrático (Headología) & Mock Interviews
 
 # Skills (Hechizos)
-/scry PY-POO             # 🔮 DM audita tu grimoire y autoriza el Rite
-/scry PY-POO --deep      # 🔮 Auditoría cualitativa (síntesis Feynman)
-/scroll "Idea rápida"    # 📜 Captura una idea sin romper el deep work
+/scry SQL-BASICO         # 🔮 DM audita tu grimoire y autoriza el Rite
+/scry SQL-BASICO --deep  # 🔮 Auditoría cualitativa Feynman profunda
+/scroll "Idea rápida"    # 📜 Captura una idea sin romper el Deep Work
 ```
 
 ---
@@ -47,11 +47,11 @@ hermes  # Inicia el agente con contexto del DoJo
 ## ⚙️ Metodología de Entrenamiento (Campaign as Course)
 El framework se basa en una estructura de progresión jerárquica con nomenclatura del Mundodisco:
 
-- **Chronicles (Crónicas):** Rutas de aprendizaje modulares con tipología `CORE-SUBTEMA` (ej. `PY-POO`, `DE-ETL`).
-- **Lore:** Capítulos teóricos pre-generados. El conocimiento arcano de la Biblioteca de la Universidad Invisible.
-- **Quests:** Laboratorios prácticos con Testing Progresivo (niveles 1-5).
-- **Grimoire:** Bitácora personal del Operador donde escribe con sus propias palabras (Técnica Feynman).
-- **Rite:** El proyecto final — rito de paso que demuestra dominio total del lore.
+- **Chronicles (Crónicas):** Cursos completos modulares con tipología `CORE-SUBTEMA` (ej. `PY-POO`, `SQL-BASICO`, `DE-PIPELINES`).
+- **Lore:** Capítulos teóricos con *Domain Shifting* obligatorio. El conocimiento arcano de la Biblioteca de la Universidad Invisible.
+- **Quests:** Laboratorios prácticos con Testing Progresivo (andamiaje de 5 niveles).
+- **Grimoire:** Bitácora personal del Operador donde sintetiza conceptos con sus propias palabras (Técnica Feynman).
+- **Rite:** El proyecto final integrador — rito de paso que demuestra dominio total del lore antes de avanzar.
 
 ---
 
@@ -59,47 +59,51 @@ El framework se basa en una estructura de progresión jerárquica con nomenclatu
 
 El sistema integra un agente sobre **Hermes Agent** (NousResearch) con personalidades inspiradas en el Mundodisco:
 
-- **`wizard` (El Mago):** Provee teoría y ejemplos mediante "Domain Shifting" (analogías externas). Genera código funcional real para obligar al estudiante a "traducir" la lógica.
-- **`witch` (La Bruja):** Practicante de headología (método socrático). Nunca da la respuesta directa — te hace descubrirla con preguntas. Pair programming para code review.
+- **`wizard` (El Mago):** Provee teoría y ejemplos funcionales mediante *Domain Shifting* (analogías en dominios externos ajenos al problema).
+- **`witch` (La Bruja):** Practicante de headología (método socrático). No escribe código de producción; guía al estudiante a descubrir los errores y conduce simulacros de entrevistas técnicas en inglés (*Mock Interviews*).
 
 ### Auditoría del DM (`/scry`)
-Antes de acceder al Rite, el Dungeon Master escudriña tu grimoire y tus quests. Solo cuando el progreso es verificado, el Rite se desbloquea.
+Antes de acceder al Rite, el Dungeon Master escudriña el `grimoire.md` y los `quests/`. Solo cuando el progreso conceptual es verificado, el Rite se desbloquea.
 
 ---
 
 ## 📅 Modelo de Rendimiento
 
-| Día | Modo | Actividad |
+| Día / Momento | Modo | Actividad |
 |---|---|---|
-| **Martes a Viernes** | Operador | Estudiar: lore → quests → grimoire. No se modifica el sistema. |
-| **Lunes tarde/noche** | Arquitecto | Refactorización del framework (con Antigravity). |
-| **Sábado y Domingo** | Descanso | Desconexión obligatoria. |
+| **Fase Cero (Diario)** | English Commando | Sintonización de 30–60 min en inglés (Busuu, Duolingo, lectura técnica). |
+| **Martes a Viernes** | Operador | Inmersión Deep Work: `lore/` → `quests/` → `grimoire.md` → `rite/`. |
+| **Post-Gate SQL-BASICO** | Búsqueda Activa | Bloques de postulación activa (5-10 semanales) y Mock Interviews en inglés. |
+| **Lunes tarde/noche** | Arquitecto | Mantenimiento y refactorización del framework (con Antigravity). |
+| **Sábado y Domingo** | Descanso | Desconexión obligatoria (*Zero-Code Policy*). |
 
 ---
 
 ## ✅ Definition of Done (DoD) Global
-Para que un artefacto técnico sea considerado "completado":
+Para que un artefacto técnico sea considerado completado:
 
-1. **Business Justification:** El código debe resolver un problema real con un ROI definido.
-2. **Architecture First:** El diseño debe estar documentado y validado antes de la primera línea de código.
-3. **TDD & Type Safety:** Implementación obligatoria de Test-Driven Development y tipado fuerte.
-4. **English Friendly:** Documentación técnica y código en inglés profesional.
+1. **Business Justification:** El código resuelve un problema real con un ROI cuantificable.
+2. **Architecture First:** El diseño está documentado y validado antes de escribir la primera línea de código.
+3. **TDD & Data Quality:** Implementación obligatoria de Test-Driven Development (`pytest`), tipado estricto (`mypy`), validaciones de esquema/nulos y logging estructurado.
+4. **Professional English:** Documentación técnica, código, commits, PRs y READMEs en inglés profesional.
 
 ---
 
 ## 📁 Estructura del Repositorio
 ```text
 DoJo_Study/
-├── .hermes.md                          ← Constitución del DoJo Agent
-├── README.md
-├── CHANGELOG.md
-├── subjects/python/chronicles/         ← Chronicles activas
-│   ├── PY-POO/                         ← Chronicle actual
-│   └── PY-BASICO/                      ← Chronicle completada (legacy)
-├── dojo_agent/skills/dojo/             ← Skills de Hermes
+├── .hermes.md                          ← Constitución del DoJo Agent (v5.2)
+├── README.md                           ← Visión general del ecosistema
+├── CHANGELOG.md                        ← Registro histórico de versiones
+├── subjects/                           ← Divisiones de aprendizaje
+│   ├── python/chronicles/              ← PY-POO (Done), PY-BASICO (Legacy)
+│   └── sql/chronicles/                 ← SQL-BASICO (En curso)
+├── dojo_agent/skills/dojo/             ← Skills atómicas de Hermes
 │   ├── scry/                           ← /scry — Auditoría del DM
-│   └── scroll/                         ← /scroll — Pergamino rápido
-├── templates/                          ← Plantillas estandarizadas
-├── docs/                               ← Documentación (00-07)
-└── archive/                            ← Legacy (agent v3, skills v4)
+│   └── scroll/                         ← /scroll — Captura de ideas
+├── templates/                          ← Plantillas estandarizadas de misiones y RFCs
+├── docs/                               ← Documentación canónica (00 a 08)
+│   ├── 03-syllabus-maestro.md          ← Syllabus 2.0 (100% Pre-Empleo)
+│   └── 08-syllabus-post-empleo-fase2.md← Syllabus Fase 2 (Post-Empleo)
+└── archive/                            ← Memoria histórica (agent v3, skills v4, v2 canada)
 ```

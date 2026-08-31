@@ -2,7 +2,7 @@
 
 ## ¿Qué es el DoJo?
 
-El **DoJo Study** es un ecosistema personal de aprendizaje inmersivo, diseñado para operar bajo un régimen de alto rendimiento e inmersión total (Deep Work). Su propósito técnico es acelerar la inserción laboral profesional hacia el perfil **Data & Automation Engineer / ETL Integration Developer** en el mercado internacional (> $1500 USD/mes).
+El **DoJo Study** es un ecosistema personal de aprendizaje inmersivo, diseñado para operar bajo un régimen de alto rendimiento e inmersión total (Deep Work). Su propósito técnico es acelerar la inserción laboral profesional hacia el perfil **Data & Automation Engineer / ETL Integration Developer** en el mercado remoto internacional.
 
 ### Significado moderno del acrónimo
 

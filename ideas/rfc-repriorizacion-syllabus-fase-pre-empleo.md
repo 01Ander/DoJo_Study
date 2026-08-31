@@ -8,7 +8,7 @@
 
 ## 1. Contexto
 
-El syllabus maestro define el perfil completo de Data & Automation Engineer como visión de largo plazo. Sin embargo, el objetivo inmediato cambió: conseguir un primer empleo remoto internacional (pago en USD, objetivo >$1500/mes) antes de mediados de 2027, no completar el mapa entero antes de aplicar.
+El syllabus maestro define el perfil completo de Data & Automation Engineer como visión de largo plazo. Sin embargo, el objetivo inmediato cambió: conseguir un primer empleo remoto internacional antes de mediados de 2027, no completar el mapa entero antes de aplicar.
 
 Esta decisión fue validada externamente con 4 modelos distintos, en conversaciones separadas y sin contexto compartido entre ellos: ChatGPT, Perplexity y Grok (los tres con búsqueda web activa sobre datos de mercado 2026) y Gemini (sin búsqueda web, validando desde razonamiento de industria). Los cuatro convergieron en los mismos huecos del plan original, lo cual se toma como señal fuerte de que son estructurales al rol, no artefactos de una muestra de vacantes puntual.
 
