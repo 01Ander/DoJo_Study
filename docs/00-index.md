@@ -1,4 +1,4 @@
-# 00 - Index (Documentación Oficial DoJo v5.2.0)
+# 00 - Index (Documentación Oficial)
 
 Este es el índice principal de la documentación del **DoJo Study**, el ecosistema inmersivo de aprendizaje acelerado y desarrollo hacia el perfil **Data & Automation Engineer / ETL Integration Developer**.
 
@@ -14,7 +14,7 @@ Manifiesto fundacional. Inmersión Total, Empleabilidad Activa, Gate de Búsqued
 **→ [`02-sistema-energia.md`](02-sistema-energia.md)**  
 Control de tiempo y atención: Fase Cero (English Commando), Deep Work Blocks, Bloques de Búsqueda Activa y Rest Days.
 
-### 3. Syllabus Maestro 2.0 (Pre-Empleo)
+### 3. Syllabus Maestro (Pre-Empleo)
 **→ [`03-syllabus-maestro.md`](03-syllabus-maestro.md)**  
 El Blueprint técnico de alta prioridad (100% enfocado en inserción laboral remota internacional). Cubre Python, SQL, Data Quality, Pipelines ETL, AWS y el Proyecto Capstone.
 
@@ -22,12 +22,12 @@ El Blueprint técnico de alta prioridad (100% enfocado en inserción laboral rem
 **→ [`04-protocol-yellow.md`](04-protocol-yellow.md)**  
 Mecanismo universal de resiliencia cognitiva ante fricción o bloqueo técnico.
 
-### 5. The DoJo Agent v5.x (Hermes Agent)
+### 5. The DoJo Agent (Hermes Agent)
 **→ [`05-dojo-agent.md`](05-dojo-agent.md)**  
 Arquitectura multi-agente, rol del Dungeon Master (Gatekeeper) y habilidades socráticas (`/scry`, `/scroll`).
 
 ### 6. Guía de Operaciones (Hermes Agent)
-**→ [`06-guia-operaciones-v5.md`](06-guia-operaciones-v5.md)**  
+**→ [`06-guia-operaciones.md`](06-guia-operaciones.md)**  
 Referencia rápida de ejecución: cómo interactuar con el DM, cambio de personalidades (`wizard` / `witch`) y flujo offline.
 
 ### 7. Campaign as Course (Modelo Mundodisco)

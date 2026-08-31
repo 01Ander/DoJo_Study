@@ -1,4 +1,4 @@
-# 01 - DoJo Core (v5.2.0)
+# 01 - DoJo Core
 
 ## ¿Qué es el DoJo?
 

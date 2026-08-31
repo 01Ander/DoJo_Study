@@ -1,6 +1,6 @@
-# 03 - Syllabus Maestro 2.0 (Data & Automation Engineer — Pre-Empleo)
+# 03 - Syllabus Maestro (Data & Automation Engineer — Pre-Empleo)
 
-> **Versión:** 2.0.0 (DoJo v5.2.0 — Pre-Employment Fast-Track)  
+> **Estado:** Activo (Ruta Crítica Pre-Empleo)  
 > **Objetivo:** Inserción laboral remota internacional antes de mediados de 2027 como **Data Automation Engineer / Python Automation Developer / ETL Integration Developer**.  
 > **Fase 2 (Post-Empleo):** Las ramas de especialización secundaria están desacopladas en [`08-syllabus-post-empleo-fase2.md`](08-syllabus-post-empleo-fase2.md).
 
