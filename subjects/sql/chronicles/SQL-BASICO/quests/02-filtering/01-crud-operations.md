@@ -36,6 +36,25 @@ INSERT INTO inventory (item_name, category, quantity, unit_price) VALUES
 4. Elimina los artículos de la categoría `'Papelería'` de forma segura.
 
 ---
+My solution:
+```sql
+SELECT category, unit_price
+FROM inventory
+WHERE category = 'Electronica' AND unit_price > 50.0;
+
+SELECT id, item_name, quantity
+FROM inventory
+WHERE quantity = 0;
+
+SELECT id, item_name, unit_price FROM inventory;
+UPDATE inventory
+SET unit_price = 230.0 WHERE id = 3;
+
+DELETE FROM inventory WHERE category = 'Papeleria';
+
+```
+
+
 
 <details>
 <summary>👀 Ver Solución Esperada</summary>

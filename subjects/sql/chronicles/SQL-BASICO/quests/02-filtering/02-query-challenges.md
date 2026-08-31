@@ -31,6 +31,19 @@ INSERT INTO tickets (customer_email, priority, status, assigned_agent) VALUES
 2. Escribe una consulta `SELECT` para obtener todos los tickets de clientes cuyos correos pertenezcan al dominio `@company.com` (Pista: usa `LIKE '%@company.com'`).
 
 ---
+## My solution
+```sql
+SELECT id, priority, status 
+FROM tickets
+WHERE priority IN ('High', 'Urgent') AND assigned_agent IS NULL;
+
+SELECT id, customer_email
+FROM tickets
+WHERE customer_email LIKE '%@company.com'
+```
+
+
+---
 
 <details>
 <summary>👀 Ver Solución Esperada</summary>

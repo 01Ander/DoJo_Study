@@ -48,22 +48,22 @@ Este documento es tu registro académico. Después de leer cada capítulo en `lo
 ---
 
 ## Capítulo 02: Filtering & Sorting — WHERE, ORDER BY & CRUD
-**Fecha de finalización:** [YYYY-MM-DD]
+**Fecha de finalización:** 2026-08-31
 **Métricas:**
-- Tiempo de lectura: [min]
-- Tiempo en ejercicios: [min]
-- Veces que recurrí al Tutor/DM: [N] (Objetivo: ≤ 2)
-- Fricción (1-10): [N]
+- Tiempo de lectura: 5min
+- Tiempo en ejercicios: 15min
+- Veces que recurrí al Tutor/DM: 3 (Objetivo: ≤ 2)
+- Fricción (1-10): 1
 
 **Feynman Synthesis (Tus propias palabras):**
 1. ¿Por qué ejecutar `UPDATE` o `DELETE` sin una cláusula `WHERE` es una de las fallas más graves en ingeniería de datos?
-> [Tu respuesta aquí]
+> 	Porque va a modificar o eliminar toda la fila entera, no modificaria un registro especifico, seria una falta grave ante toda la base de datos
 
 2. Explica la diferencia conceptual entre `NULL`, un número `0` y una cadena vacía `""` en SQL.
-> [Tu respuesta aquí]
+> NULL es ausencia de dato, diferente a 0 que ya es un dato y un numero (que puede significar vacio o ausencia), y diferente a una cadena "" que tambien es un dato, una cadena vacia, pero estos dos ultimos representan ya un dato o una entrada. NULL  no hay dato, no hay nada, ni cadena, ni numero, ni texto, nada!
 
 **Friction Log (Opcional):**
-> [¿Qué te costó más trabajo entender?]
+> Duda especifica por el ; y WHERE. 
 
 ---
 
