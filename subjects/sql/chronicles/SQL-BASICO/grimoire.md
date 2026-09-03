@@ -68,22 +68,22 @@ Este documento es tu registro académico. Después de leer cada capítulo en `lo
 ---
 
 ## Capítulo 03: Scalar Functions, CASE WHEN & Data Types
-**Fecha de finalización:** [YYYY-MM-DD]
+**Fecha de finalización:** 2026-09-02
 **Métricas:**
-- Tiempo de lectura: [min]
-- Tiempo en ejercicios: [min]
-- Veces que recurrí al Tutor/DM: [N] (Objetivo: ≤ 2)
-- Fricción (1-10): [N]
+- Tiempo de lectura: 25min
+- Tiempo en ejercicios: 12min
+- Veces que recurrí al Tutor/DM: 2 (Objetivo: ≤ 2)
+- Fricción (1-10): 3
 
 **Feynman Synthesis (Tus propias palabras):**
 1. ¿En qué escenarios usarías `CASE WHEN` dentro de una consulta `SELECT` en lugar de filtrar filas con `WHERE`?
-> [Tu respuesta aquí]
+> CASE WHEN se usa cuando se busca conservar todas las filas pero se requiere categorizar en una nueva columna sin la necesidad de borrar entradas, caso contrario a WHEN. 
 
 2. ¿Qué problema resuelve la función `COALESCE()` al manipular datos sucios o incompletos provenientes de un ETL?
-> [Tu respuesta aquí]
+> COALESCE sustituye cualquier entrada que venga con NULL y lo convierte a un dato dentro de una lista dada, el primer dato que no sea NULL. Eso resuelve el problema de trabajar presicamente con NULL dentro de condiciones o operaciones que se quieran hacer con los datos, evitando generacion de errores UNKWOWN.
 
 **Friction Log (Opcional):**
-> [¿Qué te costó más trabajo entender?]
+> La friccion fue mas por la longitud del lore. Nada denso, pero si requirio un mayor enfoque sobre todo al final del capitulo. La entrada a DM fue por una confusion con COALESCE ya que se confundio con un operador logico, y sobre el uso de AS ya que no se sabia si este guardaba directamente los nuevos datos. 
 
 ---
 
