@@ -106,6 +106,8 @@ Un **Índice** es una estructura de datos B-Tree que el motor relacional mantien
 
 ### Ejemplo Progresivo 1: Búsqueda sin Índice vs Búsqueda Indexada
 
+> 🎯 **Objetivo de Negocio:** Acelerar el tiempo de respuesta del catálogo de la tienda virtual cuando los clientes consultan productos por la categoría `'Electronics'`, evitando leer todo el disco secuencialmente.
+
 #### ❌ El Mal Camino: Consultar por una columna sin índice (`SCAN TABLE`)
 ```sql
 -- Consultar el plan de ejecucion de una búsqueda por categoría en productos (sin indice)
@@ -143,6 +145,8 @@ SELECT * FROM products WHERE category = 'Electronics';
 ---
 
 ### Ejemplo Progresivo 2: Procesamiento de Orden sin Transacción vs Transacción ACID Atómica
+
+> 🎯 **Objetivo de Negocio:** Procesar una orden de compra cobrando el saldo al cliente y descontando inventario de manera atómica, garantizando que si el cliente no tiene saldo o no hay stock, ninguna tabla quede alterada.
 
 #### ❌ El Mal Camino: Modificar múltiples tablas sin bloque transaccional
 ```sql

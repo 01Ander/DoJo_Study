@@ -114,6 +114,9 @@ WHERE id IN (
 );
 ```
 
+> 💡 **¿Por qué `SELECT DISTINCT project_id` en la subquery?**  
+> Un mismo proyecto puede tener varias tareas con retraso. Sin `DISTINCT`, la subquery devolvería IDs duplicados como `(1, 1, 1, 2)`. Usar `DISTINCT` elimina las repeticiones antes de entregar la lista al operador `IN`, ahorrando comparaciones en memoria y dejando clara la intención del filtro.
+
 ### 3.3 Subquery Correlacionada
 Una subquery es **correlacionada** cuando referencia columnas de la consulta exterior. Se ejecuta **una vez por cada fila** evaluada por la consulta principal.
 
@@ -162,6 +165,8 @@ WHERE e.salary > ds.avg_dept_salary;
 
 ### Ejemplo Progresivo 1: Subqueries Anidadas Ilegibles vs CTEs Encadenadas
 
+> 🎯 **Objetivo de Negocio:** Identificar aquellos proyectos cuyas horas reales totales dedicadas superen el promedio global de horas por proyecto de toda la empresa, mostrando el título del proyecto, sus horas reales acumuladas, el promedio global de referencia y el nombre del departamento asignado.
+
 #### ❌ El Mal Camino: Múltiples Subqueries Anidadas en el `FROM` y `WHERE`
 ```sql
 -- ❌ MAL: Código espagueti ilegible y difícil de debuggear
@@ -208,6 +213,9 @@ INNER JOIN projects AS p ON ptt.project_id = p.id
 INNER JOIN departments AS d ON p.department_id = d.id
 WHERE ptt.total_actual_hours > aph.global_avg_hours;
 ```
+
+> 💡 **¿Por qué usamos `CROSS JOIN AverageProjectHours AS aph` aquí?**  
+> La CTE `AverageProjectHours` devuelve **exactamente 1 fila** (el promedio global de horas). Como no existe un ID en común para hacer un `INNER JOIN ... ON`, aplicamos un `CROSS JOIN`. Multiplicar todas las filas de proyectos por 1 sola fila ($N \times 1 = N$) **no duplica registros**, sino que "estampa" el valor del promedio global en cada fila de proyecto para poder proyectarlo en el `SELECT` y compararlo en el `WHERE`.
 
 ---
 

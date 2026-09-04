@@ -118,6 +118,23 @@ FROM games AS g
 LEFT JOIN platforms AS p ON g.platform_id = p.id;
 ```
 
+### 3.3 `CROSS JOIN` (Producto Cartesiano)
+Combina **cada fila de la primera tabla con todas y cada una de las filas de la segunda tabla**, sin requerir una condición `ON`. Si la Tabla A tiene $N$ filas y la Tabla B tiene $M$ filas, el resultado tendrá exactamente **$N \times M$ filas**.
+
+```sql
+-- Generar todas las combinaciones posibles entre clientes y plataformas
+SELECT 
+    c.full_name AS customer,
+    p.name AS platform
+FROM customers AS c
+CROSS JOIN platforms AS p;
+```
+
+> ⚠️ **¿Cuándo se usa legítimamente y cuándo es un peligro?**
+> - **Peligro (Accidental):** Omitir el `ON` en tablas grandes genera millones de filas innecesarias y satura el motor relacional (ver Sección 5, Ejemplo 2).
+> - **Uso Legítimo 1 (Matrices / Catálogos):** Generar todas las combinaciones posibles de atributos (ej: cruzar Tallas $\times$ Colores para inicializar un inventario de variantes).
+> - **Uso Legítimo 2 (Acoplamiento de métricas globales $N \times 1$):** Cuando una consulta o CTE calcula un valor escalar único (ej: el promedio general de ventas en 1 fila) y deseas "estampar" ese valor en todas las filas de otra tabla para compararlas. Como $N \times 1 = N$, no duplica filas.
+
 ---
 
 ## 4. Multi-Table JOINs & Self-Join

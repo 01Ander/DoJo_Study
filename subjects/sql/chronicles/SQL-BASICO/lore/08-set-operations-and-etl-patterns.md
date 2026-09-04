@@ -112,6 +112,8 @@ El patrón `INSERT INTO target_table SELECT ... FROM source_table` es la técnic
 
 ### Ejemplo Progresivo 1: Migración y Transformación en un Solo Paso
 
+> 🎯 **Objetivo de Negocio:** Migrar y unificar los empleados de sistemas legados de dos sedes (Bogotá y Medellín) hacia la tabla corporativa maestra `master_employees`, limpiando nombres a mayúsculas sin espacios, estandarizando correos a minúsculas, convirtiendo los salarios de COP a USD (tasa 4,000) y descartando correos duplicados.
+
 #### ❌ El Mal Camino: Extraer registros a Python, transformarlos con bucles `for` y reinsertarlos
 ```sql
 -- ❌ MAL: Traer todos los registros a la memoria de Python para hacer la conversion de moneda y reinsertar

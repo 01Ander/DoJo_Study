@@ -56,10 +56,18 @@ La estructura general de una función de ventana consta de tres componentes prin
 
 ```sql
 FUNCTION() OVER (
-    PARTITION BY columna_grupo   -- Opcional: Divide el dataset en ventanas/grupos independientes
-    ORDER BY columna_orden       -- Opcional: Ordena los registros dentro de cada ventana
+    PARTITION BY columna_grupo                   -- 1. Opcional: Divide el dataset en ventanas/grupos independientes
+    ORDER BY columna_orden                       -- 2. Opcional: Ordena los registros dentro de cada ventana
+    ROWS BETWEEN limite_inicio AND limite_fin    -- 3. Opcional: Marco de ventana (Window Frame) para acumulados
 )
 ```
+
+### 3.1 El Marco de Ventana (`Window Frame`)
+Cuando calculas totales acumulados (*running totals*) o promedios móviles, necesitas decirle al motor cuántas filas incluir en el cálculo relativo a la fila actual:
+- **`ROWS BETWEEN`**: Delimita el rango de filas que componen la ventana de cálculo.
+- **`UNBOUNDED PRECEDING`**: "Desde el inicio de la partición (sin límite hacia atrás)".
+- **`CURRENT ROW`**: "Hasta la fila actual que se está evaluando".
+- **Ejemplo clásico de acumulado:** `ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW` acumula todos los valores desde la primera fila hasta la fila presente.
 
 ---
 
@@ -85,8 +93,8 @@ FROM store_sales;
 
 ## 5. Funciones de Desplazamiento (`LAG` & `LEAD`) y Acumulados
 
-- **`LAG(columna, offset)`:** Accede a los datos de una fila **anterior** dentro de la partición.
-- **`LEAD(columna, offset)`:** Accede a los datos de una fila **posterior** dentro de la partición.
+- **`LAG(columna, offset)`:** Accede a los datos de una fila **anterior** dentro de la partición (`offset` indica cuántas filas hacia atrás mirar; si no se especifica, por defecto es 1).
+- **`LEAD(columna, offset)`:** Accede a los datos de una fila **posterior** dentro de la partición (`offset` indica cuántas filas hacia adelante mirar; por defecto 1).
 
 ### Ejemplo de Comparación Día a Día con `LAG`
 
@@ -107,7 +115,7 @@ WHERE category = 'Lacteos';
 
 ### Ejemplo Progresivo 1: Deduplicación de Registros (El Patrón ETL #1)
 
-En pipelines donde llegan eventos duplicados desde colas de mensajes o archivos CSV, el patrón estándar para limpiar los datos es asignar un `ROW_NUMBER` particionando por la clave natural y ordenando por la fecha de creación descendente (`created_at DESC`), reteniendo únicamente la `row_num = 1`.
+> 🎯 **Objetivo de Negocio:** En un pipeline donde fallas de red insertan transacciones duplicadas de una misma compra (`store_name`, `sale_date`, `category`), retener únicamente la versión más reciente (el mayor `created_at`) de cada registro y descartar las réplicas anteriores.
 
 #### ❌ El Mal Camino: Subquery anidada compleja con `MAX()` que falla si los timestamps son iguales
 ```sql
@@ -146,6 +154,8 @@ WHERE dedup_rank = 1; -- Elimina los duplicados garantizando el ultimo registro 
 
 ### Ejemplo Progresivo 2: Acumulado de Ventas (Running Total)
 
+> 🎯 **Objetivo de Negocio:** Calcular el acumulado progresivo de ingresos día a día (*running total*) para cada sede del supermercado de forma independiente, de modo que cada fila muestre la venta del día y el monto financiero total acumulado hasta esa fecha.
+
 #### ❌ El Mal Camino: Simular acumulados con Self-Join
 ```sql
 -- ❌ MAL: Self-Join cuadrático O(N^2) que destruye el motor relacional con muchos datos
@@ -169,6 +179,11 @@ SELECT
     ) AS running_total
 FROM store_sales;
 ```
+
+> 💡 **Desglose del marco acumulativo (`Running Total`):**
+> - `PARTITION BY store_name`: Reinicia el acumulador de ventas para cada sede de forma independiente.
+> - `ORDER BY sale_date`: Asegura que las ventas se sumen en orden cronológico.
+> - `ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW`: Especifica que para cada fila, sume desde el primer día registrado (`UNBOUNDED PRECEDING`) hasta la fecha de la fila que se está procesando (`CURRENT ROW`).
 
 ---
 

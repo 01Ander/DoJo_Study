@@ -128,22 +128,22 @@ Este documento es tu registro académico. Después de leer cada capítulo en `lo
 ---
 
 ## Capítulo 06: Subqueries & Common Table Expressions (CTEs)
-**Fecha de finalización:** [YYYY-MM-DD]
+**Fecha de finalización:** 2026-09-04
 **Métricas:**
-- Tiempo de lectura: [min]
-- Tiempo en ejercicios: [min]
-- Veces que recurrí al Tutor/DM: [N] (Objetivo: ≤ 2)
-- Fricción (1-10): [N]
+- Tiempo de lectura: 1h20min
+- Tiempo en ejercicios: 20min
+- Veces que recurrí al Tutor/DM: 7 (Objetivo: ≤ 2)
+- Fricción (1-10): 2
 
 **Feynman Synthesis (Tus propias palabras):**
 1. ¿Cuál es la ventaja de legibilidad y mantenimiento de usar una CTE (`WITH ... AS`) frente a múltiples subqueries anidadas?
-> [Tu respuesta aquí]
+> Netamente facilidad visual y mantenimiento a la larga. Es mejor y mas factible mantener un codigo modular, separado por modulos o logicas establecidas, que una serie de selecciones anidadas una tras de otra. 
 
 2. ¿Qué es una subquery correlacionada y por qué suele ser computacionalmente más costosa que una subquery independiente?
-> [Tu respuesta aquí]
+> Una subquerry correlacionada se presenta cuando se hace referencia a una consulta exterior, en este caso a una consulta de grado superior a la propia subquerry. Asumo, ya que no se vio en el capitulo, que esta subquerry correlacionada es mas costosa porque dentro de ella se genera una consulta interna practicamente desde cero y se hace una ejecucion de la consulta fila por fila, en vez de una sola vez. 
 
 **Friction Log (Opcional):**
-> [¿Qué te costó más trabajo entender?]
+> Entendimiento de: Cuando hago una seleccion de dato (SELECT) hasta este momento de conceptos que he visto, puedo obtener una tabla (o varias) de resultados esperados. PERO, en realidad siempre voy a tener una tabla con el resultado. Que pasa? Dentro de esta seleccion se pueden gestar tablas intermedias temporales, donde voy a seleccionar informacion, que bien puede ser filtrada a posterior por mas requerimientos, o pueden ser comparadas, whatever con otra temporal o con datos originales. WITH me pertmite crear una tabla con etiqueta temporal, o varias, para poder hacer estos procesos, FROM me seleccion de donde estoy sacando informacion de esa seleccion, JOIN me esta juntando los datos de distintas selecciones o fuentes de informacion y WHERE me da una clausula final o un filtrado especifico para esta ultima gran union. Tipologia, es eso, es directo. SELECCION, DE DONDE, LO JUNTO CON QUE BASADO EN QUE, CUANDO SE DE UNA REQUERIMIENTO ESPECIFICO, AGRUPO POR UNA NECESIDAD ESPECIFICA, ORDENO POR LO MISMO.
 
 ---
 

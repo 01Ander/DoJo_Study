@@ -63,14 +63,29 @@ INSERT INTO race_results (runner_id, event_name, category, finish_time_minutes, 
 
 ---
 
-## 3. Funciones de Agregación Fundamentales
+## 3. Funciones de Agregación Fundamentales y `DISTINCT`
 
+### 3.1 Las Funciones Agregadas Básicas
 - **`COUNT(*)`:** Cuenta el número total de filas retenidas por la consulta.
 - **`COUNT(columna)`:** Cuenta las filas donde `columna` **no** es `NULL`.
-- **`COUNT(DISTINCT columna)`:** Cuenta los valores únicos no nulos de una columna.
+- **`COUNT(DISTINCT columna)`:** Cuenta únicamente los valores **únicos** y no nulos de una columna.
 - **`SUM(columna)`:** Suma los valores numéricos.
 - **`AVG(columna)`:** Calcula el promedio aritmético.
 - **`MIN(columna)` / `MAX(columna)`:** Obtiene el valor mínimo o máximo.
+
+### 3.2 ¿Qué es `DISTINCT` y cómo funciona?
+La palabra clave `DISTINCT` instruye al motor SQL a **eliminar duplicados** del resultado final.
+
+1. **`SELECT DISTINCT columna` (Filas únicas):**  
+   Devuelve los valores únicos como filas separadas. Si varias filas tienen el mismo valor, solo muestra una copia.
+   ```sql
+   -- Devuelve únicamente las ciudades únicas presentes en la tabla runners
+   SELECT DISTINCT city FROM runners;
+   ```
+   > 💡 Si pones múltiples columnas (`SELECT DISTINCT city, gender`), evaluará la **combinación completa** de ambas columnas para determinar si hay duplicados.
+
+2. **`COUNT(DISTINCT columna)` (Métrica agregada):**  
+   No devuelve las filas, sino **un único número** que representa cuántos valores diferentes existen en esa columna.
 
 ```sql
 -- Metricas generales de la base de datos de atletismo
