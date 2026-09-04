@@ -88,42 +88,42 @@ Este documento es tu registro académico. Después de leer cada capítulo en `lo
 ---
 
 ## Capítulo 04: JOINs & Table Relationships
-**Fecha de finalización:** [YYYY-MM-DD]
+**Fecha de finalización:** 2026-09-03
 **Métricas:**
-- Tiempo de lectura: [min]
-- Tiempo en ejercicios: [min]
-- Veces que recurrí al Tutor/DM: [N] (Objetivo: ≤ 2)
-- Fricción (1-10): [N]
+- Tiempo de lectura: 25m
+- Tiempo en ejercicios: 20min
+- Veces que recurrí al Tutor/DM: 3 (Objetivo: ≤ 2)
+- Fricción (1-10): 1
 
 **Feynman Synthesis (Tus propias palabras):**
 1. Explica con tus propias palabras la diferencia de resultado entre `INNER JOIN` y `LEFT JOIN`.
-> [Tu respuesta aquí]
+> INNER JOIN entrega unicamente las coincidencias que existan en ambas tablas. Por el contrario LEFT JOIN conserva todas las filas de la primera tabla, permitiendo ademas mostrar aquellas que no tuvieron coincidencia entregando un NULL.
 
 2. ¿Qué es un producto cartesiano (`CROSS JOIN`) accidental y por qué ocurre cuando se omite la condición `ON`?
-> [Tu respuesta aquí]
+> Se entregaria una tabla del x * y, donde se multiplican todas las filas de x por las de y, generando una lista inservible e incorrecta. Al usar ON se hace el cruce directo y permite la visualización correcta de los datos. 
 
 **Friction Log (Opcional):**
-> [¿Qué te costó más trabajo entender?]
+> Entrada para comprender el uso directo de la AS y su funcion como etiqueta. Y entrada para validar una respuesta dada que diferia de la propuesta, con conceptos erroneos en ejecuccion y no en razonamiento.
 
 ---
 
 ## Capítulo 05: Aggregations & Grouping
-**Fecha de finalización:** [YYYY-MM-DD]
+**Fecha de finalización:**  2026-09-03
 **Métricas:**
-- Tiempo de lectura: [min]
-- Tiempo en ejercicios: [min]
-- Veces que recurrí al Tutor/DM: [N] (Objetivo: ≤ 2)
-- Fricción (1-10): [N]
+- Tiempo de lectura: 20min
+- Tiempo en ejercicios: 20min
+- Veces que recurrí al Tutor/DM: 1 (Objetivo: ≤ 2)
+- Fricción (1-10): 2
 
 **Feynman Synthesis (Tus propias palabras):**
 1. ¿Por qué la regla del `GROUP BY` exige que toda columna no agregada en el `SELECT` esté presente en el `GROUP BY`?
-> [Tu respuesta aquí]
+> Porque si la columna no esta en el GROUP BY, o dentro de una funcion de agrupacion, se generaria ambiguedad en las respuestas, ya que puede existir multiples valores para una sola fila colapsada. 
 
 2. ¿Cuál es la diferencia fundamental entre filtrar con `WHERE` y filtrar con `HAVING`?
-> [Tu respuesta aquí]
+> WHERE solo filtra antes de realizar la agrupacion, mientras que HAVING hace el filtro sobre lo que ya esta agrupado. A la final, WHERE tiene prioridad en ejecucion, antes de GROUP, y GROUP tiene prioridad antes que HAVING. 
 
 **Friction Log (Opcional):**
-> [¿Qué te costó más trabajo entender?]
+> Entrada a DM para entender el funcionamiento de ROUND. 
 
 ---
 
