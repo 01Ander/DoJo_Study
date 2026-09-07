@@ -148,42 +148,42 @@ Este documento es tu registro académico. Después de leer cada capítulo en `lo
 ---
 
 ## Capítulo 07: Window Functions — Analytics & Deduplication
-**Fecha de finalización:** [YYYY-MM-DD]
+**Fecha de finalización:**  2026-09-07
 **Métricas:**
-- Tiempo de lectura: [min]
-- Tiempo en ejercicios: [min]
-- Veces que recurrí al Tutor/DM: [N] (Objetivo: ≤ 2)
-- Fricción (1-10): [N]
+- Tiempo de lectura: 10 min
+- Tiempo en ejercicios: 15 min
+- Veces que recurrí al Tutor/DM: 0 (Objetivo: ≤ 2)
+- Fricción (1-10): 1
 
 **Feynman Synthesis (Tus propias palabras):**
 1. ¿Qué problema analítico resuelven las Window Functions que un `GROUP BY` tradicional es incapaz de resolver?
-> [Tu respuesta aquí]
+> La window functions permite mantener la  poder observar y hacer analisis frente a otras tablas sin necesidad de incorporar o destruir la tabla que esta haciendo la observacion. 
 
 2. Describe paso a paso cómo usarías `ROW_NUMBER() OVER(PARTITION BY ... ORDER BY ...)` para eliminar registros duplicados en un dataset de staging.
-> [Tu respuesta aquí]
+> 1. Se toman los datos y se separan por grupos independiente. 2.  Se ordenan estos datos segun requerimiento. 3. A cada registro se le asigna un numero entero secuencial unico. 4. Se termina filtrando la seleccion con un CTE de manera que se obtengan los resultados unicos no repetidos en el RANK = 1.
 
 **Friction Log (Opcional):**
-> [¿Qué te costó más trabajo entender?]
+> 
 
 ---
 
 ## Capítulo 08: Set Operations & ETL Patterns
-**Fecha de finalización:** [YYYY-MM-DD]
+**Fecha de finalización:** 2026-09-07
 **Métricas:**
-- Tiempo de lectura: [min]
-- Tiempo en ejercicios: [min]
-- Veces que recurrí al Tutor/DM: [N] (Objetivo: ≤ 2)
-- Fricción (1-10): [N]
+- Tiempo de lectura: 8min
+- Tiempo en ejercicios: 20min
+- Veces que recurrí al Tutor/DM: 0 (Objetivo: ≤ 2)
+- Fricción (1-10): 1
 
 **Feynman Synthesis (Tus propias palabras):**
 1. ¿Cuál es la diferencia técnica entre `UNION` y `UNION ALL`, y por qué `UNION ALL` es más eficiente cuando sabes que no hay duplicados?
-> [Tu respuesta aquí]
+> UNION ALL entrega todos los registros sin importar duplicados. UNION elimina los registros duplicados, dejando los registros unicos. Al tener que hacer una comprobacion de cuales registros son iguales en ambas tablas, este proceso de comparacion requiere mas recursos que la sola union de dos tablas con todos los registros.
 
 2. ¿Por qué el patrón `INSERT INTO ... SELECT` es la piedra angular de las transformaciones relacionales en arquitectura ELT?
-> [Tu respuesta aquí]
+> Porque permite trar, transformar y migrar los datos directamente en SQL durante la marcha del proceso, sin necesidad de bucles infinitos, o peticiones innecesarias dentro de la aplicacion. SQL lo hace nativamente, de manera eficienta y con recursos propios del motor, entregando una tabla en limpio con los datos estandarizados a los requerimientos que se busquen.
 
 **Friction Log (Opcional):**
-> [¿Qué te costó más trabajo entender?]
+> Ejercicio 2, no se llego a la solucion, no se habia comprendido que el WITH AS podria contener tal cual la union, y que de sea union luego se hacia la numeracion. 
 
 ---
 
