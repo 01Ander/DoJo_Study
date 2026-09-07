@@ -188,19 +188,18 @@ Este documento es tu registro académico. Después de leer cada capítulo en `lo
 ---
 
 ## Capítulo 09: Views, Indexes & Transactions (ACID)
-**Fecha de finalización:** [YYYY-MM-DD]
+**Fecha de finalización:** 2026-09-07
 **Métricas:**
-- Tiempo de lectura: [min]
-- Tiempo en ejercicios: [min]
-- Veces que recurrí al Tutor/DM: [N] (Objetivo: ≤ 2)
-- Fricción (1-10): [N]
+- Tiempo de lectura: 7 min
+- Tiempo en ejercicios: 10 min
+- Veces que recurrí al Tutor/DM: 0 (Objetivo: ≤ 2)
+- Fricción (1-10): 1
 
 **Feynman Synthesis (Tus propias palabras):**
 1. Explica los principios ACID de una transacción usando un ejemplo real de transferencia de fondos o reserva de inventario.
-> [Tu respuesta aquí]
-
+> Se marca el inicio de la operacion. Se registra la orden de transferencia de fondos (si existe un registro). Se actualiza la cuenta que hace la transferencia (remitente). Se actualiza la cuenta que recibe (destinatario). Se comitea solo si ninguna de las sentencias anteriores fallo guardando con exito toda la operacion. Si una sola de las sentencias presenta un fallo, no se ejecuta la orden y se hace un rollback completo a un estado anterior a la transferencia o movimiento. 
 2. ¿Qué ocurre internamente cuando creas un índice en una columna y por qué acelerar lecturas puede ralentizar escrituras (`INSERT`/`UPDATE`)?
-> [Tu respuesta aquí]
+> Cuando se cuenta con un indice en una columna, se acelera la busqueda ya que SQL no tiene que buscar registro a registro, columna a columna la propia informacion que se esta buscando, o el indicio de dicha informacion. Sin embargo cuando se hace un escritura o modificacion, se hace tambien a dicho indice, por lo que el proceso, tecnicamente se hace dos veces, una para actualizar el propio registro y otra para actualizar todo el arbol de indices de nuevo con el cambio que se haya realizado.  
 
 **Friction Log (Opcional):**
 > [¿Qué te costó más trabajo entender?]
