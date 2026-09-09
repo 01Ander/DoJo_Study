@@ -1,11 +1,10 @@
 # Rite: Public Library Management System (SQL-BASICO)
 
-**Estado:** 🔒 Bloqueado (Requiere aprobación de auditoría `/scry SQL-BASICO` por el DM).
+**Estado:** 🟢 Aprobado - En progreso
 
 Este es el proyecto integrador de la chronicle **`SQL-BASICO`**. Aquí aplicarás de forma autónoma todos los conceptos aprendidos en los 10 capítulos de teoría (`lore/`) y laboratorios (`quests/`), sin andamiaje.
 
 ---
-
 ## 💼 Contexto de Negocio & ROI
 
 La Red de Bibliotecas Públicas Municipales está migrando su operación desde archivos desorganizados de Excel hacia un sistema relacional centralizado en SQLite. La dirección necesita garantizar la integridad de los préstamos, calcular multas acumuladas por retraso en devoluciones, generar reportes analíticos de lecturas por categoría y disponer de un mecanismo seguro para realizar préstamos y devoluciones atómicas sin riesgos de inconsistencia de datos.
@@ -62,8 +61,8 @@ Desarrolla el Rite ejecutando las sentencias SQL correspondientes a cada fase de
 *Preparar la base de datos para producción con Vistas, Índices y Transacciones ACID.*
 
 - **Vista Reutilizable:** Crear la vista `v_active_fines` que liste a todos los miembros con multas pendientes de pago (`fine_amount > 0`).
-- **Indexación & Inspección:** Crear un índice en `loans(member_id, status)` y ejecutar `EXPLAIN QUERY PLAN` para confirmar que las búsquedas por historial de miembros utilizan `SEARCH TABLE` mediante índice en lugar de `SCAN TABLE`.
-- **Transacción Atómica de Préstamo (ACID):** Escribir un bloque transaccional (`BEGIN TRANSACTION ... COMMIT`) que registre el préstamo de un libro, verifique que el miembro no tenga más de 3 préstamos activos y actualice el estado correspondientemente. Si alguna validación falla, ejecutar `ROLLBACK`.
+- **Indexación & Inspección:** Crear un índice en `loans(member_id)` y ejecutar `EXPLAIN QUERY PLAN` para confirmar que las búsquedas por historial de miembros utilizan `SEARCH TABLE` mediante índice en lugar de `SCAN TABLE`.
+- **Transacción Atómica de Préstamo (ACID):** Escribir un bloque transaccional (`BEGIN TRANSACTION ... COMMIT`) que registre el préstamo de un libro y actualice el estado del miembro correspondientemente. Si alguna sentencia falla por constraint (FK, UNIQUE, CHECK), el motor debe revertir automáticamente. *(Nota del DM: La validación de "máximo 3 préstamos activos" requiere TRIGGER+RAISE, fuera del alcance de SQL-BASICO. Se evalúa el patrón ACID básico visto en lore.)*
 
 ---
 
