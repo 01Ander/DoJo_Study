@@ -7,22 +7,22 @@ Este documento es tu registro académico. Después de leer cada capítulo en `lo
 ---
 
 ## 📝 Capítulo 00: Arquitecturas de Ingesta y Zonas de Datos
-**Fecha de finalización:** 
+**Fecha de finalización:** 2026-09-15
 **Métricas:**
-- Tiempo de lectura: 
-- Tiempo en ejercicios: 
-- Veces que recurrí al Tutor/DM: 
-- Fricción (1-10): 
+- Tiempo de lectura: 5min
+- Tiempo en ejercicios: 1h30m
+- Veces que recurrí al Tutor/DM: 8
+- Fricción (1-10): 4
 
 **Feynman Synthesis (Tus propias palabras):**
 1. ¿Cuál es la diferencia fundamental entre el enfoque ETL y ELT, y en qué escenarios modernos se recomienda usar cada uno?
-> [Escribe aquí tu explicación]
+> ETL transforma los datos originales, dandose por perdidos, mientras ELT mantiene los datos originales, los guarda y con una copia se transforman luego para su carga. Esto ultimo es el escenario mas moderno para poder tener una trazabilidad y a la vez poder recuperar datos en caso de errores o si se requieren en algun cambio.
 
 2. Explica el propósito de dividir un Data Lake o Data Warehouse en zonas Bronze, Silver y Gold. ¿Qué nivel de limpieza tiene cada una?
-> [Escribe aquí tu explicación]
+> En el primer nivel se cargan los datos tal cual vienen, sin modiicar ni hacer nada con ellos, solo mantenerlos en memoria. En el segundo nivel se hace su limpieza y transformacion requerida. En el tercer nivel se hace aggregation o analisis que se necesiten con dichos datos. 
 
 **Friction Log (Opcional):**
-> [¿Qué te costó más trabajo entender?]
+> Costo bastante recordar codigo 'basico' de python para crear un nuevo dict en el paso 2 y poblar la lista de dicts con los valores nuevos, al igual que para el paso 3. No se recordaban las estructuras de python para poder hacer la tarea.
 
 ---
 
