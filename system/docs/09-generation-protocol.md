@@ -128,7 +128,7 @@ content/_generation/<CHRONICLE-CODE>/
 
 ### PASO 4: Generación de Lore (Capítulo por Capítulo)
 
-**Input:** `chronicle.md` aprobado (GATE 1 PASS) + reglas de oro (sección 9 de este documento).
+**Input:** `chronicle.md` aprobado (GATE 1 PASS) + reglas de oro (sección 9 de este documento) + `matriz-trazabilidad.md` (estado acumulado hasta el cap N-1).
 **Acción:** Generar **un capítulo a la vez**, no todos juntos. Para cada capítulo:
 
 1. **Definir:** Todo término técnico nuevo debe tener:
@@ -214,6 +214,8 @@ Al pasar de un paso de generación a su gate, el roadmap se marca como `estado: 
 
 **Nunca** recibe el razonamiento o el hilo de pensamiento de por qué se escribió así. Esto es lo que hace que el gate audite de verdad en vez de autoconfirmar.
 
+**Regla de Verificación Estricta:** Todo ítem de un checklist de auditoría debe resolverse citando la línea o sección exacta que lo sustenta, no solo marcarse como cumplido.
+
 ---
 
 ### GATE 1: Auditoría de Scope — 👤 HUMANO obligatorio
@@ -233,7 +235,7 @@ Al pasar de un paso de generación a su gate, el roadmap se marca como `estado: 
 
 ### GATE 2: Auditoría de Lore — 🤖 IA en sesión nueva
 
-**Contexto mínimo requerido:** `sistema/docs/09-generation-protocol.md` + todos los archivos de `lore/` + `matriz-trazabilidad.md`.
+**Contexto mínimo requerido:** `system/docs/09-generation-protocol.md` + todos los archivos de `lore/` + `matriz-trazabilidad.md`.
 
 **Checklist por capítulo:**
 - [ ] ¿Todo término técnico introducido tiene definición explícita (qué/cómo/por qué)?
@@ -262,7 +264,7 @@ Al pasar de un paso de generación a su gate, el roadmap se marca como `estado: 
 **Contexto mínimo requerido:** `lore/` + `grimoire.md` + `matriz-trazabilidad.md`.
 
 **Para CADA pregunta del grimoire:**
-- [ ] ¿Se puede responder SOLO con la información del capítulo N del lore? (Citar la sección exacta que contiene la respuesta)
+- [ ] ¿Se puede responder SOLO con la información del capítulo N del lore?
 - [ ] ¿La pregunta no requiere conocimiento de capítulos superiores (N+1, N+2...)?
 - [ ] ¿La pregunta no se sale del scope del syllabus maestro?
 - [ ] ¿La pregunta cubre un concepto que SÍ está definido (qué/cómo/por qué) en el lore?
