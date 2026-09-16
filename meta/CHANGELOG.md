@@ -2,6 +2,27 @@
 
 All notable changes to DoJo Study will be documented in this file.
 
+## [5.3.0] - 2026-09-16
+
+### 🏭 "The Factory Update"
+
+> The factory must grow.
+
+### Added
+- **Generation Protocol (`system/docs/09-generation-protocol.md`):** Creado el manual maestro para que los LLMs generen Chronicles. Formaliza un pipeline de 7 pasos, 5 gates de auditoría (humanos y de IA), y reglas estrictas de Domain Shifting y Zero Assumption.
+- **Componentes de Ejecución Persistentes:** Se agregaron `TEMPLATE-roadmap.md` (para guardar el estado de generación y evitar que el LLM se pierda) y `TEMPLATE-matriz-trazabilidad.md` (para asegurar que todo concepto se define con Qué/Cómo/Por qué).
+- **Aislamiento Generación↔Auditoría:** Se formalizó la regla dura donde la sesión que genera un contenido no puede ser la misma que lo audita, garantizando verificación real.
+- **Protocolo de Fallo Estructurado:** Los gates de auditoría ahora devuelven hallazgos quirúrgicos (qué corregir y dónde) en lugar de un simple PASS/FAIL, eliminando la regeneración a ciegas.
+
+### Changed
+- **Reestructuración del Workspace (Fase 1):** La raíz del DoJo fue reorganizada drásticamente para proporcionar inputs limpios al generador:
+  - `system/`: Gobernanza, reglas, templates y skills del agente.
+  - `content/`: Material de estudio (`subjects/`) y workspace del generador (`_generation/`).
+  - `meta/`: Histórico, archivos `archive/`, `ideas/`, `_warmup/` y changelogs.
+- **Actualización de Rutas:** Se corrigieron todas las referencias en `.hermes.md`, `README.md`, `06-guia-operaciones.md` y skills del agente para apuntar a las nuevas locaciones en `system/` y `content/`.
+
+---
+
 ## [5.2.0] - 2026-08-31
 
 ### 🎯 "The Pre-Employment Fast-Track Update"
