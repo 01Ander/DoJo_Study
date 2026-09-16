@@ -1,6 +1,6 @@
-# 07 - Campaign as Course (Mundodisco Edition)
+# 04 - Campaign as Course (Mundodisco Edition)
 
-> **RFC de referencia:** `ideas/proposal-study-guide-layer.md`
+> **RFC de referencia:** `../../meta/ideas/implemented/proposal-study-guide-layer.md`
 > GNU Terry Pratchett.
 
 Este documento define la arquitectura "Campaign as Course", el modelo pedagógico estándar del DoJo con la nomenclatura Mundodisco.
