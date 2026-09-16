@@ -74,6 +74,38 @@ if __name__ == "__main__":
 > - `@task(retries=3, retry_delay_seconds=2)`: Le decimos a Prefect: "Si esta función lanza un error, no mates el programa. Espera 2 segundos y vuelve a ejecutarla. Ríndete solo si falla 3 veces seguidas".
 > - `@flow(name="...")`: Define el punto de entrada principal. Cuando ejecutes este script en tu terminal, verás unos hermosos logs de colores indicando el estado de cada tarea.
 
+## 3. Dependencias y Grafos (DAGs)
+
+Un pipeline rara vez es una sola tarea. Normalmente tienes múltiples pasos: extraer, limpiar, cargar. Estas tareas tienen **dependencias**: no puedes limpiar si la extracción falló.
+
+En orquestación, a esto se le llama un **DAG** (Directed Acyclic Graph - Grafo Acíclico Dirigido). Es una secuencia de tareas donde el flujo viaja en una sola dirección.
+
+En Prefect, las dependencias se crean de forma natural (implícita) simplemente pasando el resultado de una `@task` como parámetro a la siguiente `@task` dentro del `@flow`.
+
+**Ejemplo de DAG (Tareas Dependientes):**
+```python
+@task(retries=3)
+def get_dust():
+    return ["polvo", "tierra"]
+
+@task
+def clean_dust(raw_data):
+    # Esta tarea depende de que get_dust() termine exitosamente y le pase raw_data
+    return [item for item in raw_data if item != "tierra"]
+
+@flow(name="Refinery_Pipeline")
+def potion_master():
+    # El Grafo se construye automáticamente por el paso de datos:
+    raw = get_dust()        # Tarea A
+    clean = clean_dust(raw) # Tarea B (depende de A)
+    print(f"Resultado final: {clean}")
+```
+
+**¿Por qué esto mejora la resiliencia?**
+Si `get_dust()` falla (y agota sus 3 reintentos), el orquestador marcará la tarea como fallida, y **automáticamente cancelará** `clean_dust()` porque depende de ella. Así evitas que la segunda tarea intente procesar datos que no existen (evitando errores crípticos más adelante).
+
+**Analogía:** El Gran Maestro no envía al Herbolario a limpiar raíces hasta que el Mensajero haya regresado del bosque con ellas. Si el Mensajero se pierde, la orden del Herbolario se cancela automáticamente.
+
 ---
 
 ## Misión a seguir

@@ -27,22 +27,23 @@ Este documento es tu registro académico. Después de leer cada capítulo en `lo
 ---
 
 ## 📝 Capítulo 01: Extracción Automatizada (APIs)
-**Fecha de finalización:** 
+**Fecha de finalización:** 2026-09-16
 **Métricas:**
-- Tiempo de lectura: 
-- Tiempo en ejercicios: 
-- Veces que recurrí al Tutor/DM: 
-- Fricción (1-10): 
+- Tiempo de lectura: 5min
+- Tiempo en ejercicios: 33min
+- Veces que recurrí al Tutor/DM: 4
+- Fricción (1-10): 3
 
 **Feynman Synthesis (Tus propias palabras):**
 1. ¿Por qué es crítico implementar el manejo de la paginación al realizar extracciones masivas de una API REST?
-> [Escribe aquí tu explicación]
+> Esto permite ver la informacion que se obtenga de la api de manera mas sencilla, acotada, y no una lista interminable respuestas.
+> **Nota:** El lore describe la paginación como un "parámetro extra", lo cual implica que es opcional. En realidad, la mayoría de APIs de producción imponen paginación por defecto (page_size de 20-100). Si no se implementa el loop de paginación, solo se obtiene la primera página y se pierden datos silenciosamente. Este concepto no viene en el lore.
 
 2. Explica cómo funciona la autenticación por Tokens (ej. Bearer) y por qué es más segura que usar credenciales directas en cada petición HTTP con `requests`.
-> [Escribe aquí tu explicación]
+> Se hace uso de headers para indicar la autorizacion obligatoria para poder consumir la API, donde posterior se hace la peticion con .get(), se usa una capa de seguridad en caso que el servidor entregue algun error y no romper todo el proceso, y posterior se almacena la informacion como se requiera. De esta manera se valida que quien hace la peticion sea 'confiable' y se entrege de manera mas segura. 
 
 **Friction Log (Opcional):**
-> [¿Qué te costó más trabajo entender?]
+> Nuevamente, falencias en conceptos de python, no captar la diferencia entre una lista '[]' a '()'
 
 ---
 
@@ -98,7 +99,7 @@ Este documento es tu registro académico. Después de leer cada capítulo en `lo
 1. ¿Qué ventajas aporta usar una capa como SQLAlchemy para gestionar conexiones frente a inyectar consultas SQL directas como strings?
 > [Escribe aquí tu explicación]
 
-2. Explica conceptualmente la diferencia entre un `INSERT` convencional y una estrategia `UPSERT` (Insert or Update). ¿Cuándo es vital usar el UPSERT?
+2. Explica qué hace el parámetro `if_exists` de `to_sql()` y describe un escenario donde usar `'append'` vs `'replace'` haría la diferencia entre un pipeline correcto y uno que destruye datos históricos.
 > [Escribe aquí tu explicación]
 
 **Friction Log (Opcional):**

@@ -66,7 +66,7 @@ def clean_with_pandas(data: list) -> pd.DataFrame:
 
 ## 3. Tipado Estricto (Casteo)
 
-En el Mercado Negro, a veces te entregan el precio como texto `"150"` en lugar de número `150`. Si intentas sumar eso luego en la Zona Gold, Python fallará.
+En el Mercado Negro, a veces te entregan el precio como texto `"150"` en lugar de número `150`. Si intentas sumar eso luego en la Zona Gold, Python fallará, o peor aún, podría producir un **error silencioso** (por ejemplo, comparar strings numéricamente: `"9" > "10"` es `True` en Python porque evalúa carácter a carácter).
 
 Para forzar el tipo correcto en todo el libro de contabilidad usamos `astype()`:
 
@@ -74,6 +74,11 @@ Para forzar el tipo correcto en todo el libro de contabilidad usamos `astype()`:
 # Forzar a que la columna price sea un número entero
 df['price'] = df['price'].astype(int)
 ```
+
+**¿Por qué es vital a nivel de arquitectura de datos?**
+1. **Validación Temprana (Fail Fast):** Si un dato llega corrupto (ej. `"cien"`) y no se puede convertir a entero, el código explotará aquí mismo (Zona Silver) en lugar de propagar datos corruptos hasta la Zona Gold, donde sería muy difícil rastrear su origen.
+2. **Schema Enforcement:** Garantizas que tu tabla siempre tenga la estructura matemática correcta y esperada por los procesos posteriores.
+3. **Rendimiento:** Pandas es muchísimo más rápido y consume menos RAM operando con tipos nativos definidos (`int64`, `float64`) que con el tipo genérico dinámico (`object`).
 
 ## 4. Del Libro Contable a la Lista (Retorno de Datos)
 

@@ -46,7 +46,23 @@ def move_to_gold(silver_data):
 > - `gold['amount'].notnull()`: Pandas revisa cada fila y devuelve True si no es nula.
 > - `.all()`: Revisa si TODOS los valores resultantes de la comprobación anterior son True. Si uno solo es False, devuelve False.
 
-## 2. Prevención de Duplicados
+## 2. Validación de Esquemas (Schema Validation)
+
+Antes de revisar los valores exactos (como hicimos arriba con los nulos), debes revisar si la **estructura** misma de los datos es la correcta. A esto se le llama **Validación de Esquema**.
+
+**¿Por qué es crítico?** 
+Las APIs cambian. Si el Mercado Negro decide renombrar el campo `"amount"` a `"quantity"`, o empieza a devolver strings `"5"` en lugar de enteros `5`, tu código procesará basura o fallará de forma impredecible. A esto se le conoce como **Schema Drift**.
+
+**Analogía:** Antes de pesar los frascos (validar valores), el guardia revisa que el manifiesto de envío tenga exactamente 3 columnas: nombre, cantidad, fecha. Si llega una columna nueva "maldición" o falta la columna "cantidad", detiene la caravana en la entrada.
+
+En Pandas, puedes validar el esquema verificando las columnas antes de operar:
+```python
+# Gate de Esquema Estructural
+expected_columns = {'ingredient', 'amount'}
+assert set(gold.columns) == expected_columns, "🚨 Schema Fallido: Las columnas no coinciden con el contrato esperado"
+```
+
+## 3. Prevención de Duplicados
 
 A veces el mensajero del Mercado Negro pasa dos veces el mismo recibo. Para evitar pagar doble, eliminamos los duplicados basándonos en una llave única.
 
@@ -60,6 +76,31 @@ Y si solo quisieras saber cuántos ingredientes distintos existen, podrías usar
 ```python
 unique_names = df['name'].unique()
 ```
+
+---
+
+## 4. Observabilidad en Data Engineering
+
+El título de este capítulo menciona "Observabilidad", pero los quality gates son solo una parte.
+
+**Data Observability** es la capacidad de entender la salud y el estado actual de tu pipeline simplemente mirando sus métricas, alertas y registros, *sin tener que rastrear el error abriendo el código o la base de datos*.
+
+**Pilares de la Observabilidad:**
+1. **Quality Gates:** (Lo que vimos) Detienen el desastre antes de que guardes datos corruptos.
+2. **Logging Forense Estructurado:** Registrar en cada paso qué pasó, cuántas filas entraron, cuántas salieron y cuánto tiempo tomó.
+
+**Ejemplo de Logging Forense:**
+```python
+import logging
+
+def load_data(df):
+    logging.info(f"Iniciando carga. Registros recibidos: {len(df)}")
+    # ... proceso ...
+    logging.info("Carga exitosa a Zona Gold.")
+```
+Si el pipeline falla a las 3:00 AM, el registro forense te dirá exactamente dónde y por qué, cumpliendo con la auditoría de pipelines en producción.
+
+**Analogía:** Los Quality Gates son las cerraduras en las puertas de la bóveda. La Observabilidad es el sistema de cristales mágicos (cámaras) que te permite monitorear todo el laboratorio desde tu oficina.
 
 ---
 

@@ -60,12 +60,41 @@ def get_ingredients(api_url: str, guild_token: str) -> list:
 > - `response.raise_for_status()`: Si el status code es 200 (OK), no hace nada. Si es 4xx o 5xx, lanza una excepción `HTTPError` deteniendo el código inmediatamente.
 > - `data.get("ingredients", [])`: Intentamos sacar la llave "ingredients" del diccionario. Si el mercado nos devolvió un diccionario vacío o sin esa llave, retorna una lista vacía `[]` como valor por defecto, evitando un error `KeyError`.
 
+> **¿Por qué usar un Token (Bearer) es más seguro que enviar Usuario/Contraseña?**
+> 1. **Es revocable:** Si alguien roba el token, puedes invalidarlo en el servidor sin tener que cambiar tus credenciales reales.
+> 2. **Es temporal:** Los tokens suelen tener una fecha de expiración.
+> 3. **Protege tu identidad:** No envías tu información sensible en cada petición HTTP, solo un permiso temporal.
+> *Analogía:* El token es como una llave de hotel temporal. Si la pierdes, el hotel la desactiva. Tu identidad original nunca estuvo en riesgo.
 ## 3. Paginación: Cuando el catálogo es muy grande
 
 **Analogía 2 (Los Tomos del Catálogo):**
 Si el Mercado Negro tiene 10,000 ingredientes, el recepcionista no te dará una caja de una tonelada. Te dará el "Tomo 1" y te dirá: *"Si quieres más, pídeme la página 2"*. Esto es la paginación.
 
-En código, solemos enviar un parámetro extra (query param) para pedir la siguiente página, y repetimos hasta que la página venga vacía.
+En código, las APIs de producción **imponen** paginación por defecto (ej. devolviendo 100 registros por página). No es un parámetro opcional. Si no implementas un bucle para pedir la página 2, 3, etc., tu extracción **solo traerá la primera página y perderás el resto de los datos silenciosamente**, ya que el código no arrojará ningún error.
+
+**Ejemplo de Paginación Robusta:**
+```python
+def get_all_ingredients(api_url: str, guild_token: str) -> list:
+    headers = {"Authorization": f"Bearer {guild_token}"}
+    all_data = []
+    page = 1
+    
+    while True:
+        # Añadimos el parámetro de página a la petición
+        response = requests.get(f"{api_url}?page={page}", headers=headers)
+        response.raise_for_status()
+        
+        batch = response.json().get("ingredients", [])
+        
+        # Si la caja (página) viene vacía, ya sacamos todo el catálogo
+        if not batch:
+            break
+            
+        all_data.extend(batch)
+        page += 1 # Pedir el siguiente tomo
+        
+    return all_data
+```
 
 ## 4. Testing de APIs sin golpear el Mercado (Mocking con `responses`)
 
