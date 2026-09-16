@@ -7,7 +7,7 @@
 
 ## 1. Contexto y Filosofía de Fase 2
 
-Este documento alberga las ramas de especialización técnica que formaban parte del blueprint original pero que fueron desacopladas de la ruta crítica de inserción laboral (Syllabus 2.0 en [`03-syllabus-maestro.md`](03-syllabus-maestro.md)). 
+Este documento alberga las ramas de especialización técnica que formaban parte del blueprint original pero que fueron desacopladas de la ruta crítica de inserción laboral (Syllabus 2.0 en [`05-syllabus-maestro.md`](05-syllabus-maestro.md)). 
 
 El objetivo de Fase 2 es profundizar hacia roles de **Senior Data Engineer**, **Data Platform Engineer** o **Data Architect** una vez se cuente con un primer empleo remoto profesional, evitando la dispersión de energía y la saturación durante la fase de búsqueda inicial.
 

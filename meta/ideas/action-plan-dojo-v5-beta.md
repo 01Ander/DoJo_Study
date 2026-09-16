@@ -88,8 +88,8 @@ Antes de generar el contenido de la campaign, actualizar la documentación del s
 | **Deprecar** | `docs/04-estructura-campanas.md` | Mismo banner. Tipología de campaigns actualizada a `CORE-SUBTEMA` |
 | **Deprecar** | `docs/06-manual-operativo-misiones.md` | Mismo banner |
 | **Actualizar** | `docs/08-dojo-agent.md` | Rol del agente: de Tutor a DM/Auditor. Skill `/dojo-ask` documentada |
-| **Renumerar** | `docs/` (todos) | Los 3 docs deprecados quedan marcados pero se renumeran los activos para mantener secuencia limpia. Nueva numeración de docs activos: `00-index`, `01-dojo-core`, `02-sistema-energia`, `03-syllabus-maestro`, `04-protocol-yellow`, `05-dojo-agent`, `06-guia-operaciones-v5`, `07-campaign-as-course` |
-| **Actualizar** | `docs/00-index.md` | Reflejar nueva numeración, marcar deprecados con `~~tachado~~`, añadir entrada de `07-campaign-as-course.md` |
+| **Renumerar** | `docs/` (todos) | Los 3 docs deprecados quedan marcados pero se renumeran los activos para mantener secuencia limpia. Nueva numeración de docs activos: `00-index`, `01-dojo-core`, `02-sistema-energia`, `05-syllabus-maestro`, `03-protocol-yellow`, `07-dojo-agent`, `08-guia-operaciones-v5`, `04-campaign-as-course` |
+| **Actualizar** | `docs/00-index.md` | Reflejar nueva numeración, marcar deprecados con `~~tachado~~`, añadir entrada de `04-campaign-as-course.md` |
 | **Actualizar** | `README.md` (raíz) | Sección `📁 Estructura del Repositorio` actualizada con nueva numeración de docs y referencia a la nueva tipología de campaigns `CORE-SUBTEMA` |
 
 **Contenido mínimo de `docs/12-campaign-as-course.md`:**

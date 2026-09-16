@@ -8,8 +8,8 @@ requiere_aprobacion_humana: false
 
 contexto_minimo_requerido:
   - system/docs/09-generation-protocol.md
-  - system/docs/07-campaign-as-course.md
-  - system/docs/03-syllabus-maestro.md
+  - system/docs/04-campaign-as-course.md
+  - system/docs/05-syllabus-maestro.md
 ---
 
 # Roadmap de Generación — `<CHRONICLE-CODE>`
@@ -78,15 +78,15 @@ historial_gates: []
 ### Paso 0-3 (Setup y Scope)
 ```
 - system/docs/09-generation-protocol.md
-- system/docs/07-campaign-as-course.md
-- system/docs/03-syllabus-maestro.md
+- system/docs/04-campaign-as-course.md
+- system/docs/05-syllabus-maestro.md
 - system/templates/chronicle-template.md
 ```
 
 ### Paso 4 (Lore) — Se actualiza capítulo a capítulo
 ```
 - system/docs/09-generation-protocol.md (solo sección 9: Reglas de Oro)
-- system/docs/07-campaign-as-course.md (solo sección 2.1: Capa lore/)
+- system/docs/04-campaign-as-course.md (solo sección 2.1: Capa lore/)
 - content/subjects/<area>/chronicles/<CODE>/chronicle.md
 - content/_generation/<CODE>/matriz-trazabilidad.md
 # Si es Cap N > 0, agregar los capítulos anteriores para coherencia:
@@ -105,7 +105,7 @@ historial_gates: []
 ### Paso 6 (Quests)
 ```
 - system/docs/09-generation-protocol.md (solo sección 3: PASO 6)
-- system/docs/07-campaign-as-course.md (solo sección 2.2: Capa quests/)
+- system/docs/04-campaign-as-course.md (solo sección 2.2: Capa quests/)
 - content/subjects/<area>/chronicles/<CODE>/lore/ (todos los capítulos)
 - content/subjects/<area>/chronicles/<CODE>/grimoire.md
 ```

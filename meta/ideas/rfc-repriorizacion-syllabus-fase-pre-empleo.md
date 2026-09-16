@@ -2,7 +2,7 @@
 
 **Estado:** Aceptado e Integrado en DoJo v5.2.0 (Syllabus 2.0)
 **Fecha:** 2026-08-31
-**Referencia:** Absorbió y actualizó `docs/03-syllabus-maestro.md`, delegando Fase 2 a `docs/08-syllabus-post-empleo-fase2.md`.
+**Referencia:** Absorbió y actualizó `docs/05-syllabus-maestro.md`, delegando Fase 2 a `docs/06-syllabus-post-empleo-fase2.md`.
 
 ---
 
@@ -14,7 +14,7 @@ Esta decisión fue validada externamente con 4 modelos distintos, en conversacio
 
 ## 2. Decisión
 
-Se introduce una etiqueta de **Prioridad** sobre cada bloque del syllabus maestro: **Fase 1 (pre-empleo)** o **Fase 2 (post-empleo)**. El mapa de Fase 1 se convierte en el Syllabus 2.0 (`docs/03-syllabus-maestro.md`) y la Fase 2 se extrae a `docs/08-syllabus-post-empleo-fase2.md`.
+Se introduce una etiqueta de **Prioridad** sobre cada bloque del syllabus maestro: **Fase 1 (pre-empleo)** o **Fase 2 (post-empleo)**. El mapa de Fase 1 se convierte en el Syllabus 2.0 (`docs/05-syllabus-maestro.md`) y la Fase 2 se extrae a `docs/06-syllabus-post-empleo-fase2.md`.
 
 ## 3. Tabla de prioridades
 

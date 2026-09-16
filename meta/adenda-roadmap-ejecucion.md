@@ -27,7 +27,7 @@ contexto_minimo_requerido:
   # Lista exacta de qué debe leer el modelo entrante para ESTE paso,
   # nunca "toda la raíz del repo"
   - docs/09-generation-protocol.md
-  - docs/07-campaign-as-course.md
+  - docs/04-campaign-as-course.md
   - subjects/<area>/chronicles/<CODE>/lore/00-intro.md
   - subjects/<area>/chronicles/<CODE>/lore/01-cap.md
   - subjects/<area>/chronicles/<CODE>/lore/02-cap.md

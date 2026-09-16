@@ -97,7 +97,7 @@ DoJo_Study/
 │
 ├── system/                             ← Gobernanza y reglas (Solo lectura para generador)
 │   ├── docs/                           ← Documentación canónica (00 a 08)
-│   │   ├── 03-syllabus-maestro.md      ← Syllabus 2.0 (100% Pre-Empleo)
+│   │   ├── 05-syllabus-maestro.md      ← Syllabus 2.0 (100% Pre-Empleo)
 │   │   └── 08-syllabus-post-empleo...  ← Syllabus Fase 2 (Post-Empleo)
 │   ├── templates/                      ← Plantillas estandarizadas de misiones y RFCs
 │   └── dojo_agent/skills/dojo/         ← Skills atómicas de Hermes (/scry, /scroll)

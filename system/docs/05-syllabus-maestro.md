@@ -2,7 +2,7 @@
 
 > **Estado:** Activo (Ruta Crítica Pre-Empleo)  
 > **Objetivo:** Inserción laboral remota internacional antes de mediados de 2027 como **Data Automation Engineer / Python Automation Developer / ETL Integration Developer**.  
-> **Fase 2 (Post-Empleo):** Las ramas de especialización secundaria están desacopladas en [`08-syllabus-post-empleo-fase2.md`](08-syllabus-post-empleo-fase2.md).
+> **Fase 2 (Post-Empleo):** Las ramas de especialización secundaria están desacopladas en [`06-syllabus-post-empleo-fase2.md`](06-syllabus-post-empleo-fase2.md).
 
 ---
 
@@ -10,7 +10,7 @@
 
 El **Syllabus 2.0** define la ruta técnica crítica indispensable para superar los filtros técnicos (Live Coding, Take-Home tests y entrevistas de arquitectura) para roles de ingeniería de datos, automatización de procesos e integraciones ETL en el mercado internacional.
 
-Toda la formación se organiza bajo el estándar **Campaign as Course** ([`07-campaign-as-course.md`](07-campaign-as-course.md)), donde cada materia combina teoría desacoplada (`lore/`), laboratorios de testing (`quests/`), asimilación Feynman (`grimoire.md`) y un proyecto integrador evaluado por el DM (`rite/`).
+Toda la formación se organiza bajo el estándar **Campaign as Course** ([`04-campaign-as-course.md`](04-campaign-as-course.md)), donde cada materia combina teoría desacoplada (`lore/`), laboratorios de testing (`quests/`), asimilación Feynman (`grimoire.md`) y un proyecto integrador evaluado por el DM (`rite/`).
 
 ```mermaid
 graph LR

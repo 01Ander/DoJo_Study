@@ -59,7 +59,7 @@ Protocolo OBLIGATORIO:
 
 ## 🛡️ Protocolo Yellow (Graceful Degradation)
 
-Si durante un bloque de Deep Work la fricción cognitiva supera 7/10 y no se justifica detener la sesión por completo, se debe invocar el **[Protocolo Yellow](04-protocol-yellow.md)**:
+Si durante un bloque de Deep Work la fricción cognitiva supera 7/10 y no se justifica detener la sesión por completo, se debe invocar el **[Protocolo Yellow](03-protocol-yellow.md)**:
 - Habilita reducción temporal de complejidad (e.g. pasar de OOP a funciones simples, usar datasets mock, traducir explicaciones complejas al español).
 - Permite interacción de soporte con el `wizard` (Domain Shifting).
 - Si la fricción no disminuye, se invoca una pausa obligatoria de 15 minutos o se decreta el fin de la sesión técnica.

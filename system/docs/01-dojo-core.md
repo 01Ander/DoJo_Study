@@ -57,7 +57,7 @@ Para evitar la fatiga de decisión, el DoJo separa diseño de ejecución:
 
 ## Estructura de Estudio Integrada
 
-El aprendizaje se estructura sobre el modelo **Campaign as Course** ([`07-campaign-as-course.md`](07-campaign-as-course.md)) bajo la nomenclatura Mundodisco:
+El aprendizaje se estructura sobre el modelo **Campaign as Course** ([`04-campaign-as-course.md`](04-campaign-as-course.md)) bajo la nomenclatura Mundodisco:
 
 - **`/scry` (DM Gatekeeper):** Skill de auditoría. Escudriña el `grimoire.md` validando que la Técnica Feynman demuestre asimilación real antes de autorizar el acceso al Rite.
 - **`/scroll`:** Skill atómica para capturar ideas al vuelo sin interrumpir el Deep Work.

@@ -15,8 +15,8 @@ El generador opera sobre un subconjunto estricto del repositorio. **Está prohib
 | # | Documento | Propósito | Modo |
 |---|---|---|---|
 | 1 | **Este protocolo** (`system/docs/09-generation-protocol.md`) | Instrucciones del pipeline | Solo lectura |
-| 2 | [`07-campaign-as-course.md`](07-campaign-as-course.md) | Reglas de estructura, nomenclatura, reglas de oro del lore | Solo lectura |
-| 3 | [`03-syllabus-maestro.md`](03-syllabus-maestro.md) | Competencias requeridas por chronicle | Solo lectura |
+| 2 | [`04-campaign-as-course.md`](04-campaign-as-course.md) | Reglas de estructura, nomenclatura, reglas de oro del lore | Solo lectura |
+| 3 | [`05-syllabus-maestro.md`](05-syllabus-maestro.md) | Competencias requeridas por chronicle | Solo lectura |
 | 4 | [`system/templates/chronicle-template.md`](../templates/chronicle-template.md) | Template de estructura de chronicle.md | Solo lectura |
 | 5 | `content/_generation/<CODE>/roadmap.md` | Estado actual del pipeline para la chronicle en generación | Lectura + Escritura |
 | 6 | `content/_generation/<CODE>/matriz-trazabilidad.md` | Inventario de términos/conceptos | Lectura + Escritura |
@@ -62,8 +62,8 @@ content/_generation/TEMPLATE-roadmap.md
 **Input:** Ninguno.
 **Acción:** Leer — y solo leer — los documentos indicados en `contexto_minimo_requerido` del roadmap. Para el paso 0, estos son:
 - `system/docs/09-generation-protocol.md` (este documento)
-- `system/docs/07-campaign-as-course.md`
-- `system/docs/03-syllabus-maestro.md`
+- `system/docs/04-campaign-as-course.md`
+- `system/docs/05-syllabus-maestro.md`
 
 **Output:** Contexto cargado. No se genera ningún archivo.
 **Actualizar roadmap:** `paso_actual: 1`, `estado: en_progreso`.
@@ -302,7 +302,7 @@ Al pasar de un paso de generación a su gate, el roadmap se marca como `estado: 
 
 ### GATE 5: Auditoría Final Integral — 👤 HUMANO obligatorio
 
-**Contexto mínimo requerido:** `chronicle.md` + `lore/` + `grimoire.md` + `quests/` + `rite/` + `matriz-trazabilidad.md` + `system/docs/03-syllabus-maestro.md`.
+**Contexto mínimo requerido:** `chronicle.md` + `lore/` + `grimoire.md` + `quests/` + `rite/` + `matriz-trazabilidad.md` + `system/docs/05-syllabus-maestro.md`.
 
 **Tabla de coherencia cruzada:**
 
@@ -397,7 +397,7 @@ El `roadmap.md` marca `requiere_aprobacion_humana: true/false` por paso. Si es `
 
 ## 9. Reglas de Oro del Lore (Referencia Rápida)
 
-Estas reglas están documentadas en detalle en [`07-campaign-as-course.md`](07-campaign-as-course.md). Aquí se listan como referencia rápida para el generador:
+Estas reglas están documentadas en detalle en [`04-campaign-as-course.md`](04-campaign-as-course.md). Aquí se listan como referencia rápida para el generador:
 
 ### 9.1 Domain Shifting
 Todos los ejemplos de código del lore usan un dominio temático **diferente** al del Rite. Si el Rite trata sobre un sistema de biblioteca, los ejemplos del lore podrían tratar sobre una panadería, un zoológico, o un gremio de alquimistas. Esto fuerza al Operador a traducir la lógica, evitando el copy-paste.
