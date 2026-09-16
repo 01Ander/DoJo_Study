@@ -33,7 +33,7 @@ Para auditoría cualitativa profunda:
 
 ### Paso 1: Localizar la chronicle
 
-1. Construir la ruta: `~/Documents/DoJo/DoJo_Study/subjects/python/chronicles/{CHRONICLE}/`
+1. Buscar la ruta en: `~/Documents/DoJo/DoJo_Study/content/subjects/*/chronicles/{CHRONICLE}/` (donde `*` puede ser `python`, `sql`, `data_engineering`, etc.)
 2. Verificar que existan: `grimoire.md`, `lore/`, `quests/`, `rite/`
 3. Si falta algo, reportar error y detener.
 
@@ -92,5 +92,5 @@ Reportar observaciones por capítulo. Se sugiere usar un modelo con capacidades 
 ## Pitfalls
 - **NO modifiques el grimoire.** Solo léelo y reporta.
 - **NO ejecutes scripts Python ni búsquedas globales.** Usa `read_file` y `list_dir`.
-- Si la chronicle no existe, lista las disponibles en `subjects/python/chronicles/`.
+- Si la chronicle no existe, lista las disponibles en `content/subjects/*/chronicles/`.
 - La auditoría cualitativa (`--deep`) es opcional y explícita. No la ejecutes por defecto.

@@ -18,7 +18,7 @@ El sistema opera sobre Hermes Agent con tres pilares:
 
 2. **Personalidades (`~/.hermes/personalities/`):** Archivos Markdown que definen el comportamiento de cada modo de trabajo. Se cambian con `/personality`.
 
-3. **Skills (`dojo_agent/skills/dojo/`):** Paquetes de instrucciones que Hermes carga on-demand como slash commands. Versionados en el repo con git.
+3. **Skills (`system/dojo_agent/skills/dojo/`):** Paquetes de instrucciones que Hermes carga on-demand como slash commands. Versionados en el repo con git.
 
 ---
 

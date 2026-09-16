@@ -57,26 +57,28 @@ Para salir de Hermes, escribe `/exit`.
 ~/Documents/DoJo/DoJo_Study/
 ├── .hermes.md                    ← Constitución Operativa (Hermes la lee automático)
 ├── README.md                     ← Índice del repo
-├── CHANGELOG.md                  ← Historial de versiones del marco
 │
-├── subjects/python/chronicles/    ← Área principal de chronicles
-│   └── PY-POO/
-│       ├── chronicle.md          ← Descripción de alto nivel
-│       ├── grimoire.md           ← Bitácora Feynman del Operador
-│       ├── lore/                 ← Capítulos teóricos (la Biblioteca)
-│       ├── quests/               ← Laboratorios prácticos
-│       └── rite/                 ← Proyecto final (rito de paso)
-│           ├── requirements.md
-│           ├── journal.md
-│           ├── src/
-│           ├── tests/
-│           └── data/
+├── system/
+│   ├── docs/                     ← Manuales y documentación maestra
+│   ├── templates/                ← Plantillas oficiales
+│   └── dojo_agent/skills/dojo/   ← Skills de Hermes (versionados en git)
+│       ├── scry/                 ← `/scry` — Auditoría del DM
+│       └── scroll/               ← `/scroll` — Pergamino rápido de ideas
 │
-├── dojo_agent/skills/dojo/       ← Skills de Hermes (versionados en git)
-│   ├── scry/                     ← `/scry` — Auditoría del DM
-│   └── scroll/                   ← `/scroll` — Pergamino rápido de ideas
+├── content/
+│   ├── subjects/python/chronicles/ ← Área principal de chronicles
+│   │   └── PY-POO/
+│   │       ├── chronicle.md      ← Descripción de alto nivel
+│   │       ├── grimoire.md       ← Bitácora Feynman del Operador
+│   │       ├── lore/             ← Capítulos teóricos (la Biblioteca)
+│   │       ├── quests/           ← Laboratorios prácticos
+│   │       └── rite/             ← Proyecto final (rito de paso)
+│   └── _generation/              ← Espacio temporal de generación activa
 │
-└── docs/                         ← Manuales y documentación maestra
+└── meta/                         ← Histórico, changelog e ideas
+    ├── CHANGELOG.md              ← Historial de versiones del marco
+    ├── ideas/
+    └── archive/
 
 ~/.hermes/ (Fuera del Repo)
 ├── config.yaml                   ← Config de tu instancia (external_dirs)
@@ -107,6 +109,6 @@ Para salir de Hermes, escribe `/exit`.
 ```
 
 ### ❓ Troubleshooting de Hermes
-- **Los skills no aparecen en `/skills`:** Verifica que `~/.hermes/config.yaml` tenga la variable `external_dirs` apuntando a `~/Documents/DoJo/DoJo_Study/dojo_agent/skills`.
+- **Los skills no aparecen en `/skills`:** Verifica que `~/.hermes/config.yaml` tenga la variable `external_dirs` apuntando a `~/Documents/DoJo/DoJo_Study/system/dojo_agent/skills`.
 - **Las personalidades fallan:** Revisa que los archivos se encuentren en `~/.hermes/personalities/` (`wizard.md`, `witch.md`).
 - **Fallo de LLM:** Revisa tu cuota o `OPENROUTER_API_KEY` en `~/.hermes/.env`.

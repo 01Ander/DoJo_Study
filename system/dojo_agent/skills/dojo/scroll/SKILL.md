@@ -34,7 +34,7 @@ Ejemplo: `/scroll Crear un dashboard web que muestre el progreso por chronicle`
 
 3. **Escribir en `ideas-in-live.md`** usando `write_file` (append) al final de la sección `## ⏳ Pendiente (Features Futuras)`:
    
-   Ruta: `~/Documents/DoJo/DoJo_Study/ideas/ideas-in-live.md`
+   Ruta: `~/Documents/DoJo/DoJo_Study/meta/ideas/ideas-in-live.md`
    
    Formato de la nueva línea:
    ```
