@@ -6,6 +6,7 @@
 daily-logs/
 dojo_core.md
 historial.md
+meta/historial.md
 
 # Python
 __pycache__/
@@ -14,6 +15,8 @@ venv/
 .mypy_cache/
 
 # DoJo Agent (Legacy v3)
+system/dojo_agent/.venv/
+system/dojo_agent/chroma_db/
 dojo_agent/.venv/
 dojo_agent/chroma_db/
 
@@ -22,6 +25,7 @@ dojo_agent/chroma_db/
 
 # Warm-up (temporal)
 _warmup/
+meta/_warmup/
 
 # IDE / OS
 .DS_Store

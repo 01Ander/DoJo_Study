@@ -21,7 +21,7 @@ Agrega el directorio de skills del DoJo a tu configuración de Hermes:
 # En ~/.hermes/config.yaml
 skills:
   external_dirs:
-    - ~/Documents/DoJo/DoJo_Study/dojo_agent/skills
+    - ~/Documents/DoJo/DoJo_Study/system/dojo_agent/skills
 ```
 
 ### 3. Ejecución
@@ -92,18 +92,26 @@ Para que un artefacto técnico sea considerado completado:
 ## 📁 Estructura del Repositorio
 ```text
 DoJo_Study/
-├── .hermes.md                          ← Constitución del DoJo Agent
-├── README.md                           ← Visión general del ecosistema
-├── CHANGELOG.md                        ← Registro histórico de versiones
-├── subjects/                           ← Divisiones de aprendizaje
-│   ├── python/chronicles/              ← PY-POO (Done), PY-BASICO (Legacy)
-│   └── sql/chronicles/                 ← SQL-BASICO (En curso)
-├── dojo_agent/skills/dojo/             ← Skills atómicas de Hermes
-│   ├── scry/                           ← /scry — Auditoría del DM
-│   └── scroll/                         ← /scroll — Captura de ideas
-├── templates/                          ← Plantillas estandarizadas de misiones y RFCs
-├── docs/                               ← Documentación canónica (00 a 08)
-│   ├── 03-syllabus-maestro.md          ← Syllabus 2.0 (100% Pre-Empleo)
-│   └── 08-syllabus-post-empleo-fase2.md← Syllabus Fase 2 (Post-Empleo)
-└── archive/                            ← Memoria histórica (agent v3, skills v4, v2 canada)
+├── .hermes.md                          ← Constitución del DoJo Agent (acceso directo en raíz)
+├── README.md                           ← Visión general del ecosistema y quickstart
+│
+├── system/                             ← Gobernanza y reglas (Solo lectura para generador)
+│   ├── docs/                           ← Documentación canónica (00 a 08)
+│   │   ├── 03-syllabus-maestro.md      ← Syllabus 2.0 (100% Pre-Empleo)
+│   │   └── 08-syllabus-post-empleo...  ← Syllabus Fase 2 (Post-Empleo)
+│   ├── templates/                      ← Plantillas estandarizadas de misiones y RFCs
+│   └── dojo_agent/skills/dojo/         ← Skills atómicas de Hermes (/scry, /scroll)
+│
+├── content/                            ← Material de estudio activo y generación
+│   ├── subjects/                       ← Divisiones de aprendizaje (Python, SQL, Data Engineering)
+│   │   ├── python/chronicles/          ← PY-POO, PY-BASICO
+│   │   ├── sql/chronicles/             ← SQL-BASICO
+│   │   └── data_engineering/chronicles/← DE-PIPELINES
+│   └── _generation/                    ← Workspace temporal y efímero del generador (roadmaps, staging)
+│
+└── meta/                               ← Histórico y memoria técnica no operativa
+    ├── archive/                        ← Memoria histórica (agent v3, skills v4, v2 canada)
+    ├── ideas/                          ← Propuestas y RFCs
+    ├── _warmup/                        ← Pruebas y calentamiento
+    └── CHANGELOG.md                    ← Registro histórico de versiones
 ```
