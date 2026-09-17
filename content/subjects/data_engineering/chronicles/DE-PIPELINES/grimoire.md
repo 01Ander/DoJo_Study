@@ -48,42 +48,43 @@ Este documento es tu registro académico. Después de leer cada capítulo en `lo
 ---
 
 ## 📝 Capítulo 02: Manipulación con Pandas
-**Fecha de finalización:** 
+**Fecha de finalización:** 2026-09-17
 **Métricas:**
-- Tiempo de lectura: 
-- Tiempo en ejercicios: 
-- Veces que recurrí al Tutor/DM: 
-- Fricción (1-10): 
+- Tiempo de lectura: 5min
+- Tiempo en ejercicios: 15min
+- Veces que recurrí al Tutor/DM: 0
+- Fricción (1-10): 1
 
 **Feynman Synthesis (Tus propias palabras):**
 1. ¿Por qué es importante imponer un tipado estricto (strict casting) en tu DataFrame de Pandas en lugar de dejar tipos dinámicos o genéricos?
-> [Escribe aquí tu explicación]
+> Porque puede llegar el caso que pasen typos se sean 'validos' dentro de la lista al no ser nulls pero que no son los requeridos dentro de la propia lista, lo cual puede a la larga generar errores silenciosos y al momento de usar los datos erroneos, crashee el programa como tal. Esto no solo como medida de seguridad, tambien ayuda a estandarizar un solo typo establecido para toda la tabla o columna, y de igual manera es un uso mas optimizado de recursos para las operaciones dentro de pandas.
 
 2. Menciona un proceso común de limpieza de datos en Pandas (ej. manejo de nulos) y describe qué problema de negocio resuelve.
-> [Escribe aquí tu explicación]
+> Se establece el DataFrame para tomar los datos y pasarlos a pandas en forma de tabla estructurada bidimensional. Se elimina las fillas con espacios null con dropna.
+> Esta operacion permite limpiar registros que venga con informacion faltante dentro de una gran cantidad de datos sucios.
 
 **Friction Log (Opcional):**
-> [¿Qué te costó más trabajo entender?]
+> No recordar correctamente el comando 'isinstance', se recordaba que se hacia una igualacion por comando, pero no se recordaba que se podia hacer por instance, se pensaba como typeof, o algo asi. Ademas que se transforma la informacion a una tabla mucho mas eficiente para el trabajo posterior o incluso su propia limpieza. 
 
 ---
 
 ## 📝 Capítulo 03: Data Quality & Observability
-**Fecha de finalización:** 
+**Fecha de finalización:** 2026-09-17
 **Métricas:**
-- Tiempo de lectura: 
-- Tiempo en ejercicios: 
-- Veces que recurrí al Tutor/DM: 
-- Fricción (1-10): 
+- Tiempo de lectura: 5min
+- Tiempo en ejercicios: 15min
+- Veces que recurrí al Tutor/DM: 0
+- Fricción (1-10): 1
 
 **Feynman Synthesis (Tus propias palabras):**
 1. ¿Qué es la validación de esquemas y qué riesgos de consistencia previene si se aplica tempranamente en un pipeline?
-> [Escribe aquí tu explicación]
+> Quien ha creado la api puede hacer las modificaciones que quiera y eso puede traer errores o inconsistencias frente a un desarrollo hecho con unos parametros establecidos de antes. Para evitar esto, se hace un chequeo previsorio antes de que la informacion entre a la aplicacion, para validar que la informacion que viene de la api sea la que se espera, es decir, los titulos de las columnas sean los que se esparan y sean la cantidad de columnas que se requieren, en caso de que hayan cambio de nombres o se agregen o eliminen columnas y a la vez, se valida que los tipos de datos dentro de estas columnas sean los tipos que se esperan de ellas y no existan tipos erroneos o basura.
 
 2. ¿Qué es la "reconciliación de datos" y por qué se considera una práctica clave en Observability?
-> [Escribe aquí tu explicación]
+> la reconciliacion permite verificar que si llegan 20 datos de una fuente, se obtengan 20 datos limpios igualmente, y no se pierdan datos durante la limpieza de estos mas de los deseados. Dentro de observability es clave por que es la primera gate de verificacion por si pasan fallos dentro de la aplicacion para evitar guardado de datos corruptos.
 
 **Friction Log (Opcional):**
-> [¿Qué te costó más trabajo entender?]
+> Recordar el uso correcto de pytest.raises
 
 ---
 
