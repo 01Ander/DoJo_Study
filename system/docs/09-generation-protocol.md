@@ -413,6 +413,9 @@ Todo comando, función, palabra clave, cláusula, argumento u operador de códig
 
 Aplica tanto para el tema central del capítulo como para recursos auxiliares en bloques de código. Queda prohibido dar por sentada la comprensión intuitiva de sintaxis no enseñada.
 
+> [!IMPORTANT]
+> **Regla Inversa (Lección de DE-PIPELINES Cap 04):** Si una sección describe funciones, métodos o APIs de forma textual (ej. listas de bullets explicando qué hace cada método), DEBE incluir también un **ejemplo de código funcional** que muestre cómo se ensamblan juntos. Describir sin demostrar produce gaps cuando la quest exige al Operador usar esos métodos. La regla es bidireccional: código → explicación, Y descripción → código.
+
 ### 9.4 Densidad y Abstracción (Cap 03+)
 Para conceptos abstractos (típicamente del Cap 03 en adelante), el lore debe estar "descomprimido":
 - **Mínimo 2 analogías claras** de la vida real.
