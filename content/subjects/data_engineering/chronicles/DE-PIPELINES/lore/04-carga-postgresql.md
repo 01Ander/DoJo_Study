@@ -68,6 +68,16 @@ En nuestros tests, a veces necesitamos verificar si Pandas de verdad insertó lo
 - `conn.execute(sql)`: Envía el comando SQL al servidor.
 - `.fetchall()`: Toma el resultado de `execute` y te devuelve todas las filas encontradas como una lista de tuplas.
 
+**Ejemplo: Verificar datos insertados**
+```python
+from sqlalchemy import text
+
+# Después de haber cargado datos con to_sql()...
+with db_engine.connect() as conn:
+    result = conn.execute(text("SELECT * FROM potion_inventory")).fetchall()
+    print(result)  # [(Invisibility, 10), (Healing, 25)]
+```
+
 ---
 
 ## Misión a seguir

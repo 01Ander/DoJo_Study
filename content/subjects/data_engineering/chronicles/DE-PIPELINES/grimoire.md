@@ -89,22 +89,23 @@ Este documento es tu registro académico. Después de leer cada capítulo en `lo
 ---
 
 ## 📝 Capítulo 04: Carga de Datos a PostgreSQL
-**Fecha de finalización:** 
+**Fecha de finalización:** 2026-09-17
 **Métricas:**
-- Tiempo de lectura: 
-- Tiempo en ejercicios: 
-- Veces que recurrí al Tutor/DM: 
-- Fricción (1-10): 
+- Tiempo de lectura: 5min
+- Tiempo en ejercicios: 20min
+- Veces que recurrí al Tutor/DM: 3
+- Fricción (1-10): 1
 
 **Feynman Synthesis (Tus propias palabras):**
 1. ¿Qué ventajas aporta usar una capa como SQLAlchemy para gestionar conexiones frente a inyectar consultas SQL directas como strings?
-> [Escribe aquí tu explicación]
+> Hacerlo directamente con inyecion de SQL puede traer problemas de seguridad, cualquiera podria hacer sus propias inyecciones ingresando informacion danina al sistema, ademas que es un proceso mas lento. Al poder usar una capa como SQLAlchemy, se blinda la entrada de la informacion, se hace por pasos definidos, claros y mas eficientes para el propio programa.
 
 2. Explica qué hace el parámetro `if_exists` de `to_sql()` y describe un escenario donde usar `'append'` vs `'replace'` haría la diferencia entre un pipeline correcto y uno que destruye datos históricos.
-> [Escribe aquí tu explicación]
+> if_exist como su nombre lo indica es, si ya existe esta tabla vamos a hacer lo siguiente. El caso correcto en la mayoria de las situaciones (depende del contexto tambien) seria hacer un append si no es la primera vez que se ingresa a la tabla, agregando unicamente la informacion nueva. Si se usa un replace, este borra la informacion que ya existio e introduce la nueva que venga de esta inyeccion, dando paso a la opcion de eliminar datos historicos que pueden ser de utilidad o necesarios dentro del aplicativo.
 
 **Friction Log (Opcional):**
-> [¿Qué te costó más trabajo entender?]
+> Duda conceptual de porque no se guardaba la funcion que pasaba a sql en una variable de python, se comprende que es una funcion que no retorna nada, un side effect. Se entiende que la verificacion de sqlalchemy entrega una dupla (x,y) en numeros, no se puede acceder a la info como un objeto o diccionario de python. 
+> Ligero fallo del lore frente a lo requerido en el quest correspondiente.
 
 ---
 
