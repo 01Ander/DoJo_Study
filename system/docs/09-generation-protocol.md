@@ -176,6 +176,8 @@ content/_generation/<CHRONICLE-CODE>/
 4. **Cero Sintaxis Huérfana:** La solución no debe usar ningún keyword/función que no esté en el lore del capítulo correspondiente o anteriores.
 5. Aplicar scaffolding progresivo de testing (5 niveles de andamiaje, del nivel más guiado al más autónomo conforme avancen los capítulos).
 6. **Spaced Repetition:** Los capítulos avanzados (Cap 04+) pueden incluir ejercicios de revisión de capítulos pasados.
+7. **Objetivos Completos (Lección de DE-PIPELINES Cap 04-05):** Cada objetivo en `quest.md` que pida crear una función DEBE describir: qué hace la función (su propósito), qué recibe, y qué retorna o qué efecto produce. No basta con indicar solo el nombre y la firma.
+8. **Objetivos Autosuficientes:** Si un objetivo requiere que el Operador use un mecanismo específico para llegar a la solución (ej. verificar atributos inyectados por decoradores, usar métodos de una librería en cierta combinación), el objetivo DEBE explicar ese mecanismo con suficiente detalle para que el Operador pueda implementarlo sin adivinar. El `quest.md` debe ser navegable de forma autónoma hacia la solución.
 
 **Output:** Carpetas de quests completas con instrucciones, soluciones y tests.
 **Actualizar roadmap:** `paso_actual: gate_4`, `estado: listo_para_auditoria`.
@@ -293,6 +295,8 @@ Al pasar de un paso de generación a su gate, el roadmap se marca como `estado: 
 - [ ] ¿Las instrucciones (`quest.md`) son claras sin necesidad de consultar el lore para entender el enunciado?
 - [ ] ¿Los tests validan el comportamiento esperado de la solución?
 - [ ] ¿No hay keywords/funciones "huérfanas" en la solución que no aparezcan en el lore?
+- [ ] ¿Cada objetivo que pide crear una función describe su propósito, qué recibe y qué retorna/produce?
+- [ ] ¿Cada objetivo es autosuficiente para llegar a la solución sin adivinar mecanismos no explicados?
 
 **Si PASS:** Actualizar roadmap → `paso_actual: 7`, `estado: en_progreso`.
 **Si FAIL:** Registrar hallazgo, corregir, re-auditar.
