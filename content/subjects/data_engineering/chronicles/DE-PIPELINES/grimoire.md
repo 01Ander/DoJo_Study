@@ -110,22 +110,22 @@ Este documento es tu registro académico. Después de leer cada capítulo en `lo
 ---
 
 ## 📝 Capítulo 05: Orquestación con Prefect (Local)
-**Fecha de finalización:** 
+**Fecha de finalización:** 2026-09-21
 **Métricas:**
-- Tiempo de lectura: 
-- Tiempo en ejercicios: 
-- Veces que recurrí al Tutor/DM: 
-- Fricción (1-10): 
+- Tiempo de lectura: 5min
+- Tiempo en ejercicios: 10min
+- Veces que recurrí al Tutor/DM: 2
+- Fricción (1-10): 3
 
 **Feynman Synthesis (Tus propias palabras):**
 1. En el contexto de Prefect, explica la diferencia jerárquica y de responsabilidad entre lo que hace un `Flow` y lo que hace una `Task`.
-> [Escribe aquí tu explicación]
+> Task es unicamente una funcion que tiene una unica tarea por hacer, ya sea la carga de datos, la limpieza, o el guardado. Mientras tanto Flow es el orquestador prinicpal que junta todos los procesos en una sola secuencia, llamando a las Task correspondientes para que se haga todo el Pipeline. Esto quire decir que si se asume una jerarquia para estas dos dependencias, flow es el parametro principal, mientras que task es el secundario que da vida a flow.
 
 2. ¿Cómo el uso de "reintentos automáticos" (retries) y dependencias mejora la resiliencia de tu pipeline de datos ante fallos esporádicos?
-> [Escribe aquí tu explicación]
+> Al darle la capacidad de hacer un reintento automatico o una serie de reintentos automaticos al sistema, por una parte se evita que por un error de conexion o externo al sistema este estalle directamente sin ser culpa del propio sistema, y por otra parte se mejora la capacidad de evitar errores en el flujo del programa evitando que se encadenen errores desde inicio o se lleven datos que no se cargaron, no se limpiaron, etc, hasta el final del programa sin poder saber si fallo un proceso especifico antes.
 
 **Friction Log (Opcional):**
-> [¿Qué te costó más trabajo entender?]
+> El lore no explico jamas el uso de hasttr para los tests de la quest, por lo que no se podia llegar a la solucion. Se dicidio observar y ver que es lo que hacia la solucion propuesta. 
 
 ---
 **Auditoría del DM:** [Pendiente]
