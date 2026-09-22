@@ -84,7 +84,7 @@ Usa este espacio para registrar:
 8. Header de autenticación
    - El token viaja en el header Authorization, con formato Bearer <token>.
 
-##2026-09-22 - Fase 1: Cierre técnico (Zona Bronze y Extracción)
+## 2026-09-22 - Fase 1: Cierre técnico (Zona Bronze y Extracción)
 
 Estado: 5 tests en verde y mypy src sin observaciones (3 módulos). Requisitos 1 a 4
 cubiertos. Pendiente: Requisito 5 (commit semántico).
@@ -140,8 +140,79 @@ Errores encontrados
 Pendiente
 - Requisito 5: commit semántico de la fase.
 
-## [Fecha] - Fase 2: Transformación Inicial
-...
+## 2026-09-22 - Fase 2: Transformación Inicial
+
+Decisiones de diseño
+1. La llave del envoltorio ("results") es parte del contrato entre etapas.
+   - El payload de Bronze es un diccionario cuya única llave es "results", y su valor es la lista de ingredientes.
+   - Esa llave la usan la extracción (para contar registros en el log) y la transformación (para desenvolver). Vive una sola vez en config.py como constante, no como texto repetido en dos módulos.
+   - Motivo: si la API renombra su llave, se corrige en un solo lugar y no en una cacería.
+
+2. De JSON a DataFrame.
+   - pandas construye un DataFrame a partir de una lista de diccionarios: las llaves de cada diccionario se vuelven las columnas.
+   - El payload NO entra al DataFrame; entra su contenido, o sea la lista que vive bajo la llave.
+   - Costo declarado de la decisión de la Fase 1 (guardar la respuesta completa): cada consumidor del Bronze tiene que desenvolver un nivel.
+
+3. Entrada de la etapa de transformación.
+   - Recibe la ruta del archivo Bronze, no el diccionario. La ruta viaja como valor entre etapas (decisión de la Fase 0): la etapa abre el archivo, parsea, desenvuelve y recién ahí construye el DataFrame.
+
+4. Orden de la limpieza.
+   - El dropna va antes del casteo de tipos. Un nulo en una columna numérica rompe la conversión con un error que no menciona la palabra "nulo".
+
+Cierre técnico de la fase
+
+Estado: 9 tests en verde (5 de la Fase 1 + 4 de la Fase 2), todos en tests/test_pipeline.py.
+mypy src reporta 2 errores pendientes: uno propio (anotación del parámetro incompatible con
+open) y uno del entorno (pandas sin stubs de tipos).
+
+Decisiones de implementación
+- La llave del envoltorio vive en config.py (RESULT_KEY) y la usan las dos etapas: la
+  extracción para contar registros en el log, y la transformación para desenvolver.
+- La etapa de transformación recibe la ruta del Bronze, no los datos. Ella abre el archivo,
+  lo parsea, desenvuelve la lista y recién ahí construye el DataFrame. Es la consecuencia
+  declarada de la Fase 0: la ruta viaja como valor entre etapas.
+- Acceso a la llave por corchete (payload[RESULT_KEY]), no con .get. En una etapa que
+  consume datos del pipeline, una llave que falta es un error, no un caso a tolerar: una lista
+  vacía seguiría el camino y terminaría cargando una tabla vacía sin que nadie se entere.
+- La salida es una lista de dicts (to_dict(orient="records")), igual que la Quest 02, por
+  fidelidad al lore. Consecuencia declarada: las Fases 3 y 4 reconstruyen el DataFrame cuando
+  necesiten operar con pandas (deduplicar, agrupar, cargar).
+- Orden de la limpieza: dropna antes del casteo. Un nulo en la columna numérica rompe la
+  conversión con un error que no menciona la palabra "nulo".
+- Solo se castea el precio, como pide el Requisito 4. La columna stock sigue como texto
+  porque su conversión numérica pertenece a la Fase 4, donde el requisito pide sumarla.
+
+Extensiones declaradas (no están en el lore)
+- json.load / json.dump (biblioteca estándar). El Capítulo 01 enseñó a parsear una
+  respuesta HTTP con response.json() de requests; para leer y escribir archivos el módulo
+  estándar es la pieza equivalente, y no aparece en ningún capítulo de esta chronicle.
+- Fixture que escribe el payload en tmp_path para armar la entrada de la etapa, con la
+  ruta resuelta desde el propio archivo de test.
+- Prueba de contrato entre etapas: un test usa la ruta que devuelve load_raw y se la pasa
+  a la etapa de transformación, probando que la salida de una etapa es la entrada de la otra.
+
+Errores encontrados
+1. pd.DataFrame(ruta) → ValueError: DataFrame constructor not properly called!. pandas recibe
+   un texto donde espera datos; el mensaje no menciona la ruta. Causa: faltaba leer y desenvolver
+   el archivo antes de construir el DataFrame.
+2. to_dict(orient=RESULT_KEY) → ValueError: orient 'results' not understood. Causa: confundir
+   la llave del payload de la API ("results") con el modo de serialización ("records"). Son
+   dos constantes distintas y solo una existe en config.py.
+3. silver_df[0]["name"] sobre un DataFrame → KeyError: 0. El corchete de un DataFrame indexa
+   por nombre de columna, no por posición. Se resolvió devolviendo una lista de dicts, donde
+   [0] sí es posición — igual que en la Quest 02.
+4. assert df.columns == [...] → `ValueError: The truth value of an array with more than one
+   element is ambiguous`. Causa: comparar un índice de pandas contra una lista devuelve un
+   arreglo de booleanos, no un solo valor. Se resuelve convirtiendo a lista o usando .tolist().
+5. mypy: No overload variant of "open" matches argument types "list[Any]", "str". Causa: la
+   anotación del parámetro decía list y la etapa recibe una ruta. Los tests pasaban igual, lo
+   que muestra para qué sirve el chequeo de tipos.
+6. mypy: Library stubs not installed for "pandas". Decisión pendiente: instalar
+   pandas-stubs (ruta profesional) o declarar la excepción en pyproject.toml.
+
+Pendiente
+- Corregir la anotación del parámetro y dejar mypy src limpio.
+- Requisito 5: commit semántico de la fase.
 
 ## [Fecha] - Fase 3: Los Portones de Calidad y la Zona Silver
 ...

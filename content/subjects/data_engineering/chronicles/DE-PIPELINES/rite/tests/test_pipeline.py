@@ -5,10 +5,13 @@ import pytest
 import requests
 import responses
 from src.extract import fetch_market, load_raw
+from src.transform import build_silver_market
 
 FIXTURE = Path(__file__).parent / "fixtures" / "market_catalog.json"
 MARKET_URL = "https://api.dark_market.fake/items"
 MARKET_TOKEN = "market_token_ara"
+
+# --------- Fase 1 ------------
 
 
 def load_payload():
@@ -73,3 +76,33 @@ def test_two_runs_leave_two_files_in_chronological_order(tmp_path):
     assert first_name != second_name
     assert second_name > first_name
     assert len(list(tmp_path.glob("*.json"))) == 2
+
+# --------- Fase 2 ------------
+
+
+@pytest.fixture
+def bronze_file(tmp_path):
+    filepath = tmp_path / "bronze.json"
+    filepath.write_text(json.dumps(load_payload()), encoding="utf-8")
+    return filepath
+
+
+def test_unwraps_bronze_payload_into_ingredient_columns(bronze_file):
+    silver_records = build_silver_market(str(bronze_file))
+    assert list(silver_records[0].keys()) == ["name", "price", "stock"]
+
+
+def test_removes_rows_with_null_values(bronze_file):
+    silver_records = build_silver_market(str(bronze_file))
+    assert len(silver_records) == 9
+
+
+def test_normalizes_ingredient_names(bronze_file):
+    silver_records = build_silver_market(str(bronze_file))
+    assert silver_records[0]['name'] == 'eye of newt'
+    assert silver_records[2]['name'] == 'dragon scale'
+
+
+def test_casts_price_to_integer(bronze_file):
+    silver_records = build_silver_market(str(bronze_file))
+    assert silver_records[0]['price'] == 12
