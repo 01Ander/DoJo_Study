@@ -137,9 +137,6 @@ Errores encontrados
    carpeta. tests.py y tests_pipeline.py no coinciden con el patrón. La carpeta se llama
    tests/ (plural) y el prefijo del archivo es test_ (singular).
 
-Pendiente
-- Requisito 5: commit semántico de la fase.
-
 ## 2026-09-22 - Fase 2: Transformación Inicial
 
 Decisiones de diseño
@@ -210,12 +207,23 @@ Errores encontrados
 6. mypy: Library stubs not installed for "pandas". Decisión pendiente: instalar
    pandas-stubs (ruta profesional) o declarar la excepción en pyproject.toml.
 
-Pendiente
-- Corregir la anotación del parámetro y dejar mypy src limpio.
-- Requisito 5: commit semántico de la fase.
-
-## [Fecha] - Fase 3: Los Portones de Calidad y la Zona Silver
-...
+## 2026-09-23 - Fase 3: Los Portones de Calidad y la Zona Silver
+Decisión: de dónde sale el tamaño original para la reconciliación
+- El portón de reconciliación necesita dos números: el tamaño de Bronze y el tamaño de la data
+  que salió de la Fase 2.
+- Decisión: la etapa de calidad lee el archivo Bronze y cuenta por sí misma
+  (len(payload[RESULT_KEY])), en lugar de recibir el número desde la etapa de transformación
+  o desde el flow.
+- Justificación: independencia. El portón verifica contra la fuente cruda y no contra un número
+  reportado por la etapa que está auditando. Si alguien modifica el Bronze a mano, el portón lo
+  detecta.
+- Consecuencia: el archivo Bronze se lee dos veces por corrida (una en la transformación, otra
+  en los portones). Costo despreciable, decisión consciente.
+- Consecuencia de contrato: la etapa de calidad recibe la ruta del Bronze y **los registros
+  que devuelve la Fase 2**, y devuelve los registros validados.
+- Acceso a la llave por corchete (payload[RESULT_KEY]) y no con .get: con .get, una llave
+  faltante daría un conteo de 0 y el cálculo de la pérdida terminaría en ZeroDivisionError,
+  un error que no menciona la causa real.
 
 ## [Fecha] - Fase 4: La Zona Gold y el Gran Archivo
 ...
