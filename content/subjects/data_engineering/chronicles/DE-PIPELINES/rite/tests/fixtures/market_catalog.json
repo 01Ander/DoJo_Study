@@ -9,6 +9,8 @@
     { "name": "Frog's Breath Essence", "price": "45", "stock": "60" },
     { "name": "Bat Wing Dust", "price": "8", "stock": "130" },
     { "name": "Bottled Sunrise", "price": "210", "stock": "2" },
+    { "name": "MANDRAGORA ROOT", "price": "89", "stock": "22" },
+    { "name": "  bat wing dust  ", "price": "8", "stock": "130" },
     { "name": "Pickled Thundercloud", "price": "67", "stock": null }
   ]
 }

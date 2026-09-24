@@ -1,3 +1,4 @@
 data/
 pycache/
 .pytest_cache/
+guild.db

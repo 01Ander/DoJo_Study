@@ -16,6 +16,7 @@ def transform_market_catalog(path: str) -> list[dict]:
     df = df.dropna()
     df['name'] = df['name'].str.strip().str.lower()
     df['price'] = df['price'].astype(int)
+    df['stock'] = df['stock'].astype(int)
     clean_data = df.to_dict(orient='records')
 
     logger.info('Clean records produced: %d', len(clean_data))

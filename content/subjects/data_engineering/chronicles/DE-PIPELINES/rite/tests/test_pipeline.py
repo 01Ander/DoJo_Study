@@ -4,9 +4,14 @@ from pathlib import Path
 import pytest
 import requests
 import responses
+import pandas as pd
+from sqlalchemy import create_engine, text
 from src.extract import fetch_market, load_raw
 from src.transform import transform_market_catalog
 from src.quality import validate_silver_market
+from src.aggregation import aggregate_silver_market
+from src.save_gold import save_gold_inventory
+
 
 FIXTURE = Path(__file__).parent / "fixtures" / "market_catalog.json"
 MARKET_URL = "https://api.dark_market.fake/items"
@@ -27,7 +32,7 @@ def test_fetch_returns_whole_body():
     result = fetch_market(MARKET_URL, MARKET_TOKEN)
 
     assert "results" in result
-    assert len(result["results"]) == 10
+    assert len(result["results"]) == 12
     assert result["results"][0]["name"] == " Eye of Newt "
     assert result["results"][3]["price"] == "150"
     assert result["results"][8]["stock"] == "2"
@@ -95,7 +100,7 @@ def test_unwraps_bronze_payload_into_ingredient_columns(bronze_file):
 
 def test_removes_rows_with_null_values(bronze_file):
     silver_records = transform_market_catalog(str(bronze_file))
-    assert len(silver_records) == 9
+    assert len(silver_records) == 11
 
 
 def test_normalizes_ingredient_names(bronze_file):
@@ -111,11 +116,12 @@ def test_casts_price_to_integer(bronze_file):
 
 # --------- Fase 3 ------------
 
+
 def test_returns_deduplicated_records_within_the_loss_limit(bronze_file):
     records = transform_market_catalog(str(bronze_file))
     silver_records = validate_silver_market(str(bronze_file), records)
 
-    assert len(silver_records) == 7
+    assert len(silver_records) == 9
 
 
 def test_reconciliation_gate_blocks_loss_above_ten_percent(bronze_file):
@@ -130,3 +136,63 @@ def test_null_gate_blocks_records_with_null_values(bronze_file):
 
     with pytest.raises(AssertionError):
         validate_silver_market(str(bronze_file), records + [null_record])
+
+
+# --------- Fase 4 ------------
+
+
+@pytest.fixture
+def test_engine():
+    db_engine = create_engine('sqlite:///:memory:')
+    return db_engine
+
+
+@pytest.fixture
+def test_gold_df():
+    return pd.DataFrame([
+        {"name": "eye of newt", "total_stock": 55},
+        {"name": "dragon scale", "total_stock": 10},
+    ])
+
+
+def test_aggregates_stock_by_ingredient(bronze_file):
+    records = transform_market_catalog(str(bronze_file))
+    silver_records = validate_silver_market(str(bronze_file), records)
+    gold = aggregate_silver_market(silver_records)
+
+    totals = {}
+    for row in gold.to_dict("records"):
+        totals[row["name"]] = row["total_stock"]
+    assert totals["eye of newt"] == 55
+    assert isinstance(gold, pd.DataFrame)
+    assert len(gold) == 7
+
+
+def test_saves_gold_into_clean_inventory_table(bronze_file, test_engine):
+    records = transform_market_catalog(str(bronze_file))
+    silver_records = validate_silver_market(str(bronze_file), records)
+    gold = aggregate_silver_market(silver_records)
+    save_gold_inventory(gold, test_engine)
+
+    with test_engine.connect() as conn:
+        result = conn.execute(text('SELECT * FROM clean_inventory')).fetchall()
+    assert len(result) == 7
+    totals = {}
+    for row in result:
+        totals[row[0]] = row[1]
+    assert totals["eye of newt"] == 55
+
+
+def test_appends_without_destroying_the_table(test_gold_df, test_engine):
+    save_gold_inventory(test_gold_df, test_engine)
+    save_gold_inventory(test_gold_df, test_engine)
+    with test_engine.connect() as conn:
+        result = conn.execute(text('SELECT * FROM clean_inventory')).fetchall()
+        assert len(result) == 4
+
+
+def test_does_not_store_the_pandas_index(test_gold_df, test_engine):
+    save_gold_inventory(test_gold_df, test_engine)
+    with test_engine.connect() as conn:
+        result = conn.execute(text('SELECT * FROM clean_inventory'))
+    assert list(result.keys()) == ['name', 'total_stock']

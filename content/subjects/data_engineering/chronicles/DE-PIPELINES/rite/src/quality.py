@@ -23,7 +23,7 @@ def validate_silver_market(bronze_path: str, records: list) -> list[dict]:
                 initial_count, final_count, loss_rate * 100)
     assert loss_rate <= 0.1, f"Data quality failed: Loss rate is {loss_rate*100}%"
 
-    silver_data = df.drop_duplicates(subset=['name'], keep='first')
+    silver_data = df.drop_duplicates()
 
     for item in CRITICAL_COLUMNS:
         assert silver_data[item].notnull().all(

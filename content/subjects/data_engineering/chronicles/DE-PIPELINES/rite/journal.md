@@ -225,8 +225,117 @@ Decisión: de dónde sale el tamaño original para la reconciliación
   faltante daría un conteo de 0 y el cálculo de la pérdida terminaría en ZeroDivisionError,
   un error que no menciona la causa real.
 
-## [Fecha] - Fase 4: La Zona Gold y el Gran Archivo
-...
+##[2026-09-23] - Cierre de la Fase 3 
+- Requisitos cubiertos: portón de reconciliación, deduplicación, portón de nulos, y la Zona
+  Silver como retorno de la etapa.
+
+- Decisión: el borde del 10% se resuelve con <=. El requisito dice "no mayor al 10%" y el
+  ejemplo del capítulo usaba < (estricto). Manda el requisito.
+
+- Decisión: las columnas críticas viven en config.py (CRITICAL_COLUMNS), en una sola casa,
+  con el mismo criterio que RESULT_KEY. El portón de nulos itera sobre esa constante.
+
+- Contrato: validate_silver_market(bronze_path, records) -> list[dict]. Lee el Bronze por su
+  cuenta para contar (independencia: verifica contra la fuente, no contra un número reportado
+  por la etapa auditada), recibe la salida de la Fase 2, reconstruye el DataFrame para
+  deduplicar —el costo declarado al elegir la lista de dicts— y devuelve el Silver.
+
+- Orden de las compuertas: reconciliación → deduplicación → nulos. Si la primera falla, el
+  resto no se ejecuta. La pérdida se mide ANTES de deduplicar: contra la salida de la Fase 2,
+  no contra el resultado final (medirla después habría contado la deduplicación como pérdida).
+
+- Renombre: build_silver_market → transform_market_catalog, para que el nombre "silver"
+  corresponda a la data validada, como la define el Requisito 4.
+
+- Mapeo con el lore: la función del Capítulo 03 devolvía Gold; acá la misma forma (contar,
+  asertar, devolver) produce Silver, que es la zona que esta fase valida.
+
+- Enmienda a la Fase 2: el casteo de stock a entero se movió a la etapa de transformación.
+  Limpiar incluye normalizar tipos, y separar un casteo por frontera de fase contradice la
+  regla de una responsabilidad por etapa. Orden: dropna() antes del cast.
+
+- Enmienda al Requisito 2 (con el DM): la deduplicación dejó de ser por nombre y pasó a ser por
+  fila completa (drop_duplicates()). Motivo: con el Silver deduplicado por nombre, la
+  agregación de la Fase 4 era una identidad —una fila por ingrediente— y el Requisito 1 no
+  tenía nada que sumar. Deduplicando por fila completa, dos entradas del mismo ingrediente con
+  stock distinto sobreviven y la suma pasa a tener sentido. El documento de requerimientos se
+  actualizó para que diga lo mismo que el código.
+
+- Datos de prueba: el fixture creció a 12 registros, con duplicados exactos (que colapsan) y
+  duplicados con valores distintos (que sobreviven para que el Gold sume).
+
+- DoD #3 (logging forense): transform y quality registran entradas y salidas con
+  logger.info y formato diferido (%d). El logging se configura en el punto de entrada
+  (Fase 5); hasta entonces los INFO no se ven, por diseño.
+
+- Tests (3): camino feliz con la pérdida dentro del límite, portón de reconciliación que
+  bloquea, portón de nulos que bloquea. Los tests arman la entrada llamando a la etapa real de
+  la Fase 2 y no duplican el cálculo de la tasa: provocan la condición y verifican el efecto.
+
+- Estado al cierre: 12 tests en verde, mypy limpio sobre 5 módulos.
+
+## [2026-09-23] - Fase 4: La Zona Gold y el Gran Archivo
+Etapas y módulos
+- Esta fase cubre dos etapas de la cadena: aggregate (produce Gold) y save (escribe en la base).
+  Siguiendo la regla de una responsabilidad por archivo: src/aggregate.py y src/save_gold.py.
+
+Mapa de formas (decisión)
+- La lista de dicts se mantiene hasta Silver, por fidelidad a la Quest 02 (costo declarado: cada
+  etapa que necesite columnas reconstruye el DataFrame).
+- Gold es un DataFrame. Cierra el pendiente de la Fase 0 ("la forma de Silver y Gold se decide
+  en su fase"). Justificación: el consumidor es to_sql, que exige un DataFrame; devolver una
+  lista obligaría a reconstruirlo para llamar a un solo método, sin ninguna ganancia.
+- Contrato: aggregate recibe la lista de Silver validado, reconstruye el DataFrame una vez,
+  agrega, y devuelve el DataFrame Gold. save_gold recibe el DataFrame Gold y el engine.
+
+Agregación (Zona Gold)
+- Grano: agrupación por name con suma de stock; la columna agregada se nombra total_stock para no confundirla con el stock de una fila.
+- Observación declarada: con el Silver ya deduplicado, cada nombre aparece una sola vez, así que
+  con los datos actuales la suma es idempotente sobre el stock de cada fila. Se implementa igual
+  porque es el grano que pide el Requisito 1 y porque protege ante duplicados futuros.
+
+Enmienda a la Fase 2
+- El casteo de stock a entero se mueve a la etapa de transformación (la entrada de la Fase 2
+  decía "solo se castea price"). Motivo: limpiar incluye normalizar tipos, y separar un casteo
+  por frontera de fase contradice la regla de una responsabilidad por etapa. Orden: dropna()
+  antes del cast.
+
+Persistencia y verificación
+- La Zona Gold no tiene archivo: su persistencia es la base (sqlite:///guild.db), tabla
+  clean_inventory.
+- Requisito 5 resuelto con logger y no con print (DoD #3): la consulta cruda se ejecuta con
+  text() + connect() + execute() + fetchall() (patrón del Capítulo 04) y el resultado se
+  registra con logger.info.
+- Nota: el logging todavía no está configurado (le corresponde al punto de entrada, Fase 5), así
+  que los INFO no se ven hasta entonces. La verificación manual de esta fase se hace desde un
+  script de scratch con basicConfig.
+- guild.db va al .gitignore, como data/: es un artefacto, no código.
+
+Consecuencia declarada
+- Con if_exists='append', cada corrida agrega filas sin destruir la tabla: dos corridas dejan
+  los datos duplicados en clean_inventory. Es lo que pide el Requisito 4; upsert y
+  truncate+load quedan fuera del alcance.
+
+## [2026-09-24]  - Cierre de la Fase 4
+- Requisitos cubiertos: 1 (agregación con Pandas → Gold), 2 (engine de SQLAlchemy),
+  3 (carga a clean_inventory), 4 (append sin destruir + sin índice), 5 (consulta cruda).
+- Extensión justificada: groupby, sum y rename no aparecen en ningún capítulo ni en
+  ninguna quest. El Requisito 1 manda usar Pandas para agregar y el lore nunca enseñó la
+  herramienta; el concepto sí está (Capítulo 00: Gold son agregaciones para negocio, y la
+  Quest 00 las resolvió con un diccionario de Python).
+- El engine se crea en los puntos de entrada (el fixture en los tests; el flow en la Fase 5,
+  leyendo DB_URL de config). La etapa lo recibe por parámetro, no es dueña de la conexión
+  (mismo criterio que fetch_market en la Fase 1). Ningún create_engine a nivel de módulo,
+  para no abrir conexiones al importar.
+- Constantes nuevas en config: GOLD_TABLE y DB_URL, en una sola casa.
+- Verificación del Requisito 5: dentro de save_gold_inventory, después del to_sql, la
+  consulta cruda con text / connect / execute / fetchall, y el conteo registrado con
+  logger.info.
+- Números de esta corrida: Bronze 12 → 11 (pérdida 8.33%, dentro del límite) → Silver 9 →
+  Gold 7 ingredientes. eye of newt en 55 (40+15) y dragon scale en 10 (7+3) prueban que
+  la agregación suma; el 22 de mandragora root solo, no probaría nada.
+- Estado: 16 tests en verde, mypy limpio sobre 7 módulos.
+- Pendiente declarado: la configuración del logging (punto de entrada, Fase 5).
 
 ## [Fecha] - Fase 5: El Gran Maestro Orquestador
 ...
