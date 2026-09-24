@@ -34,7 +34,7 @@ graph LR
 |---|---|:---:|---|
 | **`PY-BASICO`** | Python | ✅ **Done** | Sintaxis, estructuras de datos, control de flujo, scripting base. |
 | **`PY-POO`** | Python | ✅ **Done** | Programación Orientada a Objetos, TDD (`pytest`), modularización, logging y fixtures. |
-| **`SQL-BASICO`** | SQL | 🟡 **En Progreso** | DDL, constraints, CRUD (Cap 00-02 listos). Pendientes: JOINs, CTEs, Window Functions, ACID, Modelado dimensional (Cap 03-09 + Rite). |
+| **`SQL-BASICO`** | SQL | ✅ **Done** | DDL, constraints, CRUD, JOINs, CTEs, Window Functions, ACID, Modelado dimensional. |
 | **`DE-PIPELINES`** | Data Engineering | ✅ **Done** | Integración Python+SQL, consumo de APIs, Pandas, Data Quality, orquestación DAG local. |
 | **`CLOUD-AWS`** | Cloud Computing | ✅ **Done** | Almacenamiento S3, IAM roles/policies, RDS/Postgres, serverless Lambda, CloudWatch. |
 | **`PORT-CAPSTONE`** | Portafolio | ⚪ **Pendiente** | Pipeline monolítico productivo end-to-end + CI/CD en GitHub Actions + README en inglés. |
