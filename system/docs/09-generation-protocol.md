@@ -17,7 +17,8 @@ El generador opera sobre un subconjunto estricto del repositorio. **Está prohib
 | 1 | **Este protocolo** (`system/docs/09-generation-protocol.md`) | Instrucciones del pipeline | Solo lectura |
 | 2 | [`04-campaign-as-course.md`](04-campaign-as-course.md) | Reglas de estructura, nomenclatura, reglas de oro del lore | Solo lectura |
 | 3 | [`05-syllabus-maestro.md`](05-syllabus-maestro.md) | Competencias requeridas por chronicle | Solo lectura |
-| 4 | [`system/templates/chronicle-template.md`](../templates/chronicle-template.md) | Template de estructura de chronicle.md | Solo lectura |
+| 4a | [`system/templates/chronicle-template.md`](../templates/chronicle-template.md) | Template de estructura de chronicle.md | Solo lectura |
+| 4b | [`system/templates/rite-template.md`](../templates/rite-template.md) | Template de estructura del Rite (requirements.md) | Solo lectura |
 | 5 | `content/_generation/<CODE>/roadmap.md` | Estado actual del pipeline para la chronicle en generación | Lectura + Escritura |
 | 6 | `content/_generation/<CODE>/matriz-trazabilidad.md` | Inventario de términos/conceptos | Lectura + Escritura |
 | 7 | `content/subjects/<area>/chronicles/<CODE>/` | Directorio de output de la chronicle | Solo escritura |
@@ -186,18 +187,22 @@ content/_generation/<CHRONICLE-CODE>/
 
 ### PASO 7: Generación de Rite (Completo)
 
-**Input:** Todo aprobado (GATE 4 PASS) + `matriz-trazabilidad.md`.
+**Input:** Todo aprobado (GATE 4 PASS) + `matriz-trazabilidad.md` + `system/templates/rite-template.md`.
 **Acción:**
 1. Generar `rite/requirements.md` completo con:
    - Business Context y ROI del proyecto.
    - Fases desbloqueables (cada fase mapea a capítulos específicos del lore).
-   - Criterios de aceptación por fase.
+   - Criterios de aceptación por fase (requisitos específicos y verificables).
    - El Rite usa un dominio **DIFERENTE** al Domain Shifting del lore.
+   - Cada fase debe terminar con un requisito de Semantic Commit.
 2. Generar `rite/journal.md` como template vacío (el Operador lo llena durante el desarrollo).
 3. El Rite es un proyecto monolítico que integra TODAS las competencias de la chronicle.
 4. **Restricción:** El Rite solo puede exigir conceptos que estén en la `matriz-trazabilidad.md`.
 
-**Output:** `rite/requirements.md` + `rite/journal.md`.
+> [!CAUTION]
+> **El Rite NO es una Quest.** Está estrictamente prohibido generar archivos de solución (`solution.py`), tests pre-hechos (`test_rite.py`), o cualquier tipo de scaffolding de código. El Rite es un documento de requerimientos (PRD) con fases desbloqueables que el Operador construye **desde cero**, documentando su proceso en `journal.md`. La carpeta `rite/` solo debe contener `requirements.md` y `journal.md` al momento de la generación.
+
+**Output:** `rite/requirements.md` + `rite/journal.md`. **Nada más.**
 **Actualizar roadmap:** `paso_actual: gate_5`, `estado: listo_para_auditoria`, `requiere_aprobacion_humana: true`.
 
 ---
