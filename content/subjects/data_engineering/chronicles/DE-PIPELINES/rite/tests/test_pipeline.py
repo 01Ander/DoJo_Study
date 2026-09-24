@@ -11,6 +11,7 @@ from src.transform import transform_market_catalog
 from src.quality import validate_silver_market
 from src.aggregation import aggregate_silver_market
 from src.save_gold import save_gold_inventory
+from src.pipeline import pipeline
 
 
 FIXTURE = Path(__file__).parent / "fixtures" / "market_catalog.json"
@@ -196,3 +197,52 @@ def test_does_not_store_the_pandas_index(test_gold_df, test_engine):
     with test_engine.connect() as conn:
         result = conn.execute(text('SELECT * FROM clean_inventory'))
     assert list(result.keys()) == ['name', 'total_stock']
+
+
+# --------- Fase 5 ------------
+
+@responses.activate
+def test_extract_task_retries_on_transient_failure():
+    responses.add(responses.GET, MARKET_URL, json={
+        "error": "market unavailable"}, status=500)
+    responses.add(responses.GET, MARKET_URL, json={
+        "error": "market unavailable"}, status=500)
+    responses.add(responses.GET, MARKET_URL, json=load_payload(), status=200)
+
+    result = fetch_market(MARKET_URL, MARKET_TOKEN)
+
+    assert len(responses.calls) == 3
+    assert len(result['results']) == 12
+
+
+@responses.activate
+def test_pipeline_loads_gold_into_the_database(tmp_path):
+    responses.add(responses.GET, MARKET_URL, json=load_payload(), status=200)
+    db_url = f"sqlite:///{tmp_path / 'guild.db'}"
+    pipeline(db_url=db_url)
+    new_engine = create_engine(db_url)
+    with new_engine.connect() as conn:
+        result = conn.execute(text('SELECT * FROM clean_inventory')).fetchall()
+    assert len(result) == 7
+    totals = {}
+    for row in result:
+        totals[row[0]] = row[1]
+    assert totals["eye of newt"] == 55
+
+
+@responses.activate
+def test_pipeline_stops_when_the_quality_gate_fails(tmp_path):
+    payload = load_payload()
+    payload["results"][0]["stock"] = None
+    responses.add(responses.GET, MARKET_URL, json=payload, status=200)
+    db_url = f"sqlite:///{tmp_path / 'guild.db'}"
+
+    with pytest.raises(AssertionError):
+        pipeline(db_url=db_url, bronze_dir=str(tmp_path))
+    assert not (tmp_path / "guild.db").exists()
+
+
+def test_stages_are_prefect_tasks():
+    assert fetch_market.retries == 3
+    assert hasattr(transform_market_catalog, "name"), "Missing @task decorator"
+    assert pipeline.name == "Dark_Market_Pipeline"

@@ -1,9 +1,11 @@
 import logging
 import pandas as pd
+from prefect import task
 
 logger = logging.getLogger(__name__)
 
 
+@task
 def aggregate_silver_market(silver_records: list[dict]) -> pd.DataFrame:
 
     logger.info('Records received: %d', len(silver_records))

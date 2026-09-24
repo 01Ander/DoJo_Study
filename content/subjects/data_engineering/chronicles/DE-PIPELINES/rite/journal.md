@@ -337,5 +337,75 @@ Consecuencia declarada
 - Estado: 16 tests en verde, mypy limpio sobre 7 módulos.
 - Pendiente declarado: la configuración del logging (punto de entrada, Fase 5).
 
-## [Fecha] - Fase 5: El Gran Maestro Orquestador
-...
+## [2026-09-24] - Fase 5: El Gran Maestro Orquestador
+Decisiones
+- El flow vive en src/pipeline.py y es el punto de entrada: es el dueño de las dos cosas que
+  quedaron pendientes en fases anteriores —la configuración del logging (basicConfig) y la
+  creación del engine (create_engine(DB_URL))—. Hasta acá los INFO de las etapas no se veían
+  porque nadie configuraba el logging; con el flow, sí.
+- El flow recibe la URL de la base como parámetro (db_url: str = DB_URL) y no un engine:
+  un string es serializable como parámetro de Prefect, y los tests pueden apuntar a un archivo
+  temporal en lugar de guild.db, con lo cual la verificación posterior al flow es posible.
+- Reintentos: @task(retries=2, retry_delay_seconds=0) en la extracción. El delay en 0 para
+  que los tests no esperen; en producción se ajustaría ese valor.
+- El corte del pipeline no necesita código: si el portón de calidad levanta, Prefect marca la
+  tarea como fallida y las etapas siguientes no se ejecutan. Verificado con un probe.
+- "Un solo comando": python -m src.pipeline desde la raíz de rite/, con un bloque
+  if name == "main".
+
+Cierre del Rite DE-PIPELINES (2026-09-24)
+- Seis fases cerradas. Cadena final: extract → load → transform → verify → aggregate → save,
+  orquestada con Prefect en src/pipeline.py.
+- Estado: 20 tests en verde, mypy limpio sobre 8 módulos, y el pipeline ejecutable con un
+  solo comando (python -m src.pipeline desde la raíz de rite/, con el intérprete de la .venv
+  nombrado por ruta).
+
+Mapa de formas por etapa
+| etapa       | módulo                                      | recibe                      | devuelve                      |
+|-------------|---------------------------------------------|-----------------------------|-------------------------------|
+| extract     | src/extract.py::fetch_market                | url, token                  | payload (dict)                |
+| load        | src/extract.py::load_raw                    | payload, directorio         | ruta del archivo Bronze       |
+| transform   | src/transform.py::transform_market_catalog  | ruta del Bronze             | list[dict] limpio             |
+| verify      | src/quality.py::validate_silver_market      | ruta del Bronze + registros | list[dict] Silver             |
+| aggregate   | src/aggregation.py::aggregate_silver_market | Silver                      | DataFrame Gold                |
+| save        | src/save_gold.py::save_gold_inventory       | Gold + engine               | efecto: tabla clean_inventory |
+| orchestrate | src/pipeline.py::pipeline                   | db_url, bronze_dir          | efecto: pipeline completo     |
+
+Zonas
+- Bronze: un archivo JSON por corrida, marca de tiempo UTC, append-only.
+- Silver: lista de dicts validada (portones de reconciliación, deduplicación y nulos).
+- Gold: DataFrame agregado por ingrediente, persistido en SQLite, tabla clean_inventory.
+
+Estrategia del mercado
+- El mercado se resuelve con un servidor local que sirve el fixture
+  (http://localhost:8000/market_catalog.json), apuntado desde config.py.
+- En los tests, responses intercepta esa misma URL, así que la suite corre sin ningún
+  servidor levantado.
+
+Extensiones justificadas
+1. json.load / json.dump (Fase 2): el lore enseñó a parsear la respuesta HTTP; leer y
+   escribir el archivo de Bronze es el puente hacia la zona en disco.
+2. groupby / sum / rename (Fase 4): el Requisito 1 manda agregar con Pandas y el lore
+   nunca enseñó la herramienta. El concepto sí está en el Capítulo 00; la Quest 00 agregaba
+   con un diccionario de Python.
+
+Decisiones transversales
+- Una responsabilidad = un módulo; las etapas no se llaman entre sí: el flow pasa el testigo.
+- config.py es la única casa de los ajustes (URL, token, directorio, llave del payload,
+  columnas críticas, tabla, URL de la base).
+- El engine y la configuración del logging pertenecen al punto de entrada, nunca a los módulos
+  de etapa.
+- El portón de calidad lee el Bronze por su cuenta en lugar de confiar en un número reportado
+  por la etapa que audita (independencia de la verificación).
+
+Deuda declarada (fuera del alcance del Rite)
+- URL y token hardcodeados en config.py: la gestión de secretos no está en el syllabus de
+  esta chronicle.
+- La tabla se anexa sin upsert: cada corrida acumula filas.
+- El logging se configura en el flow; no hay niveles por módulo ni rotación.
+
+Evidencia
+- Suite: 20 tests en verde, mypy limpio sobre 8 módulos.
+- Corrida real: guild.db con las 7 filas de clean_inventory, y archivos Bronze en data/.
+- Corrida con el mercado caído: reintentos visibles y el pipeline detenido sin escribir en
+  la base.

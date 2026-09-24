@@ -2,10 +2,12 @@ import pandas as pd
 import json
 import logging
 from src.config import RESULT_KEY
+from prefect import task
 
 logger = logging.getLogger(__name__)
 
 
+@task
 def transform_market_catalog(path: str) -> list[dict]:
     with open(path, encoding='utf-8') as fh:
         payload = json.load(fh)

@@ -1,12 +1,14 @@
 import json
 import logging
 import pandas as pd
+from prefect import task
 from src.config import RESULT_KEY, CRITICAL_COLUMNS
 
 
 logger = logging.getLogger(__name__)
 
 
+@task
 def validate_silver_market(bronze_path: str, records: list) -> list[dict]:
     with open(bronze_path, encoding='utf-8') as fh:
         payload = json.load(fh)

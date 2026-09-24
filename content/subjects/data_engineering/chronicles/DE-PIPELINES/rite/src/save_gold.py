@@ -3,10 +3,12 @@ import pandas as pd
 from sqlalchemy import text
 from sqlalchemy.engine import Engine
 from src.config import GOLD_TABLE
+from prefect import task
 
 logger = logging.getLogger(__name__)
 
 
+@task
 def save_gold_inventory(df_gold: pd.DataFrame, db_engine: Engine) -> None:
 
     df_gold.to_sql(
