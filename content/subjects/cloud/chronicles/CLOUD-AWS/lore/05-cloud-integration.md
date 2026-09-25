@@ -16,8 +16,8 @@ Es hora de ensamblar el reloj. Hemos estudiado IAM, S3, RDS, Lambda y CloudWatch
 
 ## 3. Variables de Entorno Nativas
 
-**QUÉ es:** En nuestra computadora, simulábamos el entorno leyendo el archivo `.env` mediante `python-dotenv`. En AWS Lambda, **ese archivo `.env` no existe ni debe subirse jamás**.
-**POR QUÉ importa:** Las contraseñas de producción de RDS no se empaquetan en código. En Lambda, las variables de entorno se inyectan de forma segura directamente desde la configuración de la consola web de AWS. Python las lee usando `os.environ` nativamente, sin librerías externas.
+Como aprendimos en la lección de Lambda (Cap 03), en AWS Lambda **el archivo `.env` no existe ni debe subirse jamás**.
+Las contraseñas de producción de RDS no se empaquetan en el código fuente. Se inyectan de forma segura directamente desde la configuración de la consola web de AWS. Python las lee usando `os.environ` nativamente.
 
 ## 4. Setup Inicial (Zero Assumption)
 
@@ -91,14 +91,13 @@ def lambda_handler(event, context):
         # 5. Confirmar transacción
         conn.commit()
         logger.info(f"✅ Inserción guardada para dragón {dragon_id}")
-        return {'statusCode': 200, 'body': 'ETL Cloud Completado'}
-
+        
     except Exception as e:
         # 6. Tolerancia a Fallos
         if conn:
             conn.rollback() # Deshacer datos "a medias"
         logger.error(f"❌ Fallo E2E: {str(e)}")
-        return {'statusCode': 500, 'body': 'Error ETL'}
+        raise e # Relanzamos para que CloudWatch marque la Lambda como fallida
         
     finally:
         # 7. Limpieza Absoluta e incondicional

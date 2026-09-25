@@ -86,6 +86,33 @@ except Exception as e:
 - `hoy.strftime('%Y')`: Extrae año a 4 dígitos (`%Y`), mes (`%m`) o día (`%d`).
 - `s3_client.put_object(...)`: Llama a la API de S3 para subir un objeto. `Bucket` es el destino, `Key` la ruta simulada y `Body` el string JSON crudo.
 
+### El Camino Robusto (Lectura y Decodificación)
+**🎯 Objetivo de Negocio:** Descargar un reporte previamente guardado y convertirlo de un flujo de bytes a un diccionario de Python.
+
+```python
+import boto3
+import json
+
+s3_client = boto3.client('s3')
+
+try:
+    # 1. Descargamos el archivo desde S3
+    response = s3_client.get_object(
+        Bucket="alimento-dragones-pantano-prod",
+        Key="raw/explosiones/2026/09/24/dragon_42.json"
+    )
+    
+    # 2. Decodificamos el archivo binario a un diccionario
+    payload = json.loads(response['Body'].read().decode('utf-8'))
+    print(f"✅ Dieta leída correctamente: {payload['dieta']}")
+    
+except Exception as e:
+    print(f"❌ Error al leer de S3: {e}")
+```
+
+*Zero Surprise Syntax:*
+- `response['Body'].read().decode('utf-8')`: Cuando AWS responde a `get_object`, no entrega texto directamente, sino un flujo de bytes en el campo `Body`. El método `.read()` extrae esos bytes, y `.decode('utf-8')` los convierte a un string legible que `json.loads` puede transformar en un diccionario.
+
 ## 6. Conexión con Testing (Test-Driven Lore)
 
 Cuando testeas código que interactúa con S3 y con fechas dinámicas, te encuentras con dos problemas: no quieres subir archivos reales, y el "día de hoy" cambia todos los días. 
