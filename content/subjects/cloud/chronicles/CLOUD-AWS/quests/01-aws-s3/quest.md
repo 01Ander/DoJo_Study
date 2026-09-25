@@ -21,4 +21,4 @@ Construir una función que empaquete el reporte de alimentación de un dragón y
    - **Salida (Retorno):** Si la subida a S3 es exitosa, la función debe retornar el string exacto de la ruta (`key`) generada.
    - **Manejo de Errores:** Si `boto3` lanza una excepción (ej. no tienes conexión o no existe el bucket), debes atraparla y retornar `None`.
 
-> **Scaffolding Nivel 2:** El test ya está escrito por ti y usa un "parche" (mock) para congelar el tiempo (usando la librería `freezegun` internamente en el test) y simular a AWS S3. Lee los tests si tienes dudas sobre qué espera exactamente la evaluación.
+> **Scaffolding Nivel 2:** Implementa tu código en `my_solution.py` siguiendo las guías. En `test_my_solution.py`, el andamiaje del "mock" ya está configurado para simular a AWS S3 y congelar el tiempo. Solo debes completar el llamado a la función y su aserción.

@@ -25,4 +25,4 @@ Escribir la función principal (handler) que AWS Lambda invocará automáticamen
      }
      ```
 
-> **Scaffolding Nivel 4:** Estás casi solo. El archivo de pruebas inyectará eventos de mentira, simulando lo que haría AWS en la vida real. Tu trabajo es construir el handler y explorar la estructura interna del Payload de S3 tal como se mostró en el Capítulo 03.
+> **Scaffolding Nivel 4:** Estás casi solo. Implementa la función en `my_solution.py`. El archivo de pruebas `test_my_solution.py` ya está escrito pero sin pistas; inyectará eventos simulados a tu función. Ejecuta `pytest test_my_solution.py` para validar tu código.

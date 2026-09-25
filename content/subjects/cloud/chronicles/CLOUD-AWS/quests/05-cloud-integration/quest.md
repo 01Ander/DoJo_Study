@@ -17,4 +17,4 @@ Construir el Pipeline Definitivo: Una función Lambda que se dispare por un arch
    - **Paso 6 (Limpieza Absoluta):** Sin importar el éxito o el fracaso, usa el bloque `finally` para asegurarte de que, si la conexión existe, se cierre con `conn.close()`.
 3. **Salida:** Si todo es exitoso, retorna `{'statusCode': 200, 'body': 'ETL Cloud Completado'}`.
 
-> **Scaffolding Nivel 5:** Construye el pipeline completo. Los tests automatizados simularán todo el ecosistema de AWS para evaluar si manejaste correctamente las transacciones y la limpieza de recursos. ¡Buena suerte, Arquitecto!
+> **Scaffolding Nivel 5 (100% Autónomo):** Recibes `my_solution.py` y `test_my_solution.py` vacíos. Debes construir el pipeline completo y diseñar tus propios tests utilizando mocks para simular el ecosistema de AWS. Los archivos de referencia siguen ahí si te bloqueas irreversiblemente. ¡Buena suerte, Arquitecto!

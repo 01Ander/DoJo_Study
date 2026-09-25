@@ -15,4 +15,4 @@ Crear una función robusta que consulte el `nivel_inestabilidad` de un dragón e
    - **Salida (Retorno):** Debe retornar el número entero (ej. `89`) del nivel. Si la consulta no trae resultados, o si ocurre un error de red (excepción), debe retornar `None`.
    - **Obligatorio:** Utiliza un bloque `try/except/finally` para garantizar que la conexión (`conn.close()`) se ejecute SIEMPRE al terminar, previniendo conexiones zombie en el servidor.
 
-> **Scaffolding Nivel 3:** En este nivel, el esqueleto básico ya no te lo damos. Debes armar la estructura lógica de conexión y de limpieza basándote en el Cap 02 y Cap 05. Los tests revisarán no solo tu respuesta, sino que `conn.close()` haya sido llamado estrictamente.
+> **Scaffolding Nivel 3:** En `my_solution.py`, el esqueleto solo incluye comentarios de alto nivel. Debes armar la estructura lógica de conexión y limpieza. En `test_my_solution.py` deberás armar las aserciones. Los tests de referencia (que puedes consultar después) revisarán no solo tu respuesta, sino que `conn.close()` haya sido llamado estrictamente.
