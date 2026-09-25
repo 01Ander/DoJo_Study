@@ -19,6 +19,8 @@ El generador opera sobre un subconjunto estricto del repositorio. **Está prohib
 | 3 | [`05-syllabus-maestro.md`](05-syllabus-maestro.md) | Competencias requeridas por chronicle | Solo lectura |
 | 4a | [`system/templates/chronicle-template.md`](../templates/chronicle-template.md) | Template de estructura de chronicle.md | Solo lectura |
 | 4b | [`system/templates/rite-template.md`](../templates/rite-template.md) | Template de estructura del Rite (requirements.md) | Solo lectura |
+| 4c | [`system/templates/lore-template.md`](../templates/lore-template.md) | Template de estructura base para capítulos de lore | Solo lectura |
+| 4d | [`system/docs/06-convenciones-codigo.md`](06-convenciones-codigo.md) | Reglas de industria y convenciones heredadas de Chronicles pasadas | Solo lectura |
 | 5 | `content/_generation/<CODE>/roadmap.md` | Estado actual del pipeline para la chronicle en generación | Lectura + Escritura |
 | 6 | `content/_generation/<CODE>/matriz-trazabilidad.md` | Inventario de términos/conceptos | Lectura + Escritura |
 | 7 | `content/subjects/<area>/chronicles/<CODE>/` | Directorio de output de la chronicle | Solo escritura |
@@ -65,6 +67,7 @@ content/_generation/TEMPLATE-roadmap.md
 - `system/docs/09-generation-protocol.md` (este documento)
 - `system/docs/04-campaign-as-course.md`
 - `system/docs/05-syllabus-maestro.md`
+- `system/docs/06-convenciones-codigo.md`
 
 **Output:** Contexto cargado. No se genera ningún archivo.
 **Actualizar roadmap:** `paso_actual: 1`, `estado: en_progreso`.
@@ -118,9 +121,9 @@ content/_generation/<CHRONICLE-CODE>/
 **Input:** Competencias del syllabus (PASO 1) + template de chronicle.
 **Acción:**
 1. Redactar `chronicle.md` con: Business Context, ROI, Technical Objective, Syllabus (lista de capítulos con títulos descriptivos), Definition of Done.
-2. **Cada capítulo debe tener un título que refleje EXACTAMENTE los conceptos que se enseñarán.** No usar términos en títulos que no se definirán en el lore.
+2. **Cada capítulo debe tener un título que refleje EXACTAMENTE los conceptos que se enseñarán.** No usar términos en títulos que no se definen.
 3. Definir el dominio de Domain Shifting (distinto al dominio del Rite).
-4. Definir el Rite con sus fases desbloqueables (al menos el esqueleto de nombre y mapeo a capítulos).
+4. **Diseño Guiado por el Rito (Rite-Driven Design):** En la sección del Rite de `chronicle.md`, definir explícitamente TODAS las fases desbloqueables y listar los **Requerimientos Técnicos** exactos que el Operador tendrá que implementar en cada fase (ej. "Tendrá que descargar un JSON con boto3", "Tendrá que hacer un insert con DBAPI"). Estos requerimientos técnicos actuarán como la "lista de compras" obligatoria para el Lore.
 
 **Output:** `chronicle.md` completo.
 **Actualizar roadmap:** `paso_actual: gate_1`, `estado: listo_para_auditoria`, `requiere_aprobacion_humana: true`.
@@ -138,10 +141,15 @@ content/_generation/<CHRONICLE-CODE>/
    - **POR QUÉ** importa (consecuencia de no hacerlo / valor de negocio).
 2. **Domain Shifting:** Todos los ejemplos de código usan el dominio temático elegido en `chronicle.md` (nunca el del Rite).
 3. **Zero Assumption:** Instrucciones de setup si hay herramienta nueva.
-4. **Zero Surprise Syntax:** Todo operador/función/keyword nuevo se desglosa (qué, por qué, cómo). Aplica tanto para el tema central como para cualquier recurso auxiliar en un bloque de código.
+4. **Zero Surprise Syntax:** Todo operador/función/keyword nuevo se desglosa.
 5. **Objetivo de Negocio:** Todo ejemplo empieza con `🎯 Objetivo de Negocio:`.
-6. **Densidad para Cap 03+:** Mínimo 2 analogías de la vida real + 2-3 ejemplos progresivos (mal camino → buen camino).
-7. **Actualizar Matriz de Trazabilidad:** Al final de cada capítulo, agregar a `matriz-trazabilidad.md` todos los términos/conceptos introducidos, indicando el nivel de profundidad (Qué/Cómo/Por qué) y la competencia del syllabus que cubren.
+6. **Diseño Guiado por el Rito (Regla de Simetría):** Lee los requerimientos técnicos definidos para el Rite en `chronicle.md`. Tu Lore DEBE enseñar explícitamente (en los "Caminos Robustos") cada una de las habilidades que el Rite exigirá. Si el Rite pide "descargar un objeto", el Lore no puede enseñar solo a "subir un objeto".
+7. **Densidad por Complejidad:** Si el concepto es abstracto, arquitectónico o de lógica compleja, aplicar: mínimo 2 analogías de la vida real + 2-3 ejemplos progresivos (mal camino → buen camino). Conceptos atómicos/configurativos pueden usar 1 solo ejemplo.
+8. **Conexión con Testing (Regla Crítica del Ciclo AAA):** TDD es el pilar del DoJo. Todo capítulo debe incluir una sección final que enseñe **cómo probar** la tecnología. Los ejemplos de testing en el Lore **JAMÁS deben quedarse a medias** (ej. solo configurar el Mock). Deben mostrar el ciclo completo de TDD: Arrange (preparar mock), Act (llamar a la función real) y Assert (validar el resultado).
+9. **Cobertura de Scaffolding:** Toda sintaxis o herramienta de testing usada en los archivos `test_*.py` de las Quests (ej. `side_effect`, `pytest.raises`, fixtures) **DEBE** ser enseñada explícitamente en el Lore correspondiente bajo la regla de Zero Surprise Syntax. No puede haber código en el test de la Quest que el Operador no entienda.
+10. **Anti-Compresión (Desglose Teórico):** No licuar/comprimir conceptos independientes en un solo bloque introductorio. El capítulo debe dividirse en múltiples encabezados `##` si hay distintos sub-temas (ej. Roles vs Policies) para garantizar la profundidad académica.
+11. **Rigor de Empleabilidad:** Asegurar que el código refleja estándares de la industria actual para un primer empleo tech. Prohibidos los "atajos de tutorial" (ej. retornar códigos HTTP en lambdas asíncronas, ignorar limpieza de conexiones, usar formatos frágiles). El Lore debe estar perfectamente alineado con las exigencias del Rito final.
+12. **Actualizar Matriz de Trazabilidad:** Al final de cada capítulo, agregar a `matriz-trazabilidad.md` todos los términos/conceptos introducidos (incluyendo los de testing), indicando el nivel de profundidad (Qué/Cómo/Por qué) y la competencia del syllabus que cubren.
 
 **Output:** Archivo `lore/NN-titulo.md` por cada capítulo + `matriz-trazabilidad.md` actualizada.
 **Actualizar roadmap:** Después de generar TODOS los capítulos: `paso_actual: gate_2`, `estado: listo_para_auditoria`.
@@ -180,7 +188,22 @@ content/_generation/<CHRONICLE-CODE>/
 7. **Objetivos Completos (Lección de DE-PIPELINES Cap 04-05):** Cada objetivo en `quest.md` que pida crear una función DEBE describir: qué hace la función (su propósito), qué recibe, y qué retorna o qué efecto produce. No basta con indicar solo el nombre y la firma.
 8. **Objetivos Autosuficientes:** Si un objetivo requiere que el Operador use un mecanismo específico para llegar a la solución (ej. verificar atributos inyectados por decoradores, usar métodos de una librería en cierta combinación), el objetivo DEBE explicar ese mecanismo con suficiente detalle para que el Operador pueda implementarlo sin adivinar. El `quest.md` debe ser navegable de forma autónoma hacia la solución.
 
-**Output:** Carpetas de quests completas con instrucciones, soluciones y tests.
+> [!CAUTION]
+> **Separación de Archivos y Scaffolding Real (Lección de CLOUD-AWS):**
+>
+> **Regla de archivos:** `solution.py` es la **solución de referencia**. Aunque el Operador tiene acceso directo al archivo, confiamos en su disciplina para no abrirlo hasta tener su propia solución. El generador debe elegir una de estas dos modalidades de andamiaje:
+>
+> - **Modalidad Inline (quests simples):** Si la quest se puede resolver sin mocks externos ni importaciones complejas, las funciones a implementar (con cuerpo `pass`) van **dentro del archivo de tests**, y los tests las llaman directamente. `solution.py` queda como referencia silenciosa.
+> - **Modalidad Separada (quests con mocks/imports):** Si los tests requieren parchear rutas de importación (ej. `@patch('my_solution.boto3.client')`), se genera un archivo esqueleto (ej. `my_solution.py`) con las firmas de las funciones y cuerpo `pass`. Los tests importan de ese archivo. `solution.py` queda como referencia silenciosa. El `quest.md` debe indicar explícitamente en qué archivo escribir.
+>
+> **Regla de scaffolding progresivo real:**
+> - **Capítulos tempranos (00-02):** El esqueleto incluye firmas de funciones, imports necesarios, y comentarios-guía. Los tests pueden estar parcialmente escritos.
+> - **Capítulos intermedios (03-04):** El esqueleto incluye solo firmas vacías sin comentarios-guía. Tests completos pero sin pistas.
+> - **Capítulos finales (05+):** El Operador recibe un archivo vacío (o sin archivo) y debe construir todo desde cero. El `quest.md` es su única guía.
+>
+> En **todos los niveles**, el Operador debe poder completar el ejercicio trabajando sobre sus propios archivos o esqueletos, sin verse forzado a mirar `solution.py`.
+
+**Output:** Carpetas de quests completas con instrucciones, soluciones de referencia y tests.
 **Actualizar roadmap:** `paso_actual: gate_4`, `estado: listo_para_auditoria`.
 
 ---
@@ -249,9 +272,12 @@ Al pasar de un paso de generación a su gate, el roadmap se marca como `estado: 
 - [ ] ¿Se cumple Domain Shifting? (ningún ejemplo usa el dominio del Rite)
 - [ ] ¿Se cumple Zero Assumption? (herramientas nuevas tienen instrucciones de setup)
 - [ ] ¿Se cumple Zero Surprise Syntax? (toda sintaxis nueva está desglosada con qué/por qué/cómo)
-- [ ] ¿Todo ejemplo tiene `🎯 Objetivo de Negocio` explícito?
-- [ ] ¿No hay redacción que induzca al error? (revisar "extra", "puedes", "a veces" cuando algo es obligatorio)
-- [ ] ¿Capítulos 03+ tienen ≥2 analogías y ≥2 ejemplos progresivos (mal → buen camino)?
+- [ ] ¿Todo ejemplo tiene `🎯 Objetivo de Negocio` explícito? **¿Ese objetivo queda efectivamente resuelto en su totalidad por el código enseñado (o se declara explícitamente fuera de alcance)?**
+- [ ] **Desglose Teórico y Anti-Compresión:** ¿Los sub-conceptos independientes dentro del capítulo (ej. Roles vs Policies) tienen su propio encabezado `##` para asegurar densidad, evitando ser licuados en un solo párrafo?
+- [ ] ¿Los conceptos abstractos o arquitectónicos cumplen la regla de Densidad (≥2 analogías y ejemplos progresivos mal → buen camino)?
+- [ ] **Anti-Tutorial Traps / Rigor de Empleabilidad:** ¿El código enseñado refleja estándares de producción? (Manejo correcto de operaciones asíncronas vs síncronas, inyección de dependencias seguras sin hardcodeo, y limpieza explícita de recursos como conexiones a DB).
+- [ ] **Cumplimiento de Convenciones Transversales:** ¿El código respeta absolutamente TODAS las reglas estipuladas en `06-convenciones-codigo.md` (ej. uso de Domain Exceptions, ciclo AAA estricto)? Citar explícitamente cuál convención aplica y si se cumplió, para evitar regresiones de industria.
+- [ ] **¿Existe la sección "Conexión con Testing"?** Verifica que el capítulo enseñe cómo probar el concepto e incluya la explicación de herramientas avanzadas de test (como mocks) si la naturaleza de la tecnología lo exige (ej. APIs, AWS).
 
 **Checklist global:**
 - [ ] ¿La `matriz-trazabilidad.md` cubre TODAS las competencias del syllabus para esta chronicle?
@@ -297,11 +323,13 @@ Al pasar de un paso de generación a su gate, el roadmap se marca como `estado: 
 
 **Checklist por quest:**
 - [ ] ¿La solución usa SOLO sintaxis enseñada en Cap 0..N del lore?
+- [ ] **Scaffolding Coverage:** Si los archivos de prueba (`test_*.py`) incluyen sintaxis, herramientas o fixtures avanzadas (ej. `side_effect`, `pytest.raises`), ¿fueron estas explícitamente enseñadas en el lore correspondiente? (La regla Zero Surprise Syntax aplica al scaffolding).
 - [ ] ¿Las instrucciones (`quest.md`) son claras sin necesidad de consultar el lore para entender el enunciado?
 - [ ] ¿Los tests validan el comportamiento esperado de la solución?
 - [ ] ¿No hay keywords/funciones "huérfanas" en la solución que no aparezcan en el lore?
 - [ ] ¿Cada objetivo que pide crear una función describe su propósito, qué recibe y qué retorna/produce?
 - [ ] ¿Cada objetivo es autosuficiente para llegar a la solución sin adivinar mecanismos no explicados?
+- [ ] **¿El Operador puede completar el ejercicio?** Verificar que el scaffolding sea real (esqueletos progresivos). El archivo `solution.py` estará presente, pero el sistema debe proveer los esqueletos/instrucciones necesarias para que el operador no necesite leerlo para completarlo. Los tests deben importar del archivo esqueleto o test, no de `solution.py`.
 
 **Si PASS:** Actualizar roadmap → `paso_actual: 7`, `estado: en_progreso`.
 **Si FAIL:** Registrar hallazgo, corregir, re-auditar.
@@ -329,7 +357,9 @@ Al pasar de un paso de generación a su gate, el roadmap se marca como `estado: 
 - [ ] ¿El Rite usa un dominio DIFERENTE al Domain Shifting del lore?
 - [ ] ¿El Rite tiene fases desbloqueables que cubren todas las competencias?
 
-**Si PASS:** Actualizar roadmap → `estado: completado`. La chronicle está lista para estudio.
+**Si PASS:** 
+1. **Actualización de Convenciones:** Si el Rite estableció un patrón nuevo de industria, añadirlo a `system/docs/06-convenciones-codigo.md`.
+2. Actualizar roadmap → `estado: completado`. La chronicle está lista para estudio.
 **Si FAIL:** Registrar hallazgo, corregir el componente afectado, re-auditar.
 
 ---
