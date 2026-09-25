@@ -2,19 +2,29 @@
 
 Una vez que tenemos nuestras llaves de acceso, podemos empezar a interactuar con los recursos en la nube. En AWS, la base del almacenamiento y de los Data Lakes modernos es **Amazon S3**.
 
-## 1. El Concepto Principal (Qué y Por qué)
+## 1. Buckets y Objetos
 
-**QUÉ es:** S3 (*Simple Storage Service*) es un servicio de almacenamiento de objetos diseñado para guardar y recuperar datos infinitos. No usa "carpetas" reales, sino contenedores globales llamados **Buckets** y archivos llamados **Objects**.
-**POR QUÉ importa:** Es extremadamente barato, altamente duradero (99.999999999% de durabilidad) y se integra nativamente con herramientas analíticas. Guarda los datos como llegaron (Ingesta de Payload crudo JSON) o procesados (Formato columnar Parquet).
+**QUÉ es:** S3 (*Simple Storage Service*) es un servicio de almacenamiento de objetos diseñado para guardar y recuperar datos virtualmente infinitos. A diferencia de tu computadora (que usa un sistema jerárquico de carpetas en un disco duro local), S3 tiene una arquitectura plana. Usa contenedores globales llamados **Buckets** y archivos individuales llamados **Objects**.
+**POR QUÉ importa:** Al ser plano, puede escalar masivamente. Los nombres de los buckets son únicos globalmente en todo el mundo. Si alguien ya registró el bucket `dragones-db`, ese nombre estará bloqueado para ti.
 
-> **Densidad (Analogía del Gremio de Dragones):**
-> S3 es como los interminables sótanos de la Universidad Invisible, pero sin el riesgo de que la magia altere los pergaminos. Creas un "Bucket" que funge como la gran bóveda inmutable. Los nombres de los buckets son únicos globalmente. Si alguien en el mundo ya nombró su bóveda `dragones-db`, tú no podrás usar ese nombre.
+*Analogía del Gremio:* S3 es como los interminables sótanos de la Universidad Invisible, pero sin el riesgo de que la magia altere los pergaminos. Creas un "Bucket" que funge como tu gran bóveda inmutable.
 
-## 2. Setup Inicial (Zero Assumption)
+## 2. Arquitectura de Data Lake (Date Partitioning)
+
+**QUÉ es:** Aunque S3 es plano, podemos simular "carpetas" en la ruta del objeto (su *key*). El **Date Partitioning** (Particionamiento por Fecha) es la convención obligatoria en ingeniería de datos de organizar estas llaves usando tiempo, típicamente `año/mes/día/archivo.json`.
+**POR QUÉ importa:** Si lanzas millones de archivos a la raíz de un bucket, los motores analíticos tendrán que leer (y cobrarte) por todo el bucket cada vez que busques algo de "hoy". Al particionar, el motor filtra instantáneamente la "carpeta" de hoy (`2026/09/25/`), reduciendo los costos analíticos en un 99% y acelerando las consultas.
+
+## 3. Formatos de Almacenamiento (JSON vs Parquet)
+
+En un Data Lake, los datos pasan por varias fases de limpieza, y el formato de almacenamiento cambia según la necesidad:
+- **Ingesta Raw (JSON):** Cuando un sistema nos envía datos, llegan comúnmente en JSON. Guardamos el JSON crudo en S3 sin alterarlo. Es nuestra "fuente inmutable de la verdad" por si algo falla después. Es fácil de leer para los humanos pero ineficiente para búsquedas matemáticas.
+- **Lectura Analítica (Parquet):** Una vez limpios, los datos se convierten a formato `.parquet`. A diferencia del JSON (basado en filas), Parquet es un formato **columnar**. Comprime enormemente la información, agrupa valores similares y permite a los motores analíticos saltarse columnas enteras que no necesitan, procesando gigabytes en milisegundos.
+
+## 4. Setup Inicial (Zero Assumption)
 
 Asumiendo que ya posees `boto3` instalado y tu `.env` configurado, puedes interactuar nativamente con S3.
 
-## 3. Implementación (Cómo)
+## 5. Implementación (Cómo)
 
 ### El Camino Frágil (Si aplica por complejidad)
 **🎯 Objetivo de Negocio:** Guardar el reporte diario de la dieta de un dragón crudo en S3 para llevar un registro histórico inmutable.
@@ -76,7 +86,7 @@ except Exception as e:
 - `hoy.strftime('%Y')`: Extrae año a 4 dígitos (`%Y`), mes (`%m`) o día (`%d`).
 - `s3_client.put_object(...)`: Llama a la API de S3 para subir un objeto. `Bucket` es el destino, `Key` la ruta simulada y `Body` el string JSON crudo.
 
-## 4. Conexión con Testing (Test-Driven Lore)
+## 6. Conexión con Testing (Test-Driven Lore)
 
 Cuando testeas código que interactúa con S3 y con fechas dinámicas, te encuentras con dos problemas: no quieres subir archivos reales, y el "día de hoy" cambia todos los días. 
 
@@ -100,6 +110,6 @@ def test_guardar(mock_boto):
     pass
 ```
 
-## 5. Mapa de Ejercicios
+## 7. Mapa de Ejercicios
 
 Aplica este concepto en `quests/01-aws-s3/` implementando un *ingestor* crudo que divida correctamente las particiones.

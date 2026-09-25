@@ -2,17 +2,24 @@
 
 S3 es perfecto para guardar millones de archivos crudos y masivos a muy bajo costo, pero no es una base de datos relacional; no puedes hacer consultas `JOIN` de manera nativa. Para esto, usamos **Amazon RDS**.
 
-## 1. El Concepto Principal (Qué y Por qué)
+## 1. Bases de Datos Administradas
 
 **QUÉ es:** Amazon RDS (*Relational Database Service*) es un servicio que aprovisiona, escala y opera bases de datos relacionales (PostgreSQL, MySQL) en la nube de forma **administrada**.
-**POR QUÉ importa:** Nos libera de instalar Linux, configurar Postgres, parches o backups, permitiéndonos enfocarnos en modelar datos y construir ETLs. 
+**POR QUÉ importa:** Instalar PostgreSQL manualmente en un servidor alquilado implica que tú debes encargarte de instalar Linux, programar los backups diarios y aplicar parches de seguridad de madrugada. RDS asume toda esa "carga operativa pesada". Te permite pedir simplemente: "Dame un Postgres versión 15", liberándote para enfocarte en modelar datos y crear pipelines de valor para el negocio.
 
-> **Densidad (Analogía del Gremio de Dragones):**
-> Una base auto-administrada es como criar ovejas, esquilar e hilar la lana para tejer un traje ignífugo antes de poder acercarte a un dragón. RDS es ir al sastre y decir: "Dame un traje talla M"; AWS hace el trabajo sucio.
->
-> **Security Groups (El Cortafuegos):** RDS usa Security Groups (firewalls). Si dejas abierta tu base de datos al mundo (`0.0.0.0/0`), bots atacarán el puerto 5432. Las DBs siempre deben restringirse a IPs privadas de confianza.
+*Analogía del Gremio:* Una base auto-administrada es como criar ovejas, esquilar e hilar la lana para tejer un traje ignífugo antes de poder acercarte a un dragón. RDS es ir al sastre del gremio y decir: "Dame un traje talla M"; AWS hace todo el trabajo sucio.
 
-## 2. Setup Inicial (Zero Assumption)
+## 2. Seguridad de Red (Security Groups)
+
+**QUÉ es:** Un *Security Group* es un firewall (cortafuegos) virtual que controla qué tráfico entra (Inbound) y sale (Outbound) de tu base de datos en AWS.
+**POR QUÉ importa:** Si dejas la red de tu base de datos abierta al mundo entero (lo que se conoce técnicamente como permitir la ruta `0.0.0.0/0`), bots rusos y chinos atacarán el puerto 5432 intentando adivinar tu contraseña 24 horas al día. Las bases de datos *siempre* deben estar bloqueadas por defecto, abriendo el puerto únicamente para las IPs privadas de tus Lambdas o la IP de tu oficina.
+
+## 3. DBAPI y Prevención de Inyecciones
+
+**QUÉ es:** Para conectarnos a bases de datos relacionales desde Python, usamos librerías que implementan el estándar DBAPI, como `psycopg2`. La forma en que inyectamos valores (como un ID) dentro del código SQL marca la diferencia entre un código seguro y un desastre de seguridad.
+**POR QUÉ importa:** Nunca debes concatenar strings (como *F-strings*) para construir SQL. Si lo haces, estás expuesto a un ataque de **SQL Injection**, donde un usuario malicioso manda código SQL oculto dentro de un campo de texto para borrar tus tablas. DBAPI soluciona esto obligándote a parametrizar tus consultas (usando `%s`), delegando al driver la limpieza (*sanitización*) del texto antes de que toque la base.
+
+## 4. Setup Inicial (Zero Assumption)
 
 Para conectarse a motores relacionales desde Python, usamos el estándar interno DBAPI. Para PostgreSQL instalamos `psycopg2-binary`.
 
@@ -28,7 +35,7 @@ DB_USER=master_user
 DB_PASSWORD=SuperSecretPassword!
 ```
 
-## 3. Implementación (Cómo)
+## 5. Implementación (Cómo)
 
 ### El Camino Frágil (Si aplica por complejidad)
 **🎯 Objetivo de Negocio:** Consultar un nivel de salud específico del dragón filtrando por su ID.
@@ -95,7 +102,7 @@ finally:
 - `cur.execute(query, (param,))`: Ejecuta el string SQL delegando a `psycopg2` la sanitización para evitar *SQL Injections*.
 - `cur.fetchone()`: Trae un único registro (la primera fila) resultado de la base de datos a Python, en forma de tupla.
 
-## 4. Conexión con Testing (Test-Driven Lore)
+## 6. Conexión con Testing (Test-Driven Lore)
 
 Mockear una base de datos relacional es un poco más anidado porque los objetos interactúan en cadena: Te conectas (`psycopg2.connect`), lo que te devuelve la Conexión, la cual te devuelve un Cursor, el cual te devuelve tu Resultado.
 
@@ -120,6 +127,6 @@ def test_consulta(mock_connect):
     mock_cur.fetchone.return_value = (89,)
 ```
 
-## 5. Mapa de Ejercicios
+## 7. Mapa de Ejercicios
 
 Ingresa a `quests/02-aws-rds/` y practica la creación de túneles DBAPI cerrando herméticamente tus recursos para evitar *leaks* de memoria.

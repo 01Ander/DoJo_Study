@@ -2,20 +2,26 @@
 
 Hasta ahora hemos almacenado datos en S3 y consultado en RDS. Pero necesitamos "código vivo" que procese esos datos automáticamente. La forma antigua era mantener un servidor encendido 24/7. La forma moderna de ingeniería de datos es **AWS Lambda**.
 
-## 1. El Concepto Principal (Qué y Por qué)
+## 1. Computación Serverless
 
-**QUÉ es:** AWS Lambda es un servicio de cómputo *Serverless* (sin servidor). Ejecuta código Python sin tener que aprovisionar ni mantener servidores. Levanta un contenedor cuando hay trabajo, y lo apaga en milisegundos.
-**POR QUÉ importa:** Elimina costos de servidores inactivos. Además, escala automáticamente: si llegan 1000 archivos de golpe, AWS levanta 1000 copias de tu código en paralelo, sin que tú hagas nada.
+**QUÉ es:** AWS Lambda es un servicio de cómputo *Serverless* (sin servidor). Ejecuta código Python sin que tengas que aprovisionar ni mantener servidores. AWS se encarga de todo: levanta un contenedor cuando hay trabajo, y lo apaga en milisegundos cuando termina.
+**POR QUÉ importa:** Elimina costos de servidores inactivos. Además, escala automáticamente de forma infinita: si llegan 1000 archivos de golpe, AWS levanta 1000 copias de tu código en paralelo. AWS te cobra fraccionado por el milisegundo exacto de ejecución, en lugar de cobrarte una tarifa plana mensual por un servidor encendido que no hace nada.
 
-> **Densidad (Arquitectura Orientada a Eventos):**
-> En un sistema *Event-Driven*, los componentes duermen y reaccionan a eventos.
-> *Analogía del Gremio:* Un diseño ineficiente (*polling*) es salir a revisar el buzón bajo la lluvia cada 5 minutos por si llegó correo del Gremio. Un diseño *Event-Driven* es ponerle un timbre al buzón para que el cartero lo toque **solo** cuando deja una carta. Así puedes dormir el resto del día. 
+## 2. Arquitectura Orientada a Eventos
 
-## 2. Setup Inicial (Zero Assumption)
+En un sistema *Event-Driven* (Orientado a Eventos), los componentes duermen y reaccionan a eventos o *Triggers* automáticos, en lugar de preguntar constantemente si hay trabajo (lo cual se conoce como *Polling*).
+*Analogía del Gremio:* Un diseño ineficiente de *Polling* continuo es salir a revisar el buzón bajo la lluvia cada 5 minutos por si llegó correo. Desperdicias energía. Un diseño *Event-Driven* es ponerle un timbre al buzón para que el cartero lo toque **solo** cuando deja una carta real (ej. cuando se sube un objeto a S3). Así puedes dormir el resto del día. 
 
-Para usar AWS Lambda, tu código base no requiere instalación de frameworks. Solo necesitas tener configurado tu script con una función de punto de entrada obligatoria (el `handler`). Además, deberás adjuntarle un **Execution Role** (IAM) en la consola de AWS para que tenga permiso de tocar otros servicios como S3.
+## 3. Execution Role (El Gafete)
 
-## 3. Implementación (Cómo)
+**QUÉ es:** Una función Lambda vive en la nube, pero por el principio de seguridad de AWS, es "ciega". No puede tocar ningún otro servicio, ni siquiera escribir sus propios logs, a menos que tenga permisos. El **Execution Role** es un IAM Role (Cap 00) que se le asigna a la función Lambda como su identidad.
+**POR QUÉ importa:** Si tu Lambda necesita descargar un archivo de S3, debes crear un Execution Role con la política `s3:GetObject` y ponérselo a la Lambda. Sin él, el código de Python lanzaría un error criptográfico de `AccessDenied` inmediatamente.
+
+## 4. Setup Inicial (Zero Assumption)
+
+Para usar AWS Lambda, tu código base no requiere instalación de frameworks. Solo necesitas tener configurado tu script con una función de punto de entrada obligatoria (el `handler`). Además, deberás adjuntarle tu **Execution Role** en la consola de AWS.
+
+## 5. Implementación (Cómo)
 
 ### El Camino Frágil (Si aplica por complejidad)
 **🎯 Objetivo de Negocio:** Detectar nacimientos de dragones en la base y asignarles dieta.
@@ -70,7 +76,7 @@ def lambda_handler(event, context):
 - `event['Records'][0]['s3']...`: Estructura estándar de un evento S3. AWS inyecta estos diccionarios anidados diciéndonos *exactamente* qué archivo detonó la Lambda.
 - `return {'statusCode': 200, ...}`: Convención estricta que simula una respuesta de red HTTP. `200` es OK, `500` es Error.
 
-## 4. Conexión con Testing (Test-Driven Lore)
+## 6. Conexión con Testing (Test-Driven Lore)
 
 ¿Cómo testeas funciones Serverless localmente si no tienes AWS corriendo en tu máquina? ¡Simplemente llamándolas con diccionarios de Python convencionales!
 
@@ -99,6 +105,6 @@ def test_handler_local():
     assert respuesta['statusCode'] == 200
 ```
 
-## 5. Mapa de Ejercicios
+## 7. Mapa de Ejercicios
 
 Dirígete a `quests/03-aws-lambda/` y pon a prueba tus habilidades armando tu primer Handler serverless.

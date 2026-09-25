@@ -1,22 +1,29 @@
 # Capítulo 05: Integración Cloud End-to-End
 
-Es hora de ensamblar el reloj. Hemos estudiado IAM, S3, RDS, Lambda y CloudWatch de forma aislada. Un pipeline real es la orquestación sofisticada de todos interactuando entre sí, tolerando fallos de red y garantizando atomicidad.
+Es hora de ensamblar el reloj. Hemos estudiado IAM, S3, RDS, Lambda y CloudWatch de forma aislada. Un pipeline real es la orquestación sofisticada de todos interactuando entre sí.
 
-## 1. El Concepto Principal (Qué y Por qué)
+## 1. El Flujo de Trabajo E2E
 
-**QUÉ es:** Un flujo *End-to-End (E2E)* es el viaje técnico automatizado completo: S3 dispara Lambda, Lambda asume un rol IAM, extrae de S3, transforma, se conecta a RDS, y hace `COMMIT`. Si algo falla, CloudWatch es notificado.
-**POR QUÉ importa:** Aprender a aislar los servicios es teórico. Orquestarlos de forma tolerante a fallos mediante transacciones ACID (Atomicidad, Consistencia, Aislamiento, Durabilidad) evita tener datos corruptos o duplicados a medias en tu Data Warehouse.
+**QUÉ es:** Un flujo *End-to-End (E2E)* es el viaje técnico automatizado completo sin intervención humana.
+**CÓMO funciona:** S3 recibe un archivo crudo. Este evento dispara instantáneamente una Lambda. La Lambda asume un rol de IAM (Execution Role) para tener permiso de descargar el archivo. Transforma la data y abre un túnel a RDS para insertarla. Si falla en algún punto, escribe en CloudWatch.
+**POR QUÉ importa:** Aprender a aislar los servicios es teórico. Orquestarlos es el núcleo de la ingeniería de datos, convirtiéndote de un Junior a un Ingeniero Mid-Level.
 
-> **Densidad (Analogía del Gremio):**
-> - **End-to-End:** No sirve de nada tener granjas (S3) y mataderos (RDS) sin carretas automatizadas (Lambda), guardias verificando permisos (IAM) y auditores (CloudWatch). Todo debe encadenarse.
-> - **Transacciones (ROLLBACK):** Si un veterinario inyecta un suero de dos fases, pero el dragón destruye la segunda dosis con fuego, debes extraer la primera fase inmediatamente (un `ROLLBACK`). Dejar cosas a medias provoca mutaciones de datos. El `COMMIT` ocurre solo si ambas fases tuvieron éxito rotundo.
+## 2. Transacciones ACID y Rollbacks
 
-## 2. Setup Inicial (Zero Assumption)
+**QUÉ es:** Cuando Lambda intenta insertar datos en RDS, algo puede fallar (ej. la red se cae a la mitad, o un dato venía corrupto). Si un proceso muere a la mitad, dejamos "datos a medias".
+**POR QUÉ importa:** Las Transacciones aseguran la consistencia. Al usar `psycopg2`, debes hacer `conn.commit()` para confirmar los cambios. Si hubo un error en Python, haces `conn.rollback()` para deshacer la transacción completa y limpiar la base de datos de los datos "a medias".
+*Analogía del Gremio:* Si un veterinario inyecta un suero de dos fases, pero el dragón destruye la segunda jeringa con fuego, debes extraer la primera fase inmediatamente (un `ROLLBACK`). Dejar cosas a medias provoca mutaciones de datos.
 
-**Las variables de entorno en Lambda:**
-En Lambda **está prohibido subir el archivo `.env`**. El sistema operativo de AWS las inyecta de forma segura a través de configuraciones de su consola web. No usarás `load_dotenv()` en la nube, solo leerás directamente desde `os.environ`.
+## 3. Variables de Entorno Nativas
 
-## 3. Implementación (Cómo)
+**QUÉ es:** En nuestra computadora, simulábamos el entorno leyendo el archivo `.env` mediante `python-dotenv`. En AWS Lambda, **ese archivo `.env` no existe ni debe subirse jamás**.
+**POR QUÉ importa:** Las contraseñas de producción de RDS no se empaquetan en código. En Lambda, las variables de entorno se inyectan de forma segura directamente desde la configuración de la consola web de AWS. Python las lee usando `os.environ` nativamente, sin librerías externas.
+
+## 4. Setup Inicial (Zero Assumption)
+
+No usarás `load_dotenv()` en la nube, solo leerás directamente desde `os.environ`. Deberás configurar tu Lambda en AWS con las credenciales de tu RDS antes de ejecutarla.
+
+## 5. Implementación (Cómo)
 
 ### El Camino Frágil (Si aplica por complejidad)
 **🎯 Objetivo de Negocio:** Pipeline integral de S3 a RDS.
@@ -106,7 +113,7 @@ def lambda_handler(event, context):
 - `conn.rollback()`: Si hay un error, le ordena a RDS destruir los cambios temporales, devolviendo la base a su estado inmaculado.
 - `finally: conn.close()`: Se ejecuta **siempre**, garantizando la muerte de las conexiones zombie sin importar cómo termine el script.
 
-## 4. Conexión con Testing (Test-Driven Lore)
+## 6. Conexión con Testing (Test-Driven Lore)
 
 El testing End-to-End (E2E) simulado requiere orquestar múltiples mocks en la misma función.
 En el Cap 05, tendrás que parchear tanto S3 como Postgres para asegurarte de que tu código interactúa con ambos.
@@ -142,6 +149,6 @@ def test_pipeline_completo(mock_boto, mock_connect):
     mock_conn.commit.assert_called_once()
 ```
 
-## 5. Mapa de Ejercicios
+## 7. Mapa de Ejercicios
 
 Termina tu aprendizaje en la nube con `quests/05-cloud-integration/`. Construye tu primer Pipeline E2E aplicando toda la tolerancia a fallos necesaria para sobrevivir en un entorno productivo.

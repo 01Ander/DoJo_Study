@@ -1,17 +1,27 @@
 # Capítulo 00: AWS Identity & Access Management (IAM)
 
-Bienvenido a la nube. Hasta ahora, todos tus scripts corrían en tu computadora local o en un servidor dedicado. Cuando trabajamos en la nube (específicamente en Amazon Web Services o AWS), necesitamos una forma centralizada de identificarnos y de restringir quién puede hacer qué. Aquí es donde entra **IAM**.
+Bienvenido a la nube. Hasta ahora, todos tus scripts corrían en tu computadora local o en un servidor dedicado. Cuando trabajamos en la nube (específicamente en Amazon Web Services o AWS), necesitamos una forma centralizada de identificarnos y de restringir quién puede hacer qué. Aquí es donde entra **IAM** (*Identity and Access Management*).
 
-## 1. El Concepto Principal (Qué y Por qué)
+Sin IAM, cualquiera con acceso a tu sistema podría borrar bases de datos enteras o gastar miles de dólares minando criptomonedas. IAM evita desastres.
 
-**QUÉ es:** IAM (*Identity and Access Management*) es el servicio central de AWS que controla la autenticación (quién eres) y la autorización (qué puedes hacer). Es el guardia de seguridad insobornable de tu infraestructura en la nube.
-**POR QUÉ importa:** Sin IAM, cualquiera con acceso a tu sistema podría borrar bases de datos enteras, exponer datos sensibles de clientes, o gastar miles de dólares en servidores minando criptomonedas. IAM evita desastres.
+## 1. Usuarios de Servicio (IAM Users)
 
-> **Densidad (Analogía del Gremio de Dragones):**
-> - **IAM User:** Imagina el Gremio de Cuidadores de Dragones. IAM es el sistema de gafetes mágicos. El novato recién ingresado no debe tener llaves del depósito de dragones adultos inestables; su gafete (IAM User programático con Access Keys) solo le permite entrar a la sala de crías.
-> - **IAM Role:** Es como un "Sombrero Mágico de Domador". El sombrero otorga los permisos para acercarse a dragones alfa. No se lo das a una persona permanentemente; simplemente, quien esté de turno se pone el sombrero, hace el trabajo y se lo quita (credenciales temporales rotativas).
+**QUÉ es:** Un *IAM User* representa una entidad estática a largo plazo. En ingeniería de datos, rara vez creamos usuarios para humanos; creamos usuarios programáticos para scripts que necesitan autenticarse desde afuera de AWS (ej. desde tu computadora local o un servidor externo).
+**POR QUÉ importa:** Para autenticarse, estos usuarios reciben credenciales criptográficas estáticas: un `AWS_ACCESS_KEY_ID` y un `AWS_SECRET_ACCESS_KEY`. Estas llaves son el equivalente a un usuario y contraseña, pero diseñadas para código.
 
-Para otorgar estos permisos usamos las **IAM Policies** (documentos JSON que definen explícitamente qué acciones se permiten o deniegan basándose en el principio del mínimo privilegio).
+*Analogía del Gremio:* Imagina el Gremio de Cuidadores de Dragones. El novato recién ingresado recibe un gafete físico (Access Key) que lo identifica permanentemente. Sin embargo, si pierde ese gafete en la calle, cualquiera que lo encuentre podrá entrar. Por eso son peligrosos si se filtran.
+
+## 2. Permisos Asumibles (IAM Roles)
+
+**QUÉ es:** A diferencia de un IAM User, un *Role* (Rol) **no tiene credenciales a largo plazo**. Es una identidad temporal que puede ser "asumida" por un servicio de AWS (como una función Lambda o una máquina EC2). AWS genera credenciales temporales por debajo que expiran cada pocas horas.
+**POR QUÉ importa:** Es la forma más segura de operar dentro de la nube. Si tu código corre *dentro* de AWS, nunca le das un Access Key estático; le asignas un Role. Si un hacker logra leer la memoria, las claves que encuentre caducarán casi de inmediato.
+
+*Analogía del Gremio:* Es como el "Sombrero Mágico de Domador". El sombrero otorga los permisos para acercarse a dragones alfa. No se lo das a una persona permanentemente; simplemente, quien esté de turno se pone el sombrero, hace el trabajo y luego se lo quita.
+
+## 3. Políticas de Mínimo Privilegio (IAM Policies)
+
+Tanto a los Users como a los Roles se les debe indicar exactamente qué pueden hacer. Esto se logra adjuntándoles **IAM Policies** (documentos JSON que definen los permisos).
+El principio de **Mínimo Privilegio** dicta que solo se debe otorgar el acceso estrictamente necesario (ej. solo leer, no escribir).
 
 ### El formato JSON de una Policy
 
@@ -36,10 +46,10 @@ Aunque es configuración y no Python, es fundamental entender la estructura de e
 
 *Zero Surprise Syntax:*
 - `"Effect": "Allow"`: Define si el bloque está permitiendo o bloqueando una acción (`Allow` o `Deny`).
-- `"Action": ["s3:GetObject"]`: La acción específica que se permite. Sigue el formato `servicio:Accion`.
+- `"Action": ["s3:GetObject"]`: La acción específica que se permite. Sigue el formato `servicio:Accion`. En este caso, descargar objetos de S3.
 - `"Resource"`: A qué recurso exacto aplica la regla. El `arn` es el identificador único universal de AWS. El asterisco `/*` significa "cualquier archivo dentro del bucket".
 
-## 2. Setup Inicial (Zero Assumption)
+## 4. Setup Inicial (Zero Assumption)
 
 Si nunca has interactuado con AWS desde Python, necesitas instalar la librería oficial de AWS llamada `boto3`, y `python-dotenv` para poder cargar variables de entorno locales de forma segura.
 
@@ -55,7 +65,7 @@ AWS_SECRET_ACCESS_KEY=wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY
 AWS_DEFAULT_REGION=us-east-1
 ```
 
-## 3. Implementación (Cómo)
+## 5. Implementación (Cómo)
 
 ### El Camino Frágil (Si aplica por complejidad)
 **🎯 Objetivo de Negocio:** Autenticarnos en AWS para verificar nuestra identidad en el Gremio programáticamente.
@@ -102,7 +112,7 @@ except Exception as e:
 - `boto3.client('iam')`: Crea una conexión activa (un cliente) específica hacia IAM. Por debajo llama a `os.environ.get('AWS_ACCESS_KEY_ID')` automáticamente.
 - `iam_client.get_user()`: Realiza una petición de red a la API de AWS para obtener los metadatos del usuario asociado a las llaves. Retorna un diccionario.
 
-## 4. Conexión con Testing (Test-Driven Lore)
+## 6. Conexión con Testing (Test-Driven Lore)
 
 Cuando construimos infraestructura Cloud, probarla ejecutando el código repetidamente contra la nube real es lento, peligroso y potencialmente costoso. Para resolverlo, en nuestros tests usamos **Mocks** (simuladores).
 
@@ -122,6 +132,6 @@ def test_ejemplo(mock_boto):
     # Ahora cuando la función llame a boto3, usará nuestro objeto falso.
 ```
 
-## 5. Mapa de Ejercicios
+## 7. Mapa de Ejercicios
 
 Dirígete a la carpeta `quests/00-aws-iam/` para poner a prueba tu conocimiento implementando tu primer pipeline de validación IAM seguro.

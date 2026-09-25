@@ -2,19 +2,30 @@
 
 Cuando mueves tu código a la nube usando herramientas Serverless, pierdes la terminal física para ver errores. Si la Lambda falla, ¿dónde ves el mensaje? La respuesta es **Amazon CloudWatch**.
 
-## 1. El Concepto Principal (Qué y Por qué)
+## 1. Monitoreo vs Observabilidad
 
-**QUÉ es:** El servicio unificado de AWS para logs (texto) y métricas (números). Los registros se agrupan en **Log Groups** (aplicación entera) y **Log Streams** (instancia/ejecución específica).
-**POR QUÉ importa:** Permite diagnosticar errores en sistemas distribuidos. En lugar de monitoreo ("el servidor está al 80%"), logramos **Observabilidad** ("Entender por qué falló basándonos en sus logs estructurados").
+**QUÉ es:** El monitoreo recolecta métricas predefinidas (ej. "El servidor usa 80% de CPU"). La **Observabilidad** es entender *por qué* falló el código interno basándote en los logs que emitió.
+**POR QUÉ importa:** En sistemas distribuidos, un fallo en S3 arruinará la Lambda, y la base de datos quedará vacía. Sin observabilidad, pasarás días adivinando en qué punto de la cadena de servidores ocurrió el fallo. Necesitas registros ricos.
 
-> **Densidad (Analogía del Gremio de Dragones):**
-> Monitoreo es ver que el carruaje de reparto va a 10 km/h. Observabilidad es escuchar el crujido de la madera, sentir la temperatura del eje y deducir *por qué* la rueda derecha va a romperse antes de que suceda, gracias a un log detallado. Un *Log Group* es el archivo central de todas las bitácoras; un *Log Stream* es la bitácora de un solo guardia de turno.
+*Analogía del Gremio:* Monitoreo es ver que el carruaje de reparto va lento. Observabilidad es escuchar el crujido de la madera, sentir la temperatura del eje y deducir *por qué* la rueda derecha va a romperse antes de que suceda.
 
-## 2. Setup Inicial (Zero Assumption)
+## 2. Log Groups y Log Streams
 
-No requieres librerías externas. La librería nativa de Python `logging` es interceptada por AWS CloudWatch de manera automática.
+Amazon CloudWatch es el servicio unificado de AWS para logs (texto) y métricas (números). Los registros se agrupan siguiendo una taxonomía estricta:
+1. **Log Group:** Es el contenedor lógico para una aplicación entera (ej. todos los logs de nuestra Lambda `ProcesarNacimientos`).
+2. **Log Stream:** Una secuencia específica de eventos de log que comparten la misma fuente física, típicamente una instancia física del contenedor que corrió la función en un momento dado.
+*Analogía del Gremio:* Un *Log Group* es el cuarto gigante con los archivos de todo el gremio. Un *Log Stream* es la bitácora individual que llenó un solo guardia durante su turno del martes.
 
-## 3. Implementación (Cómo)
+## 3. Políticas de Retención
+
+Por defecto, AWS CloudWatch guarda los logs generados bajo la política *Never Expire* (Retención infinita).
+Esto es extremadamente peligroso financieramente. Si tu Lambda de producción escupe "Proceso OK" 10,000 veces al día, pagarás almacenamiento infinito por prints inútiles de hace 5 años. Debes configurar la retención de los Log Groups a 14 o 30 días para borrar la basura automáticamente.
+
+## 4. Setup Inicial (Zero Assumption)
+
+No requieres librerías externas. La librería nativa de Python `logging` es interceptada por AWS CloudWatch de manera automática cuando se ejecuta en la nube.
+
+## 5. Implementación (Cómo)
 
 ### El Camino Frágil (Si aplica por complejidad)
 **🎯 Objetivo de Negocio:** Registrar el estado del dragón en los logs.
@@ -23,8 +34,7 @@ No requieres librerías externas. La librería nativa de Python `logging` es int
 def lambda_handler(event, context):
     print("Dragón estable. Nivel de inestabilidad: 45%.")
     # PELIGRO: AWS retiene logs por defecto PARA SIEMPRE (Never Expire).
-    # Si la función corre 10,000 veces al día, pagarás infinito almacenamiento
-    # por millones de prints inútiles de hace 5 años.
+    # Generarás costos infinitos por prints inútiles viejos.
     return {"statusCode": 200}
 ```
 
@@ -67,7 +77,7 @@ def lambda_handler(event, context):
 - `logger.info()` y `logger.error()`: A diferencia de `print()`, adjuntan metadatos (hora, severidad) y son enviados nativamente a CloudWatch.
 - *Metric Filter (Concepto)*: Regla en la consola AWS que escanea el texto del log. Si halla un patrón exacto, detona alertas.
 
-## 4. Conexión con Testing (Test-Driven Lore)
+## 6. Conexión con Testing (Test-Driven Lore)
 
 Al probar código que depende de enviar alertas u observabilidad bajo fallos catastróficos, debemos forzar esos fallos en los tests.
 
@@ -94,6 +104,6 @@ def test_simulacion_fallo(mock_boto, caplog):
     assert "AWS Network Down" in caplog.text
 ```
 
-## 5. Mapa de Ejercicios
+## 7. Mapa de Ejercicios
 
 Es momento de la Quest 04 (`quests/04-aws-cloudwatch/`). Escribe logs estructurados que puedan salvar el pipeline en plena madrugada.
