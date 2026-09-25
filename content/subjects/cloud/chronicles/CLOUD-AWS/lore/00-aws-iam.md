@@ -118,7 +118,8 @@ Cuando construimos infraestructura Cloud, probarla ejecutando el código repetid
 
 - **El decorador `@patch`:** Viene de `unittest.mock`. Permite interceptar una llamada a una librería (como `boto3`) y reemplazarla temporalmente por un "doble de riesgo" de mentira.
 - **`MagicMock`:** Es el objeto de mentira que reemplaza a tu cliente de AWS.
-- **`return_value`:** Le decimos al objeto de mentira: "Cuando mi código real llame a la API de AWS pidiendo el usuario, en vez de conectarte a internet, simplemente devuélveme este diccionario falso instantáneamente".
+- **`return_value`:** Le decimos al objeto de mentira: "Cuando mi código real llame a la API, devuelve esto".
+- **`side_effect`:** Le decimos al objeto de mentira: "Cuando mi código real llame a la API, lanza esta Excepción", útil para probar cómo nuestro código reacciona ante errores.
 
 ```python
 from unittest.mock import patch, MagicMock
@@ -126,10 +127,16 @@ from unittest.mock import patch, MagicMock
 @patch('my_solution.boto3.client')
 def test_ejemplo(mock_boto):
     mock_iam = MagicMock()
-    # Forzamos la respuesta de la API
+    # Arrange: Forzamos la respuesta de la API
     mock_iam.get_user.return_value = {'User': {'UserName': 'cuidador-falso'}}
     mock_boto.return_value = mock_iam
-    # Ahora cuando la función llame a boto3, usará nuestro objeto falso.
+    
+    # Act: Ejecutamos nuestra función real
+    from my_solution import obtener_usuario
+    usuario = obtener_usuario()
+    
+    # Assert: Verificamos el resultado
+    assert usuario == 'cuidador-falso'
 ```
 
 ## 7. Mapa de Ejercicios

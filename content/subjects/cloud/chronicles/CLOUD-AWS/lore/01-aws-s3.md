@@ -132,9 +132,18 @@ class MockDatetime(datetime.datetime):
 # Congelamos el tiempo y simulamos AWS simultáneamente
 @patch('my_solution.datetime', MockDatetime)
 @patch('my_solution.boto3.client')
-def test_guardar(mock_boto):
-    # Ahora datetime.now() siempre será 24-09-2026 dentro de este test
-    pass
+def test_guardar(mock_boto, mock_datetime):
+    from my_solution import guardar_dieta
+    
+    # Act: Llamamos a nuestra función (que usará datetime.now() congelado)
+    guardar_dieta({"dragon_id": 42, "dieta": "carbón"})
+    
+    # Assert: Validamos que haya intentado subir el objeto a la ruta correcta
+    mock_boto.return_value.put_object.assert_called_once_with(
+        Bucket="alimento-dragones-pantano-prod",
+        Key="raw/explosiones/2026/09/24/dragon_42.json",
+        Body='{"dragon_id": 42, "dieta": "carbón"}'
+    )
 ```
 
 ## 7. Mapa de Ejercicios

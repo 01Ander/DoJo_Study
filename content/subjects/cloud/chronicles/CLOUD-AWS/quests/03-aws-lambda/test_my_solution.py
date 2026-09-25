@@ -19,13 +19,11 @@ def test_lambda_handler_exitoso():
     # El test está completo sin pistas, tu código debe hacerlo pasar exitosamente.
     resultado = lambda_handler(evento_s3, {})
     
-    assert type(resultado) is dict, "El handler debe retornar un diccionario."
-    assert resultado.get('statusCode') == 200, "Debe retornar statusCode 200 en éxito."
-    assert resultado.get('body') == "Archivo reportes/nuevo_nacimiento.json subido a maternidad-dragones-bucket"
+    # En un sistema asíncrono, la función termina exitosamente sin retornar HTTP codes.
+    assert resultado is None, "El handler asíncrono no debe retornar diccionarios HTTP."
 
 def test_lambda_handler_error():
-    """Valida que si el evento no tiene formato S3, la Lambda retorne 500 sin explotar."""
+    """Valida que si el evento no tiene formato S3, la Lambda estalle hacia arriba."""
     evento_invalido = {"alguna_otra_cosa": 123}
-    resultado = lambda_handler(evento_invalido, {})
-    assert resultado.get('statusCode') == 500, "Debe retornar 500 si falla la extracción."
-    assert resultado.get('body') == "Error"
+    with pytest.raises(Exception):
+        lambda_handler(evento_invalido, {})

@@ -125,6 +125,13 @@ def test_consulta(mock_connect):
     
     # Finalmente simulamos los datos reales que fetchone() debe retornar (una tupla)
     mock_cur.fetchone.return_value = (89,)
+    
+    # Act: Ejecutamos nuestra función real
+    from my_solution import consultar_inestabilidad
+    nivel = consultar_inestabilidad(42)
+    
+    # Assert: Comprobamos que retornó el valor simulado
+    assert nivel == 89
 ```
 
 ## 7. Mapa de Ejercicios

@@ -99,8 +99,13 @@ def test_simulacion_fallo(mock_boto, caplog):
     # Habilitamos la lectura de logs en el test
     caplog.set_level(logging.ERROR)
     
-    # Ejecutamos nuestra Lambda (que atrapará internamente el error)
-    # y usamos assert para validar que haya registrado la caída en CloudWatch
+    from my_solution import lambda_handler
+    
+    # Act & Assert: Ejecutamos nuestra Lambda asegurando que explota hacia arriba (raises Exception)
+    with pytest.raises(Exception, match="AWS Network Down"):
+        lambda_handler({}, {})
+        
+    # Y usamos assert para validar que antes de explotar, dejó un log en CloudWatch
     assert "AWS Network Down" in caplog.text
 ```
 

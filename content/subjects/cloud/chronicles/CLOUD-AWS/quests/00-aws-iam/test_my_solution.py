@@ -1,25 +1,29 @@
 import pytest
-from my_solution import verificar_permisos
-import json
-import os
+from unittest.mock import patch, MagicMock
+from my_solution import verificar_identidad
 
-def test_verificar_permisos(tmp_path):
-    """Verifica la lógica de parsing de la política simulada."""
-    d = tmp_path / "policies"
-    d.mkdir()
-    p = d / "test_policy.json"
+def test_verificar_identidad_exitoso():
+    """Valida que la función retorne el nombre de usuario cuando la API de AWS responde exitosamente."""
+    mock_respuesta_aws = {'User': {'UserName': 'novato-cuidador-dragones'}}
     
-    mock_policy = {
-        "Statement": [
-            {
-                "Effect": "Allow",
-                "Action": ["s3:GetObject"]
-            }
-        ]
-    }
-    p.write_text(json.dumps(mock_policy))
-    
-    # EJERCICIO: Llama a verificar_permisos con p y "s3:GetObject" y haz un assert de que retorne True
-    # Tu código aquí:
-    
-    pass
+    with patch('my_solution.boto3.client') as mock_boto:
+        mock_iam = MagicMock()
+        mock_iam.get_user.return_value = mock_respuesta_aws
+        mock_boto.return_value = mock_iam
+        
+        # EJERCICIO: Ejecuta la función verificar_identidad() y haz un assert de que retorne el usuario esperado
+        # Tu código aquí:
+        
+        pass
+
+def test_verificar_identidad_error():
+    """Valida que la función atrape la excepción y retorne el mensaje de error por defecto."""
+    with patch('my_solution.boto3.client') as mock_boto:
+        mock_iam = MagicMock()
+        mock_iam.get_user.side_effect = Exception("Invalid Access Key")
+        mock_boto.return_value = mock_iam
+        
+        # EJERCICIO: Ejecuta verificar_identidad() y asegúrate de que atrape el error devolviendo "Error de autenticación"
+        # Tu código aquí:
+        
+        pass
