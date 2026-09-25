@@ -1,95 +1,125 @@
 # Capítulo 02: Amazon RDS (Relational Database Service)
 
-S3 es perfecto para guardar millones de archivos crudos y masivos a muy bajo costo, pero no es una base de datos relacional; no puedes hacerle consultas `JOIN` de manera nativa y rápida para juntar entidades cruzadas. Cuando el Gremio necesita relacionar qué cuidador alimenta a qué dragón y cruzarlo con su historial médico tabular, necesitamos usar SQL. Aquí es donde entra **Amazon RDS**.
+S3 es perfecto para guardar millones de archivos crudos y masivos a muy bajo costo, pero no es una base de datos relacional; no puedes hacer consultas `JOIN` de manera nativa. Para esto, usamos **Amazon RDS**.
 
-## 1. Bases de Datos Administradas vs Auto-Administradas
+## 1. El Concepto Principal (Qué y Por qué)
 
-**QUÉ es:** Amazon RDS (*Relational Database Service*) es un servicio que te permite aprovisionar, escalar y operar una base de datos relacional (como PostgreSQL, MySQL o MariaDB) en la nube. Es un servicio fuertemente **administrado**.
-**CÓMO se usa:** En lugar de alquilar un servidor vacío, instalar Linux, instalar Postgres a mano, configurar los backups diarios y parchear el sistema operativo, simplemente le pides a RDS mediante un formulario (o código): "Dame una base de datos PostgreSQL versión 15". AWS hace el resto.
-**POR QUÉ importa:** Como ingenieros de datos y automatización, nuestro valor para el negocio está en modelar datos, construir flujos ETL y extraer *insights*, no en administrar parches del sistema operativo de un servidor a las 3 de la mañana. RDS nos libera de la "carga operativa pesada" (undifferentiated heavy lifting).
+**QUÉ es:** Amazon RDS (*Relational Database Service*) es un servicio que aprovisiona, escala y opera bases de datos relacionales (PostgreSQL, MySQL) en la nube de forma **administrada**.
+**POR QUÉ importa:** Nos libera de instalar Linux, configurar Postgres, parches o backups, permitiéndonos enfocarnos en modelar datos y construir ETLs. 
 
-*Analogía del Gremio:* Una base auto-administrada es como si el Gremio de Cuidadores tuviera que criar las ovejas, esquilarlas, hilar la lana y tejer un traje ignífugo desde cero antes de poder acercarse a un dragón. RDS es como ir al maestro sastre y decirle: "Dame un traje ignífugo talla M", delegando todo el proceso de fabricación y mantenimiento.
+> **Densidad (Analogía del Gremio de Dragones):**
+> Una base auto-administrada es como criar ovejas, esquilar e hilar la lana para tejer un traje ignífugo antes de poder acercarte a un dragón. RDS es ir al sastre y decir: "Dame un traje talla M"; AWS hace el trabajo sucio.
+>
+> **Security Groups (El Cortafuegos):** RDS usa Security Groups (firewalls). Si dejas abierta tu base de datos al mundo (`0.0.0.0/0`), bots atacarán el puerto 5432. Las DBs siempre deben restringirse a IPs privadas de confianza.
 
-## 2. Security Groups (El Cortafuegos de AWS)
+## 2. Setup Inicial (Zero Assumption)
 
-**QUÉ es:** Un *Security Group* es un firewall virtual y estado-dependiente (stateful) que controla todo el tráfico de red entrante (*Inbound*) y saliente (*Outbound*) de tus recursos de AWS, como tu base de datos RDS.
-**CÓMO se usa:** Se configuran reglas lógicas indicando qué dirección IP o qué otro Security Group tiene permiso para comunicarse por un puerto de red específico. Para PostgreSQL, el puerto por defecto es siempre el `5432`.
-**POR QUÉ importa:** Si aprovisionas tu base de datos y la dejas abierta al mundo entero (lo que se conoce como regla Inbound `0.0.0.0/0`), cualquier bot automatizado en internet intentará adivinar la contraseña por fuerza bruta y hackear tu información. Las bases de datos *siempre* deben restringirse a IPs de confianza (como la IP fija de tu oficina, tu VPN o la red privada de tus scripts).
+Para conectarse a motores relacionales desde Python, usamos el estándar interno DBAPI. Para PostgreSQL instalamos `psycopg2-binary`.
 
-## 3. Conexión Segura e Interfaz DBAPI
+```bash
+pip install psycopg2-binary
+```
 
-**QUÉ es:** Para conectarse a cualquier motor relacional (RDS incluido) desde Python, usamos el estándar interno llamado DBAPI (*Database API specification*). Esto comúnmente se implementa con librerías puente como `psycopg2` para PostgreSQL.
-**CÓMO se usa:** Se utiliza la URL pública o privada (el *endpoint*) que nos asigna RDS, junto con un usuario, contraseña y nombre de base de datos. ¡Todo esto se pasa obligatoriamente mediante variables de entorno!
-**POR QUÉ importa:** Tu código Python no sabe, ni le importa, si le está hablando a un Postgres chiquito instalado en tu laptop o a un clúster RDS monstruoso de producción en la nube. Lo único que cambia son las credenciales inyectadas, lo que nos permite usar el mismo código exacto para probar localmente y para desplegar a producción.
-
-🎯 **Objetivo de Negocio:** Conectarse de forma segura a la base de datos central de RDS del Gremio para consultar los registros de salud críticos de los dragones, sin dejar la contraseña de la base expuesta en el repositorio.
-
-> **Zero Assumption (Instalación de Drivers):** Si no lo tienes, debes instalar el driver oficial de PostgreSQL para Python. Usamos la versión `binary` porque no requiere compilar componentes de C++ en tu sistema local.
-> ```bash
-> pip install psycopg2-binary
-> ```
-
-Asegúrate de agregar tus secretos al archivo `.env`:
+Configura en tu `.env` las credenciales (siempre inyectadas, nunca hardcodeadas):
 ```env
 DB_HOST=dragones-db.cxyz123.us-east-1.rds.amazonaws.com
 DB_NAME=gremio_db
 DB_USER=master_user
-DB_PASSWORD=SuperSecretDragonPassword!
+DB_PASSWORD=SuperSecretPassword!
 ```
+
+## 3. Implementación (Cómo)
+
+### El Camino Frágil (Si aplica por complejidad)
+**🎯 Objetivo de Negocio:** Consultar un nivel de salud específico del dragón filtrando por su ID.
+
+Si concatenamos los valores usando F-strings directos:
+
+```python
+import psycopg2
+
+dragon_id = 42 # Este valor podría venir de una API o del usuario
+query = f"SELECT nivel FROM dragones_salud WHERE dragon_id = {dragon_id};"
+
+# PELIGRO: Si dragon_id es "42; DROP TABLE dragones_salud;", 
+# borrarían la base de datos completa (Ataque SQL Injection).
+```
+
+### El Camino Robusto (Zero Surprise Syntax)
+**🎯 Objetivo de Negocio:** Consultar un registro parametrizándolo de forma nativa para evitar SQL Injections, y garantizando el cierre de conexiones (Limpieza de recursos).
 
 ```python
 import os
 import psycopg2
 from dotenv import load_dotenv
 
-# Cargar secretos a la memoria segura
 load_dotenv()
 
-# 1. Recuperamos explícitamente las credenciales desde el entorno
-host = os.environ.get('DB_HOST')
-database = os.environ.get('DB_NAME')
-user = os.environ.get('DB_USER')
-password = os.environ.get('DB_PASSWORD')
-
 try:
-    # 2. Establecemos la conexión por red al clúster RDS
+    # 1. Establecemos la conexión por red al clúster RDS (Puerto 5432)
     conn = psycopg2.connect(
-        host=host,
-        database=database,
-        user=user,
-        password=password,
-        port="5432" # Puerto estándar inamovible de PostgreSQL
+        host=os.environ.get('DB_HOST'),
+        database=os.environ.get('DB_NAME'),
+        user=os.environ.get('DB_USER'),
+        password=os.environ.get('DB_PASSWORD'),
+        port="5432" 
     )
     
-    # 3. Creamos un cursor para enviar y recibir comandos SQL
+    # 2. Creamos un cursor temporal
     cur = conn.cursor()
     
-    # 🎯 Ejecutamos una consulta real de negocio
-    query = """
-        SELECT nombre, nivel_inestabilidad 
-        FROM dragones_salud 
-        WHERE raza = 'Pantano Común' 
-        LIMIT 5;
-    """
-    cur.execute(query)
+    # 3. Ejecutamos la consulta usando PARÁMETROS SEGUROS (%s)
+    dragon_id_buscado = 42
+    query = "SELECT nivel_inestabilidad FROM dragones_salud WHERE dragon_id = %s;"
     
-    # 4. Obtenemos e imprimimos los resultados leídos
-    registros = cur.fetchall()
-    print("✅ Conexión exitosa a RDS. Últimos registros:")
-    for registro in registros:
-        print(f"- Dragón: {registro[0]}, Inestabilidad: Nivel {registro[1]}")
-        
-    # 5. Siempre liberar los recursos, es vital
-    cur.close()
-    conn.close()
+    # psycopg2 sanitiza automáticamente la tupla de parámetros
+    cur.execute(query, (dragon_id_buscado,))
+    
+    # 4. Obtenemos el resultado
+    registro = cur.fetchone()
+    print(f"✅ Inestabilidad Nivel: {registro[0]}")
 
 except Exception as e:
-    print(f"❌ Error al conectar con RDS: {e}")
+    print(f"❌ Error RDS: {e}")
+finally:
+    # 5. Siempre cerrar, sin importar si hubo error, para evitar conexiones zombie.
+    if 'cur' in locals():
+        cur.close()
+    if 'conn' in locals():
+        conn.close()
 ```
 
 *Zero Surprise Syntax:*
-- `psycopg2.connect(...)`: Función específica de la librería puente `psycopg2` que abre un túnel de red TCP hacia el servidor de base de datos RDS usando las credenciales pasadas. Retorna un objeto de tipo conexión activa.
-- `conn.cursor()`: En el ecosistema de bases de datos, un "cursor" es una estructura de control temporal en memoria. Imagínalo como el cartero que lleva tus instrucciones SQL a través de la conexión y vuelve con las respuestas. No puedes enviar un `SELECT` si no tienes un cursor.
-- `cur.execute(query)`: Le dice al cursor que entregue el string de texto crudo (nuestro SQL) al motor RDS en la nube para que este lo procese y lo ejecute.
-- `cur.fetchall()`: Una vez que el servidor procesa el `SELECT`, genera resultados. Esta instrucción "trae todos" (*fetch all*) los resultados de vuelta por la red hacia la memoria de Python, encapsulados en forma de una lista de tuplas.
-- `cur.close()` y `conn.close()`: Le avisa formalmente al servidor de base de datos que ya no necesitamos la conexión, permitiéndole liberar esa ranura de memoria. Si dejas conexiones huérfanas en scripts recurrentes, saturarás los límites de tu instancia RDS y la base de datos se colgará (Time Out).
+- `psycopg2.connect(...)`: Abre un túnel de red TCP hacia RDS y retorna una conexión activa.
+- `conn.cursor()`: Un "cursor" es una estructura de control; el cartero que lleva instrucciones SQL y vuelve con respuestas.
+- `cur.execute(query, (param,))`: Ejecuta el string SQL delegando a `psycopg2` la sanitización para evitar *SQL Injections*.
+- `cur.fetchone()`: Trae un único registro (la primera fila) resultado de la base de datos a Python, en forma de tupla.
+
+## 4. Conexión con Testing (Test-Driven Lore)
+
+Mockear una base de datos relacional es un poco más anidado porque los objetos interactúan en cadena: Te conectas (`psycopg2.connect`), lo que te devuelve la Conexión, la cual te devuelve un Cursor, el cual te devuelve tu Resultado.
+
+Para probar un script sin usar una BD real, usamos `MagicMock` encadenados:
+
+```python
+from unittest.mock import patch, MagicMock
+
+@patch('my_solution.psycopg2.connect')
+def test_consulta(mock_connect):
+    # Simulamos el objeto de conexión
+    mock_conn = MagicMock()
+    # Simulamos el objeto de cursor
+    mock_cur = MagicMock()
+    
+    # Enlazamos: cuando llamen a connect(), que retorne mock_conn
+    mock_connect.return_value = mock_conn
+    # Cuando llamen a conn.cursor(), que retorne mock_cur
+    mock_conn.cursor.return_value = mock_cur
+    
+    # Finalmente simulamos los datos reales que fetchone() debe retornar (una tupla)
+    mock_cur.fetchone.return_value = (89,)
+```
+
+## 5. Mapa de Ejercicios
+
+Ingresa a `quests/02-aws-rds/` y practica la creación de túneles DBAPI cerrando herméticamente tus recursos para evitar *leaks* de memoria.
