@@ -13,6 +13,32 @@ Bienvenido a la nube. Hasta ahora, todos tus scripts corrían en tu computadora 
 
 Para otorgar estos permisos usamos las **IAM Policies** (documentos JSON que definen explícitamente qué acciones se permiten o deniegan basándose en el principio del mínimo privilegio).
 
+### El formato JSON de una Policy
+
+Aunque es configuración y no Python, es fundamental entender la estructura de estos permisos:
+
+```json
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Action": [
+        "s3:GetObject"
+      ],
+      "Resource": [
+        "arn:aws:s3:::alimento-dragones-pantano/*"
+      ]
+    }
+  ]
+}
+```
+
+*Zero Surprise Syntax:*
+- `"Effect": "Allow"`: Define si el bloque está permitiendo o bloqueando una acción (`Allow` o `Deny`).
+- `"Action": ["s3:GetObject"]`: La acción específica que se permite. Sigue el formato `servicio:Accion`.
+- `"Resource"`: A qué recurso exacto aplica la regla. El `arn` es el identificador único universal de AWS. El asterisco `/*` significa "cualquier archivo dentro del bucket".
+
 ## 2. Setup Inicial (Zero Assumption)
 
 Si nunca has interactuado con AWS desde Python, necesitas instalar la librería oficial de AWS llamada `boto3`, y `python-dotenv` para poder cargar variables de entorno locales de forma segura.
