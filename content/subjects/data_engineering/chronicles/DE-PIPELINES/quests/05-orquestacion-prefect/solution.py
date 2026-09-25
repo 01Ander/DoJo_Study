@@ -1,17 +1,21 @@
 from prefect import flow, task
 
+
 @task(retries=2)
 def extract_resources():
     return [{"ingredient": "Cosmic Dust"}]
+
 
 @task
 def load_to_vault(data):
     return True
 
+
 @flow(name="Alchemical_Logistics_Pipeline")
 def orchestrate_day():
     data = extract_resources()
     load_to_vault(data)
+
 
 # SOLUTION TESTS
 '''

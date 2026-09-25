@@ -38,7 +38,7 @@ Los datos que vienen del Mercado Negro están sucios, tienen nulos y los precios
 El Gremio te demandará si les das datos erróneos o duplicados.
 
 - **Requisito 1:** Implementar un Quality Gate de reconciliación usando aserciones nativas. Comprobar que tras la limpieza (Fase 2), la pérdida de registros no sea mayor al 10% respecto al tamaño original (Bronze).
-- **Requisito 2:** Eliminar ingredientes duplicados basándote en el nombre.
+- **Requisito 2:** Eliminar registros exactamente duplicados (filas idénticas en todas sus columnas, como recibos pasados dos veces por el mensajero).
 - **Requisito 3:** Implementar un Gate que valide que ya no existe absolutamente ningún nulo en las columnas críticas.
 - **Requisito 4:** Esta data validada será tu **Zona Silver**.
 - **Requisito 5:** Al finalizar esta fase, realiza un Semantic Commit.

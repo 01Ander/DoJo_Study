@@ -7,23 +7,46 @@
 ---
 
 ## Cap 00: [Título del Capítulo]
+**Fecha de finalización:** [YYYY-MM-DD]
+**Métricas:**
+- Tiempo de lectura: [X]min
+- Tiempo en ejercicios: [X]min
+- Veces que recurrí al Tutor/DM: [X]
+- Fricción (1-10): [X]
+
+**Feynman Synthesis (Tus propias palabras):**
 1. **[Pregunta Feynman 1 — Ej. Explica CÓMO funciona X concepto...]**
    > [Tu respuesta aquí]
 
 2. **[Pregunta Feynman 2 — Ej. Explica POR QUÉ usaríamos Y en lugar de Z en un caso de...]**
    > [Tu respuesta aquí]
 
+**Friction Log (Opcional):**
+> [Obstáculos técnicos o conceptuales específicos de este capítulo]
+
 ---
 
 ## Cap 01: [Título del Capítulo]
+**Fecha de finalización:** [YYYY-MM-DD]
+**Métricas:**
+- Tiempo de lectura: [X]min
+- Tiempo en ejercicios: [X]min
+- Veces que recurrí al Tutor/DM: [X]
+- Fricción (1-10): [X]
+
+**Feynman Synthesis (Tus propias palabras):**
 1. **[Pregunta Feynman 1]**
    > [Tu respuesta aquí]
 
 2. **[Pregunta Feynman 2]**
    > [Tu respuesta aquí]
 
+**Friction Log (Opcional):**
+> [Obstáculos técnicos o conceptuales específicos de este capítulo]
+
 ---
 *(El generador agregará secciones para todos los capítulos de la Chronicle)*
+
 ---
 
 ## 🛑 Friction Log Global
@@ -32,6 +55,14 @@ Documenta aquí cualquier "rabbit hole", problema de configuración grave, o con
 - **Capítulo / Concepto:** 
 - **Fricción:** [Qué pasó y cuánto tiempo perdiste]
 - **Solución:** [Cómo lo resolviste]
+
+---
+
+## 📊 Métricas de Ejecución
+Completa estas métricas antes de solicitar la auditoría del DM.
+- **Fecha de inicio (Lectura primer Cap):** [YYYY-MM-DD]
+- **Fecha de finalización (Rite completado):** [YYYY-MM-DD]
+- **Horas netas estimadas de dedicación:** [X] horas
 
 ---
 

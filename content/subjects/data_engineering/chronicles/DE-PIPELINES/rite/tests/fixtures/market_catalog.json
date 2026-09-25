@@ -1,0 +1,16 @@
+{
+  "results": [
+    { "name": " Eye of Newt ", "price": "12", "stock": "40" },
+    { "name": "eye of newt", "price": "12", "stock": "15" },
+    { "name": "DRAGON SCALE", "price": "150", "stock": "7" },
+    { "name": "dragon scale", "price": "150", "stock": "3" },
+    { "name": "Mandragora Root", "price": "89", "stock": "22" },
+    { "name": "Powdered Unicorn Horn", "price": "320", "stock": "4" },
+    { "name": "Frog's Breath Essence", "price": "45", "stock": "60" },
+    { "name": "Bat Wing Dust", "price": "8", "stock": "130" },
+    { "name": "Bottled Sunrise", "price": "210", "stock": "2" },
+    { "name": "MANDRAGORA ROOT", "price": "89", "stock": "22" },
+    { "name": "  bat wing dust  ", "price": "8", "stock": "130" },
+    { "name": "Pickled Thundercloud", "price": "67", "stock": null }
+  ]
+}
