@@ -26,12 +26,15 @@ El Blueprint técnico de alta prioridad (100% enfocado en inserción laboral rem
 **→ [`06-syllabus-post-empleo-fase2.md`](06-syllabus-post-empleo-fase2.md)**  
 Documento de referencia para la etapa posterior a la contratación: QA formal, Kubernetes, Terraform, dashboards avanzados y seguridad profunda.
 
-### Bloque III: Las Herramientas del Operador
+### Bloque III: Las Herramientas del Operador y Convenciones
+**→ [`06-convenciones-codigo.md`](06-convenciones-codigo.md)**  
+Convenciones técnicas de código: PEP 8, tipado estricto, logging estructurado, English First y TDD.
+
 **→ [`07-dojo-agent.md`](07-dojo-agent.md)**  
 Arquitectura multi-agente, rol del Dungeon Master (Gatekeeper) y habilidades socráticas (`/scry`, `/scroll`).
 
 **→ [`08-guia-operaciones.md`](08-guia-operaciones.md)**  
-Referencia rápida de ejecución: cómo interactuar con el DM, cambio de personalidades (`wizard` / `witch`) y flujo offline.
+Referencia rápida de ejecución: cómo interactuar con el DM, cambio de personalidades (`wizard` / `witch`), flujo offline y Git Branching Model (`main` vs `chronicles`).
 
 ### Bloque IV: El Entorno del Arquitecto
 **→ [`09-generation-protocol.md`](09-generation-protocol.md)**  

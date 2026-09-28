@@ -65,7 +65,7 @@ PY-POO/
 
 Al operar en el entorno de `subjects/`, te sometes obligatoriamente a estas 3 directrices:
 
-1. **English Friendly:** Las carpetas, nombres de archivo, variables de código, tests y Documentos Técnicos **SE FOMENTAN EN INGLÉS**. Se permite el español de forma transicional.
+1. **English First:** Las variables de código, funciones, tests, docstrings, commits y Documentación Técnica son **obligatoriamente en inglés**. El lore y las explicaciones pedagógicas se redactan en español.
 2. **Architecture First:** Jamás abres `src/` sin haber documentado el diseño y los trade-offs.
 3. **Fail First (TDD):** El desarrollo funcional no existe si no escribiste primero la prueba y la hiciste fallar nativamente en la consola.
 
