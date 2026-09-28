@@ -1,4 +1,4 @@
-# 05 - The DoJo Agent (Hermes Agent — Mundodisco Edition)
+# 07 - The DoJo Agent (Hermes Agent — Mundodisco Edition)
 
 ## ¿Qué es el DoJo Agent?
 
@@ -95,4 +95,4 @@ Con el Rite desbloqueado, activa `/personality witch` para pair programming socr
 
 ---
 
-> *Nota: El código legacy del agente monolítico (v3) está archivado en `archive/legacy_main_v3.py`. Las skills v4 están archivadas en `archive/agent_v4_skills/`.*
+> *Nota: El código legacy del agente monolítico (v3) está archivado en `meta/archive/legacy_main_v3.py`. Las skills v4 están archivadas en `meta/archive/agent_v4_skills/`.*

@@ -1,4 +1,4 @@
-# 03 - Syllabus Maestro (Data & Automation Engineer — Pre-Empleo)
+# 05 - Syllabus Maestro (Data & Automation Engineer — Pre-Empleo)
 
 > **Estado:** Activo (Ruta Crítica Pre-Empleo)  
 > **Objetivo:** Inserción laboral remota internacional antes de mediados de 2027 como **Data Automation Engineer / Python Automation Developer / ETL Integration Developer**.  
@@ -14,15 +14,18 @@ Toda la formación se organiza bajo el estándar **Campaign as Course** ([`04-ca
 
 ```mermaid
 graph LR
-    subgraph Estado Actual
+    subgraph Chronicles Completadas
         P1[PY-BASICO<br/>✅ Completado] --> P2[PY-POO<br/>✅ Completado]
-        P2 --> S1[SQL-BASICO<br/>🟡 En curso: Cap 03-09 + Rite]
+        P2 --> S1[SQL-BASICO<br/>✅ Completado]
+        S1 -->|GATE: Búsqueda Paralela & Mock Interviews| DE[DE-PIPELINES<br/>✅ Completado]
     end
 
-    subgraph Ruta Crítica Pre-Empleo
-        S1 -->|GATE: Inician Postulaciones & Mock Interviews| DE[DE-PIPELINES<br/>ETL + Python/SQL + Data Quality + DAGs]
-        DE --> CLOUD[CLOUD-AWS<br/>S3 + IAM + RDS + Lambda + CloudWatch]
-        CLOUD --> PORT[PORT-CAPSTONE<br/>Pipeline Unificado End-to-End]
+    subgraph En Curso
+        DE --> CLOUD[CLOUD-AWS<br/>🟡 En curso: S3 + IAM + RDS + Lambda]
+    end
+
+    subgraph Próximo Hito
+        CLOUD --> PORT[PORT-CAPSTONE<br/>⚪ Pipeline Unificado End-to-End]
     end
 ```
 
@@ -36,7 +39,7 @@ graph LR
 | **`PY-POO`** | Python | ✅ **Done** | Programación Orientada a Objetos, TDD (`pytest`), modularización, logging y fixtures. |
 | **`SQL-BASICO`** | SQL | ✅ **Done** | DDL, constraints, CRUD, JOINs, CTEs, Window Functions, ACID, Modelado dimensional. |
 | **`DE-PIPELINES`** | Data Engineering | ✅ **Done** | Integración Python+SQL, consumo de APIs, Pandas, Data Quality, orquestación DAG local. |
-| **`CLOUD-AWS`** | Cloud Computing | ✅ **Done** | Almacenamiento S3, IAM roles/policies, RDS/Postgres, serverless Lambda, CloudWatch. |
+| **`CLOUD-AWS`** | Cloud Computing | 🟡 **En curso** | Almacenamiento S3, IAM roles/policies, RDS/Postgres, serverless Lambda, CloudWatch. |
 | **`PORT-CAPSTONE`** | Portafolio | ⚪ **Pendiente** | Pipeline monolítico productivo end-to-end + CI/CD en GitHub Actions + README en inglés. |
 
 ---

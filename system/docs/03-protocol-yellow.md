@@ -1,4 +1,4 @@
-# 04 - Protocolo Yellow (Graceful Degradation)
+# 03 - Protocolo Yellow (Graceful Degradation)
 
 > *"Protocol Yellow is an Engineering Tool, not a failure. It prioritizes long-term consistency over short-term perfection."*
 > — DoJo Philosophy
@@ -40,11 +40,10 @@ When activated, the Operator is authorized to pull any or all of the following g
 5. **Mandatory Break (The 'Hard Stop'):** 
    If friction persists above level 8 for more than 20 minutes with zero progress, an immediate 15-minute physical separation from the terminal is enforced. If frustration remains, close the session.
 
-## Application by Mission Type
+## Application by Learning Layer
 Protocol Yellow adapts its flavor depending on where it is triggered:
-- **Assessments / Boss Battles (B-Missions):** If triggered here, it acts as a "Containment Wall". Severe friction on a B-Mission automatically suggests a targeted *Reinforcement Pause* (e.g., a 1-to-2 week detour focusing heavily on building raw muscle memory in the weak area).
-- **Core Systems (M-Missions):** It becomes an iterative tool. Build the system "ugly and natively" first, purely to see data flow, then refactor.
-- **Side Quests (S-Missions):** Automatically consider aborting or postponing the S-Mission to prioritize Core mental energy.
+- **Rites (Projects in `rite/`):** If triggered here, it acts as a "Containment Wall". Severe friction during a Rite signals a conceptual gap. The Witch conducts a diagnostic and sends the Operator back to the specific `lore/` chapter and `quests/` for a targeted Reinforcement Pause.
+- **Quests (Laboratories in `quests/`):** It becomes an iterative tool. Build the solution "ugly and natively" first, purely to see data flow and understand the requirement, before refactoring into clean architecture.
 
 ## The Re-entry Path
 Protocol Yellow is a temporary state. To return to the standard Operational Level once the technical foundation feels solid again, execute a progressive overload:

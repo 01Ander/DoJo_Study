@@ -1,4 +1,4 @@
-# 06 - Guía de Operaciones (Hermes Agent — Mundodisco Edition)
+# 08 - Guía de Operaciones (Hermes Agent — Mundodisco Edition)
 
 > Este documento es tu referencia rápida (Wiki Operativa). Si te pierdes en los comandos o flujos del DoJo, vuelve aquí.
 
@@ -66,13 +66,17 @@ Para salir de Hermes, escribe `/exit`.
 │       └── scroll/               ← `/scroll` — Pergamino rápido de ideas
 │
 ├── content/
-│   ├── subjects/python/chronicles/ ← Área principal de chronicles
-│   │   └── PY-POO/
-│   │       ├── chronicle.md      ← Descripción de alto nivel
-│   │       ├── grimoire.md       ← Bitácora Feynman del Operador
-│   │       ├── lore/             ← Capítulos teóricos (la Biblioteca)
-│   │       ├── quests/           ← Laboratorios prácticos
-│   │       └── rite/             ← Proyecto final (rito de paso)
+│   ├── subjects/                 ← Divisiones (limpio en 'main'; poblado en 'chronicles')
+│   │   ├── python/chronicles/    ← PY-POO, PY-BASICO
+│   │   ├── sql/chronicles/       ← SQL-BASICO
+│   │   ├── cloud/chronicles/     ← CLOUD-AWS
+│   │   │   └── CLOUD-AWS/
+│   │   │       ├── chronicle.md  ← Contexto y requisitos
+│   │   │       ├── grimoire.md   ← Bitácora Feynman del Operador
+│   │   │       ├── lore/         ← Capítulos teóricos (la Biblioteca)
+│   │   │       ├── quests/       ← Laboratorios prácticos (andamiaje)
+│   │   │       └── rite/         ← Proyecto integrador final
+│   │   └── data_engineering/    ← DE-PIPELINES
 │   └── _generation/              ← Espacio temporal de generación activa
 │
 └── meta/                         ← Histórico, changelog e ideas
