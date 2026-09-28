@@ -2,6 +2,26 @@
 
 All notable changes to DoJo Study will be documented in this file.
 
+## [5.4.0] - 2026-09-28
+
+### 🌿 "The Branching & Governance Update"
+
+> Clean branches, strict scope, zero surprises.
+
+### Added
+- **Git Branching Model (`system/docs/08-guia-operaciones.md` & `README.md`):** Formalización de la separación arquitectónica entre `main` (framework/template universal con `content/subjects/` limpio) y `chronicles` (instancia viva de estudio con todo el contenido, quests, soluciones y grimoires). Se establece el flujo de sincronización unidireccional (`main` ➔ `chronicles` vía merge) y de contribución quirúrgica (`chronicles` ➔ `main` vía cherry-pick).
+- **Protocolo de Generación Quest-First & Scope Parity (`system/docs/09-generation-protocol.md`):** Regla obligatoria en el Paso 6 que prohíbe generar código de solución antes de los requerimientos y tests del andamiaje del estudiante. Se establece la paridad estricta de alcance (el código de referencia jamás puede superar el scope solicitado en `quest.md`) con checkpoints en GATE 2 y GATE 4.
+- **Estandarización English First Transversal (`system/docs/06-convenciones-codigo.md`, `system/docs/09-generation-protocol.md`, `content/subjects/README.md`):** Regla obligatoria que exige que todo el código ejecutable, variables, funciones, tests, docstrings, commits y comentarios dentro de bloques de código se escriban 100% en inglés técnico, manteniendo la prosa pedagógica y lore en español. Checkpoints añadidos a GATE 2 y GATE 4.
+- **Scaffolding de Solución de Referencia Desacoplada (`quests/`):** Aislamiento de las soluciones de referencia en subcarpetas dedicadas `reference/` (`solution.py`, `test_solution.py`), dejando los archivos del operador (`my_solution.py`, `test_my_solution.py`) limpios en la raíz de cada quest para evitar fricción cognitiva.
+
+### Changed
+- **Refactorización de Código en `CLOUD-AWS`:** Traducción completa al estándar English First de los capítulos 00 al 05 en `lore/` y `quests/`, preservando soluciones en progreso del operador y verificando el 100% de suites de tests funcionales (`pytest`).
+- **Sincronización Canónica de Documentación (`system/docs/`):** Corrección y armonización de encabezados `H1` desfasados en `03-protocol-yellow.md`, `05-syllabus-maestro.md`, `06-syllabus-post-empleo-fase2.md`, `07-dojo-agent.md` y `08-guia-operaciones.md`.
+- **Modernización de Protocolo Yellow (`system/docs/03-protocol-yellow.md`):** Actualización de la antigua taxonomía de misiones (B/M/S) al modelo de capas de aprendizaje Mundodisco (*Rites* y *Quests*).
+- **Actualización de Estado en Syllabus Maestro (`system/docs/05-syllabus-maestro.md`):** Diagrama Mermaid y tabla de progreso sincronizados con la culminación de `SQL-BASICO` y `DE-PIPELINES`, y el estado activo en ejecución de `CLOUD-AWS`.
+
+---
+
 ## [5.3.0] - 2026-09-16
 
 ### 🏭 "The Factory Update"
