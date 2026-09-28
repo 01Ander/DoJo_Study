@@ -75,12 +75,12 @@ Si ignoramos las buenas prácticas de seguridad, podríamos vernos tentados a in
 ```python
 import boto3
 
-# ¡PELIGRO! Esto es "Hardcoding".
+# DANGER! This is "Hardcoding".
 access_key = "AKIAIOSFODNN7EXAMPLE"
 secret_key = "wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY"
 
-# Si subes este código a GitHub (incluso privado), bots extraerán tus llaves en segundos
-# y usarán tu cuenta para minar criptomonedas, dejándote deudas miles de dólares.
+# If you push this code to GitHub, bots will extract your keys within seconds
+# and use your account to mine crypto, leaving you with massive bills.
 iam_client = boto3.client('iam', aws_access_key_id=access_key, aws_secret_access_key=secret_key)
 ```
 
@@ -92,19 +92,19 @@ import os
 import boto3
 from dotenv import load_dotenv
 
-# 1. Cargamos las variables de entorno del archivo .env a la memoria del SO
+# 1. Load environment variables from .env into OS memory
 load_dotenv()
 
-# 2. boto3 buscará automáticamente las variables AWS_ACCESS_KEY_ID y AWS_SECRET_ACCESS_KEY
-# en el entorno operativo. No necesitamos pasárselas manualmente.
+# 2. boto3 will automatically look for AWS_ACCESS_KEY_ID and AWS_SECRET_ACCESS_KEY
+# in the runtime environment without passing them manually.
 try:
     iam_client = boto3.client('iam')
     response = iam_client.get_user()
-    usuario = response['User']['UserName']
-    print(f"✅ Autenticación exitosa. Logueado como: {usuario}")
+    username = response['User']['UserName']
+    print(f"✅ Authentication successful. Logged in as: {username}")
 
 except Exception as e:
-    print(f"❌ Error de autenticación: {e}")
+    print(f"❌ Authentication error: {e}")
 ```
 
 *Zero Surprise Syntax:*
@@ -125,18 +125,32 @@ Cuando construimos infraestructura Cloud, probarla ejecutando el código repetid
 from unittest.mock import patch, MagicMock
 
 @patch('my_solution.boto3.client')
-def test_ejemplo(mock_boto):
+def test_example_success(mock_boto):
     mock_iam = MagicMock()
-    # Arrange: Forzamos la respuesta de la API
-    mock_iam.get_user.return_value = {'User': {'UserName': 'cuidador-falso'}}
+    # Arrange: Mock API response
+    mock_iam.get_user.return_value = {'User': {'UserName': 'mock-dragon-keeper'}}
     mock_boto.return_value = mock_iam
     
-    # Act: Ejecutamos nuestra función real
-    from my_solution import obtener_usuario
-    usuario = obtener_usuario()
+    # Act: Execute real function
+    from my_solution import verify_identity
+    username = verify_identity()
     
-    # Assert: Verificamos el resultado
-    assert usuario == 'cuidador-falso'
+    # Assert: Verify result
+    assert username == 'mock-dragon-keeper'
+
+@patch('my_solution.boto3.client')
+def test_example_error(mock_boto):
+    mock_iam = MagicMock()
+    # Arrange: Force network or credential error with side_effect
+    mock_iam.get_user.side_effect = Exception("Invalid Access Key")
+    mock_boto.return_value = mock_iam
+    
+    # Act: Execute real function expecting it to handle error
+    from my_solution import verify_identity
+    username = verify_identity()
+    
+    # Assert: Verify controlled error return
+    assert username == "Authentication failed"
 ```
 
 ## 7. Mapa de Ejercicios

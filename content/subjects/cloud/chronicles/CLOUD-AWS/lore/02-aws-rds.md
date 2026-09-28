@@ -48,8 +48,8 @@ import psycopg2
 dragon_id = 42 # Este valor podría venir de una API o del usuario
 query = f"SELECT nivel FROM dragones_salud WHERE dragon_id = {dragon_id};"
 
-# PELIGRO: Si dragon_id es "42; DROP TABLE dragones_salud;", 
-# borrarían la base de datos completa (Ataque SQL Injection).
+# DANGER: If dragon_id is "42; DROP TABLE dragons_health;", 
+# it would delete the entire database (SQL Injection attack).
 ```
 
 ### El Camino Robusto (Zero Surprise Syntax)
@@ -63,7 +63,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 try:
-    # 1. Establecemos la conexión por red al clúster RDS (Puerto 5432)
+    # 1. Establish network connection to RDS cluster (Port 5432)
     conn = psycopg2.connect(
         host=os.environ.get('DB_HOST'),
         database=os.environ.get('DB_NAME'),
@@ -72,24 +72,24 @@ try:
         port="5432" 
     )
     
-    # 2. Creamos un cursor temporal
+    # 2. Create temporary cursor
     cur = conn.cursor()
     
-    # 3. Ejecutamos la consulta usando PARÁMETROS SEGUROS (%s)
-    dragon_id_buscado = 42
-    query = "SELECT nivel_inestabilidad FROM dragones_salud WHERE dragon_id = %s;"
+    # 3. Execute query using SAFE PARAMETERS (%s)
+    target_dragon_id = 42
+    query = "SELECT instability_level FROM dragons_health WHERE dragon_id = %s;"
     
-    # psycopg2 sanitiza automáticamente la tupla de parámetros
-    cur.execute(query, (dragon_id_buscado,))
+    # psycopg2 automatically sanitizes parameter tuple
+    cur.execute(query, (target_dragon_id,))
     
-    # 4. Obtenemos el resultado
-    registro = cur.fetchone()
-    print(f"✅ Inestabilidad Nivel: {registro[0]}")
+    # 4. Fetch result
+    record = cur.fetchone()
+    print(f"✅ Instability level: {record[0]}")
 
 except Exception as e:
-    print(f"❌ Error RDS: {e}")
+    print(f"❌ RDS Error: {e}")
 finally:
-    # 5. Siempre cerrar, sin importar si hubo error, para evitar conexiones zombie.
+    # 5. Always close connection to avoid zombie connections
     if 'cur' in locals():
         cur.close()
     if 'conn' in locals():
@@ -104,34 +104,51 @@ finally:
 
 ## 6. Conexión con Testing (Test-Driven Lore)
 
-Mockear una base de datos relacional es un poco más anidado porque los objetos interactúan en cadena: Te conectas (`psycopg2.connect`), lo que te devuelve la Conexión, la cual te devuelve un Cursor, el cual te devuelve tu Resultado.
-
-Para probar un script sin usar una BD real, usamos `MagicMock` encadenados:
+- **`MagicMock` encadenados:** Conectas (`psycopg2.connect`), lo que devuelve la Conexión (`mock_conn`), la cual devuelve un Cursor (`mock_cur`), el cual retorna tu Resultado (`mock_cur.fetchone.return_value`).
+- **Verificar limpieza con `mock_conn.close.assert_called_once()`:** En bases de datos es vital probar que `conn.close()` se ejecuta **siempre**, incluso si `cur.execute()` explota con una excepción (bloque `finally`). Forzamos ese error asignando una excepción a `mock_cur.execute.side_effect`.
 
 ```python
 from unittest.mock import patch, MagicMock
 
+# 1. Success Case Test
 @patch('my_solution.psycopg2.connect')
-def test_consulta(mock_connect):
-    # Simulamos el objeto de conexión
+def test_query_success(mock_connect):
+    # Mock chained connection and cursor objects
     mock_conn = MagicMock()
-    # Simulamos el objeto de cursor
     mock_cur = MagicMock()
     
-    # Enlazamos: cuando llamen a connect(), que retorne mock_conn
     mock_connect.return_value = mock_conn
-    # Cuando llamen a conn.cursor(), que retorne mock_cur
     mock_conn.cursor.return_value = mock_cur
     
-    # Finalmente simulamos los datos reales que fetchone() debe retornar (una tupla)
+    # Mock data returned by fetchone() (tuple)
     mock_cur.fetchone.return_value = (89,)
     
-    # Act: Ejecutamos nuestra función real
-    from my_solution import consultar_inestabilidad
-    nivel = consultar_inestabilidad(42)
+    # Act: Execute real function
+    from my_solution import check_status
+    level = check_status(42)
     
-    # Assert: Comprobamos que retornó el valor simulado
-    assert nivel == 89
+    # Assert: Verify value and resource cleanup
+    assert level == 89
+    mock_cur.close.assert_called_once()
+    mock_conn.close.assert_called_once()
+
+# 2. Error and Connection Cleanup Test
+@patch('my_solution.psycopg2.connect')
+def test_query_error_cleanup(mock_connect):
+    mock_conn = MagicMock()
+    mock_cur = MagicMock()
+    mock_connect.return_value = mock_conn
+    mock_conn.cursor.return_value = mock_cur
+    
+    # Force a database exception during execute using side_effect
+    mock_cur.execute.side_effect = Exception("Relation dragons_health does not exist")
+    
+    from my_solution import check_status
+    level = check_status(99)
+    
+    # Assert: Must return None on error, but MUST have closed connection
+    assert level is None
+    mock_conn.close.assert_called_once()
 ```
 
 ## 7. Mapa de Ejercicios

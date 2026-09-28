@@ -22,3 +22,7 @@
 ## 5. Diseño Orientado a Eventos (Establecido en `CLOUD-AWS`)
 - **Asincronía sin Respuestas HTTP:** En arquitecturas puramente Event-Driven asíncronas (ej. eventos de S3 detonando Lambdas), las funciones procesadoras **no deben retornar códigos HTTP** (como `statusCode: 200`). AWS ignora estas respuestas. Deben retornar `None` en éxito o lanzar una excepción (`raise e`) en caso de fallo para activar mecanismos de reintento o DLQ.
 - **Inyección de Credenciales:** Prohibido el hardcodeo de llaves de AWS. En entornos Cloud, se leen dinámicamente usando variables de entorno o roles IAM subyacentes.
+
+## 6. Idioma del Código y Nomenclatura (English First)
+- **Código y Tests en Inglés:** Todo bloque de código ejecutable, nombres de variables, funciones, clases, archivos de prueba (`test_*.py`), docstrings, logs y comentarios dentro de bloques de código deben escribirse estrictamente en **inglés profesional**.
+- **Explicaciones en Español:** La prosa explicativa, títulos de sección, analogías y guías fuera de los bloques de código se redactan en **español** para facilitar la comprensión conceptual rápida.

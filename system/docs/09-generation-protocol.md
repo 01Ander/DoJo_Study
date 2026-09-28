@@ -180,28 +180,31 @@ content/_generation/<CHRONICLE-CODE>/
 **Input:** Lore aprobado + grimoire aprobado (GATE 3 PASS).
 **Acción:**
 1. Crear una carpeta por capítulo: `quests/NN-titulo/`.
-2. Cada quest contiene como mínimo: `quest.md` (instrucciones), `solution.py` (o `.sql`, según el área), y `test_NN_titulo.py` (tests automatizados).
-3. **Coherencia Secuencial:** Quest del Cap N solo usa conceptos de Cap 0..N.
-4. **Cero Sintaxis Huérfana:** La solución no debe usar ningún keyword/función que no esté en el lore del capítulo correspondiente o anteriores.
-5. Aplicar scaffolding progresivo de testing (5 niveles de andamiaje, del nivel más guiado al más autónomo conforme avancen los capítulos).
-6. **Spaced Repetition:** Los capítulos avanzados (Cap 04+) pueden incluir ejercicios de revisión de capítulos pasados.
-7. **Objetivos Completos (Lección de DE-PIPELINES Cap 04-05):** Cada objetivo en `quest.md` que pida crear una función DEBE describir: qué hace la función (su propósito), qué recibe, y qué retorna o qué efecto produce. No basta con indicar solo el nombre y la firma.
-8. **Objetivos Autosuficientes:** Si un objetivo requiere que el Operador use un mecanismo específico para llegar a la solución (ej. verificar atributos inyectados por decoradores, usar métodos de una librería en cierta combinación), el objetivo DEBE explicar ese mecanismo con suficiente detalle para que el Operador pueda implementarlo sin adivinar. El `quest.md` debe ser navegable de forma autónoma hacia la solución.
+2. **Generación Progresiva y Estructura (Requerimientos Primero):** Queda estrictamente prohibido generar primero el código de solución y luego redactar las instrucciones. El flujo de generación debe seguir este orden obligatorio:
+   - **a. Instrucciones (`quest.md`):** Definir el alcance exacto, objetivos completos, inputs esperados, outputs y restricciones.
+   - **b. Espacio de Trabajo del Operador:** Crear el esqueleto (`my_solution.py`) y el archivo de pruebas (`test_my_solution.py`) respetando el nivel de scaffolding asignado.
+   - **c. Carpeta de Referencia (`reference/`):** Generar `reference/solution.py` y `reference/reference_test.py`.
+3. **Paridad de Scope Estricta (Lección de CLOUD-AWS Cap 01):** El código generado en `reference/` debe tener **exactamente el mismo alcance** que lo solicitado en `quest.md`. La referencia es el espejo contra el cual el Operador comparará si su solución es correcta; está prohibido que la referencia añada manejo de casos extremos, excepciones extra, o tests con mayor cobertura o complejidad que no fueron solicitados explícitamente en `quest.md`.
+4. **Coherencia Secuencial:** Quest del Cap N solo usa conceptos de Cap 0..N.
+5. **Cero Sintaxis Huérfana:** La solución no debe usar ningún keyword/función que no esté en el lore del capítulo correspondiente o anteriores.
+6. Aplicar scaffolding progresivo de testing (5 niveles de andamiaje, del nivel más guiado al más autónomo conforme avancen los capítulos).
+7. **Spaced Repetition:** Los capítulos avanzados (Cap 04+) pueden incluir ejercicios de revisión de capítulos pasados.
+8. **Objetivos Completos (Lección de DE-PIPELINES Cap 04-05):** Cada objetivo en `quest.md` que pida crear una función DEBE describir: qué hace la función (su propósito), qué recibe, y qué retorna o qué efecto produce. No basta con indicar solo el nombre y la firma.
+9. **Objetivos Autosuficientes:** Si un objetivo requiere que el Operador use un mecanismo específico para llegar a la solución (ej. verificar atributos inyectados por decoradores, usar métodos de una librería en cierta combinación), el objetivo DEBE explicar ese mecanismo con suficiente detalle para que el Operador pueda implementarlo sin adivinar. El `quest.md` debe ser navegable de forma autónoma hacia la solución.
 
 > [!CAUTION]
-> **Separación de Archivos y Scaffolding Real (Lección de CLOUD-AWS):**
+> **Separación de Archivos, Carpeta Reference y Scaffolding Real (Lección de CLOUD-AWS):**
 >
-> **Regla de archivos:** `solution.py` es la **solución de referencia**. Aunque el Operador tiene acceso directo al archivo, confiamos en su disciplina para no abrirlo hasta tener su propia solución. El generador debe elegir una de estas dos modalidades de andamiaje:
+> **Regla de archivos:** Los archivos de solución y test de referencia se aíslan en la subcarpeta `reference/` (`reference/solution.py` y `reference/reference_test.py`). El Operador trabaja exclusivamente en la raíz de la quest (`my_solution.py` y `test_my_solution.py`).
 >
-> - **Modalidad Inline (quests simples):** Si la quest se puede resolver sin mocks externos ni importaciones complejas, las funciones a implementar (con cuerpo `pass`) van **dentro del archivo de tests**, y los tests las llaman directamente. `solution.py` queda como referencia silenciosa.
-> - **Modalidad Separada (quests con mocks/imports):** Si los tests requieren parchear rutas de importación (ej. `@patch('my_solution.boto3.client')`), se genera un archivo esqueleto (ej. `my_solution.py`) con las firmas de las funciones y cuerpo `pass`. Los tests importan de ese archivo. `solution.py` queda como referencia silenciosa. El `quest.md` debe indicar explícitamente en qué archivo escribir.
+> **Regla de paridad:** La referencia debe validar única y exclusivamente lo requerido en `quest.md`. No debe existir una brecha de expectativas (fricción) donde el Operador cumpla todos los requisitos del enunciado pero su código parezca "incompleto" al compararlo con una referencia con mayor scope.
 >
 > **Regla de scaffolding progresivo real:**
 > - **Capítulos tempranos (00-02):** El esqueleto incluye firmas de funciones, imports necesarios, y comentarios-guía. Los tests pueden estar parcialmente escritos.
 > - **Capítulos intermedios (03-04):** El esqueleto incluye solo firmas vacías sin comentarios-guía. Tests completos pero sin pistas.
 > - **Capítulos finales (05+):** El Operador recibe un archivo vacío (o sin archivo) y debe construir todo desde cero. El `quest.md` es su única guía.
 >
-> En **todos los niveles**, el Operador debe poder completar el ejercicio trabajando sobre sus propios archivos o esqueletos, sin verse forzado a mirar `solution.py`.
+> En **todos los niveles**, el Operador debe poder completar el ejercicio trabajando sobre sus propios archivos o esqueletos, sin verse forzado a mirar `reference/`.
 
 **Output:** Carpetas de quests completas con instrucciones, soluciones de referencia y tests.
 **Actualizar roadmap:** `paso_actual: gate_4`, `estado: listo_para_auditoria`.
@@ -277,6 +280,7 @@ Al pasar de un paso de generación a su gate, el roadmap se marca como `estado: 
 - [ ] ¿Los conceptos abstractos o arquitectónicos cumplen la regla de Densidad (≥2 analogías y ejemplos progresivos mal → buen camino)?
 - [ ] **Anti-Tutorial Traps / Rigor de Empleabilidad:** ¿El código enseñado refleja estándares de producción? (Manejo correcto de operaciones asíncronas vs síncronas, inyección de dependencias seguras sin hardcodeo, y limpieza explícita de recursos como conexiones a DB).
 - [ ] **Cumplimiento de Convenciones Transversales:** ¿El código respeta absolutamente TODAS las reglas estipuladas en `06-convenciones-codigo.md` (ej. uso de Domain Exceptions, ciclo AAA estricto)? Citar explícitamente cuál convención aplica y si se cumplió, para evitar regresiones de industria.
+- [ ] **Idioma de Código (English First):** ¿Todo el código en los bloques (variables, funciones, comentarios, docstrings, logs) está estrictamente en inglés profesional, manteniendo la prosa exterior en español?
 - [ ] **¿Existe la sección "Conexión con Testing"?** Verifica que el capítulo enseñe cómo probar el concepto e incluya la explicación de herramientas avanzadas de test (como mocks) si la naturaleza de la tecnología lo exige (ej. APIs, AWS).
 
 **Checklist global:**
@@ -323,13 +327,15 @@ Al pasar de un paso de generación a su gate, el roadmap se marca como `estado: 
 
 **Checklist por quest:**
 - [ ] ¿La solución usa SOLO sintaxis enseñada en Cap 0..N del lore?
-- [ ] **Scaffolding Coverage:** Si los archivos de prueba (`test_*.py`) incluyen sintaxis, herramientas o fixtures avanzadas (ej. `side_effect`, `pytest.raises`), ¿fueron estas explícitamente enseñadas en el lore correspondiente? (La regla Zero Surprise Syntax aplica al scaffolding).
+- [ ] **Paridad de Scope (Quest ↔ Referencia):** ¿El código de `reference/solution.py` y `reference/reference_test.py` tiene **exactamente el mismo alcance** que lo solicitado en `quest.md`? (Verificar que la referencia NO resuelva casos borde no pedidos, no atrape excepciones extra no solicitadas, ni implemente tests con mayor cobertura o scope que el exigido al Operador en `quest.md`).
+- [ ] **Scaffolding Coverage:** Si los archivos de prueba (`test_*.py` o `reference/reference_test.py`) incluyen sintaxis, herramientas o fixtures avanzadas (ej. `side_effect`, `pytest.raises`), ¿fueron estas explícitamente enseñadas en el lore correspondiente? (La regla Zero Surprise Syntax aplica al scaffolding).
 - [ ] ¿Las instrucciones (`quest.md`) son claras sin necesidad de consultar el lore para entender el enunciado?
 - [ ] ¿Los tests validan el comportamiento esperado de la solución?
 - [ ] ¿No hay keywords/funciones "huérfanas" en la solución que no aparezcan en el lore?
 - [ ] ¿Cada objetivo que pide crear una función describe su propósito, qué recibe y qué retorna/produce?
 - [ ] ¿Cada objetivo es autosuficiente para llegar a la solución sin adivinar mecanismos no explicados?
-- [ ] **¿El Operador puede completar el ejercicio?** Verificar que el scaffolding sea real (esqueletos progresivos). El archivo `solution.py` estará presente, pero el sistema debe proveer los esqueletos/instrucciones necesarias para que el operador no necesite leerlo para completarlo. Los tests deben importar del archivo esqueleto o test, no de `solution.py`.
+- [ ] **¿El Operador puede completar el ejercicio?** Verificar que el scaffolding sea real (esqueletos progresivos). Los archivos de referencia viven aislados en `reference/`. El Operador cuenta con los esqueletos/instrucciones necesarias en la raíz de la quest (`my_solution.py`) para no verse forzado a mirar la referencia mientras resuelve. Los tests del Operador deben importar de `my_solution.py`.
+- [ ] **Idioma de Código (English First):** ¿Todo el código de la quest (solución de referencia, tests, esqueletos y comentarios internos) está estrictamente en inglés?
 
 **Si PASS:** Actualizar roadmap → `paso_actual: 7`, `estado: en_progreso`.
 **Si FAIL:** Registrar hallazgo, corregir, re-auditar.
@@ -480,3 +486,6 @@ Revisar que el lore no use palabras que impliquen opcionalidad ("extra", "puedes
 
 ### 9.8 Coherencia Secuencial (Quests)
 Todo ejercicio del capítulo N solo puede utilizar conceptos y sintaxis de los capítulos 0..N que hayan sido formalmente explicados en el lore. Nunca debe requerir conocimiento de capítulos superiores ni incluir palabras clave sorpresa en la solución esperada.
+
+### 9.9 Idioma del Código (English First)
+Todo código ejecutable, variables, funciones, clases, tests (`test_*.py`), docstrings, logs y comentarios dentro de bloques de código DEBEN escribirse en **inglés profesional**. Las explicaciones teóricas, títulos y analogías fuera de los bloques de código se mantienen en **español**.

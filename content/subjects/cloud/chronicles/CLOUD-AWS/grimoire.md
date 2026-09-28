@@ -7,62 +7,62 @@
 ---
 
 ## Cap 00: AWS Identity & Access Management (IAM)
-**Fecha de finalización:** [YYYY-MM-DD]
+**Fecha de finalización:** 2026-09-28
 **Métricas:**
-- Tiempo de lectura: [X]min
-- Tiempo en ejercicios: [X]min
-- Veces que recurrí al Tutor/DM: [X]
-- Fricción (1-10): [X]
+- Tiempo de lectura: 8min
+- Tiempo en ejercicios: 10min
+- Veces que recurrí al Tutor/DM: 0
+- Fricción (1-10): 1
 
 **Feynman Synthesis (Tus propias palabras):**
 1. **¿Por qué es un riesgo de seguridad crítico darle a un script permisos de "Administrador Total" en AWS por conveniencia, y qué principio de IAM debemos aplicar en nuestras Políticas (Policies) para evitarlo?**
-   > [Tu respuesta aquí]
+   > Se debe aplicar la politica IAM, dandole permiso extricto y acceso minimo neceario para la tarea que vaya a cumplir, ya que sin esta, el script puede generar un peligro de seguridad, puesto que dentro de un hackeo se pueden obtener las licencias y accesos de dicho script y dar entrada al sistema a cualquiera con intenciones maliciosas.
 
 2. **Describe exactamente cómo se debe autenticar un script de Python en AWS utilizando la librería `boto3` para evitar el peor pecado de seguridad en la nube (el hardcoding de credenciales directas en el código fuente).**
-   > [Tu respuesta aquí]
+   > Las credenciales deben vivir en un archivo .env, el cual debe estar dentro del .gitignore. En el codigo de produccion se debe importar librerias de os, boto3 y dotenv, posteriormente, se cargan las variables de entorno del archivo .env con la funcion load_dotenv() y ya se puede intentar hacer una validacion de ususario, a partir de boto3.client('iam') creando la conexion y iam_client.get_user() para hacer la peticion de API a AWS.
 
 **Friction Log (Opcional):**
-> [Obstáculos técnicos o conceptuales específicos de este capítulo]
+> Se habia confundido en test que para captar el error de autenticacion se debia hacer con with pytest.raises, pero la funcion original retornaba el mensaje de error, solo eso, por lo que no era necesario, solo igualar al mensaje como un assert normal.
 
 ---
 
 ## Cap 01: Amazon S3 (Simple Storage Service)
-**Fecha de finalización:** [YYYY-MM-DD]
+**Fecha de finalización:** 2026-09-28
 **Métricas:**
-- Tiempo de lectura: [X]min
-- Tiempo en ejercicios: [X]min
-- Veces que recurrí al Tutor/DM: [X]
-- Fricción (1-10): [X]
+- Tiempo de lectura: 10min
+- Tiempo en ejercicios: 10min
+- Veces que recurrí al Tutor/DM: 0
+- Fricción (1-10): 1
 
 **Feynman Synthesis (Tus propias palabras):**
 1. **S3 permite almacenar tanto JSON como Parquet. ¿Por qué elegirías guardar un archivo en formato crudo JSON en la zona de ingesta, y por qué preferirías usar un formato columnar como Parquet para la zona de consumo analítico (Curated)?**
-   > [Tu respuesta aquí]
+   > JSON en la zona de ingesta tiene como facilidad la lectura humana, por lo que se vuelve en la fuente de verdad en el momento de una verificacion de dicha entrada. Parquet tiene la caracteristica de ser columnar dando una compresion significativa de la informacion ya limpia, esto facilita el procesamiento, analisis, busqueda, todo el manejo que se pueda hacer con informacion muy cercana a una db, de manera eficaz y eficiente. 
 
 2. **Explica cómo S3 organiza los objetos si no existe un sistema de carpetas real, y describe la convención arquitectónica de nomenclatura (*keys*) que se utiliza al ingerir datos para evitar escanear terabytes de histórico inútil al hacer consultas.**
-   > [Tu respuesta aquí]
+   > Al tratarse de un sistema plano que puede escalar sumamente facil, se adopta un convencion de date partitioning, el cual agrega una key con fecha que permita presisamente particionar la informacion que entro al sistema, evitando un consumo absurdo de recursos al momento de hacer una busqueda de informacion cuando el sistema cuente con millones de registros ya cargados, a partir del 'filtro' de la fecha.
 
 **Friction Log (Opcional):**
-> [Obstáculos técnicos o conceptuales específicos de este capítulo]
+> Externo al contenido, gaps detectados en el sistema frente a la solucion propuesta y lo que requeria la quest.
 
 ---
 
 ## Cap 02: Amazon RDS (Relational Database Service)
-**Fecha de finalización:** [YYYY-MM-DD]
+**Fecha de finalización:** 2026-09-28
 **Métricas:**
-- Tiempo de lectura: [X]min
-- Tiempo en ejercicios: [X]min
-- Veces que recurrí al Tutor/DM: [X]
-- Fricción (1-10): [X]
+- Tiempo de lectura: 11min
+- Tiempo en ejercicios: 19min
+- Veces que recurrí al Tutor/DM: 1
+- Fricción (1-10): 1
 
 **Feynman Synthesis (Tus propias palabras):**
 1. **¿Por qué un ingeniero de datos preferiría usar Amazon RDS en lugar de instalar PostgreSQL manualmente en un servidor alquilado (auto-administrado), y qué herramienta nativa de AWS tipo firewall debe usar para evitar que bots en internet intenten hackear la base de datos?**
-   > [Tu respuesta aquí]
+   > Se usa Amazon RDS por la facilidad a la hora de mantener la propia base de datos. Este servicio se encarga de mantener actualizado dependencias, seguridad, tramites operativos netamente del servidor, mientras que el programador solo se encarga de las consultas como tal y uso neto de la base de datos. Para manejar una seguridad dentro de este sistema se usa Security Group, el cual actua como firewall para evitar la entrada a extranos y la salida de informacion hacia los mismos. Esto se logra permitiendo la entrada de puertos exclusivamente a un grupo selecto de IPs privadas con las cuales se este trabajando. 
 
 2. **En el ecosistema de bases de datos con Python (DBAPI), ¿qué es exactamente un "cursor" y por qué es obligatorio crearlo cuando usamos librerías como `psycopg2` para enviar consultas a RDS?**
-   > [Tu respuesta aquí]
+   > cursor es el encargado de enviar las peticiones sql y regresar las respuestas de la misma. Esto se hace para evitar que se presenten inyecciones de codigo sql en campos donde se permita la entrada de strings de manera oculta, dando paso por ejemplo, que se elimine la db. 
 
 **Friction Log (Opcional):**
-> [Obstáculos técnicos o conceptuales específicos de este capítulo]
+> Error al realizar el return de la funcion principal, no se habia leido bien el codigo del lore y se estaba retornando completamente la tupla, no solo el valor solicitado. 
 
 ---
 
@@ -137,7 +137,7 @@ Documenta aquí cualquier "rabbit hole", problema de configuración grave, o con
 
 ## 📊 Métricas de Ejecución
 Completa estas métricas antes de solicitar la auditoría del DM.
-- **Fecha de inicio (Lectura primer Cap):** [YYYY-MM-DD]
+- **Fecha de inicio (Lectura primer Cap):** 2026-09-26
 - **Fecha de finalización (Rite completado):** [YYYY-MM-DD]
 - **Horas netas estimadas de dedicación:** [X] horas
 
@@ -150,5 +150,8 @@ Completa estas métricas antes de solicitar la auditoría del DM.
 ---
 
 ## 🔮 Auditoría del DM
-> **Auditoría del DM:** [Pendiente]  
-> *El agente completará esta sección con su evaluación tras ejecutar `/scry`.*
+> **Auditoría del DM:** ✅ **PASS - Cap 00 a Cap 02**  
+> *Evaluación del DM (Cap 00):* El Operador ha comprendido correctamente la importancia de aplicar políticas restrictivas (Mínimo Privilegio) y la arquitectura de autenticación segura sin hardcoding usando `boto3`.
+> *Evaluación del DM (Cap 01):* Respuestas impecables sobre el uso estratégico de formatos crudos (JSON) vs analíticos (Parquet) y la implementación obligatoria de Date Partitioning para la eficiencia de lectura en repositorios planos tipo S3.  
+> *Evaluación del DM (Cap 02):* Excelente comprensión del valor de RDS como servicio administrado y del uso de Security Groups. Aclaración técnica: el cursor en sí no previene la inyección SQL; es la *parametrización* al usar `cur.execute(query, (params,))` la que sanitiza los inputs, pero el concepto de seguridad está asimilado.
+> *Siguiente Acción:* Autorizado para proceder al **Capítulo 03: AWS Lambda**.

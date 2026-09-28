@@ -32,17 +32,17 @@ No usarás `load_dotenv()` en la nube, solo leerás directamente desde `os.envir
 import psycopg2, boto3
 
 def lambda_handler(event, context):
-    # ¡Terrible! Hardcoding en pleno código.
-    conn = psycopg2.connect(host="dragones.rds", user="admin", password="123")
+    # Fragile! Hardcoded credentials directly in code.
+    conn = psycopg2.connect(host="dragons.rds", user="admin", password="123")
     cur = conn.cursor()
     
-    # Adivinar archivo ciegamente
+    # Guessing file blindly
     s3 = boto3.client('s3')
-    obj = s3.get_object(Bucket="mi-bucket", Key="ultimo_reporte.json")
+    obj = s3.get_object(Bucket="my-bucket", Key="latest_report.json")
     
-    # Si la base de datos rechaza la inserción, el script explota, CloudWatch no dice por qué,
-    # y la conexión conn queda colgada por siempre como un zombie consumiendo RAM en RDS.
-    cur.execute("INSERT INTO inventario VALUES (...)")
+    # If the database rejects insertion, script crashes, CloudWatch won't say why,
+    # and conn hangs forever as a zombie consuming RAM on RDS.
+    cur.execute("INSERT INTO inventory VALUES (...)")
     conn.commit()
 ```
 
@@ -59,21 +59,19 @@ import psycopg2
 logger = logging.getLogger()
 logger.setLevel(logging.INFO)
 
-# Cliente S3 global (ahorra milisegundos de carga entre invocaciones cálidas)
-s3_client = boto3.client('s3')
-
 def lambda_handler(event, context):
     conn = None
     try:
-        # 1. Integración Event-Driven (S3)
+        # 1. Event-Driven integration (S3)
         bucket = event['Records'][0]['s3']['bucket']['name']
         key = event['Records'][0]['s3']['object']['key']
         
-        # 2. Extracción y Lectura de JSON crudo
+        # 2. Extract and parse raw JSON
+        s3_client = boto3.client('s3')
         response = s3_client.get_object(Bucket=bucket, Key=key)
         payload = json.loads(response['Body'].read().decode('utf-8'))
         
-        # 3. Conexión segura usando variables Inyectadas (sin load_dotenv)
+        # 3. Secure connection using injected variables (no load_dotenv)
         conn = psycopg2.connect(
             host=os.environ['DB_HOST'],
             database=os.environ['DB_NAME'],
@@ -82,28 +80,29 @@ def lambda_handler(event, context):
         )
         cur = conn.cursor()
         
-        # 4. Transformación y Carga ACID
+        # 4. ACID Transform and Load
         dragon_id = payload.get('dragon_id')
-        kilos = payload.get('kilos_carne', 0)
+        kg = payload.get('meat_kg', 0)
         
-        cur.execute("INSERT INTO consumos (dragon_id, kilos) VALUES (%s, %s)", (dragon_id, kilos))
+        cur.execute("INSERT INTO consumptions (dragon_id, kg) VALUES (%s, %s)", (dragon_id, kg))
         
-        # 5. Confirmar transacción
+        # 5. Commit transaction
         conn.commit()
-        logger.info(f"✅ Inserción guardada para dragón {dragon_id}")
+        logger.info(f"✅ Insertion saved for dragon {dragon_id}")
+        return {'statusCode': 200, 'body': 'Cloud ETL Completed'}
         
     except Exception as e:
-        # 6. Tolerancia a Fallos
+        # 6. Fault tolerance
         if conn:
-            conn.rollback() # Deshacer datos "a medias"
-        logger.error(f"❌ Fallo E2E: {str(e)}")
-        raise e # Relanzamos para que CloudWatch marque la Lambda como fallida
+            conn.rollback() # Undo half-committed data
+        logger.error(f"❌ E2E failure: {str(e)}")
+        return {'statusCode': 500, 'body': 'ETL processing error'}
         
     finally:
-        # 7. Limpieza Absoluta e incondicional
+        # 7. Unconditional cleanup
         if conn:
             conn.close()
-            logger.info("Conexión RDS cerrada de forma segura.")
+            logger.info("RDS connection safely closed.")
 ```
 
 *Zero Surprise Syntax:*
@@ -115,37 +114,89 @@ def lambda_handler(event, context):
 ## 6. Conexión con Testing (Test-Driven Lore)
 
 El testing End-to-End (E2E) simulado requiere orquestar múltiples mocks en la misma función.
-En el Cap 05, tendrás que parchear tanto S3 como Postgres para asegurarte de que tu código interactúa con ambos.
+En el Cap 05, tendrás que parchear tanto S3 como Postgres, e inyectar variables de entorno falsas para que tu código pueda leerlas sin lanzar `KeyError`.
 
-- Se pueden apilar múltiples decoradores `@patch`. Se inyectan en los argumentos de abajo hacia arriba (el parche más cercano a la función es el primer argumento).
+- **Inyección de variables de entorno con `@patch.dict`:** Como tu código lee directamente de `os.environ` sin archivo `.env`, usamos `@patch.dict(os.environ, {...})` de `unittest.mock` para suministrar valores simulados (`DB_HOST`, `DB_NAME`, etc.) exclusivamente durante la ejecución del test.
+- **Apilar múltiples decoradores `@patch`:** Se pueden apilar múltiples decoradores `@patch`. Se inyectan en los argumentos de la función de prueba de abajo hacia arriba (el parche más cercano a la función `def` es el primer argumento).
 
 ```python
+import os
+import pytest
 from unittest.mock import patch, MagicMock
 
-# Apilando múltiples parches (Mocks)
-@patch('my_solution.psycopg2.connect') # Entra como mock_connect (argumento 2)
-@patch('my_solution.boto3.client')     # Entra como mock_boto (argumento 1)
-def test_pipeline_completo(mock_boto, mock_connect):
+# 1. Mock environment variables injection
+@patch.dict(os.environ, {
+    "DB_HOST": "localhost",
+    "DB_NAME": "test_db",
+    "DB_USER": "test_user",
+    "DB_PASSWORD": "password"
+})
+# 2. Stack external infrastructure mocks
+@patch('my_solution.psycopg2.connect') # Injected as mock_connect (arg 2)
+@patch('my_solution.boto3.client')     # Injected as mock_boto (arg 1)
+def test_full_pipeline(mock_boto, mock_connect):
+    from my_solution import lambda_handler
     
-    # 1. Preparamos el mock de S3 para devolver un JSON falso
+    # Prepare S3 mock to return simulated JSON
     mock_s3 = MagicMock()
-    mock_s3.get_object.return_value = {
-        'Body': MagicMock(read=lambda: b'{"dragon_id": 42, "kilos_carne": 100}')
-    }
+    mock_body = MagicMock()
+    mock_body.read.return_value = b'{"dragon_id": 42, "meat_kg": 100}'
+    mock_s3.get_object.return_value = {'Body': mock_body}
     mock_boto.return_value = mock_s3
     
-    # 2. Preparamos el mock de RDS 
+    # Prepare RDS mock
     mock_conn = MagicMock()
+    mock_cur = MagicMock()
     mock_connect.return_value = mock_conn
+    mock_conn.cursor.return_value = mock_cur
     
-    # 3. Lanzamos el evento falso
-    evento = {"Records": [{"s3": {"bucket": {"name": "b"}, "object": {"key": "k"}}}]}
+    # Trigger mock event
+    mock_event = {"Records": [{"s3": {"bucket": {"name": "b"}, "object": {"key": "k"}}}]}
     
-    # ... ejecutar tu código ...
+    # Execute pipeline
+    result = lambda_handler(mock_event, {})
     
-    # 4. Aserciones orquestadas: Validamos que ambos servicios fueron tocados
+    # Assertions: Validate return and simulated network calls
+    assert result['statusCode'] == 200
     mock_s3.get_object.assert_called_once()
+    mock_cur.execute.assert_called_once()
     mock_conn.commit.assert_called_once()
+    mock_conn.close.assert_called_once()
+
+# 3. Test Failure and Rollback (ACID Transactions)
+@patch.dict(os.environ, {
+    "DB_HOST": "localhost",
+    "DB_NAME": "test_db",
+    "DB_USER": "test_user",
+    "DB_PASSWORD": "password"
+})
+@patch('my_solution.psycopg2.connect')
+@patch('my_solution.boto3.client')
+def test_pipeline_failure_rollback(mock_boto, mock_connect):
+    from my_solution import lambda_handler
+    
+    mock_s3 = MagicMock()
+    mock_body = MagicMock()
+    mock_body.read.return_value = b'{"dragon_id": 99, "meat_kg": 50}'
+    mock_s3.get_object.return_value = {'Body': mock_body}
+    mock_boto.return_value = mock_s3
+    
+    mock_conn = MagicMock()
+    mock_cur = MagicMock()
+    mock_connect.return_value = mock_conn
+    mock_conn.cursor.return_value = mock_cur
+    
+    # Force DB error during execute to test resilience
+    mock_cur.execute.side_effect = Exception("Disk full")
+    
+    mock_event = {"Records": [{"s3": {"bucket": {"name": "b"}, "object": {"key": "k"}}}]}
+    result = lambda_handler(mock_event, {})
+    
+    # Assert: Returns 500, rolls back, and closes connection
+    assert result['statusCode'] == 500
+    mock_conn.commit.assert_not_called()
+    mock_conn.rollback.assert_called_once()
+    mock_conn.close.assert_called_once()
 ```
 
 ## 7. Mapa de Ejercicios
