@@ -27,7 +27,8 @@ skills:
 ### 3. Ejecución
 ```bash
 cd ~/Documents/DoJo/DoJo_Study
-hermes  # Inicia el agente con contexto del DoJo
+git checkout chronicles  # Cambia a la rama de estudio activo (o mantente en main para template limpio)
+hermes                   # Inicia el agente con contexto del DoJo
 ```
 
 ### 4. Comandos Básicos
@@ -90,22 +91,31 @@ Para que un artefacto técnico sea considerado completado:
 ---
 
 ## 📁 Estructura del Repositorio
+
+> 🌿 **Modelo de Ramas (Git Branching Model):**
+> - **`main`**: Plantilla base del framework (gobernanza, sistema, herramientas y `content/subjects/` limpio). Listo para ser forkeado o inicializado.
+> - **`chronicles`**: Rama de estudio activo donde se desarrollan las materias, quests, laboratorios y bitácoras personales.
+>
+> *Para más detalles operativos sobre sincronización unidireccional y cherry-picks, consulta [`08-guia-operaciones.md`](system/docs/08-guia-operaciones.md).*
+
 ```text
 DoJo_Study/
 ├── .hermes.md                          ← Constitución del DoJo Agent (acceso directo en raíz)
 ├── README.md                           ← Visión general del ecosistema y quickstart
 │
 ├── system/                             ← Gobernanza y reglas (Solo lectura para generador)
-│   ├── docs/                           ← Documentación canónica (00 a 08)
+│   ├── docs/                           ← Documentación canónica (00 a 09)
 │   │   ├── 05-syllabus-maestro.md      ← Syllabus 2.0 (100% Pre-Empleo)
-│   │   └── 08-syllabus-post-empleo...  ← Syllabus Fase 2 (Post-Empleo)
+│   │   ├── 08-guia-operaciones.md      ← Operaciones y Git Branching Model
+│   │   └── 09-generation-protocol.md   ← Protocolo de generación y calidad
 │   ├── templates/                      ← Plantillas estandarizadas de misiones y RFCs
 │   └── dojo_agent/skills/dojo/         ← Skills atómicas de Hermes (/scry, /scroll)
 │
 ├── content/                            ← Material de estudio activo y generación
-│   ├── subjects/                       ← Divisiones de aprendizaje (Python, SQL, Data Engineering)
+│   ├── subjects/                       ← Divisiones (limpio en 'main'; poblado en 'chronicles')
 │   │   ├── python/chronicles/          ← PY-POO, PY-BASICO
 │   │   ├── sql/chronicles/             ← SQL-BASICO
+│   │   ├── cloud/chronicles/           ← CLOUD-AWS
 │   │   └── data_engineering/chronicles/← DE-PIPELINES
 │   └── _generation/                    ← Workspace temporal y efímero del generador (roadmaps, staging)
 │
