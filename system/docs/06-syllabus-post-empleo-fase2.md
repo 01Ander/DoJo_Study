@@ -1,4 +1,4 @@
-# 08 - Syllabus Maestro: Fase 2 (Post-Empleo & Especialización)
+# 06 - Syllabus Maestro: Fase 2 (Post-Empleo & Especialización)
 
 > **Estado:** En pausa activa (Documento de referencia para la etapa post-contratación).  
 > **Propósito:** Definir las áreas de especialización técnica que se activarán una vez asegurado el primer rol profesional en la industria como Data & Automation Engineer.
