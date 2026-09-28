@@ -1,29 +1,29 @@
 import pytest
 from unittest.mock import patch, MagicMock
-from my_solution import verificar_identidad
+from my_solution import verify_identity
 
-def test_verificar_identidad_exitoso():
-    """Valida que la función retorne el nombre de usuario cuando la API de AWS responde exitosamente."""
-    mock_respuesta_aws = {'User': {'UserName': 'novato-cuidador-dragones'}}
-    
+
+def test_verify_identity_success():
+    """Validates that the function returns the username when AWS API responds successfully."""
+    mock_aws_response = {'User': {'UserName': 'novice-dragon-keeper'}}
+
     with patch('my_solution.boto3.client') as mock_boto:
         mock_iam = MagicMock()
-        mock_iam.get_user.return_value = mock_respuesta_aws
+        mock_iam.get_user.return_value = mock_aws_response
         mock_boto.return_value = mock_iam
-        
-        # EJERCICIO: Ejecuta la función verificar_identidad() y haz un assert de que retorne el usuario esperado
-        # Tu código aquí:
-        
-        pass
 
-def test_verificar_identidad_error():
-    """Valida que la función atrape la excepción y retorne el mensaje de error por defecto."""
+        # EXERCISE: Run verify_identity() and assert it returns the expected username
+        user = verify_identity()
+        assert user == 'novice-dragon-keeper'
+
+
+def test_verify_identity_error():
+    """Validates that the function catches the exception and returns the default error message."""
     with patch('my_solution.boto3.client') as mock_boto:
         mock_iam = MagicMock()
         mock_iam.get_user.side_effect = Exception("Invalid Access Key")
         mock_boto.return_value = mock_iam
-        
-        # EJERCICIO: Ejecuta verificar_identidad() y asegúrate de que atrape el error devolviendo "Error de autenticación"
-        # Tu código aquí:
-        
-        pass
+
+        # EXERCISE: Run verify_identity() and assert it catches the error returning "Authentication failed"
+        user = verify_identity()
+        assert user == "Authentication failed"

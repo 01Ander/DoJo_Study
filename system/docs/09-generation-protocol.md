@@ -277,6 +277,7 @@ Al pasar de un paso de generación a su gate, el roadmap se marca como `estado: 
 - [ ] ¿Los conceptos abstractos o arquitectónicos cumplen la regla de Densidad (≥2 analogías y ejemplos progresivos mal → buen camino)?
 - [ ] **Anti-Tutorial Traps / Rigor de Empleabilidad:** ¿El código enseñado refleja estándares de producción? (Manejo correcto de operaciones asíncronas vs síncronas, inyección de dependencias seguras sin hardcodeo, y limpieza explícita de recursos como conexiones a DB).
 - [ ] **Cumplimiento de Convenciones Transversales:** ¿El código respeta absolutamente TODAS las reglas estipuladas en `06-convenciones-codigo.md` (ej. uso de Domain Exceptions, ciclo AAA estricto)? Citar explícitamente cuál convención aplica y si se cumplió, para evitar regresiones de industria.
+- [ ] **Idioma de Código (English First):** ¿Todo el código en los bloques (variables, funciones, comentarios, docstrings, logs) está estrictamente en inglés profesional, manteniendo la prosa exterior en español?
 - [ ] **¿Existe la sección "Conexión con Testing"?** Verifica que el capítulo enseñe cómo probar el concepto e incluya la explicación de herramientas avanzadas de test (como mocks) si la naturaleza de la tecnología lo exige (ej. APIs, AWS).
 
 **Checklist global:**
@@ -330,6 +331,7 @@ Al pasar de un paso de generación a su gate, el roadmap se marca como `estado: 
 - [ ] ¿Cada objetivo que pide crear una función describe su propósito, qué recibe y qué retorna/produce?
 - [ ] ¿Cada objetivo es autosuficiente para llegar a la solución sin adivinar mecanismos no explicados?
 - [ ] **¿El Operador puede completar el ejercicio?** Verificar que el scaffolding sea real (esqueletos progresivos). El archivo `solution.py` estará presente, pero el sistema debe proveer los esqueletos/instrucciones necesarias para que el operador no necesite leerlo para completarlo. Los tests deben importar del archivo esqueleto o test, no de `solution.py`.
+- [ ] **Idioma de Código (English First):** ¿Todo el código de la quest (solución de referencia, tests, esqueletos y comentarios internos) está estrictamente en inglés?
 
 **Si PASS:** Actualizar roadmap → `paso_actual: 7`, `estado: en_progreso`.
 **Si FAIL:** Registrar hallazgo, corregir, re-auditar.
@@ -480,3 +482,6 @@ Revisar que el lore no use palabras que impliquen opcionalidad ("extra", "puedes
 
 ### 9.8 Coherencia Secuencial (Quests)
 Todo ejercicio del capítulo N solo puede utilizar conceptos y sintaxis de los capítulos 0..N que hayan sido formalmente explicados en el lore. Nunca debe requerir conocimiento de capítulos superiores ni incluir palabras clave sorpresa en la solución esperada.
+
+### 9.9 Idioma del Código (English First)
+Todo código ejecutable, variables, funciones, clases, tests (`test_*.py`), docstrings, logs y comentarios dentro de bloques de código DEBEN escribirse en **inglés profesional**. Las explicaciones teóricas, títulos y analogías fuera de los bloques de código se mantienen en **español**.

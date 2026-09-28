@@ -1,1 +1,1 @@
-# Construye el pipeline completo aquí desde cero.
+# Build the complete pipeline here from scratch.

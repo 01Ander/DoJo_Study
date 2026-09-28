@@ -2,30 +2,21 @@ import os
 import psycopg2
 from dotenv import load_dotenv
 
-
 def check_status(dragon_id: int):
     """
-    Connects to PostgreSQL securely and returns the dragon's instability level.
-    Guarantees connection cleanup in a finally block.
+    Connects to PostgreSQL on RDS securely and returns the dragon's
+    instability level. Guarantees connection cleanup.
     """
-    # 1. Load environment variables
     load_dotenv()
-
-    # 2. Extract DB_HOST, DB_NAME, DB_USER, DB_PASSWORD
-
+    
     host = os.environ.get('DB_HOST')
     database = os.environ.get('DB_NAME')
     user = os.environ.get('DB_USER')
     password = os.environ.get('DB_PASSWORD')
-
+    
     conn = None
-
-    # 3. try/except/finally block:
-    #    - Connect and create cursor
-    #    - Execute parameterized query (SELECT instability_level FROM dragons_health WHERE dragon_id = %s)
-    #    - Return level (integer) or None on failure
-    #    - Always clean up resources
     try:
+        # Open TCP tunnel to RDS
         conn = psycopg2.connect(
             host=host,
             database=database,
@@ -34,14 +25,25 @@ def check_status(dragon_id: int):
             port="5432"
         )
         cur = conn.cursor()
+        
+        # Use parameterized query to avoid SQL Injection
         query = "SELECT instability_level FROM dragons_health WHERE dragon_id = %s"
         cur.execute(query, (dragon_id,))
-        record = cur.fetchone()
-        return record[0]
-    except:
+        
+        # Fetch first row (tuple or None)
+        result = cur.fetchone()
+        cur.close()
+        
+        if result:
+            return int(result[0])
+        else:
+            return None
+            
+    except Exception:
+        # Handle connection, auth, or query failures
         return None
+        
     finally:
-        if 'cur' in locals():
-            cur.close()
-        if 'conn' in locals():
+        # Guarantee connection cleanup
+        if conn is not None:
             conn.close()

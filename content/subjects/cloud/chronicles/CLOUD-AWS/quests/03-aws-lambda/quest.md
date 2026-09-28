@@ -14,7 +14,7 @@ Escribir la función principal (handler) que AWS Lambda invocará automáticamen
      ```python
      {
          'statusCode': 200,
-         'body': 'Archivo dragon_42.json subido a mi-bucket-test'
+         'body': 'File dragon_42.json uploaded to test-bucket'
      }
      ```
    - **Manejo de Errores:** Si el evento viene con un formato extraño que tu código no espera (KeyError, IndexError), tu función debe atrapar el error mediante `try/except` y retornar este diccionario:

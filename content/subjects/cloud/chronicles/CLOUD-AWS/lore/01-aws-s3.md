@@ -58,32 +58,32 @@ import json
 from datetime import datetime
 
 s3_client = boto3.client('s3')
-reporte = {"dragon_id": 42, "dieta": "carbón"}
+report = {"dragon_id": 42, "diet": "coal"}
 
-# 1. Generamos la fecha actual para el particionamiento
-hoy = datetime.now()
-year = hoy.strftime('%Y')
-month = hoy.strftime('%m')
-day = hoy.strftime('%d')
+# 1. Generate current date for partitioning
+today = datetime.now()
+year = today.strftime('%Y')
+month = today.strftime('%m')
+day = today.strftime('%d')
 
-# 2. Construimos la key particionada por fecha (convención Data Lake)
-s3_key = f"raw/explosiones/{year}/{month}/{day}/dragon_{reporte['dragon_id']}.json"
+# 2. Build date-partitioned key (Data Lake convention)
+s3_key = f"raw/explosions/{year}/{month}/{day}/dragon_{report['dragon_id']}.json"
 
-# 3. Subimos el objeto crudo a S3
+# 3. Upload raw object to S3
 try:
     s3_client.put_object(
-        Bucket="alimento-dragones-pantano-prod",
+        Bucket="dragon-food-swamp-prod",
         Key=s3_key,
-        Body=json.dumps(reporte)
+        Body=json.dumps(report)
     )
-    print(f"✅ Reporte guardado en: s3://alimento-dragones-pantano-prod/{s3_key}")
+    print(f"✅ Report saved to: s3://dragon-food-swamp-prod/{s3_key}")
 except Exception as e:
-    print(f"❌ Error S3: {e}")
+    print(f"❌ S3 Error: {e}")
 ```
 
 *Zero Surprise Syntax:*
 - `datetime.now()`: Obtiene el objeto con fecha y hora exactas.
-- `hoy.strftime('%Y')`: Extrae año a 4 dígitos (`%Y`), mes (`%m`) o día (`%d`).
+- `today.strftime('%Y')`: Extrae año a 4 dígitos (`%Y`), mes (`%m`) o día (`%d`).
 - `s3_client.put_object(...)`: Llama a la API de S3 para subir un objeto. `Bucket` es el destino, `Key` la ruta simulada y `Body` el string JSON crudo.
 
 ### El Camino Robusto (Lectura y Decodificación)
@@ -96,18 +96,18 @@ import json
 s3_client = boto3.client('s3')
 
 try:
-    # 1. Descargamos el archivo desde S3
+    # 1. Download file from S3
     response = s3_client.get_object(
-        Bucket="alimento-dragones-pantano-prod",
-        Key="raw/explosiones/2026/09/24/dragon_42.json"
+        Bucket="dragon-food-swamp-prod",
+        Key="raw/explosions/2026/09/24/dragon_42.json"
     )
     
-    # 2. Decodificamos el archivo binario a un diccionario
+    # 2. Decode binary stream to Python dictionary
     payload = json.loads(response['Body'].read().decode('utf-8'))
-    print(f"✅ Dieta leída correctamente: {payload['dieta']}")
+    print(f"✅ Diet loaded successfully: {payload['diet']}")
     
 except Exception as e:
-    print(f"❌ Error al leer de S3: {e}")
+    print(f"❌ Error reading from S3: {e}")
 ```
 
 *Zero Surprise Syntax:*
@@ -117,33 +117,51 @@ except Exception as e:
 
 Cuando testeas código que interactúa con S3 y con fechas dinámicas, te encuentras con dos problemas: no quieres subir archivos reales, y el "día de hoy" cambia todos los días. 
 
-- **Mockear boto3.client('s3'):** Como aprendimos, usamos `@patch('ruta.boto3.client')` para evitar la llamada de red real.
+- **Mockear `boto3.client('s3')`:** Como aprendimos, usamos `@patch('ruta.boto3.client')` para evitar la llamada de red real.
 - **Mockear Fechas (Freezing Time):** Si tu código usa `datetime.now()`, el test podría fallar mañana porque el string de S3 (`2026/09/25/...`) cambiará. Parcheamos `datetime` devolviendo una fecha estática para que la aserción de la ruta siempre sea predecible.
+- **Simular errores con `side_effect`:** Si queremos comprobar que nuestro bloque `try/except` atrapa errores de S3 (por ejemplo, si no hay permisos de acceso `Access Denied` o se cae la red) y retorna `None` en lugar de que el programa explote ruidosamente, le asignamos una excepción a `side_effect` en el método `put_object`.
 
 ```python
-from unittest.mock import patch
 import datetime
+from unittest.mock import patch, MagicMock
 
 class MockDatetime(datetime.datetime):
     @classmethod
     def now(cls, tz=None):
         return cls(2026, 9, 24)
 
-# Congelamos el tiempo y simulamos AWS simultáneamente
+# 1. Success Test: Freeze time and mock S3 simultaneously
 @patch('my_solution.datetime', MockDatetime)
 @patch('my_solution.boto3.client')
-def test_guardar(mock_boto, mock_datetime):
-    from my_solution import guardar_dieta
+def test_save_diet_success(mock_boto):
+    from my_solution import save_diet
     
-    # Act: Llamamos a nuestra función (que usará datetime.now() congelado)
-    guardar_dieta({"dragon_id": 42, "dieta": "carbón"})
+    mock_s3 = MagicMock()
+    mock_boto.return_value = mock_s3
     
-    # Assert: Validamos que haya intentado subir el objeto a la ruta correcta
-    mock_boto.return_value.put_object.assert_called_once_with(
-        Bucket="alimento-dragones-pantano-prod",
-        Key="raw/explosiones/2026/09/24/dragon_42.json",
-        Body='{"dragon_id": 42, "dieta": "carbón"}'
-    )
+    # Act: Call our function (which will use frozen datetime.now())
+    result = save_diet(42, ["sulfur", "rocks"])
+    
+    # Assert: Validate returned key and exact arguments sent to S3
+    expected_key = "raw/explosions/2026/09/24/dragon_42.json"
+    assert result == expected_key
+    mock_s3.put_object.assert_called_once()
+    assert mock_s3.put_object.call_args[1]['Key'] == expected_key
+
+# 2. Error Test: Force S3 failure with side_effect
+@patch('my_solution.boto3.client')
+def test_save_diet_error(mock_boto):
+    from my_solution import save_diet
+    
+    mock_s3 = MagicMock()
+    # Instruct mock to raise an exception when uploading
+    mock_s3.put_object.side_effect = Exception("Access Denied")
+    mock_boto.return_value = mock_s3
+    
+    result = save_diet(99, ["salad"])
+    
+    # Assert: Verify error was handled and returned None
+    assert result is None
 ```
 
 ## 7. Mapa de Ejercicios

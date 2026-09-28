@@ -32,9 +32,9 @@ No requieres librerías externas. La librería nativa de Python `logging` es int
 
 ```python
 def lambda_handler(event, context):
-    print("Dragón estable. Nivel de inestabilidad: 45%.")
-    # PELIGRO: AWS retiene logs por defecto PARA SIEMPRE (Never Expire).
-    # Generarás costos infinitos por prints inútiles viejos.
+    print("Stable dragon. Instability level: 45%.")
+    # DANGER: AWS retains logs by default FOREVER (Never Expire).
+    # You will generate infinite costs for old useless prints.
     return {"statusCode": 200}
 ```
 
@@ -50,25 +50,25 @@ logger.setLevel(logging.INFO)
 
 def lambda_handler(event, context):
     try:
-        inestabilidad = int(event.get('inestabilidad', 50))
-        dragon_id = event.get('dragon_id', 'Desconocido')
+        instability = int(event.get('instability', 50))
+        dragon_id = event.get('dragon_id', 'Unknown')
         
-        # 2. Logs estructurados
-        logger.info(f"Procesando reporte del dragón ID: {dragon_id}")
+        # 2. Structured logs
+        logger.info(f"Processing report for dragon ID: {dragon_id}")
         
-        if inestabilidad >= 90:
-            # 3. Emitir ERROR crítico. En AWS podemos crear un "Metric Filter"
-            # que lea la palabra "PELIGRO CRÍTICO" en los logs y dispare alarmas.
-            logger.error(f"¡PELIGRO CRÍTICO! Dragón {dragon_id} a punto de explotar. Nivel: {inestabilidad}")
+        if instability >= 90:
+            # 3. Emit critical ERROR. En AWS podemos crear un "Metric Filter"
+            # que lea la frase "CRITICAL DANGER" en los logs y dispare alarmas.
+            logger.error(f"CRITICAL DANGER! Dragon {dragon_id} about to explode. Level: {instability}")
             
-            # Lanzamos excepción intencional para frenar el flujo.
-            raise Exception("Inestabilidad catastrófica")
+            # Intentional exception to halt flow.
+            raise Exception("Catastrophic instability")
             
-        logger.info("Estado normal. Finalizando.")
+        logger.info("Normal status. Finishing.")
         return {'statusCode': 200, 'body': 'OK'}
         
     except Exception as e:
-        logger.error(f"Fallo en el pipeline: {str(e)}")
+        logger.error(f"Pipeline failure: {str(e)}")
         return {'statusCode': 500, 'body': 'Error'}
 ```
 
@@ -79,34 +79,44 @@ def lambda_handler(event, context):
 
 ## 6. Conexión con Testing (Test-Driven Lore)
 
-Al probar código que depende de enviar alertas u observabilidad bajo fallos catastróficos, debemos forzar esos fallos en los tests.
+Al probar código que emite observabilidad y gestiona fallos, debemos verificar tanto los registros de CloudWatch como el estado final devuelto.
 
-- **Forzar errores con `side_effect`:** Si tienes un mock de S3 o RDS, puedes ordenarle que *explote* lanzando una excepción de red, y así verificar que tu bloque `except` (y tus `.error()`) se disparen correctamente.
-- **Validar logs generados:** Usando el fixture `caplog` de `pytest`, podemos capturar lo que el `logger` intentó enviar a CloudWatch y hacer aserciones sobre ello.
+- **Capturar y validar logs con `caplog`:** Usando el fixture nativo `caplog` de `pytest`, podemos capturar lo que el `logger` envió a CloudWatch y hacer aserciones sobre el texto y el nivel de severidad (`INFO`, `ERROR`).
+- **Verificar el contrato de retorno:** Aseguramos que los eventos normales retornen `statusCode 200` y que las excepciones controladas logueen el error y retornen `statusCode 500`.
 
 ```python
 import pytest
 import logging
-from unittest.mock import patch, MagicMock
+from my_solution import lambda_handler
 
-@patch('my_solution.boto3.client')
-def test_simulacion_fallo(mock_boto, caplog):
-    # Forzamos una caída de la "red" en nuestro mock
-    mock_s3 = MagicMock()
-    mock_s3.get_object.side_effect = Exception("AWS Network Down")
-    mock_boto.return_value = mock_s3
+def test_logs_normal_status(caplog):
+    # Enable log capture at INFO level
+    caplog.set_level(logging.INFO)
     
-    # Habilitamos la lectura de logs en el test
-    caplog.set_level(logging.ERROR)
+    event = {"dragon_id": 10, "instability": 50}
+    result = lambda_handler(event, {})
     
-    from my_solution import lambda_handler
+    # 1. Validate success code
+    assert result['statusCode'] == 200
     
-    # Act & Assert: Ejecutamos nuestra Lambda asegurando que explota hacia arriba (raises Exception)
-    with pytest.raises(Exception, match="AWS Network Down"):
-        lambda_handler({}, {})
-        
-    # Y usamos assert para validar que antes de explotar, dejó un log en CloudWatch
-    assert "AWS Network Down" in caplog.text
+    # 2. Validate that CloudWatch received expected info logs
+    messages = [record.message for record in caplog.records]
+    assert "Processing report for dragon ID: 10" in messages
+    assert "Normal status. Finishing." in messages
+
+def test_logs_critical_status(caplog):
+    caplog.set_level(logging.INFO)
+    
+    event = {"dragon_id": 99, "instability": 95}
+    result = lambda_handler(event, {})
+    
+    # 1. Validate that exception was caught and returned 500
+    assert result['statusCode'] == 500
+    
+    # 2. Validate that ERROR log was emitted with the exact phrase for alarm
+    error_messages = [record.message for record in caplog.records if record.levelname == 'ERROR']
+    assert any("CRITICAL DANGER!" in m for m in error_messages)
+    assert any("Pipeline failure:" in m for m in error_messages)
 ```
 
 ## 7. Mapa de Ejercicios

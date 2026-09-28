@@ -10,11 +10,11 @@ Construir una Lambda que reciba las métricas vitales de un dragón e imprima lo
 1. **Configuración Global:** Importa el módulo nativo `logging` de Python y configura un objeto `logger` a nivel `INFO` **afuera** de tu función handler (revisa el Lore del Cap 04).
 2. **Crear la función `lambda_handler(event, context)`:**
    - **Propósito:** Leer el diccionario `event`, evaluar el peligro y loguear.
-   - **Entrada:** `event` vendrá con un formato simple (ej. `{"dragon_id": 42, "inestabilidad": 95}`).
+   - **Entrada:** `event` vendrá con un formato simple (ej. `{"dragon_id": 42, "instability": 95}`).
    - **Lógica y Logging:**
-     - Apenas inicie, extrae las dos variables e imprime con `.info()` exactamente: `"Procesando reporte del dragón ID: {dragon_id}"`.
-     - Si la `inestabilidad` es MENOR a 90: Imprime con `.info()` `"Estado normal. Finalizando."` y retorna `{'statusCode': 200}`.
-     - Si la `inestabilidad` es MAYOR O IGUAL a 90: Imprime con `.error()` **exactamente** la siguiente cadena (vital para el CloudWatch Metric Filter): `"¡PELIGRO CRÍTICO! Dragón {dragon_id} a punto de explotar. Nivel: {inestabilidad}"`. Y luego de loguearlo, lanza un error crítico usando `raise Exception("Inestabilidad catastrófica")`.
-   - **Manejo de Errores Global:** Envuelve la lógica en un `try/except`. Si se atrapa alguna Excepción (como la que tú mismo lanzas en el punto anterior, u otra cualquiera), loguea el error con `.error()` ("Fallo en el pipeline: ...") y retorna `{'statusCode': 500}`.
+     - Apenas inicie, extrae las dos variables e imprime con `.info()` exactamente: `"Processing report for dragon ID: {dragon_id}"`.
+     - Si la `instability` es MENOR a 90: Imprime con `.info()` `"Normal status. Finishing."` y retorna `{'statusCode': 200}`.
+     - Si la `instability` es MAYOR O IGUAL a 90: Imprime con `.error()` **exactamente** la siguiente cadena (vital para el CloudWatch Metric Filter): `"CRITICAL DANGER! Dragon {dragon_id} about to explode. Level: {instability}"`. Y luego de loguearlo, lanza un error crítico usando `raise Exception("Catastrophic instability")`.
+   - **Manejo de Errores Global:** Envuelve la lógica en un `try/except`. Si se atrapa alguna Excepción (como la que tú mismo lanzas en el punto anterior, u otra cualquiera), loguea el error con `.error()` (`f"Pipeline failure: {str(e)}"`) y retorna `{'statusCode': 500}`.
 
 > **Scaffolding Nivel 5 (Autónomo):** Escribe el script desde cero en `my_solution.py`. Los tests en `test_my_solution.py` están provistos y evaluarán de manera estricta que tus logs hagan match con las alarmas.

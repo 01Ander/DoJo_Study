@@ -3,19 +3,39 @@ import boto3
 from datetime import datetime
 from dotenv import load_dotenv
 
-def guardar_dieta(dragon_id: int, dieta_lista: list) -> str:
+
+def save_diet(dragon_id: int, diet_list: list) -> str:
     """
-    Empaqueta los datos en JSON, calcula la ruta particionada por fecha actual
-    y sube el payload a Amazon S3.
+    Packages data into JSON, calculates the current date partitioned path,
+    and uploads the payload to Amazon S3.
     """
-    # 1. Asegura que el entorno esté cargado
-    
-    # 2. Arma el diccionario con dragon_id y dieta
-    
-    # 3. Convierte a JSON string
-    
-    # 4. Obtén la fecha actual y formatea (YYYY, MM, DD)
-    
-    # 5. Construye la ruta particionada y sube el objeto a S3 (usa try/except)
-    
-    pass
+    # 1. Ensure environment variables are loaded
+    load_dotenv()
+
+    # 2. Build dictionary with dragon_id and diet
+    report = {
+        'dragon_id': dragon_id,
+        'diet': diet_list
+    }
+    # 3. Convert to JSON string
+    payload = json.dumps(report)
+
+    # 4. Get current date and format (YYYY, MM, DD)
+    today = datetime.now()
+    year = today.strftime('%Y')
+    month = today.strftime('%m')
+    day = today.strftime('%d')
+
+    # 5. Build partitioned path and upload object to S3 (use try/except)
+    s3_key = f"raw/diets/{year}/{month}/{day}/dragon_{dragon_id}.json"
+    s3_client = boto3.client('s3')
+
+    try:
+        s3_client.put_object(
+            Bucket='Feed dragons',
+            Key=s3_key,
+            Body=payload
+        )
+        return s3_key
+    except:
+        return None

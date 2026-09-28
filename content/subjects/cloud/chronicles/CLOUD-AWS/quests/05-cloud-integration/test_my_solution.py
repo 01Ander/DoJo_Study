@@ -1,2 +1,2 @@
-# Escribe tus tests E2E aquí.
-# Tip: Recuerda usar mocks (unittest.mock.patch) para evitar llamadas reales a AWS.
+# Write your E2E tests here.
+# Tip: Remember to use mocks (unittest.mock.patch) to avoid real AWS calls.
