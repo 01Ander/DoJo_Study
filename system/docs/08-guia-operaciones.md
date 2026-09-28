@@ -90,6 +90,23 @@ Para salir de Hermes, escribe `/exit`.
 
 ---
 
+## 🌿 Estrategia de Ramas (Git Branching Model)
+
+El repositorio opera bajo una separación estricta entre el **Framework Central** y las **Instancias de Estudio**:
+
+| Rama | Propósito | Contenido en `content/subjects/` |
+|---|---|---|
+| **`main`** | **Framework / Blueprint Limpio:** Estructura estable del sistema (`system/`), templates, generadores y documentación. Sirve como plantilla universal para cualquier estudiante que inicialice el DoJo. | **Limpia / Vacía:** Solo contiene `content/subjects/.gitkeep` y `README.md`. No almacena crónicas ni código. |
+| **`chronicles`** | **Instancia de Estudio Activa:** Entorno donde el Operador estudia, resuelve quests, escribe en el grimoire y desarrolla los Ritos. | **Poblada:** Contiene todas las crónicas activas (`content/subjects/<materia>/chronicles/<CHRONICLE-CODE>/`). |
+
+> [!CAUTION]
+> **Regla de Oro de Sincronización:**
+> - **NUNCA mergear `chronicles` hacia `main`:** Traer la rama `chronicles` a `main` contamina el blueprint universal con código resuelto y contenido de estudio.
+> - **Flujo Unidireccional (`main` ➔ `chronicles`):** Si se actualiza el sistema, los templates o los protocolos en `main`, esa actualización se propaga hacia `chronicles` haciendo `git merge main` desde `chronicles`.
+> - **Actualizaciones originadas en `chronicles`:** Si durante una sesión de estudio se corrige un archivo de `system/` o `meta/` en la rama `chronicles`, ese commit específico debe trasladarse a `main` quirúrgicamente usando `git cherry-pick <commit>`, jamás mediante merge completo.
+
+---
+
 ## 🚑 Protocolo de Triaje en Vivo
 
 > Cuando detectes un bug o carencia en la infraestructura del DoJo DURANTE una sesión de deep work técnica, usa este árbol de decisión. **NO abras "dos frentes" de trabajo.**
