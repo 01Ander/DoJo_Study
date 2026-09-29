@@ -2,6 +2,7 @@ import pytest
 import logging
 from my_solution import lambda_handler
 
+
 def test_lambda_handler_normal_status(caplog):
     """Validates that a stable dragon logs INFO correctly and returns 200."""
     caplog.set_level(logging.INFO)
@@ -12,7 +13,14 @@ def test_lambda_handler_normal_status(caplog):
     # 2. caplog records contain "Processing report for dragon ID: 10"
     # 3. caplog records contain "Normal status. Finishing."
     # Your code here:
-    pass
+
+    result = lambda_handler(event, {})
+
+    assert result.get('statusCode') == 200
+
+    messages = [record.message for record in caplog.records]
+    assert "Processing report for dragon ID: 10" in messages
+    assert "Normal status. Finishing" in messages
 
 
 def test_lambda_handler_critical_status(caplog):
@@ -26,5 +34,11 @@ def test_lambda_handler_critical_status(caplog):
     #    "CRITICAL DANGER! Dragon 99 about to explode. Level: 95"
     # 3. caplog ERROR logs contain "Pipeline failure: Catastrophic instability"
     # Your code here:
-    pass
 
+    result = lambda_handler(event, {})
+
+    assert result.get('statusCode') == 500
+
+    messages = [record.message for record in caplog.records]
+    assert "CRITICAL DANGER! Dragon 99 about to explode. Level: 95" in messages
+    assert "Pipeline failure: Catastrophic instability" in messages
