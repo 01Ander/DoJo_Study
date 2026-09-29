@@ -25,4 +25,4 @@ Escribir la función principal (handler) que AWS Lambda invocará automáticamen
      }
      ```
 
-> **Scaffolding Nivel 4:** Estás casi solo. Implementa la función en `my_solution.py`. El archivo de pruebas `test_my_solution.py` ya está escrito pero sin pistas; inyectará eventos simulados a tu función. Ejecuta `pytest test_my_solution.py` para validar tu código.
+> **Scaffolding Nivel 4:** Implementa la función en `my_solution.py`. En `test_my_solution.py` completa las llamadas y asserts siguiendo los comentarios de ejercicio. Ejecuta `pytest test_my_solution.py` para validar tu código.

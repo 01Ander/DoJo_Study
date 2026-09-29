@@ -17,4 +17,4 @@ Construir una Lambda que reciba las métricas vitales de un dragón e imprima lo
      - Si la `instability` es MAYOR O IGUAL a 90: Imprime con `.error()` **exactamente** la siguiente cadena (vital para el CloudWatch Metric Filter): `"CRITICAL DANGER! Dragon {dragon_id} about to explode. Level: {instability}"`. Y luego de loguearlo, lanza un error crítico usando `raise Exception("Catastrophic instability")`.
    - **Manejo de Errores Global:** Envuelve la lógica en un `try/except`. Si se atrapa alguna Excepción (como la que tú mismo lanzas en el punto anterior, u otra cualquiera), loguea el error con `.error()` (`f"Pipeline failure: {str(e)}"`) y retorna `{'statusCode': 500}`.
 
-> **Scaffolding Nivel 5 (Autónomo):** Escribe el script desde cero en `my_solution.py`. Los tests en `test_my_solution.py` están provistos y evaluarán de manera estricta que tus logs hagan match con las alarmas.
+> **Scaffolding Nivel 4:** Escribe el handler en `my_solution.py`. En `test_my_solution.py` completa la captura de logs con `caplog` y las aserciones de alarmas según los comentarios de ejercicio. Ejecuta `pytest test_my_solution.py` para validar.

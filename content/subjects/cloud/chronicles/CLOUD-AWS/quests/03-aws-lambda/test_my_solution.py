@@ -15,17 +15,20 @@ def test_lambda_handler_success():
         ]
     }
     
-    # EXERCISE: Run your handler code and evaluate the response.
-    result = lambda_handler(s3_event, {})
-    
-    assert type(result) is dict, "The handler must return a dictionary."
-    assert result.get('statusCode') == 200, "Must return statusCode 200 on success."
-    assert result.get('body') == "File reports/new_birth.json uploaded to dragon-nursery-bucket"
+    # EXERCISE: Call lambda_handler(s3_event, {}) and assert:
+    # 1. The result is a dictionary
+    # 2. 'statusCode' is 200
+    # 3. 'body' is "File reports/new_birth.json uploaded to dragon-nursery-bucket"
+    # Your code here:
+    pass
+
 
 def test_lambda_handler_error():
     """Validates that if the event is not in S3 format, the Lambda returns 500 without crashing."""
     invalid_event = {"some_other_thing": 123}
-    result = lambda_handler(invalid_event, {})
-    
-    assert result.get('statusCode') == 500, "Must return 500 if extraction fails."
-    assert result.get('body') == "Error"
+
+    # EXERCISE: Call lambda_handler(invalid_event, {}) and assert:
+    # 1. 'statusCode' is 500
+    # 2. 'body' is "Error"
+    # Your code here:
+    pass
