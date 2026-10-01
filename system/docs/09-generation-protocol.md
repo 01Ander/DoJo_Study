@@ -148,7 +148,11 @@ content/_generation/<CHRONICLE-CODE>/
 8. **Conexión con Testing (Regla Crítica del Ciclo AAA):** TDD es el pilar del DoJo. Todo capítulo debe incluir una sección final que enseñe **cómo probar** la tecnología. Los ejemplos de testing en el Lore **JAMÁS deben quedarse a medias** (ej. solo configurar el Mock). Deben mostrar el ciclo completo de TDD: Arrange (preparar mock), Act (llamar a la función real) y Assert (validar el resultado).
 9. **Cobertura de Scaffolding:** Toda sintaxis o herramienta de testing usada en los archivos `test_*.py` de las Quests (ej. `side_effect`, `pytest.raises`, fixtures) **DEBE** ser enseñada explícitamente en el Lore correspondiente bajo la regla de Zero Surprise Syntax. No puede haber código en el test de la Quest que el Operador no entienda.
 10. **Anti-Compresión (Desglose Teórico):** No licuar/comprimir conceptos independientes en un solo bloque introductorio. El capítulo debe dividirse en múltiples encabezados `##` si hay distintos sub-temas (ej. Roles vs Policies) para garantizar la profundidad académica.
-11. **Rigor de Empleabilidad:** Asegurar que el código refleja estándares de la industria actual para un primer empleo tech. Prohibidos los "atajos de tutorial" (ej. retornar códigos HTTP en lambdas asíncronas, ignorar limpieza de conexiones, usar formatos frágiles). El Lore debe estar perfectamente alineado con las exigencias del Rito final.
+11. **Rigor de Empleabilidad y Ciclo de Vida de Recursos:** Asegurar que el código refleja estándares de la industria actual para un primer empleo tech. Prohibidos los "atajos de tutorial". Para cualquier chronicle que enseñe integración con servicios externos (SDKs, APIs, bases de datos):
+    - Los **clientes sin estado** (clientes HTTP, clientes SDK, clientes de API) se instancian a **nivel de módulo o clase**, fuera de la función de invocación, para permitir la reutilización de conexiones entre llamadas (connection reuse, pool de threads). Nunca dentro del cuerpo de la función de entrada.
+    - Los **recursos con estado** (conexiones directas a BD, file handles, sockets) se abren y cierran **dentro de la misma unidad de ejecución** usando `finally` o context managers (`with`). Nunca se instancian a nivel de módulo sin control explícito del ciclo de vida.
+    - Los **tests de la sección "Conexión con Testing"** deben parchear el recurso tal como está instanciado en el código real. Si vive a nivel de módulo, el `@patch` apunta a la variable ya instanciada, no a la fábrica que la creó.
+    El Lore debe estar perfectamente alineado con las exigencias del Rito final y con las convenciones de `06-convenciones-codigo.md`.
 12. **Actualizar Matriz de Trazabilidad:** Al final de cada capítulo, agregar a `matriz-trazabilidad.md` todos los términos/conceptos introducidos (incluyendo los de testing), indicando el nivel de profundidad (Qué/Cómo/Por qué) y la competencia del syllabus que cubren.
 
 **Output:** Archivo `lore/NN-titulo.md` por cada capítulo + `matriz-trazabilidad.md` actualizada.
@@ -213,17 +217,20 @@ content/_generation/<CHRONICLE-CODE>/
 
 ### PASO 7: Generación de Rite (Completo)
 
-**Input:** Todo aprobado (GATE 4 PASS) + `matriz-trazabilidad.md` + `system/templates/rite-template.md`.
+**Input:** Todo aprobado (GATE 4 PASS) + `matriz-trazabilidad.md` + `system/templates/rite-requirements-template.md`.
 **Acción:**
-1. Generar `rite/requirements.md` completo con:
-   - Business Context y ROI del proyecto.
-   - Fases desbloqueables (cada fase mapea a capítulos específicos del lore).
-   - Criterios de aceptación por fase (requisitos específicos y verificables).
-   - El Rite usa un dominio **DIFERENTE** al Domain Shifting del lore.
-   - Cada fase debe terminar con un requisito de Semantic Commit.
+1. Generar `rite/requirements.md` completo con Business Context, ROI, Arquitectura Esperada, Fases y Criterios de Aprobación Final según el template.
 2. Generar `rite/journal.md` como template vacío (el Operador lo llena durante el desarrollo).
 3. El Rite es un proyecto monolítico que integra TODAS las competencias de la chronicle.
 4. **Restricción:** El Rite solo puede exigir conceptos que estén en la `matriz-trazabilidad.md`.
+
+**Reglas de diseño del Rite (obligatorias):**
+
+- **Flujo Real del Proyecto (no secuencia del Lore):** El orden de las fases debe seguir el flujo de construcción de un proyecto de ingeniería real. Los capítulos del Lore son referencias de soporte conceptual (`Referencia: Cap X`), no un índice cronológico. Una fase puede referenciar Cap 03 antes de que otra referencie Cap 01 si el diseño lo requiere.
+- **Contrato Primero (si existe orquestador):** Si el proyecto tiene un punto de entrada orquestador definido (`lambda_handler`, router, CLI, pipeline), la Fase 1 define ese contrato (skeleton, firma, logging base). Los helpers y componentes se construyen como piezas que nacen integradas a ese contrato, no como scripts independientes que luego se refactorizan.
+- **Cero Artefactos Descartables:** Queda prohibido exigir dependencias, patrones o herramientas en una fase que el propio Rite luego pedirá eliminar en una fase posterior. Todo requerimiento debe pertenecer a la arquitectura de producción final. Si en producción el runtime inyecta variables nativas o el SDK asume credenciales via IAM Role, ese es el estándar exigido desde la Fase 1.
+- **Fases por Hitos de Valor:** El número de fases responde a los hitos funcionales del proyecto. Varios capítulos pueden y deben consolidarse en una sola fase cuando su integración conjunta es el hito real. No se fuerza una fase por capítulo.
+- **Data Contract (si hay datos externos):** Si el proyecto procesa datos de un sistema upstream (archivos, eventos, APIs, streams), el Rite DEBE incluir una sección `📄 Data Contract` antes de las fases con: (1) ejemplo del payload raw tal como llega, (2) estructura del evento/trigger que recibe el entry point si aplica, y (3) schema del destino si aplica. Este contrato define lo que el Operador recibe, no lo que diseña, y es indispensable para que pueda escribir tests con mocks concretos.
 
 > [!CAUTION]
 > **El Rite NO es una Quest.** Está estrictamente prohibido generar archivos de solución (`solution.py`), tests pre-hechos (`test_rite.py`), o cualquier tipo de scaffolding de código. El Rite es un documento de requerimientos (PRD) con fases desbloqueables que el Operador construye **desde cero**, documentando su proceso en `journal.md`. La carpeta `rite/` solo debe contener `requirements.md` y `journal.md` al momento de la generación.
@@ -259,7 +266,7 @@ Al pasar de un paso de generación a su gate, el roadmap se marca como `estado: 
 - [ ] ¿El Domain Shifting es distinto al dominio del Rite?
 - [ ] ¿Los títulos de capítulos NO contienen términos técnicos que no se planean definir en el cuerpo del lore?
 - [ ] ¿Los prerequisites están correctamente identificados?
-- [ ] ¿Las fases del Rite mapean coherentemente a los capítulos del lore?
+- [ ] ¿El Rite sigue un flujo de construcción real? (Si hay orquestador conocido: la Fase 1 define ese contrato. En cualquier caso: ninguna fase impone herramientas o dependencias que luego se eliminen en fases posteriores.)
 
 **Si PASS:** Actualizar roadmap → `paso_actual: 4`, `estado: en_progreso`.
 **Si FAIL:** Registrar hallazgo en roadmap, corregir `chronicle.md`, re-auditar.
@@ -279,6 +286,7 @@ Al pasar de un paso de generación a su gate, el roadmap se marca como `estado: 
 - [ ] **Desglose Teórico y Anti-Compresión:** ¿Los sub-conceptos independientes dentro del capítulo (ej. Roles vs Policies) tienen su propio encabezado `##` para asegurar densidad, evitando ser licuados en un solo párrafo?
 - [ ] ¿Los conceptos abstractos o arquitectónicos cumplen la regla de Densidad (≥2 analogías y ejemplos progresivos mal → buen camino)?
 - [ ] **Anti-Tutorial Traps / Rigor de Empleabilidad:** ¿El código enseñado refleja estándares de producción? (Manejo correcto de operaciones asíncronas vs síncronas, inyección de dependencias seguras sin hardcodeo, y limpieza explícita de recursos como conexiones a DB).
+- [ ] **Ciclo de Vida de Recursos Externos:** Si el capítulo enseña integración con servicios externos (SDKs, APIs, bases de datos): ¿los clientes sin estado se instancian a nivel de módulo/clase y no dentro de la función de invocación? ¿los recursos con estado (conexiones DB, sockets) se cierran por unidad de ejecución con `finally` o `with`? ¿los mocks en la sección de testing parchean la variable instanciada, no la fábrica? Una divergencia entre el patrón enseñado y el código de producción genera fricción directa en el Rite.
 - [ ] **Cumplimiento de Convenciones Transversales:** ¿El código respeta absolutamente TODAS las reglas estipuladas en `06-convenciones-codigo.md` (ej. uso de Domain Exceptions, ciclo AAA estricto)? Citar explícitamente cuál convención aplica y si se cumplió, para evitar regresiones de industria.
 - [ ] **Idioma de Código (English First):** ¿Todo el código en los bloques (variables, funciones, comentarios, docstrings, logs) está estrictamente en inglés profesional, manteniendo la prosa exterior en español?
 - [ ] **¿Existe la sección "Conexión con Testing"?** Verifica que el capítulo enseñe cómo probar el concepto e incluya la explicación de herramientas avanzadas de test (como mocks) si la naturaleza de la tecnología lo exige (ej. APIs, AWS).
@@ -361,7 +369,9 @@ Al pasar de un paso de generación a su gate, el roadmap se marca como `estado: 
 **Checklist adicional:**
 - [ ] ¿El `chronicle.md` refleja correctamente lo que contiene lore/quests/grimoire/rite?
 - [ ] ¿El Rite usa un dominio DIFERENTE al Domain Shifting del lore?
-- [ ] ¿El Rite tiene fases desbloqueables que cubren todas las competencias?
+- [ ] ¿El Rite tiene fases desbloqueables que cubren todas las competencias del syllabus?
+- [ ] ¿El Rite sigue un flujo de construcción real sin refactors artificiales entre fases? (Verificar que ninguna fase exige algo que otra fase posterior pide eliminar o reemplazar.)
+- [ ] ¿El artefacto final del Rite es libre de dependencias de desarrollo local que no pertenecen al entorno de producción?
 
 **Si PASS:** 
 1. **Actualización de Convenciones:** Si el Rite estableció un patrón nuevo de industria, añadirlo a `system/docs/06-convenciones-codigo.md`.
@@ -489,3 +499,13 @@ Todo ejercicio del capítulo N solo puede utilizar conceptos y sintaxis de los c
 
 ### 9.9 Idioma del Código (English First)
 Todo código ejecutable, variables, funciones, clases, tests (`test_*.py`), docstrings, logs y comentarios dentro de bloques de código DEBEN escribirse en **inglés profesional**. Las explicaciones teóricas, títulos y analogías fuera de los bloques de código se mantienen en **español**.
+
+### 9.10 Ciclo de Vida de Recursos y Alineación de Mocks
+Cuando el lore enseñe integración con servicios externos (SDKs, APIs, bases de datos), el código de producción DEBE respetar estos dos patrones según el tipo de recurso:
+
+| Tipo de recurso | Dónde instanciar | Razón | Mock correcto |
+|---|---|---|---|
+| Cliente sin estado (SDK client, HTTP client, API client) | A nivel de módulo/clase, fuera de la función de invocación | Reutilización de conexiones entre llamadas (connection reuse) | `@patch('modulo.nombre_cliente')` |
+| Recurso con estado (conexión DB, socket, file handle) | Dentro de la función, con `finally` o `with` | Previene agotamiento de recursos y garantiza limpieza | `@patch('modulo.libreria.connect')` |
+
+La sección de testing del Lore debe mostrar el mock alineado al código real — no al patrón más cómodo de escribir el test. La divergencia entre el mock enseñado y cómo está instanciado el recurso en producción genera fricción en el Rite y es un marcador de seniority en entrevistas técnicas.

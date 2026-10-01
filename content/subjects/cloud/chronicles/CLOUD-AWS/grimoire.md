@@ -130,23 +130,23 @@
 ## 🛑 Friction Log Global
 Documenta aquí cualquier "rabbit hole", problema de configuración grave, o concepto que te haya tomado mucho tiempo entender a lo largo de toda la Chronicle. El Architect revisará esto para parchar el sistema.
 
-- **Capítulo / Concepto:** 
-- **Fricción:** [Qué pasó y cuánto tiempo perdiste]
-- **Solución:** [Cómo lo resolviste]
+- **Capítulo / Concepto:** Inicialización de clientes boto3 — Lore vs Rite (Gap de industria)
+- **Fricción:** El Lore enseñó a instanciar `boto3.client('s3')` dentro de las funciones. En el Rite se descubrió que el estándar oficial de AWS es instanciar a nivel de módulo (fuera del handler) para aprovechar el Execution Environment Reuse en Warm Invocations. Esto cambió cómo se debía mockear en tests: `@patch('modulo.boto3.client')` ya no funcionaba — hay que parchear la variable ya instanciada con `@patch('modulo.s3_client')`. El error se manifestaba con `Unable to locate credentials` porque el módulo ejecutaba la inicialización antes del test.
+- **Solución:** Parcheo directo sobre la variable instanciada. Patrón ahora formalizado en `06-convenciones-codigo.md` y en las reglas de generación del protocolo.
 
 ---
 
 ## 📊 Métricas de Ejecución
 Completa estas métricas antes de solicitar la auditoría del DM.
 - **Fecha de inicio (Lectura primer Cap):** 2026-09-26
-- **Fecha de finalización (Rite completado):** [YYYY-MM-DD]
-- **Horas netas estimadas de dedicación:** [X] horas
+- **Fecha de finalización (Rite completado):** 2026-10-01
+- **Horas netas estimadas de dedicación:** 7 horas
 
 ---
 
 ## 📊 Métricas de Retención
-- **Concepto más claro:** [¿Qué dominas a la perfección?]
-- **Concepto más débil:** [¿Qué requiere más práctica en el futuro?]
+- **Concepto más claro:** IAM, S3 como gran baul. Cero uso de .env, seguridad directa por aws en consola. 
+- **Concepto más débil:** Todo los comandos y codigos para llegar a las configuraciones correctas tanto en produccion como en test. Y asimilacion de estructuras parecidas a la realidad laboral.
 
 ---
 
@@ -158,4 +158,6 @@ Completa estas métricas antes de solicitar la auditoría del DM.
 > *Evaluación del DM (Cap 03):* Entendimiento claro del modelo Serverless: cobro fraccionado por milisegundo vs costos fijos 24/7, y la importancia del Execution Role para dotar de identidad y permisos a una función Lambda en la nube.
 > *Evaluación del DM (Cap 04):* Dominio total del riesgo financiero de las políticas "Never Expire". Excelente deducción en el Friction Log: la magia de CloudWatch radica en no reinventar la rueda, interceptando el módulo `logging` nativo de Python limpiamente. Diferenciación macro/micro entre Log Group y Log Stream bien asimilada.
 > *Evaluación del DM (Cap 05):* Entendimiento perfecto de la inyección nativa de variables en Serverless y la importancia crítica de las transacciones ACID (Commit/Rollback) para mantener consistencia en arquitecturas distribuidas E2E.
-> *Siguiente Acción:* Autorizado para iniciar la ejecución del **RITE (Prueba Final)**.
+> *Evaluación del DM (Rite — 2026-10-01):* Pipeline E2E construido con arquitectura top-down correcta: `pipeline.py` como orquestador, `extract_s3.py` y `rds.py` como helpers desacoplados. Cliente `s3_client` a nivel de módulo (Execution Environment Reuse), conexión psycopg2 con ciclo ACID completo y `finally: conn.close()` garantizado. Suite de 3 tests en verde con mocks alineados al código de producción. Validación semántica estricta (no solo existencia de clave) correctamente implementada. **El Rite está aprobado. CLOUD-AWS cerrado.**
+> *Asimilación declarada por el Operador:* 60% — Subject marcado para repaso futuro con énfasis en flujo de comandos SDK y estructura de código aplicada a casos reales.
+
