@@ -14,40 +14,40 @@ Toda la formación se organiza bajo el estándar **Campaign as Course** ([`04-ca
 
 ```mermaid
 graph LR
-    subgraph Chronicles Completadas
-        P1[PY-BASICO<br/>✅ Completado] --> P2[PY-POO<br/>✅ Completado]
-        P2 --> S1[SQL-BASICO<br/>✅ Completado]
-        S1 -->|GATE: Búsqueda Paralela & Mock Interviews| DE[DE-PIPELINES<br/>✅ Completado]
+    subgraph Core
+        P1[PY-BASICO<br/>Python Scripting & Core] --> P2[PY-POO<br/>OOP & TDD]
+        P2 --> S1[SQL-BASICO<br/>Bases de Datos & Modelado]
     end
 
-    subgraph En Curso
-        DE --> CLOUD[CLOUD-AWS<br/>🟡 En curso: S3 + IAM + RDS + Lambda]
+    subgraph Datos & Cloud
+        S1 -->|GATE: Búsqueda Paralela & Mock Interviews| DE[DE-PIPELINES<br/>Data Pipelines & ETL]
+        DE --> CLOUD[CLOUD-AWS<br/>Cloud AWS & Serverless]
     end
 
-    subgraph Próximo Hito
-        CLOUD --> PORT[PORT-CAPSTONE<br/>⚪ Pipeline Unificado End-to-End]
+    subgraph Portafolio
+        CLOUD --> PORT[PORT-CAPSTONE<br/>Pipeline Unificado End-to-End]
     end
 ```
 
 ---
 
-## 2. Estado de Progreso de Chronicles en `subjects/`
+## 2. Mapa de Chronicles en `subjects/`
 
-| Chronicle | Área | Estado | Competencias Consolidadas |
-|---|---|:---:|---|
-| **`PY-BASICO`** | Python | ✅ **Done** | Sintaxis, estructuras de datos, control de flujo, scripting base. |
-| **`PY-POO`** | Python | ✅ **Done** | Programación Orientada a Objetos, TDD (`pytest`), modularización, logging y fixtures. |
-| **`SQL-BASICO`** | SQL | ✅ **Done** | DDL, constraints, CRUD, JOINs, CTEs, Window Functions, ACID, Modelado dimensional. |
-| **`DE-PIPELINES`** | Data Engineering | ✅ **Done** | Integración Python+SQL, consumo de APIs, Pandas, Data Quality, orquestación DAG local. |
-| **`CLOUD-AWS`** | Cloud Computing | 🟡 **En curso** | Almacenamiento S3, IAM roles/policies, RDS/Postgres, serverless Lambda, CloudWatch. |
-| **`PORT-CAPSTONE`** | Portafolio | ⚪ **Pendiente** | Pipeline monolítico productivo end-to-end + CI/CD en GitHub Actions + README en inglés. |
+| Chronicle | Área | Competencias Clave |
+|---|---|---|
+| **`PY-BASICO`** | Python | Sintaxis, estructuras de datos, control de flujo, scripting base. |
+| **`PY-POO`** | Python | Programación Orientada a Objetos, TDD (`pytest`), modularización, logging y fixtures. |
+| **`SQL-BASICO`** | SQL | DDL, constraints, CRUD, JOINs, CTEs, Window Functions, ACID, Modelado dimensional. |
+| **`DE-PIPELINES`** | Data Engineering | Integración Python+SQL, consumo de APIs, Pandas, Data Quality, orquestación DAG local. |
+| **`CLOUD-AWS`** | Cloud Computing | Almacenamiento S3, IAM roles/policies, RDS/Postgres, serverless Lambda, CloudWatch. |
+| **`PORT-CAPSTONE`** | Portafolio | Pipeline monolítico productivo end-to-end + CI/CD en GitHub Actions + README en inglés. |
 
 ---
 
 ## 3. Bloques Temáticos de la Ruta Pre-Empleo
 
 ### 🐍 PY – Python Core & Automation
-*Completado en `PY-BASICO` y `PY-POO`.*
+*Chronicles asociadas: `PY-BASICO` y `PY-POO`.*
 - Sintaxis profesional, tipos de datos y manejo de excepciones robusto.
 - Programación Orientada a Objetos (clases, herencia, composición, polimorfismo, properties, dunder methods).
 - Test-Driven Development (TDD) con `pytest` y fixtures reutilizables.
@@ -58,7 +58,7 @@ graph LR
 ---
 
 ### 🗄️ SQL – Bases de Datos Relacionales & Modelado Dimensional
-*En ejecución activa dentro de `SQL-BASICO`.*
+*Chronicle asociada: `SQL-BASICO`.*
 - Fundamentos relacionales, DDL (`CREATE`, `ALTER`, `DROP`), tipos de datos explícitos y restricciones (`PK`, `FK`, `UNIQUE`, `CHECK`, `CASCADE`).
 - Consultas intermedias y avanzadas: `WHERE`, `ORDER BY`, funciones escalares (`CASE WHEN`, `COALESCE`, `CAST`), agregaciones (`GROUP BY`, `HAVING`).
 - Relaciones complejas: `INNER`, `LEFT`, `CROSS`, Self-Joins y aliases de tabla.
@@ -84,7 +84,7 @@ graph LR
 ---
 
 ### ⚙️ DE – Data Pipelines & Orquestación Básica
-*Se enseñará en `DE-PIPELINES`.*
+*Chronicle asociada: `DE-PIPELINES`.*
 - Arquitecturas y patrones de ingesta: ETL vs ELT y zonas de almacenamiento (*Raw / Bronze*, *Cleaned / Silver*, *Curated / Gold*).
 - Extracción automatizada desde múltiples endpoints de APIs REST con autenticación por token/headers.
 - Manipulación, limpieza y tipado estricto con Pandas.
@@ -94,7 +94,7 @@ graph LR
 ---
 
 ### ☁️ CLOUD – Cloud AWS Pragmático
-*Se enseñará en `CLOUD-AWS`.*
+*Chronicle asociada: `CLOUD-AWS`.*
 - Fundamentos de arquitectura cloud para ingeniería de datos.
 - **AWS IAM:** Creación de usuarios de servicio, roles, políticas de mínimo privilegio y manejo de credenciales mediante variables de entorno (sin hardcoding de llaves).
 - **Amazon S3:** Creación de buckets, particionamiento de carpetas por fecha (`year/month/day`), almacenamiento de payloads raw JSON y Parquet.
