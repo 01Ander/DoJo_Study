@@ -27,6 +27,10 @@ dojo_agent/chroma_db/
 _warmup/
 meta/_warmup/
 
+# Technical Audits
+meta/audits/
+audits/
+
 # IDE / OS
 .DS_Store
 .vscode/
