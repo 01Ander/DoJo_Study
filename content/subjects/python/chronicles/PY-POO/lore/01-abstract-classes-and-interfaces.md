@@ -27,7 +27,7 @@ class NotificationSender(ABC):
 
 ## 2. Implementando el Contrato (Polimorfismo Básico)
 
-Ahora creamos clases concretas que "heredan" de este contrato. Si olvidamos implementar el método `.send()`, Python lanzará un error *antes* de que el código corra, salvándonos de bugs en producción.
+Ahora creamos clases concretas que "heredan" de este contrato. Si olvidamos implementar el método `.send()`, la clase se definirá sin problemas, pero Python lanzará un `TypeError` en tiempo de ejecución al momento de intentar instanciarla (`email_service = EmailSender()`), previniendo la creación de objetos incompletos.
 
 ```python
 # 2. Clase concreta (Hija)

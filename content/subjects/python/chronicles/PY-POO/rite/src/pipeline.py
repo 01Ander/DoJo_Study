@@ -23,5 +23,6 @@ class PipelineOrchestrator:
             logger.info(report)
         except DataSourceNotFoundError as e:
             logger.error(f"Data source not found: {e}")
+            raise e
 
         return report

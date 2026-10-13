@@ -8,6 +8,10 @@ from src.config import RESULT_KEY, CRITICAL_COLUMNS
 logger = logging.getLogger(__name__)
 
 
+class RateError(AssertionError):
+    """Exception domain when data quality failed"""
+    pass
+
 @task
 def validate_silver_market(bronze_path: str, records: list) -> list[dict]:
     with open(bronze_path, encoding='utf-8') as fh:
@@ -23,13 +27,14 @@ def validate_silver_market(bronze_path: str, records: list) -> list[dict]:
 
     logger.info('Reconciliation metrics: %d in, %d out, loss rate %.2f%%',
                 initial_count, final_count, loss_rate * 100)
-    assert loss_rate <= 0.1, f"Data quality failed: Loss rate is {loss_rate*100}%"
+    if loss_rate > 0.1:
+        raise RateError(f"Data quality failed: Loss rate is {loss_rate*100}%")
 
     silver_data = df.drop_duplicates()
 
     for item in CRITICAL_COLUMNS:
-        assert silver_data[item].notnull().all(
-        ), f"Data quality failed: null values found in critical column: {item}"
+        if not silver_data[item].notnull().all():
+            raise RateError(f"Data quality failed: null values found in critical column: {item}")
 
     silver_data_dict = silver_data.to_dict(orient='records')
 

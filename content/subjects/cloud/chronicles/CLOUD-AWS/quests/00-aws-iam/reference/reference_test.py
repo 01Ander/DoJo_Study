@@ -1,6 +1,6 @@
 import pytest
 from unittest.mock import patch, MagicMock
-from solution import verify_identity
+from my_solution import verify_identity
 
 def test_verify_identity_success():
     """Validates that the function returns the username when AWS API responds successfully."""

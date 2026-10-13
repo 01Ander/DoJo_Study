@@ -12,5 +12,5 @@ class WeatherAnalyticsEngine:
 
         if not days:
             return 0.0
-        total = sum(days.celsius for day in days)
+        total = sum(day.celsius for day in days)
         return total / len(days)

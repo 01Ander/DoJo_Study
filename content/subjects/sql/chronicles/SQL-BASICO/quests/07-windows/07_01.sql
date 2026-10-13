@@ -23,6 +23,6 @@ SELECT
         branch_office,
         sale_date,
         revenue AS today_revenue,
-        LAG(revenue, 1) OVER(PARTITION BY branch_office ORDER BY revenue) AS yesterday_sales,
-        ROUND(revenue - LAG(revenue, 1) OVER(PARTITION BY branch_office ORDER BY revenue), 2) AS daily_diff
+        LAG(revenue, 1) OVER(PARTITION BY branch_office ORDER BY sale_date) AS yesterday_sales,
+        ROUND(revenue - LAG(revenue, 1) OVER(PARTITION BY branch_office ORDER BY sale_date), 2) AS daily_diff
 FROM daily_revenue;

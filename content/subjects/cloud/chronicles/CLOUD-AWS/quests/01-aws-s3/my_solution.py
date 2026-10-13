@@ -32,7 +32,7 @@ def save_diet(dragon_id: int, diet_list: list) -> str:
 
     try:
         s3_client.put_object(
-            Bucket='Feed dragons',
+            Bucket='dragon-food-swamp-prod',
             Key=s3_key,
             Body=payload
         )

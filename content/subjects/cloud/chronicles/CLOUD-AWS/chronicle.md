@@ -37,8 +37,8 @@
 
 - **[Cap 00: AWS Identity & Access Management (IAM)](lore/00-aws-iam.md)** — Usuarios de servicio, roles, políticas de mínimo privilegio y manejo de credenciales mediante variables de entorno (cero hardcoding).
 - **[Cap 01: Amazon S3 (Simple Storage Service)](lore/01-aws-s3.md)** — Creación de buckets, particionamiento de carpetas por fecha (`year/month/day`), almacenamiento de payloads crudos (JSON) y formatos columnares (Parquet).
-- **[Cap 02: Amazon RDS (Relational Database Service)](lore/02-aws-rds.md)** — Aprovisionamiento de instancias administradas de PostgreSQL, configuración de Security Groups y conexión segura desde Python.
-- **[Cap 03: AWS Lambda (Serverless Compute)](lore/03-aws-lambda.md)** — Arquitectura orientada a eventos, configuración del handler, roles de ejecución y despliegue de tareas ligeras de extracción de datos.
+- **[Cap 02: Amazon RDS (Relational Database Service)](lore/02-aws-rds.md)** — Aprovisionamiento de instancias administradas de PostgreSQL, transacciones ACID (`commit`/`rollback`), configuración de Security Groups y conexión segura desde Python.
+- **[Cap 03: AWS Lambda (Serverless Compute)](lore/03-aws-lambda.md)** — Arquitectura orientada a eventos, configuración del handler, testing serverless con `unittest.mock`, roles de ejecución y despliegue de tareas ligeras de extracción de datos.
 - **[Cap 04: Amazon CloudWatch & Observabilidad](lore/04-aws-cloudwatch.md)** — Configuración de grupos de logs, flujos de retención y alertas de monitoreo ante fallos de ejecución.
 - **[Cap 05: Integración Cloud End-to-End](lore/05-cloud-integration.md)** — Ensamblaje de un pipeline serverless: evento dispara Lambda, Lambda extrae datos hacia S3, los carga a RDS, y CloudWatch monitorea errores y logs.
 
@@ -46,7 +46,7 @@
 
 ### [Quests (Laboratorios Prácticos)](quests/)
 Cada capítulo teórico (Lore) tiene una carpeta homóloga en `quests/` con ejercicios prácticos.
-> *Nota: Debido a la naturaleza en la nube, estos quests requerirán el uso de librerías como `boto3` o `moto` para testing, o ejecución contra un entorno AWS real usando perfiles locales.*
+> *Nota: Debido a la naturaleza en la nube, estos quests requerirán el uso de librerías como `boto3`, `unittest.mock` o `moto` para testing, o ejecución contra un entorno AWS real usando perfiles locales.*
 
 ### [Grimoire](grimoire.md)
 Documento de síntesis y retención de conocimientos donde el Operador responde preguntas clave usando la Técnica Feynman.

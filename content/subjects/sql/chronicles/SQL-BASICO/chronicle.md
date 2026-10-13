@@ -28,14 +28,14 @@ Dominar la sintaxis y semántica de SQL desde sus fundamentos relacionales (DDL/
 
 ### Capa Teórica y Laboratorios (`lore/` y `quests/`)
 - [**Cap 00: Hello, SQL — Introduction to Databases & SQLite**](lore/00-hello-sql) Concepto relacional, setup macOS, `sqlite3` CLI, `CREATE TABLE`, `INSERT`, `SELECT`.
-- [**Cap 01: DDL & Relational Modeling**](lore/01-creating-and-modeling) Constraints (`PK`, `FK`, `UNIQUE`, `CHECK`), relaciones 1:N y N:M, Normalización 1NF-3NF.
+- [**Cap 01: DDL & Relational Modeling**](lore/01-creating-and-modeling) Constraints (`PK`, `FK`, `UNIQUE`, `CHECK`), `PRAGMA foreign_keys`, relaciones 1:N y N:M, Normalización 1NF-3NF.
 - [**Cap 02: Filtering & Sorting — WHERE, ORDER BY & CRUD**](lore/02-filtering-and-sorting) Operadores lógicos, `LIKE`, `IN`, `BETWEEN`, `NULL`, `LIMIT`, `UPDATE`, `DELETE`.
 - [**Cap 03: Scalar Functions, CASE WHEN & Data Types**](lore/03-functions-and-expressions) Funciones de texto, fecha, `CAST`, `COALESCE`, condicionales `CASE WHEN`.
 - [**Cap 04: JOINs & Table Relationships**](lore/04-joins-and-relationships) `INNER`, `LEFT`, `CROSS`, Self-Join, Aliases, Anti-patterns.
 - [**Cap 05: Aggregations & Grouping**](lore/05-aggregations-and-grouping) `COUNT`, `SUM`, `AVG`, `MIN`, `MAX`, `GROUP BY`, `HAVING` vs `WHERE`.
 - [**Cap 06: Subqueries & Common Table Expressions (CTEs)**](lore/06-subqueries-and-ctes) Subqueries escalares/en FROM/correlacionadas, `WITH` CTEs encadenadas.
-- [**Cap 07: Window Functions — Analytics & Deduplication**](lore/07-window-functions) `OVER()`, `PARTITION BY`, `ROW_NUMBER`, `RANK`, `LAG`, `LEAD`, running totals.
-- [**Cap 08: Set Operations & ETL Patterns**](lore/08-set-operations-and-etl-patterns) `UNION`, `UNION ALL`, `INTERSECT`, `EXCEPT`, `INSERT INTO ... SELECT`.
+- [**Cap 07: Window Functions — Analytics & Deduplication**](lore/07-window-functions) `OVER()`, `PARTITION BY`, `ROW_NUMBER`, `RANK`, `DENSE_RANK`, `LAG`, `LEAD`, running totals.
+- [**Cap 08: Set Operations & ETL Patterns**](lore/08-set-operations-and-etl-patterns) `UNION`, `UNION ALL`, `INTERSECT`, `EXCEPT`, `INSERT INTO ... SELECT`, CTAS (`CREATE TABLE AS SELECT`).
 - [**Cap 09: Views, Indexes & Transactions (ACID)**](lore/09-views-indexes-and-transactions) `CREATE VIEW`, `CREATE INDEX`, `EXPLAIN QUERY PLAN`, `BEGIN/COMMIT/ROLLBACK`, ACID.
 
 ---

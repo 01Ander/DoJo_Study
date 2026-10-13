@@ -1,3 +1,11 @@
+import sys
+from pathlib import Path
+
+# Asegurar que el directorio raíz de rite esté en sys.path para soportar ejecución directa y modular
+_rite_root = Path(__file__).resolve().parent.parent
+if str(_rite_root) not in sys.path:
+    sys.path.insert(0, str(_rite_root))
+
 import argparse
 from src.pipeline import PipelineOrchestrator
 from src.extractors import CSVExtractor

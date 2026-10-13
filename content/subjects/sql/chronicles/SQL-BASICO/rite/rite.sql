@@ -124,6 +124,11 @@ ORDER BY join_date;
 -- fase 3
 -- report 1
 
+WITH principal_author AS(
+    SELECT book_id, MIN(author_id) AS principal_id
+    FROM book_authors
+    GROUP BY book_id
+)
 SELECT
     b.title AS book_title,
     a.full_name AS author_name,
@@ -131,10 +136,10 @@ SELECT
     l.loan_date,
     CAST(JULIANDAY('now') - JULIANDAY(l.loan_date) AS INTEGER) AS loan_total_days
 FROM loans AS l
-INNER JOIN books AS b ON l.book_id = b.id
-INNER JOIN book_authors AS ba ON l.book_id = ba.book_id
-INNER JOIN authors AS a ON ba.author_id = a.id
-INNER JOIN members AS m ON l.member_id = m.id
+JOIN books AS b ON l.book_id = b.id
+JOIN principal_author AS pa ON l.book_id = pa.book_id
+JOIN authors AS a ON pa.principal_id = a.id
+JOIN members AS m ON l.member_id = m.id
 WHERE l.return_date IS NULL;
 
 --report 2
@@ -142,7 +147,7 @@ WHERE l.return_date IS NULL;
 SELECT
     c.name AS category_name,
     COUNT(*) AS loans_categories_count,
-    ROUND(AVG(CAST(JULIANDAY('now') - JULIANDAY(l.loan_date) AS INTEGER)), 2) AS total_avg_loan_days
+    ROUND(AVG(CAST(JULIANDAY(COALESCE(l.return_date, DATE('now'))) - JULIANDAY(l.loan_date) AS INTEGER)), 2) AS total_avg_loan_days
 FROM loans AS l
 INNER JOIN books AS b ON l.book_id = b.id
 INNER JOIN categories AS c ON b.category_id = c.id
@@ -212,15 +217,3 @@ VALUES (2, 4, '2026-09-08', '2026-10-07', NULL, 0.0);
 UPDATE members SET status = 'Active' WHERE id = 4;
 
 COMMIT;
-
--- Validation Space * Not finale script
-
-PRAGMA foreign_keys = ON;
-INSERT INTO loans (book_id, member_id, loan_date, due_date, return_date)
-VALUES (5, 10, '2026-08-01 09:00', '2026-08-30 09:00', '2026-08-30 09:00');
-
-DROP TABLE IF EXISTS loans;
-
-
---
-

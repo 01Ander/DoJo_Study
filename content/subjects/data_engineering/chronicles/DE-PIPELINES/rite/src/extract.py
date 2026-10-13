@@ -6,23 +6,29 @@ from prefect import task
 
 import requests
 
-from src.config import BRONZE_DIR, MARKET_TOKEN, MARKET_URL
+from src.config import BRONZE_DIR, MARKET_TOKEN, MARKET_URL, FALLBACK_PATH
 
 logger = logging.getLogger(__name__)
 
 
 @task(retries=3)
 def fetch_market(catalog_url: str = MARKET_URL, market_token: str = MARKET_TOKEN) -> dict:
-    headers = {'Authorization': f"Bearer {market_token}"}
 
-    response = requests.get(catalog_url, headers=headers)
-    response.raise_for_status()
+    try:
+        headers = {'Authorization': f"Bearer {market_token}"}
 
-    payload = response.json()
-    logger.info("Market responded with %d ingredients",
-                len(payload.get("results", [])))
+        response = requests.get(catalog_url, headers=headers)
+        response.raise_for_status()
 
-    return payload
+        payload = response.json()
+        logger.info("Market responded with %d ingredients",
+                    len(payload.get("results", [])))
+
+        return payload
+    except requests.exceptions.ConnectionError:
+        logger.warning("Error connecting to %s. Using a local fixture.", catalog_url)
+        with open(FALLBACK_PATH, 'r', encoding='utf-8') as f:
+            return json.load(f)
 
 
 @task

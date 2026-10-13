@@ -5,3 +5,4 @@ RESULT_KEY = "results"
 CRITICAL_COLUMNS = ['name', 'price', 'stock']
 GOLD_TABLE = "clean_inventory"
 DB_URL = "sqlite:///guild.db"
+FALLBACK_PATH = "tests/fixtures/market_catalog.json"

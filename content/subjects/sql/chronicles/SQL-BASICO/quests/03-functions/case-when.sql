@@ -14,8 +14,16 @@ INSERT INTO employee_evaluations (emp_name, projects_completed, satisfaction_sco
 
 
 SELECT
-    id,
     emp_name,
     projects_completed,
+    COALESCE(satisfaction_score, 0.0) AS score,
     CASE
-        WHEN projects_completed >= 10 THEN 
+        WHEN projects_completed >= 10 AND satisfaction_score >= 8.0 THEN 'Top Performer'
+        WHEN projects_completed >= 5 THEN 'Solid Performer'
+        ELSE 'Needs Improvement'
+    END AS performance_tier,
+    CASE
+        WHEN satisfaction_score IS NULL THEN 'Pending Eval'
+        ELSE 'Evaluated'
+    END AS review_status
+FROM employee_evaluations;

@@ -10,11 +10,11 @@ S3_EVENT = {
 
 
 @patch.dict(os.environ, {"DB_HOST": "localhost", "DB_NAME": "db", "DB_USER": "u", "DB_PASSWORD": "p"})
-@patch('solution.psycopg2.connect')
-@patch('solution.boto3.client')
+@patch('my_solution.psycopg2.connect')
+@patch('my_solution.boto3.client')
 def test_pipeline_success(mock_boto, mock_connect):
     """Validates the happy path: S3 -> Python -> RDS -> Commit."""
-    from solution import lambda_handler
+    from my_solution import lambda_handler
 
     # Mock S3 returning valid JSON file
     mock_s3 = MagicMock()
@@ -47,11 +47,11 @@ def test_pipeline_success(mock_boto, mock_connect):
 
 
 @patch.dict(os.environ, {"DB_HOST": "localhost", "DB_NAME": "db", "DB_USER": "u", "DB_PASSWORD": "p"})
-@patch('solution.psycopg2.connect')
-@patch('solution.boto3.client')
+@patch('my_solution.psycopg2.connect')
+@patch('my_solution.boto3.client')
 def test_pipeline_failure_rollback(mock_boto, mock_connect):
     """Validates that if RDS crashes during insertion, the pipeline rolls back and closes."""
-    from solution import lambda_handler
+    from my_solution import lambda_handler
 
     mock_s3 = MagicMock()
     mock_body = MagicMock()

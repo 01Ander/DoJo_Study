@@ -1,5 +1,5 @@
 import pytest
-from solution import lambda_handler
+from my_solution import lambda_handler
 
 def test_lambda_handler_success():
     """Validates that the handler extracts nested paths from the S3 event and returns 200."""

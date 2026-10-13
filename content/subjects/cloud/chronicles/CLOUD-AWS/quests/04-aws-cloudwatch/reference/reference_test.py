@@ -1,6 +1,6 @@
 import pytest
 import logging
-from solution import lambda_handler
+from my_solution import lambda_handler
 
 def test_lambda_handler_normal_status(caplog):
     """Validates that a stable dragon logs INFO correctly and returns 200 without raising exceptions."""

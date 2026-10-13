@@ -27,7 +27,9 @@ class Player:
 
 # El __init__ se genera solo
 p1 = Player(name="Ander", health=100, role="Mage")
-# p1.healt = 90 # Muchos IDEs y mypy te avisarán del error aquí.
+# Ojo: En runtime, una @dataclass estándar usa __dict__ y permite p1.healt = 90 silenciosamente.
+# Para forzar la protección estricta contra typos en ejecución, se usa @dataclass(slots=True),
+# lo cual elimina __dict__, ahorra memoria y detona AttributeError ante cualquier atributo dinámico.
 ```
 
 ## 3. Polimorfismo

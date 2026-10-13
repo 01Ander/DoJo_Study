@@ -31,12 +31,12 @@ El motor debe ingerir datos transaccionales sin procesar, aislar las entradas di
 ### Capa Teórica y Laboratorios (lore/ y quests/)
 - [**Cap 00: Hello, Classes — From Functions to Objects.** ](lore/00-from-functions-to-classes)`class`, `__init__`, `self`.
 - [**Cap 01: Abstract Classes & Interfaces.**](lore/01-abstract-classes-and-interfaces) `abc`, `ABC`, `abstractmethod`, contratos lógicos.
-- [**Cap 02: Domain Entities & Polymorphism.**](lore/02-domain-entities-and-dataclasses) Herencia, constructores `super()`, polimorfismo.
+- [**Cap 02: Domain Entities & Polymorphism.**](lore/02-domain-entities-and-dataclasses) Herencia, constructores `super()`, polimorfismo, `@dataclass` (con `slots=True`).
 - [**Cap 03: Data Transformation Patterns.**](lore/03-stateless-engines-and-composition) Stateless functions, `collections.defaultdict`.
 - [**Cap 04: Output Loaders & Orchestration.**](lore/04-orchestration-and-io) Dependency injection, Orchestrator pattern.
 - [**Cap 05: Testing with Pytest.**](lore/05-testing-with-pytest) TDD lifecycle, GIVEN/WHEN/THEN, fixtures, mocks.
 - [**Cap 06: Validation & Logging.**](lore/06-logging-and-error-handling) Pydantic models, error handling strategies.
-- [**Cap 07: CLI Applications.**](lore/07-cli-and-production) Typer/Click, arg parsing, terminal styling.
+- [**Cap 07: CLI Applications.**](lore/07-cli-and-production) Consolas de producción, `argparse`, terminal styling (preparación para Typer/Click).
 
 ### 🛡️ Rite: The Financial Projector CLI (rite/)
 [Proyecto monolítico con fases internas desbloqueables](rite/requirements) (Solo accesible bajo auditoría del DM — `/scry`).

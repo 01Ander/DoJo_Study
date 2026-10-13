@@ -17,7 +17,7 @@ SELECT
     product_name,
     price
 FROM products
-WHERE price > (SELECT AVG(price) FROM products)
+WHERE price > (SELECT AVG(price) FROM products);
 
 
 SELECT p.product_name, p.price, p.category

@@ -43,5 +43,5 @@ def check_status(dragon_id: int):
     finally:
         if 'cur' in locals():
             cur.close()
-        if 'conn' in locals():
+        if conn is not None:
             conn.close()

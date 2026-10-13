@@ -23,7 +23,13 @@
 - **Asincronía sin Respuestas HTTP:** En arquitecturas puramente Event-Driven asíncronas (ej. eventos de S3 detonando Lambdas), las funciones procesadoras **no deben retornar códigos HTTP** (como `statusCode: 200`). AWS ignora estas respuestas. Deben retornar `None` en éxito o lanzar una excepción (`raise e`) en caso de fallo para activar mecanismos de reintento o DLQ.
 - **Inyección de Credenciales:** Prohibido el hardcodeo de llaves de AWS. En entornos Cloud, se leen dinámicamente usando variables de entorno o roles IAM subyacentes.
 - **Clientes SDK sin Estado a Nivel de Módulo:** Los clientes de servicios AWS sin estado (`boto3.client('s3')`, `boto3.client('sns')`, `boto3.resource('dynamodb')`, etc.) **deben instanciarse a nivel de módulo**, fuera del handler, para aprovechar el Execution Environment Reuse de Lambda (reutilización de conexiones TCP en Warm Invocations y reducción de costos por milisegundo de cómputo). Queda prohibido instanciarlos dentro del cuerpo del handler en código de producción o referencia.
-- **Conexiones Relacionales por Invocación:** Las conexiones directas a bases de datos (`psycopg2.connect`, `pymysql.connect`) son recursos con estado y **deben abrirse y cerrarse dentro de la misma invocación** usando un bloque `finally: conn.close()`. No se instancian a nivel de módulo (riesgo de agotamiento del pool de conexiones de RDS), salvo que se enseñe explícitamente RDS Proxy como solución al problema.
+- **Conexiones Relacionales por Invocación y Cierre Determinista:** Las conexiones directas a bases de datos (`psycopg2.connect`, `pymysql.connect`) son recursos con estado y **deben abrirse y cerrarse dentro de la misma invocación** usando un bloque `try...finally`. No se instancian a nivel de módulo (riesgo de agotamiento del pool de conexiones de RDS), salvo que se enseñe explícitamente RDS Proxy como solución al problema.
+  - **Regla canónica de cierre seguro (Enmienda AWS-001):** Queda terminantemente prohibido validar existencia con `'conn' in locals()`. Si la variable fue inicializada con `conn = None` antes del bloque `try`, `'conn'` siempre existirá en el scope local, detonando `AttributeError` ante fallos de conexión. La evaluación debe ser estrictamente sobre el valor del recurso:
+    ```python
+    finally:
+        if conn is not None:
+            conn.close()
+    ```
 - **Alineación de Mocks con el Código de Producción:** Los andamiajes y tests unitarios deben parchear el recurso tal como está instanciado en el código real. Si el cliente vive a nivel de módulo (`s3_client = boto3.client('s3')`), el patch apunta a la variable instanciada (`@patch('modulo.s3_client')`), no a la fábrica (`@patch('modulo.boto3.client')`). La divergencia entre el patrón de mock enseñado y el código de producción genera fricción en el Rite y es pregunta frecuente en entrevistas técnicas de Data Engineering.
 
 ## 6. Idioma del Código y Nomenclatura (English First)

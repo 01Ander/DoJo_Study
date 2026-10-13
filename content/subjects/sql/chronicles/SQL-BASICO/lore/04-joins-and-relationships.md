@@ -214,9 +214,9 @@ INNER JOIN platforms AS p ON g.platform_id = p.id;
 
 ## 6. Nota sobre `RIGHT JOIN` y `FULL OUTER JOIN` en SQLite
 
-> ⚠️ **Limitación de SQLite:** SQLite no soporta nativamente la sintaxis `RIGHT JOIN` ni `FULL OUTER JOIN`.
-> - Para hacer un `RIGHT JOIN`, simplemente invierte el orden de las tablas en la consulta y usa `LEFT JOIN`.
-> - Para simular un `FULL OUTER JOIN`, se combina un `LEFT JOIN` con una operación `UNION` (tema que veremos en el Cap 08).
+> 💡 **Evolución del Estándar en SQLite:** Históricamente, las versiones antiguas de SQLite no soportaban estas cláusulas. Sin embargo, **desde SQLite 3.39 (2022)**, SQLite soporta nativamente la sintaxis estándar de `RIGHT JOIN` y `FULL OUTER JOIN`.
+> - En versiones heredadas (< 3.39), un `RIGHT JOIN` se emulaba invirtiendo el orden de las tablas en un `LEFT JOIN`, y un `FULL OUTER JOIN` requería combinar `LEFT JOIN` con `UNION` (ver Cap 08).
+> - En entornos modernos (SQLite 3.39+), puedes escribir directamente `FULL OUTER JOIN` y `RIGHT JOIN` conforme al estándar SQL.
 
 ---
 

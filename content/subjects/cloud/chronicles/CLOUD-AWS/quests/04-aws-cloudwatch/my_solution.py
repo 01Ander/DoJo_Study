@@ -13,7 +13,7 @@ def lambda_handler(event, context):
         logger.info(f"Processing report for dragon ID: {dragon_id}")
 
         if instability < 90:
-            logger.info("Normal status. Finishing")
+            logger.info("Normal status. Finishing.")
             return {'statusCode': 200}
 
         logger.error(

@@ -9,11 +9,11 @@ class MockDatetime(datetime.datetime):
     def now(cls, tz=None):
         return cls(2026, 9, 24)
 
-@patch('solution.datetime', MockDatetime)
+@patch('my_solution.datetime', MockDatetime)
 @patch('boto3.client')
 def test_save_diet_success(mock_boto):
     """Validates that JSON is generated properly, path is partitioned, and S3 is called."""
-    from solution import save_diet
+    from my_solution import save_diet
     
     mock_s3 = MagicMock()
     mock_boto.return_value = mock_s3
@@ -37,7 +37,7 @@ def test_save_diet_success(mock_boto):
 @patch('boto3.client')
 def test_save_diet_error(mock_boto):
     """Validates that an S3 error is caught and returns None."""
-    from solution import save_diet
+    from my_solution import save_diet
     
     mock_s3 = MagicMock()
     mock_s3.put_object.side_effect = Exception("Access Denied")

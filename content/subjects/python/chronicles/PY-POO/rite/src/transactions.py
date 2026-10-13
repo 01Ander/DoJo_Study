@@ -13,17 +13,17 @@ class Transaction(ABC):
 
 
 class Income(Transaction):
-    def get_signed_amount(self):
+    def get_signed_amount(self) -> float:
         return abs(self.amount)
 
 
 class Expense(Transaction):
-    def get_signed_amount(self):
+    def get_signed_amount(self) -> float:
         return -abs(self.amount)
 
 
 def build_transactions(raw_data: list[dict]) -> list[Transaction]:
-    transactions = []
+    transactions: list[Transaction] = []
     for row in raw_data:
         if row["type"] == "Income":
             transactions.append(

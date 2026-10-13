@@ -40,7 +40,7 @@ My solution:
 ```sql
 SELECT category, unit_price
 FROM inventory
-WHERE category = 'Electronica' AND unit_price > 50.0;
+WHERE category = 'Electrónica' AND unit_price > 50.0;
 
 SELECT id, item_name, quantity
 FROM inventory
@@ -50,7 +50,7 @@ SELECT id, item_name, unit_price FROM inventory;
 UPDATE inventory
 SET unit_price = 230.0 WHERE id = 3;
 
-DELETE FROM inventory WHERE category = 'Papeleria';
+DELETE FROM inventory WHERE category = 'Papelería';
 
 ```
 

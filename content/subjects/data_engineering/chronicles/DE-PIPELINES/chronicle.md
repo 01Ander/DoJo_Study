@@ -9,7 +9,7 @@ Esta chronicle se enfoca en la construcción de pipelines de datos (ETL y ELT). 
 
 ## Temario / Capítulos
 - **Capítulo 00:** Arquitecturas de Ingesta (ETL vs ELT) y Zonas de Datos (Bronze, Silver, Gold).
-- **Capítulo 01:** Extracción Automatizada (APIs REST, Auth tokens, Paginación, librería `requests`).
+- **Capítulo 01:** Extracción Automatizada (APIs REST, Auth tokens, Paginación, librería `requests`, mocking de APIs con `responses`).
 - **Capítulo 02:** Manipulación, Limpieza y Tipado Estricto con Pandas.
 - **Capítulo 03:** Data Quality & Observability (Validación de esquemas, manejo de nulos, deduplicación).
 - **Capítulo 04:** Carga de Datos Estructurados hacia PostgreSQL (usando SQLAlchemy).

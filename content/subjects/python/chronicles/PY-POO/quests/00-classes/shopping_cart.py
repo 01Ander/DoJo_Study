@@ -1,8 +1,8 @@
 
 class cart:
-    def __init__(self, customer_id: str) -> dict:
+    def __init__(self, customer_id: str) -> None:
         self.customer_id = customer_id
-        self.items = []
+        self.items: list[str] = []
         self.total = 0.0
 
     def add_item(self, item_name: str, price: float) -> None:
@@ -13,7 +13,7 @@ class cart:
 # new_cart = cart('tx1')
 # new_cart.add_item('manzana', 20.0)
 # print(new_cart.customer_id)
-# print(new_cart.items)
+# print(new_cart.items)s
 # print(new_cart.total)
 # print(new_cart)
 

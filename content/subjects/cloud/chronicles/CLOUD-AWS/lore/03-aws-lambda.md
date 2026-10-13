@@ -10,9 +10,13 @@ Hasta ahora hemos almacenado datos en S3 y consultado en RDS. Pero necesitamos "
 ## 2. Arquitectura Orientada a Eventos (Triggers y Contratos de Ejecución)
 
 En un sistema *Event-Driven* (Orientado a Eventos), los componentes duermen y reaccionan a eventos o *Triggers* automáticos, en lugar de preguntar constantemente si hay trabajo (lo cual se conoce como *Polling*).
-Cuando S3 recibe un archivo, dispara un evento que activa a Lambda automáticamente. Aunque el origen (S3) no se quede esperando en una conexión HTTP síncrona tradicional, en AWS Lambda es **estándar de la industria y buena práctica** que la función `lambda_handler` devuelva un **contrato de respuesta estructurado** (un diccionario con `statusCode` y `body`). Este formato permite a herramientas de orquestación, suites de testing (`pytest`) y servicios de observabilidad verificar si la ejecución concluyó con éxito (`200`) o si ocurrió un error controlado (`500`).
+Cuando S3 recibe un archivo, dispara un evento que activa a Lambda automáticamente.
 
-*Analogía del Gremio:* Un diseño ineficiente de *Polling* continuo es salir a revisar el buzón bajo la lluvia cada 5 minutos por si llegó correo. Desperdicias energía. Un diseño *Event-Driven* es cuando el cartero toca el timbre y deposita el paquete. Aunque el cartero siga su camino, en la bitácora de la entrada sellas un comprobante con el estado del paquete (`statusCode: 200` o `statusCode: 500`) para que el gremio pueda auditar qué pasó.
+> ⚠️ **Invocación Síncrona vs Asíncrona (El Mito del `statusCode` en eventos de S3):**  
+> Cuando una Lambda se expone como un endpoint HTTP síncrono (por ejemplo, a través de Amazon API Gateway), la función debe retornar un contrato de respuesta estructurado (`{'statusCode': 200/500, 'body': ...}`) para que el cliente web reciba la respuesta.  
+> **Sin embargo, en arquitecturas Event-Driven disparadas por S3 (`s3:ObjectCreated:*`), la invocación es estrictamente Asíncrona.** AWS dispara la función en segundo plano y **descarta por completo cualquier valor de retorno del diccionario**.  
+> **El peligro de silenciar errores:** Si capturas un error y retornas `{'statusCode': 500, 'body': 'Error'}`, para el runtime de AWS la invocación terminó como un éxito (`Exit 0`). Esto provoca que CloudWatch Metrics registre `Invocations: 1, Errors: 0`, impidiendo que se disparen las alarmas de monitoreo y desactivando las colas de reintentos automáticos o Dead Letter Queues (DLQ).  
+> **Regla de Producción:** En Lambdas asíncronas de datos (como las disparadas por S3), ante un error irrecuperable debes **propagar la excepción (`raise`)**, de modo que AWS marque la invocación como fallida, registre el error en CloudWatch y active los mecanismos de reintento o DLQ. *(En las Quests de este capítulo usamos el diccionario estructurado para facilitar el testing unitario local con pytest, pero ten siempre presente esta distinción crítica para entornos productivos y para el Rite)*.
 
 ## 3. Execution Role (El Gafete)
 
@@ -80,7 +84,7 @@ def lambda_handler(event, context):
 *Zero Surprise Syntax:*
 - `def lambda_handler(event, context)`: La firma técnica obligatoria de AWS. `event` es un diccionario gigante de Python que contiene los datos del detonante. `context` provee metadatos técnicos (ej. tiempo restante).
 - `event['Records'][0]['s3']...`: Estructura estándar de un evento S3. AWS inyecta estos diccionarios anidados diciéndonos *exactamente* qué archivo detonó la Lambda.
-- `{'statusCode': 200, 'body': ...}`: Diccionario de respuesta estándar. Permite indicar numéricamente si la ejecución fue exitosa (`200`) o falló (`500`), facilitando la validación en pruebas automáticas y la integración con otros servicios de AWS.
+- `{'statusCode': 200, 'body': ...}`: Diccionario de respuesta estándar usado en invocaciones síncronas (API Gateway) y en pruebas unitarias. En pipelines asíncronos reales (S3), el valor retornado se descarta y los errores deben propagarse con `raise` para no silenciar las fallas ante AWS.
 
 ## 6. Conexión con Testing (Test-Driven Lore)
 

@@ -46,6 +46,12 @@ def move_to_gold(silver_data):
 > - `gold['amount'].notnull()`: Pandas revisa cada fila y devuelve True si no es nula.
 > - `.all()`: Revisa si TODOS los valores resultantes de la comprobación anterior son True. Si uno solo es False, devuelve False.
 
+> ⚠️ **Advertencia Arquitectónica de Producción (El mito del `assert`):**  
+> Aunque `assert` es común en prototipos y en suites de tests (`pytest`), **nunca debe usarse como Quality Gate en pipelines de producción**.  
+> En Python, cuando un proceso se ejecuta con el flag de optimización `-O` (o `-OO`), el compilador de bytecode **elimina y anula por completo todas las sentencias `assert`** (convirtiéndolas en NOPs).  
+> Si un contenedor en producción corre con `python -O`, un pipeline que confíe en `assert` dejará pasar silenciosamente datos con 100% de nulos o pérdidas catastróficas.  
+> En ingeniería de datos profesional, los Quality Gates en código productivo deben validar condiciones explícitamente y lanzar excepciones de dominio estructuradas (e.g. `if not condicion: raise DataQualityError(...)`).
+
 ## 2. Validación de Esquemas (Schema Validation)
 
 Antes de revisar los valores exactos (como hicimos arriba con los nulos), debes revisar si la **estructura** misma de los datos es la correcta. A esto se le llama **Validación de Esquema**.

@@ -1,8 +1,8 @@
 import pytest
 from unittest.mock import patch, MagicMock
-from solution import check_status
+from my_solution import check_status
 
-@patch('solution.psycopg2.connect')
+@patch('my_solution.psycopg2.connect')
 def test_check_status_success(mock_connect):
     """Validates that the query is parameterized, returns data, and cleans up resources."""
     mock_conn = MagicMock()
@@ -24,7 +24,7 @@ def test_check_status_success(mock_connect):
     mock_cur.close.assert_called_once()
     mock_conn.close.assert_called_once()
 
-@patch('solution.psycopg2.connect')
+@patch('my_solution.psycopg2.connect')
 def test_check_status_error_cleanup(mock_connect):
     """Validates that the connection is closed even if an error occurs."""
     mock_conn = MagicMock()
