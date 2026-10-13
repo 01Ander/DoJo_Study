@@ -158,9 +158,9 @@ Para evitar la proliferación descontrolada de temas que retrasen la inserción 
   4. Comando de prueba binaria con `exit code 0`.
 
 ### 4.2 Fases y Duración Estimada
-1. **Fase 1: Formalización de `Syllabus 3.0` (Semana 3 — 1-2 días)**
-   * Actualizar [`system/docs/05-syllabus-maestro.md`](file:///Users/ander/Documents/DoJo/DoJo_Study/system/docs/05-syllabus-maestro.md).
-   * Ratificar podas curriculares en los cuatro chronicles.
+1. **Fase 1: Formalización de `Syllabus 3.0` (Completado ✅)**
+   * Actualizado formalmente [`system/docs/05-syllabus-maestro.md`](file:///Users/ander/Documents/DoJo/DoJo_Study/system/docs/05-syllabus-maestro.md) y [`system/docs/06-syllabus-post-empleo-fase2.md`](file:///Users/ander/Documents/DoJo/DoJo_Study/system/docs/06-syllabus-post-empleo-fase2.md).
+   * Ratificadas podas curriculares (Typer/Click, Clean Architecture, load_dotenv) y frontera con Fase 2.
 2. **Fase 2: Bloque 2.1 — ROI Inmediato (Semana 3-4 — 3-4 días)**
    * Lore snippets + micro-quests para `defaultdict`, fixtures de pytest, cardinalidad de JOIN y `df.groupby`.
 3. **Fase 3: Bloques 2.2 y 2.3 por Materia (Semana 4-6)**

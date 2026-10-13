@@ -1,31 +1,37 @@
-# 05 - Syllabus Maestro (Data & Automation Engineer — Pre-Empleo)
+# 05 - Syllabus Maestro 3.0 (Data & Automation Engineer — Pre-Empleo)
 
-> **Estado:** Activo (Ruta Crítica Pre-Empleo)  
+> **Estado:** Activo (Ruta Crítica Pre-Empleo — Versión 3.0)  
+> **Documento Rector de Auditoría:** [`meta/audits/2026-q3-contenido/analisis/dictamen-final-consolidado.md`](file:///Users/ander/Documents/DoJo/DoJo_Study/meta/audits/2026-q3-contenido/analisis/dictamen-final-consolidado.md)  
+> **Hoja de Ruta de Ejecución:** [`meta/remediacion/roadmap-ola-2.md`](file:///Users/ander/Documents/DoJo/DoJo_Study/meta/remediacion/roadmap-ola-2.md)  
 > **Objetivo:** Inserción laboral remota internacional antes de mediados de 2027 como **Data Automation Engineer / Python Automation Developer / ETL Integration Developer**.  
-> **Fase 2 (Post-Empleo):** Las ramas de especialización secundaria están desacopladas en [`06-syllabus-post-empleo-fase2.md`](06-syllabus-post-empleo-fase2.md).
+> **Fase 2 (Post-Empleo):** Especialización corporativa y escalabilidad avanzada desacopladas en [`06-syllabus-post-empleo-fase2.md`](06-syllabus-post-empleo-fase2.md).
 
 ---
 
-## 1. Visión y Enfoque de Empleabilidad
+## 1. Visión y Enfoque de Empleabilidad 3.0
 
-El **Syllabus 2.0** define la ruta técnica crítica indispensable para superar los filtros técnicos (Live Coding, Take-Home tests y entrevistas de arquitectura) para roles de ingeniería de datos, automatización de procesos e integraciones ETL en el mercado internacional.
+El **Syllabus 3.0** representa la reingeniería curricular definitiva del DoJo Study. Está construido a partir de la evidencia empírica del mercado laboral internacional 2026 (corpus consolidado de más de 8.000 vacantes técnicas) y del dictamen de la auditoría técnica integral Q3-2026.
 
-Toda la formación se organiza bajo el estándar **Campaign as Course** ([`04-campaign-as-course.md`](04-campaign-as-course.md)), donde cada materia combina teoría desacoplada (`lore/`), laboratorios de testing (`quests/`), asimilación Feynman (`grimoire.md`) y un proyecto integrador evaluado por el DM (`rite/`).
+### Principios Rectores de la Versión 3.0:
+1. **La Cadena Funciona de Extremo a Extremo:** El mercado no busca acumuladores de cursos ni diplomas teóricos; busca ingenieros capaces de construir cadenas de datos robustas, tipadas, testeadas, orquestadas y monitoreadas.
+2. **Superación del Monocultivo de SQLite:** SQLite queda estrictamente confinado a pruebas unitarias efímeras en memoria (`:memory:`). Los pipelines y bases de datos relacionales operan sobre **PostgreSQL real**.
+3. **Integración Natural sobre Fragmentación:** Las herramientas demandadas por la industria (**dbt, Airflow básico, Cloud Warehouse columnar, AWS Glue/Athena, Docker, Secrets Manager, Parquet**) no se dispersan en micro-cursos aislados: se integran directamente en las Chronicles existentes (`DE-PIPELINES` y `CLOUD-AWS`) y convergen en el proyecto de portafolio (`PORT-CAPSTONE`).
+4. **Cero Tolerancia a Promesas sin Código:** Todo concepto declarado en este temario cuenta con respaldo pedagógico en `lore/`, laboratorios con pruebas automatizadas en `quests/`, y evaluación rigurosa en `rite/` bajo la regla de **Bucle de Ejecución Cerrado (`exit code 0`)**.
 
 ```mermaid
 graph LR
-    subgraph Core
-        P1[PY-BASICO<br/>Python Scripting & Core] --> P2[PY-POO<br/>OOP & TDD]
-        P2 --> S1[SQL-BASICO<br/>Bases de Datos & Modelado]
+    subgraph Core [Fundamentos de Programación & Datos]
+        P1[PY-BASICO<br/>Python Scripting & Core] --> P2[PY-POO<br/>OOP, TDD & Modularidad]
+        P2 --> S1[SQL-BASICO<br/>Postgres, ACID & Modelado Dimensional]
     end
 
-    subgraph Datos & Cloud
-        S1 -->|GATE: Búsqueda Paralela & Mock Interviews| DE[DE-PIPELINES<br/>Data Pipelines & ETL]
-        DE --> CLOUD[CLOUD-AWS<br/>Cloud AWS & Serverless]
+    subgraph Datos & Cloud [Ingeniería de Datos & Nube Pragmática]
+        S1 -->|GATE: Búsqueda Activa & Mocks| DE[DE-PIPELINES<br/>ETL, Airflow, dbt & Columnar]
+        DE --> CLOUD[CLOUD-AWS<br/>S3 Parquet, Athena, IAM, Lambda & RDS]
     end
 
-    subgraph Portafolio
-        CLOUD --> PORT[PORT-CAPSTONE<br/>Pipeline Unificado End-to-End]
+    subgraph Portafolio [Demostración de Producción]
+        CLOUD --> PORT[PORT-CAPSTONE<br/>Pipeline E2E Dockerizado con CI/CD]
     end
 ```
 
@@ -33,142 +39,198 @@ graph LR
 
 ## 2. Mapa de Chronicles en `subjects/`
 
-| Chronicle | Área | Competencias Clave |
+| Chronicle | Área | Competencias Clave y Entregables de Producción |
 |---|---|---|
-| **`PY-BASICO`** | Python | Sintaxis, estructuras de datos, control de flujo, scripting base. |
-| **`PY-POO`** | Python | Programación Orientada a Objetos, TDD (`pytest`), modularización, logging y fixtures. |
-| **`SQL-BASICO`** | SQL | DDL, constraints, CRUD, JOINs, CTEs, Window Functions, ACID, Modelado dimensional. |
-| **`DE-PIPELINES`** | Data Engineering | Integración Python+SQL, consumo de APIs, Pandas, Data Quality, orquestación DAG local. |
-| **`CLOUD-AWS`** | Cloud Computing | Almacenamiento S3, IAM roles/policies, RDS/Postgres, serverless Lambda, CloudWatch. |
-| **`PORT-CAPSTONE`** | Portafolio | Pipeline monolítico productivo end-to-end + CI/CD en GitHub Actions + README en inglés. |
+| **`PY-BASICO`** | Python | Sintaxis profesional, tipos de datos, control de flujo, scripting robusto y manejo de errores. |
+| **`PY-POO`** | Python | Programación Orientada a Objetos, TDD (`pytest`), modularización por capas, fixtures (`tmp_path`), validación de esquemas con **Pydantic**, constructores con `super()`, patrón Output Loaders y tipado estricto (`mypy`). |
+| **`SQL-BASICO`** | SQL | DDL, constraints relacionales, CRUD, relaciones complejas y cardinalidad N:M, CTEs encadenadas, Window Functions (`LAG`, `LEAD`, sumas móviles), transacciones ACID (`BEGIN`, `COMMIT`, `ROLLBACK`), agregaciones condicionales, semántica tri-valor de `NULL`, y **Modelado Dimensional (Star Schema y SCD Tipo 2)**. |
+| **`DE-PIPELINES`** | Data Engineering | Ingesta resiliente con paginación de APIs REST y rate limiting, manipulación con Pandas (`df.groupby`), Data Quality defensivo con excepciones de dominio, carga a **PostgreSQL real** (Docker), orquestación con DAGs (**Prefect** y **Apache Airflow básico**), transformación declarativa con **dbt**, y carga a **Cloud Warehouse Columnar** (BigQuery / Snowflake sandbox o DuckDB local). |
+| **`CLOUD-AWS`** | Cloud Computing | Aprovisionamiento programático con `boto3` (IAM roles/policies de mínimo privilegio, buckets S3 `create_bucket`), almacenamiento columnar **Parquet** con compresión en S3, consultas analíticas serverless con **AWS Glue + Athena**, RDS PostgreSQL + Security Groups, serverless Lambda (empaquetado, variables de entorno de AWS e IAM roles), CloudWatch logs y alertas métricas, y gestión segura de credenciales con **AWS Secrets Manager / KMS** (cero hardcoding). |
+| **`PORT-CAPSTONE`** | Portafolio | Pipeline de datos productivo end-to-end completamente contenerizado con **Docker**, orquestado, con CI/CD en **GitHub Actions**, Data Quality gates, almacenamiento S3/Parquet, dbt, PostgreSQL/Warehouse, monitoreo y documentación técnica en inglés. |
 
 ---
 
 ## 3. Bloques Temáticos de la Ruta Pre-Empleo
 
-### 🐍 PY – Python Core & Automation
+### 🐍 PY – Python Core, OOP & Testing Automation
 *Chronicles asociadas: `PY-BASICO` y `PY-POO`.*
-- Sintaxis profesional, tipos de datos y manejo de excepciones robusto.
-- Programación Orientada a Objetos (clases, herencia, composición, polimorfismo, properties, dunder methods).
-- Test-Driven Development (TDD) con `pytest` y fixtures reutilizables.
-- Logging estructurado (`logging` module) y manejo seguro de entornos virtuales (`venv`).
-- Manipulación avanzada de datos tabulares y colecciones con **Pandas** y serialización **JSON**.
-- Consumo e integración de APIs REST con `requests` / `httpx`.
+- Sintaxis profesional, tipos de datos inmutables y manejo de excepciones robusto.
+- Programación Orientada a Objetos: clases, composición sobre herencia, polimorfismo, properties, dunder methods y jerarquías con inicialización explícita mediante `super().__init__()`.
+- **Estructuras de Colecciones:** Uso eficiente de `collections.defaultdict`, `Counter` y generadores.
+- **Validación de Esquemas:** Modelos de datos y contratos estrictos mediante **Pydantic**.
+- **Arquitectura Modular por Capas:** Patrón Extractor / Loader desacoplado (`BaseLoader`, `JSONExtractor`) separando lógica de dominio de I/O.
+- **Test-Driven Development (TDD):** Ciclo Red-Green-Refactor modelado paso a paso con `pytest`.
+- **Testing Avanzado:** Fixtures reutilizables (`@pytest.fixture`), manejo de directorios temporales aislados (`tmp_path`), aserciones numéricas de precisión (`pytest.approx`) y mocking de dependencias externas.
+- **Tipado Estricto & Calidad:** Tipado estático con `mypy`, docstrings canónicos y logging estructurado (`logging`).
+- **Interfaces CLI:** Creación de herramientas de línea de comandos mediante `argparse` estándar.
 
 ---
 
-### 🗄️ SQL – Bases de Datos Relacionales & Modelado Dimensional
+### 🗄️ SQL – Bases de Datos Relacionales, ACID & Modelado Dimensional
 *Chronicle asociada: `SQL-BASICO`.*
-- Fundamentos relacionales, DDL (`CREATE`, `ALTER`, `DROP`), tipos de datos explícitos y restricciones (`PK`, `FK`, `UNIQUE`, `CHECK`, `CASCADE`).
-- Consultas intermedias y avanzadas: `WHERE`, `ORDER BY`, funciones escalares (`CASE WHEN`, `COALESCE`, `CAST`), agregaciones (`GROUP BY`, `HAVING`).
-- Relaciones complejas: `INNER`, `LEFT`, `CROSS`, Self-Joins y aliases de tabla.
-- Expresiones de tabla común (**CTEs**) encadenadas y subqueries correlacionadas.
-- Funciones de ventana (**Window Functions**): `ROW_NUMBER()`, `RANK()`, `DENSE_RANK()`, `LAG()`, `LEAD()`, sumas acumuladas y deduplicación.
-- Operaciones de conjuntos (`UNION`, `UNION ALL`, `INTERSECT`, `EXCEPT`) y transacciones **ACID** (`BEGIN`, `COMMIT`, `ROLLBACK`).
-- **Modelado Dimensional:** Diferencias clave entre OLTP y OLAP, esquema en estrella (*Star Schema*), tablas de hechos (*Fact Tables*) y dimensiones (*Dimension Tables*), diseño de llaves subrogadas e indexación básica.
-
-> **Nota de Arquitectura sobre SQL:**  
-> Las Chronicles anteriormente planificadas como `SQL-PYBRIDGE` y `SQL-DESIGN` quedan formalmente **absorbidas**: el modelado dimensional se integra en la fase avanzada de `SQL-BASICO`, mientras que el puente Python+SQL se ejercita directamente dentro de `DE-PIPELINES`.
-
----
-
-### 🛡️ DQ – Data Quality & Observabilidad *(Práctica Transversal)*
-> **Regla de Arquitectura:** `DQ` no constituye una Chronicle aislada para evitar la proliferación de cursos. Se enseña e implementa integrado en `DE-PIPELINES` y se valida en `PORT-CAPSTONE`.
-
-- Validación de esquemas de entrada y contratos de datos.
-- Detección y tratamiento automatizado de nulos, registros duplicados e inconsistencias de tipo.
-- Verificaciones de integridad cuantitativa (*Row Count Checks* y reconciliación de balances pre/post carga).
-- Estrategias de reintentos con *exponential backoff* ante fallos transitorios de red o API.
-- Logging forense estructurado para auditoría de pipelines en producción.
+- Fundamentos relacionales, DDL (`CREATE`, `ALTER`, `DROP`), tipos de datos explícitos y restricciones de integridad (`PK`, `FK`, `UNIQUE`, `CHECK`, `CASCADE`).
+- Consultas intermedias y avanzadas: `WHERE`, `ORDER BY`, funciones escalares (`CASE WHEN`, `COALESCE`, `NULLIF`, `CAST`), agregaciones condicionales (`SUM/COUNT` con `CASE`).
+- **Semántica de Nulos:** Manejo riguroso de la lógica tri-valor de SQL (`TRUE`, `FALSE`, `UNKNOWN`), comportamiento en operadores de conjunto e impacto en funciones de agregación.
+- **Relaciones Complejas & Cardinalidad:** `INNER`, `LEFT`, `CROSS`, Self-Joins, resolución determinista de relaciones N:M ("Autor Principal" / deduplicación controlada).
+- Expresiones de tabla común (**CTEs**) jerárquicas y subqueries correlacionadas.
+- **Window Functions:** `ROW_NUMBER()`, `RANK()`, `DENSE_RANK()`, `LAG()`, `LEAD()`, ventanas móviles de tiempo y ordenación explícita.
+- **Transacciones ACID en Producción:** Control de concurrencia y atomicidad mediante bloques transaccionales explícitos (`BEGIN`, `COMMIT`, `ROLLBACK`).
+- **Modelado Dimensional (OLAP):**
+  - Diferencias arquitectónicas entre OLTP (normalización) y OLAP (desnormalización analítica).
+  - Diseño de Esquema en Estrella (*Star Schema*): tablas de hechos (*Fact Tables*) con métricas aditivas/semiaditivas y tablas de dimensiones (*Dimension Tables*) con llaves subrogadas (*Surrogate Keys*).
+  - **Slowly Changing Dimensions (SCD Tipo 2):** Gestión del historial de cambios mediante llaves de versión, fechas de vigencia (`start_date`, `end_date`) e indicador de registro activo (`is_current`).
 
 ---
 
-### ⚙️ DE – Data Pipelines & Orquestación Básica
+### 🛡️ DQ – Data Quality, Contratos & Observabilidad *(Práctica Transversal)*
+> **Regla de Arquitectura:** `DQ` no constituye una Chronicle teórica aislada. Se enseña e implementa de manera defensiva en `DE-PIPELINES` y se valida en `PORT-CAPSTONE`.
+
+- Validación de esquemas y tipado de entrada previo al procesamiento.
+- Reglas de integridad cuantitativa: umbrales de pérdida de registros (*Loss Rate Checks*), detección de duplicados y reconciliación de balances pre/post transformación.
+- **Calidad Defensiva sin Assertions:** Erradicación del antipatrón `assert` en código productivo; uso sistemático de excepciones de dominio específicas (`DataQualityError`, `RateError`) que garantizan detención bajo flags de optimización (`-O`).
+- Verificaciones de integridad referencial y de nulos en columnas críticas.
+- Estrategias de reintentos con *exponential backoff* y *jitter* ante fallos transitorios de red.
+- Logging estructurado y observabilidad de calidad para trazabilidad y auditoría.
+
+---
+
+### ⚙️ DE – Data Pipelines, Ingesta Resiliente, dbt & Orquestación
 *Chronicle asociada: `DE-PIPELINES`.*
-- Arquitecturas y patrones de ingesta: ETL vs ELT y zonas de almacenamiento (*Raw / Bronze*, *Cleaned / Silver*, *Curated / Gold*).
-- Extracción automatizada desde múltiples endpoints de APIs REST con autenticación por token/headers.
-- Manipulación, limpieza y tipado estricto con Pandas.
-- Carga de datos estructurados hacia bases de datos relacionales (Postgres) usando DBAPIs/SQLAlchemy.
-- **Orquestación con DAGs:** Introducción práctica a herramientas de orquestación moderna (**Prefect** o **Airflow local**) con tareas dependientes, reintentos automáticos y registro de estados.
+- Arquitecturas y patrones de datos: ETL vs ELT, diseño por zonas (*Raw / Bronze*, *Cleaned / Silver*, *Curated / Gold*).
+- **Consumo Resiliente de APIs REST:** Autenticación por tokens/headers, paginación real (offset/cursor pagination), control de rate limits y mocking defensivo para tests unitarios (`responses`).
+- **Transformación de Datos con Pandas:** Limpieza, tipado defensivo, operaciones de agrupamiento y agregación multivariable (`df.groupby`).
+- **Carga a PostgreSQL Real:** Conexión y persistencia mediante SQLAlchemy y psycopg hacia bases de datos PostgreSQL contenerizadas.
+- **Transformación Declarativa con dbt:** Introducción práctica a **dbt Core** (modelos SQL modulares, fuentes `sources.yml`, materializaciones en tablas y vistas, y pruebas de integridad de esquema `unique`, `not_null`).
+- **Almacenamiento Columnar Analítico:** Conceptos y carga hacia **Cloud Warehouse Columnar** (Snowflake / BigQuery sandbox o proxy local con DuckDB) demostrando ventajas de almacenamiento por columnas y compresión.
+- **Orquestación con DAGs:**
+  - Definición de pipelines mediante grafos dirigidos acíclicos (**Prefect** y **Apache Airflow básico**).
+  - Tareas dependientes (`>>`), operadores estándar (`PythonOperator`), sensores y calendarización con expresiones cron.
+  - Gestión de logs de ejecución estructurados (`get_run_logger`) y políticas automáticas de reintentos.
+- **Perspectiva de Arquitectura:** Lectura conceptual de procesamiento distribuido con Apache Spark (distinción batch/streaming y trade-offs frente a motores vectorizados).
 
 ---
 
-### ☁️ CLOUD – Cloud AWS Pragmático
+### ☁️ CLOUD – AWS Pragmático para Data Engineers
 *Chronicle asociada: `CLOUD-AWS`.*
-- Fundamentos de arquitectura cloud para ingeniería de datos.
-- **AWS IAM:** Creación de usuarios de servicio, roles, políticas de mínimo privilegio y manejo de credenciales mediante variables de entorno (sin hardcoding de llaves).
-- **Amazon S3:** Creación de buckets, particionamiento de carpetas por fecha (`year/month/day`), almacenamiento de payloads raw JSON y Parquet.
-- **Amazon RDS:** Aprovisionamiento y conexión segura a instancias administradas de **PostgreSQL**.
-- **AWS Lambda:** Funciones serverless para tareas ligeras de extracción y disparo de eventos.
-- **Amazon CloudWatch:** Monitoreo de logs de ejecución y configuración de alertas de fallo.
+- Fundamentos de infraestructura cloud, seguridad y mínimos privilegios.
+- **AWS IAM Programático:** Creación de usuarios de servicio, roles, políticas de mínimo privilegio y trust relationships mediante `boto3`.
+- **Seguridad & Cero Hardcoding:** Gestión de credenciales, tokens y llaves de conexión mediante **AWS Secrets Manager / KMS** y variables de entorno seguras.
+- **Amazon S3:** Creación programática de buckets (`create_bucket`) con validación de nomenclatura DNS, particionamiento jerárquico por fecha (`year/month/day`), almacenamiento raw JSON y **serialización columnar en formato Parquet** con compresión Snappy/ZSTD.
+- **AWS Glue & Athena:** Registro de catálogos de metadatos (Data Catalog) y consultas SQL federadas directamente sobre datasets Parquet en S3 sin aprovisionar servidores.
+- **Amazon RDS:** Aprovisionamiento, configuración de grupos de seguridad (Security Groups) y conexión segura a instancias administradas de PostgreSQL.
+- **AWS Lambda Serverless:** Empaquetado de código, despliegue programático (`create_function`), inyección de variables de entorno de AWS, roles de ejecución IAM y manejo de eventos asíncronos S3 sin acoplamiento a retornos síncronos.
+- **Amazon CloudWatch:** Creación de Log Groups, retención de logs, Metric Filters sobre patrones de error y configuración de alarmas automatizadas.
 
 ---
 
-### 🔄 GIT-CI – Control de Versiones & CI Automático *(Práctica Transversal)*
-> **Regla de Arquitectura:** `GIT-CI` no es una Chronicle teórica aislada; se aplica como estándar obligatorio desde `DE-PIPELINES` y se automatiza en `PORT-CAPSTONE`.
+### 🐳 DOCKER – Contenerización Pragmática *(Práctica Transversal)*
+> **Regla de Arquitectura:** Derogando la cláusula de opcional de versiones previas, Docker se formaliza como estándar obligatorio desde `DE-PIPELINES` para garantizar reproducibilidad absoluta.
 
-- Convenciones de commits semánticos (*Conventional Commits*: `feat`, `fix`, `refactor`, `test`, `chore`).
+- Creación de imágenes reproducibles mediante `Dockerfile` multi-stage optimizados.
+- Orquestación local multi-contenedor con `docker-compose.yml`:
+  - Instancia local de PostgreSQL con volumen persistente y scripts de inicialización `init.sql`.
+  - Contenedores de prueba y orquestación efímeros.
+- Gestión de redes internas, variables de entorno y aislamiento de dependencias.
+
+---
+
+### 🔄 GIT-CI – Control de Versiones & Integración Continua Automática *(Práctica Transversal)*
+> **Regla de Arquitectura:** `GIT-CI` es obligatorio desde `DE-PIPELINES` y se automatiza en `PORT-CAPSTONE`.
+
+- Convenciones de commits semánticos (*Conventional Commits*: `feat`, `fix`, `refactor`, `test`, `chore`, `docs`).
 - Estrategia de branching profesional (*feature branches* y Pull Requests con code review).
-- **GitHub Actions:** Creación de workflows `.github/workflows/ci.yml` que ejecutan automáticamente la suite de `pytest`, validación de tipos con `mypy` y linter en cada `push` o `pull_request`.
+- **GitHub Actions:** Configuración de workflows `.github/workflows/ci.yml` que disparan automáticamente en cada `push` o `pull_request`:
+  - Linter y formateo de código.
+  - Chequeo de tipos estáticos con `mypy`.
+  - Ejecución de la suite completa de `pytest` con reporte de cobertura.
 
 ---
 
 ### 🗣️ ENG-INT – Inglés Técnico Aplicado & Mock Interviews *(Práctica Transversal)*
-> **Regla de Arquitectura:** Inmersión continua a lo largo de todo el DoJo.
-
-- **Nivel Objetivo:** B2+ funcional enfocado en comunicación técnica fluida para entrevistas internacionales en vivo.
-- **Producción Escrita:** Todos los artefactos técnicos de producción (código, nombres de variables, docstrings, tests, commits, pull requests y READMEs) deben redactarse en **Inglés profesional**.
-- **Simulacros de Entrevistas (Mock Interviews):** A partir del gate de búsqueda activa, el Operador utilizará personalidades del agente (`witch` / `wizard`) para practicar sesiones socráticas y simulacros de preguntas de arquitectura y código en inglés.
+- **Nivel Objetivo:** B2+ funcional enfocado en comunicación técnica fluida para procesos de selección internacionales.
+- **Producción Técnica:** 100% de artefactos de producción (código, variables, comentarios, docstrings, commits, PRs y READMEs) redactados en **Inglés profesional**.
+- **Simulacros de Entrevistas Técnicas:** Prácticas socráticas regulares para explicar decisiones de diseño, trade-offs arquitectónicos y resolución de live coding en vivo.
 
 ---
 
-## 4. Especificación del Proyecto de Portafolio: `PORT-CAPSTONE`
+## 4. Podas Curriculares y Reconciliaciones Formales
 
-En lugar de múltiples proyectos pequeños y dispersos, el portafolio se concentra en **1 Proyecto End-to-End Monolítico y Robusto** que demuestre la cadena completa de Data & Automation Engineering:
+En estricto apego al Dictamen Rector (§4 2.4), se formalizan tres podas estratégicas para proteger el tiempo de estudio activo del Operador de promesas infladas o antipatrones:
+
+1. **Poda de Typer/Click (`PY-012`):**  
+   *Justificación:* El material ya enseña y domina `argparse` estándar de la librería estándar de Python. Se formaliza `argparse` en el temario y se suelta la promesa de frameworks CLI externos, evitando dependencias innecesarias en pipelines headless.
+2. **Poda de Clean Architecture Dogmática (`PY-015`):**  
+   *Justificación:* La "Clean Architecture" dogmática introduce niveles de indirección innecesarios para pipelines de ingeniería de datos. Se sustituye formalmente por **"Diseño Modular por Capas y Separación de Responsabilidades"** (Extractors, Transformers, Loaders, Data Models).
+3. **Poda de `load_dotenv` en Lambda:**  
+   *Justificación:* Cargar archivos `.env` locales dentro de una función AWS Lambda es un antipatrón en la nube. Se erradica de las guías y se enseña el estándar de producción: variables de entorno nativas de AWS e inyección de secretos vía IAM Role y Secrets Manager.
+
+---
+
+## 5. Delimitación de Frontera con Fase 2 (Post-Empleo RFC v5.2.0)
+
+Para blindar la velocidad de inserción laboral y evitar que tecnologías corporativas avanzadas desvíen la atención del núcleo pre-empleo, la frontera queda establecida según el RFC v5.2.0:
+
+| Dominio | Incluido en Ruta Pre-Empleo (Syllabus 3.0) | Retenido para Fase 2 (Post-Empleo) |
+|---|---|---|
+| **Bases de Datos & Transformación** | PostgreSQL real, SQLite in-memory, dbt básico, Modelado Star Schema, SCD Tipo 2, Cloud Warehouse básico (Snowflake/BigQuery). | Databricks Lakehouse empresarial, optimizaciones avanzadas de clústeres, Delta Lake / Iceberg a gran escala. |
+| **Orquestación & Big Data** | Apache Airflow básico (DAGs, PythonOperator, retries), Prefect local. Lectura conceptual de Apache Spark. | Clústeres distribuidos de Apache Spark (PySpark) y Apache Kafka para streaming en tiempo real. |
+| **Infraestructura & Contenedores** | Docker pragmático (`Dockerfile`, `docker-compose.yml`), AWS IAM básico, S3, RDS, Lambda, CloudWatch, Secrets Manager. | Kubernetes (K8s), Helm charts, Infraestructura como Código avanzada con Terraform multi-ambiente. |
+| **Testing & CI/CD** | TDD con `pytest`, fixtures modulares, mocking HTTP, `mypy`, GitHub Actions básicos. | Testing formal E2E empresarial, pruebas de carga y estrés masivo, auditoría SOC2/GDPR corporativa. |
+| **Analítica & Especialización** | SQL analítico avanzado, Glue Data Catalog, consultas Athena serverless. | Plataformas complejas de BI / Dashboards de autoservicio (Tableau/PowerBI empresarial), modelos LLM/RAG/GenAI (~9% de ofertas iniciales). |
+
+---
+
+## 6. Especificación del Proyecto de Portafolio: `PORT-CAPSTONE`
+
+El portafolio se concentra en **1 Proyecto End-to-End Monolítico, Robusto y Desplegable** que demuestra dominio de la cadena moderna completa de Data & Automation Engineering:
 
 ```
-[ Fuente Externa: API REST Pública ]
+[ Fuente Externa: API REST Pública con Paginación ]
                  │
                  ▼
-[ 1. Ingestor en Python (Requests / Pydantic / Logging) ]
+[ 1. Ingestor en Python (Requests / Pydantic / Secrets Manager) ]
                  │
                  ▼
-[ 2. Data Quality Layer (Schema Validation, Null Checks, Deduplication) ]
+[ 2. Data Quality Layer (Loss Rate, Schema Validation, Excepciones de Dominio) ]
                  │
                  ├──────────────────────────────┐
                  ▼                              ▼
-    [ 3. Raw Storage en AWS S3 ]    [ 4. Transformación (Pandas / SQL) ]
-                                                │
-                                                ▼
-                                [ 5. Carga a RDS/PostgreSQL ]
-                                (Modelado Dimensional: Star Schema)
-                                                │
-                                                ▼
-                                [ 6. Post-Load Quality Checks ]
-                                (Reconciliación de Row Counts)
-                                                │
-                                                ▼
-                        [ 7. Orquestación Periódica ]
-                        (DAG en Prefect/Airflow con reintentos)
-                                                │
-                                                ▼
-                        [ 8. Monitoreo & Logs (CloudWatch) ]
+    [ 3. Raw Storage en AWS S3 ]    [ 4. Transformación Declarativa (Pandas / dbt) ]
+       (Formato Parquet Snappy)                 │
+                 │                              ▼
+                 │              [ 5. Carga a RDS/PostgreSQL & Columnar ]
+                 │              (Modelado Dimensional: Star Schema + SCD Tipo 2)
+                 │                              │
+                 ▼                              ▼
+    [ 6. AWS Glue + Athena ]       [ 7. Post-Load Quality Checks ]
+    (Consultas Serverless)         (Reconciliación de Row Counts y Balances)
+                 │                              │
+                 └──────────────┬───────────────┘
+                                │
+                                ▼
+                    [ 8. Orquestación Periódica ]
+                    (DAG en Airflow/Prefect con reintentos y logs)
+                                │
+                                ▼
+                    [ 9. Monitoreo & Logs (CloudWatch) ]
+                    (Alertas Métricas sobre Fallos de Ejecución)
 ```
 
 ### Entregables del Capstone:
-1. **Repositorio Público en GitHub:** Estructura modular limpia (`src/`, `tests/`, `config/`, `.github/workflows/`).
-2. **CI/CD Activo:** GitHub Actions corriendo `pytest` en cada commit.
-3. **README Profesional en Inglés:** Justificación de arquitectura (por qué ETL vs ELT, trade-offs de la herramienta de orquestación elegida, diagrama de flujo y métricas de rendimiento).
-4. **Video Demo / Loom (3-5 min):** Explicación del pipeline en inglés destacando decisiones de diseño y manejo de errores.
+1. **Repositorio Público en GitHub:** Estructura modular estandarizada (`src/`, `tests/`, `models_dbt/`, `docker-compose.yml`, `.github/workflows/`).
+2. **Entorno Dockerizado Reproducible:** Todo el pipeline se levanta y prueba localmente con un único comando `docker compose up`.
+3. **CI/CD Activo:** GitHub Actions validando linter, `mypy` y `pytest` en cada commit.
+4. **README Profesional en Inglés:** Diagrama de arquitectura, justificación de decisiones (ETL vs ELT, trade-offs de almacenamiento Parquet vs JSON, estrategia SCD2) y métricas de rendimiento.
+5. **Video Demo / Loom (3-5 min):** Explicación ejecutiva en inglés del pipeline en funcionamiento y recuperación ante fallos.
 
 ---
 
-## 5. El Disparador del Gate de Búsqueda Activa
+## 7. El Disparador del Gate de Búsqueda Activa
 
 > [!IMPORTANT]
-> **GATE DE BÚSQUEDA PARALELA:**
-> El proceso de postulación a empleos **NO espera** a que el portafolio esté finalizado.
+> **GATE DE BÚSQUEDA PARALELA:**  
+> La postulación al mercado laboral internacional **NO espera** a que el portafolio esté finalizado.
 > 
 > * **Hito de Activación:** Se dispara formalmente al **aprobar el Rite de `SQL-BASICO`**.
-> * **Justificación Técnica:** Con `PY-POO` (Python avanzado + OOP + TDD) y `SQL-BASICO` (DDL, JOINs, CTEs, Window Functions), el Operador cuenta con las credenciales para superar el 80% de los filtros de *live coding* y screening técnico inicial.
-> * **Acción a partir del Hito:** Se reserva un bloque semanal fijo dentro de la rutina para enviar entre 5 y 10 postulaciones en plataformas internacionales (LinkedIn, Wellfound, RemoteOK, Arc.dev) y realizar mock interviews en inglés mientras se desarrollan `DE-PIPELINES`, `CLOUD-AWS` y `PORT-CAPSTONE`.
+> * **Justificación Técnica:** Con `PY-POO` (Python avanzado, OOP, TDD, Pydantic) y `SQL-BASICO` (DDL, JOINs complejos, CTEs, Window Functions, ACID, Modelado Dimensional), el Operador cuenta con las competencias críticas para superar el 85% de las pruebas de *Live Coding* y *Technical Screening*.
+> * **Acción a partir del Hito:** Se reserva un bloque semanal inamovible para enviar entre 5 y 10 postulaciones dirigidas en plataformas internacionales (LinkedIn, Wellfound, RemoteOK, Arc.dev, Otta) y realizar simulacros de entrevistas técnicas en inglés mientras se desarrollan `DE-PIPELINES`, `CLOUD-AWS` y `PORT-CAPSTONE`.
