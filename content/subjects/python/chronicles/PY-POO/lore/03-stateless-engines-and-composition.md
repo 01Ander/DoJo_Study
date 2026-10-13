@@ -82,18 +82,84 @@ class OrderPipeline:
 ```
 La ventaja de la composición es que mañana puedes cambiar el `TaxEngine` por un `TaxEngineEuropa` sin tener que alterar el código del pipeline, simplemente inyectando el nuevo motor.
 
-## 4. Conexión con Testing (Nivel 3: Fixtures)
+## 4. Agrupamiento y Acumuladores con `collections.defaultdict`
 
-Los Stateless Engines son las clases más fáciles de testear del mundo. Como no tienen estado interno impredecible, solo inyectas datos falsos y compruebas el output.
+En un Stateless Engine de procesamiento de datos, una tarea muy común es **agrupar y acumular métricas por categoría** (ej. total de gastos por rubro, stock por producto o reactivos por tipo elemental).
+
+### El Problema del Diccionario Estándar
+Con un `dict` nativo, acceder a una clave que no existe lanza un `KeyError`:
 
 ```python
-def test_tax_calculator():
-    engine = TaxEngine()
-    tax = engine.calculate(100)
-    assert tax == 19.0 
+# ❌ Frágil y verboso: requiere chequear la clave manualmente
+totals = {}
+for item in items:
+    cat = item["category"]
+    if cat not in totals:
+        totals[cat] = 0.0
+    totals[cat] += item["amount"]
 ```
 
-## 5. Mapa de Ejercicios
+### La Solución Elegante: `defaultdict`
+El módulo estándar `collections` provee `defaultdict`, que recibe una **fábrica de tipo por defecto** (`float`, `list`, `int`). Cuando se intenta leer o modificar una clave inexistente, `defaultdict` la crea automáticamente llamando a esa fábrica (`float()` devuelve `0.0`, `list()` devuelve `[]`):
+
+```python
+from collections import defaultdict
+
+# ✅ Idiomático, limpio y sin boilerplate de comprobación
+totals = defaultdict(float)
+for item in items:
+    totals[item["category"]] += item["amount"]
+```
+
+### Ejemplo en un Stateless Engine (Domain Shifting: Alquimia de Transmutación)
+```python
+from collections import defaultdict
+
+class AlchemicalAnalyticsEngine:
+    """Motor sin estado para consolidar inventario de reactivos mágicos."""
+
+    def aggregate_potency_by_element(self, reagents: list[dict]) -> dict[str, float]:
+        # Inicializa automáticamente en 0.0 cualquier elemento no registrado
+        potency_totals = defaultdict(float)
+
+        for r in reagents:
+            potency_totals[r["element"]] += r["potency"]
+
+        # Convertimos a dict nativo antes de retornar para sellar el contrato
+        return dict(potency_totals)
+```
+
+## 5. Conexión con Testing: Inyección de Datos con `@pytest.fixture`
+
+Los Stateless Engines son las clases más fáciles de testear del mundo porque no tienen estado interno impredecible: **misma entrada siempre genera misma salida**.
+
+Para evitar duplicar la creación de datos de prueba en cada función de test, Pytest ofrece el decorador `@pytest.fixture`. Una fixture es una función auxiliar que prepara el "set de datos" y se inyecta directamente como argumento en los tests:
+
+```python
+import pytest
+from alchemy_engine import AlchemicalAnalyticsEngine
+
+# 1. Definimos la fixture con los datos de prueba
+@pytest.fixture
+def sample_reagents():
+    return [
+        {"element": "fire", "potency": 25.5},
+        {"element": "water", "potency": 10.0},
+        {"element": "fire", "potency": 14.5},
+    ]
+
+# 2. Inyectamos la fixture en el parámetro del test
+def test_aggregate_potency_accumulates_correctly(sample_reagents):
+    engine = AlchemicalAnalyticsEngine()
+    result = engine.aggregate_potency_by_element(sample_reagents)
+
+    assert result["fire"] == 40.0
+    assert result["water"] == 10.0
+```
+
+---
+
+## 6. Mapa de Ejercicios
 
 Dirígete a `quests/03-engines/`:
 
@@ -103,5 +169,5 @@ Dirígete a `quests/03-engines/`:
 ```text
 PY-POO/quests/03-engines/
 ├── [[01-stateless-logic]].md      (Tipo A: Implementación Base)
-└── [[02-spaced-repetition]].md    (Tipo B: Spaced Repetition + Testing)
+└── [[02-spaced-repetition]].md    (Tipo B: Spaced Repetition + Testing con Fixtures)
 ```

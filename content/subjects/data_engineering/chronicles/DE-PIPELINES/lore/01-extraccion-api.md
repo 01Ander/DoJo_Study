@@ -111,6 +111,28 @@ Esta herramienta intercepta (mockea) las peticiones que hace `requests` en nuest
 > - `@responses.activate`: Decorador que enciende el interceptor mágicamente en tu test. Si no lo pones, el test hará peticiones reales.
 > - `responses.add(responses.GET, url, json={"key": "value"}, status=200)`: Le enseña al interceptor: "Oye, cuando alguien haga un GET a esta `url`, devuélvele un objeto con este `json` y este `status` (200 OK)".
 
+## 5. Calidad y Tipado Estático con `mypy` en Data Pipelines
+
+En ingeniería de datos, un error de tipo en tiempo de ejecución (ej. pasar una tupla donde se esperaba un string) puede tumbar un pipeline después de horas de procesamiento.
+
+Para evitar esto, los pipelines profesionales incorporan **anotaciones de tipo explícitas** (Type Hints) y verificación estática con **`mypy`**:
+
+```python
+from typing import Any
+
+# Anotaciones claras en parámetros y valor de retorno:
+def extract_catalog(endpoint: str, timeout: int = 10) -> list[dict[str, Any]]:
+    # ...
+    return []
+```
+
+### Ejecutar `mypy` en la Terminal
+Antes de enviar tu código a producción (o someter tu Rite), ejecuta:
+```bash
+mypy src/
+```
+`mypy` analizará tu código sin ejecutarlo, detectando discrepancias de tipos, retornos inconsistentes y posibles referencias `None`. Un Definition of Done (DoD) profesional exige **0 errores de mypy**.
+
 ---
 
 ## Misión a seguir

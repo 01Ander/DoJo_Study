@@ -90,7 +90,85 @@ def test_database_call_without_database():
     mock_db.save.assert_called_once_with("Laptop")
 ```
 
-## 4. Setup del Entorno (CRÍTICO)
+## 4. Testing de Entrada/Salida (I/O) con el Fixture Nativo `tmp_path`
+
+En Data Engineering y pipelines, con frecuencia probamos clases que leen o escriben archivos en disco (`CSVExtractor`, `JSONLoader`, `ParquetWriter`).
+
+### El Antipatrón: Archivos de Prueba en el Disco Real
+Crear archivos como `test_data.csv` directamente en la raíz de tu proyecto es una pésima práctica:
+1. Si el test falla a mitad de camino, el archivo queda "huérfano" ensuciando el repositorio.
+2. Si dos tests corren en paralelo, competirán por el mismo archivo y se sabotearán mutuamente.
+
+### La Solución Canónica: El Fixture `tmp_path`
+Pytest incluye de forma nativa el fixture `tmp_path`, que provee un objeto `pathlib.Path` apuntando a un **directorio temporal completamente aislado** creado para ese test específico, el cual se limpia automáticamente:
+
+```python
+from pathlib import Path
+import pytest
+
+# La clase que queremos testear
+class MagicScrollReader:
+    def count_runes(self, filepath: str) -> int:
+        with open(filepath, "r", encoding="utf-8") as f:
+            return len(f.readlines())
+
+# El Test: Inyectamos tmp_path (provisto automáticamente por Pytest)
+def test_scroll_reader_counts_lines(tmp_path: Path):
+    # 1. ARRANGE: Creamos un archivo temporal dentro de tmp_path
+    temp_scroll = tmp_path / "ancient_scroll.txt"
+    temp_scroll.write_text("Runa Ignis\nRuna Aqua\nRuna Terra\n", encoding="utf-8")
+    
+    # 2. ACT: Le pasamos la ruta temporal al reader
+    reader = MagicScrollReader()
+    total = reader.count_runes(str(temp_scroll))
+    
+    # 3. ASSERT: Verificamos el resultado
+    assert total == 3
+```
+
+---
+
+## 5. Pruebas Numéricas y Tolerancia con `pytest.approx`
+
+### La Trampa del Estándar IEEE 754 (Punto Flotante)
+Las computadoras representan números decimales en binario. Debido a limitaciones de precisión del hardware, ciertas operaciones aritméticas simples producen pequeños residuos infinitesimales:
+
+```python
+>>> 0.1 + 0.2
+0.30000000000000004
+>>> 0.1 + 0.2 == 0.3
+False  # ❌ ¡Peligro en cálculos financieros o agregaciones!
+```
+
+Si en un test unitario haces:
+```python
+# ❌ Falla intermitentemente por precisión de coma flotante
+assert result["food"] == -300.00
+```
+Cualquier cálculo acumulativo que arroje `-300.00000000000006` romperá tu pipeline de CI.
+
+### La Solución: `pytest.approx`
+Pytest provee `pytest.approx()`, que compara números de punto flotante permitiendo un margen de tolerancia relativo (`1e-6` por defecto):
+
+```python
+import pytest
+
+def test_treasury_gold_balance():
+    # Supongamos que sumamos varias transacciones fraccionarias
+    collected_gold = [0.1, 0.2]
+    total = sum(collected_gold)
+    
+    # ✅ Pasa limpiamente aceptando la tolerancia de punto flotante
+    assert total == pytest.approx(0.3)
+
+    # También soporta diccionarios o listas completas de floats:
+    totals = {"gold": 0.30000000004, "silver": 150.0}
+    assert totals["gold"] == pytest.approx(0.3)
+```
+
+---
+
+## 6. Setup del Entorno (CRÍTICO)
 
 Pytest y Mypy NO son nativos. Deben instalarse en un entorno virtual aislado para no contaminar tu sistema.
 
@@ -114,7 +192,7 @@ Pytest y Mypy NO son nativos. Deben instalarse en un entorno virtual aislado par
    pytest -v
    ```
 
-## 5. Errores Comunes de Pytest
+## 7. Errores Comunes de Pytest
 
 **Error:** `ModuleNotFoundError: No module named 'pytest'`
 - **Causa:** No activaste tu entorno virtual o no instalaste pytest.
@@ -126,15 +204,17 @@ Pytest y Mypy NO son nativos. Deben instalarse en un entorno virtual aislado par
 
 ---
 
-## 6. Mapa de Ejercicios
+## 8. Mapa de Ejercicios
 
 Dirígete a `quests/05-testing/` y completa los ejercicios:
 
 - [[01-fixture-creation]]
 - [[02-test-from-scratch]]
+- [[03-io-and-approx]]
 
 ```text
 PY-POO/quests/05-testing/
 ├── [[01-fixture-creation]].md       (Tipo B: Nivel 3 - Fixtures)
-└── [[02-test-from-scratch]].md      (Tipo B: Nivel 4 - Test Completo)
+├── [[02-test-from-scratch]].md      (Tipo B: Nivel 4 - Test Completo)
+└── [[03-io-and-approx]].md          (Tipo B: Nivel 4 - tmp_path y approx)
 ```

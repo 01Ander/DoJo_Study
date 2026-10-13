@@ -1,6 +1,6 @@
 # Ejercicio 03-02: Spaced Repetition (Tipo B - Nivel 3)
 
-**Objetivo:** Repasar Fixtures (Cap 05) y Dataclasses (Cap 02) aplicado a un Engine (Cap 03).
+**Objetivo:** Aplicar Fixtures (`@pytest.fixture`, Lore 03 §5) y Dataclasses (Cap 02) a un Stateless Engine (Cap 03).
 
 ## Tu Tarea
 Lee el siguiente test. Crea el fixture necesario en un archivo `test_engine.py` (usando `pytest`) y escribe la lógica de clases de negocio para que el test sea verde.

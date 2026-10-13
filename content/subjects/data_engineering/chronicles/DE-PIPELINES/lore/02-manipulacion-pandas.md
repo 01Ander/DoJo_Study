@@ -88,6 +88,29 @@ clean_data = df.to_dict(orient='records')
 ```
 El parámetro `orient='records'` asegura que el resultado sea una lista donde cada elemento es un diccionario representando una fila, idéntico al formato original.
 
+## 5. Agregaciones Vectorizadas: Creando la Zona Gold con `df.groupby()`
+
+En la arquitectura de pipelines (Medallion Architecture), la **Zona Gold** contiene datos de valor analítico agregado, optimizados para reportes de negocio o tableros de control. Para consolidar métricas (ej. total de stock disponible por ingrediente único), usamos `groupby()`:
+
+### El Método `groupby()`
+Agrupa las filas que comparten un mismo valor en una columna clave y aplica una función reductora (`sum()`, `mean()`, `count()`, `max()`) sobre las columnas numéricas:
+
+```python
+# Consolidar el stock total agrupado por ingrediente
+gold_summary = (
+    df.groupby('name', as_index=False)[['stock']]
+      .sum()
+      .rename(columns={'stock': 'total_stock'})
+)
+```
+
+> **Desglose de Sintaxis:**
+> - `by='name'`: Columna pivote sobre la cual se agrupan los registros idénticos.
+> - `as_index=False`: Mantiene `'name'` como una columna normal del DataFrame en lugar de convertirlo en el índice de la tabla, facilitando su posterior exportación a dict o base de datos.
+> - `[['stock']]`: Selecciona la columna numérica sobre la que deseamos calcular la métrica.
+> - `.sum()`: Suma todos los valores de stock pertenecientes a cada ingrediente único.
+> - `.rename(columns={...})`: Renombra la columna resultante para reflejar su nueva semántica de negocio (`total_stock`).
+
 ---
 
 ## Misión a seguir

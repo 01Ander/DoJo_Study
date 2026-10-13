@@ -220,7 +220,70 @@ INNER JOIN platforms AS p ON g.platform_id = p.id;
 
 ---
 
-## 7. Mapa de Ejercicios
+## 7. Relaciones Muchos a Muchos (N:M) y la Trampa de Multiplicación de Filas
+
+En el modelado relacional es habitual encontrar relaciones **Muchos a Muchos (N:M)** resueltas mediante una tabla puente o asociativa (Junction Table), como por ejemplo:
+- `books` $\leftrightarrow$ `book_authors` $\leftrightarrow$ `authors` (un libro puede tener varios co-autores).
+- `students` $\leftrightarrow$ `enrollments` $\leftrightarrow$ `courses`.
+
+### El Peligro: Multiplicación Fantasma de Cardinalidad
+Si un reporte de negocio solicita una lista de **préstamos activos** (o ventas de libros) y realizas un `JOIN` directo con la tabla de autores sin controlar la cardinalidad:
+
+```sql
+-- ❌ ERROR COMÚN: Multiplica las filas del reporte
+SELECT l.id AS loan_id, b.title, a.full_name AS author
+FROM loans AS l
+JOIN books AS b ON l.book_id = b.id
+JOIN book_authors AS ba ON b.id = ba.book_id
+JOIN authors AS a ON ba.author_id = a.id;
+```
+Si el libro "Design Patterns" tiene 4 autores (Gang of Four), **¡ese único préstamo aparecerá repetido 4 veces en el reporte final!** Esto distorsiona métricas contables, conteos de transacciones y sumatorias de ingresos.
+
+### La Solución: Resolución Determinista del "Autor Principal"
+Cuando el requerimiento de negocio exige **estrictamente una fila por entidad principal** (por ejemplo, mostrar el "Autor Principal"):
+
+#### Estrategia 1: CTE con Agregación Determinista (`MIN` / `GROUP BY`)
+Aislamos la relación N:M seleccionando un único autor determinista (el primer autor registrado según su identificador):
+
+```sql
+-- ✅ BIEN: Deduplica la relación N:M antes de cruzar con la tabla de hechos/préstamos
+WITH primary_authors AS (
+    SELECT 
+        book_id,
+        MIN(author_id) AS primary_author_id
+    FROM book_authors
+    GROUP BY book_id
+)
+SELECT 
+    l.id AS loan_id,
+    b.title,
+    a.full_name AS primary_author
+FROM loans AS l
+JOIN books AS b ON l.book_id = b.id
+JOIN primary_authors AS pa ON b.id = pa.book_id
+JOIN authors AS a ON pa.primary_author_id = a.id;
+```
+
+#### Estrategia 2: CTE con Función de Ventana (`ROW_NUMBER`)
+Si existe una regla de precedencia o queremos ordenar por rol (ver Cap 07):
+
+```sql
+WITH ranked_authors AS (
+    SELECT 
+        book_id,
+        author_id,
+        ROW_NUMBER() OVER (PARTITION BY book_id ORDER BY author_id ASC) AS rn
+    FROM book_authors
+)
+SELECT b.title, a.full_name
+FROM books AS b
+JOIN ranked_authors AS ra ON b.id = ra.book_id AND ra.rn = 1
+JOIN authors AS a ON ra.author_id = a.id;
+```
+
+---
+
+## 8. Mapa de Ejercicios
 
 Dirígete a la carpeta `quests/04-joins/`:
 
@@ -228,7 +291,7 @@ Dirígete a la carpeta `quests/04-joins/`:
 - [[02-spaced-repetition.md]] (Tipo B: Repaso de capítulos 00-03 + ejercicios avanzados de JOINs y Self-Joins)
 
 ```text
-subjects/sql/chronicles/SQL-BASICO/quests/04-joins/
+content/subjects/sql/chronicles/SQL-BASICO/quests/04-joins/
 ├── 01-join-practice.md
 └── 02-spaced-repetition.md
 ```

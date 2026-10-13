@@ -83,15 +83,15 @@ Para evitar la proliferación descontrolada de temas que retrasen la inserción 
 ### 3.1 Bloque 2.1 — ROI Inmediato (Los 7 Tipo B: Exigidos sin Enseñar)
 *Son conceptos que el Rite o los tests ya evalúan pero que el Lore nunca explicó. Tienen el ratio esfuerzo/beneficio más alto.*
 
-| Claim ID | Subject | Componente | Concepto Faltante | Estrategia Pedagógica | Carril |
-|---|---|---|---|---|---|
-| **`PY-016`** | `02-py-poo` | Lore 03 / Rite | `collections.defaultdict` | Añadir sección en Lore 03 con Domain Shifting y ejercicio rápido | B (Lore) / A (Quest) |
-| **`PY-017`** | `02-py-poo` | Lore 05 / Tests Rite | Fixture `tmp_path` de `pytest` | Explicar gestión de directorios efímeros para tests aislados | B (Lore) / A (Quest) |
-| **`PY-018`** | `02-py-poo` | Lore 05 / Tests Rite | `pytest.approx` | Explicar precisión de punto flotante en aserciones numéricas | B (Lore) / A (Quest) |
-| **`PY-019`** | `02-py-poo` | Lore 05 / Quest 03 | `@pytest.fixture` | Formalizar fixtures reutilizables en suite de pruebas | B (Lore) / A (Quest) |
-| **`SQL-012`**| `03-sql-basico` | Lore 04 / Rite | Cardinalidad N:M y "Autor Principal" | Explicar modelado de relaciones N:M y resolución determinista | B (Lore) / A (Quest) |
-| **`DE-006`** | `04-de-pipelines` | Lore 02 / Rite | `df.groupby` en Pandas | Añadir agregaciones y agrupamiento relacional en DataFrames | B (Lore) / A (Quest) |
-| **`DE-010`** | `04-de-pipelines` | Lore 01 / DoD Rite | `mypy` en Data Pipelines | Guía rápida de tipado estricto en pipelines de datos | B (Lore) / A (Quest) |
+| Claim ID | Subject | Componente | Concepto Faltante | Estrategia Pedagógica | Carril | Estado |
+|---|---|---|---|---|---|---|
+| **`PY-016`** | `02-py-poo` | Lore 03 / Rite | `collections.defaultdict` | Añadida sección en Lore 03 §4 con Domain Shifting y agregaciones | B (Lore) / A (Quest) | ✅ Completado |
+| **`PY-017`** | `02-py-poo` | Lore 05 / Tests Rite | Fixture `tmp_path` de `pytest` | Añadida sección en Lore 05 §4 y quest 05-03 de I/O efímero | B (Lore) / A (Quest) | ✅ Completado |
+| **`PY-018`** | `02-py-poo` | Lore 05 / Tests Rite | `pytest.approx` | Añadida sección en Lore 05 §5 y quest 05-03 de tolerancia float | B (Lore) / A (Quest) | ✅ Completado |
+| **`PY-019`** | `02-py-poo` | Lore 03 / Quest 03 | `@pytest.fixture` | Formalizada introducción en Lore 03 §5 y alineada quest 03-02 | B (Lore) / A (Quest) | ✅ Completado |
+| **`SQL-012`**| `03-sql-basico` | Lore 04 / Rite | Cardinalidad N:M y "Autor Principal" | Añadida sección en Lore 04 §7 sobre reducción determinista con CTEs | B (Lore) / A (Quest) | ✅ Completado |
+| **`DE-006`** | `04-de-pipelines` | Lore 02 / Rite | `df.groupby` en Pandas | Añadida sección en Lore 02 §5 sobre agregación de Zona Gold | B (Lore) / A (Quest) | ✅ Completado |
+| **`DE-010`** | `04-de-pipelines` | Lore 01 / DoD Rite | `mypy` en Data Pipelines | Añadida sección en Lore 01 §5 sobre chequeo estático de tipos | B (Lore) / A (Quest) | ✅ Completado |
 
 ---
 
@@ -161,8 +161,8 @@ Para evitar la proliferación descontrolada de temas que retrasen la inserción 
 1. **Fase 1: Formalización de `Syllabus 3.0` (Completado ✅)**
    * Actualizado formalmente [`system/docs/05-syllabus-maestro.md`](file:///Users/ander/Documents/DoJo/DoJo_Study/system/docs/05-syllabus-maestro.md) y [`system/docs/06-syllabus-post-empleo-fase2.md`](file:///Users/ander/Documents/DoJo/DoJo_Study/system/docs/06-syllabus-post-empleo-fase2.md).
    * Ratificadas podas en [`content/subjects/python/chronicles/PY-POO/chronicle.md`](file:///Users/ander/Documents/DoJo/DoJo_Study/content/subjects/python/chronicles/PY-POO/chronicle.md) (Typer/Click y Clean Architecture) y delimitado criterio de `load_dotenv` (prohibido en Lambda, tolerado en dev local).
-2. **Fase 2: Bloque 2.1 — ROI Inmediato (Semana 3-4 — 3-4 días)**
-   * Lore snippets + micro-quests para `defaultdict`, fixtures de pytest, cardinalidad de JOIN y `df.groupby`.
+2. **Fase 2: Bloque 2.1 — ROI Inmediato (Completado ✅)**
+   * Lore snippets y quests incorporados para `defaultdict` (Lore 03), `tmp_path` y `approx` (Lore 05 y Quest 05-03), fixtures en Lore 03, cardinalidad N:M en Lore 04, `df.groupby` en Lore 02 y `mypy` en Lore 01. Tests en verde con exit code 0.
 3. **Fase 3: Bloques 2.2 y 2.3 por Materia (Semana 4-6)**
    * `02-py-poo`: Constructores `super()`, Pydantic, Loaders, TDD.
    * `03-sql-basico`: `ROLLBACK`, SCD Tipo 2, agregaciones condicionales, semántica `NULL`.
