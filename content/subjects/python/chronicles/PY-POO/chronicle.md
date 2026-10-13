@@ -36,19 +36,19 @@ El motor debe ingerir datos transaccionales sin procesar, aislar las entradas di
 - [**Cap 04: Output Loaders & Orchestration.**](lore/04-orchestration-and-io) Dependency injection, Orchestrator pattern.
 - [**Cap 05: Testing with Pytest.**](lore/05-testing-with-pytest) TDD lifecycle, GIVEN/WHEN/THEN, fixtures, mocks.
 - [**Cap 06: Validation & Logging.**](lore/06-logging-and-error-handling) Pydantic models, error handling strategies.
-- [**Cap 07: CLI Applications.**](lore/07-cli-and-production) Consolas de producción, `argparse`, terminal styling (preparación para Typer/Click).
+- [**Cap 07: CLI Applications.**](lore/07-cli-and-production) Consolas de producción con `argparse` estándar y terminal styling modular.
 
 ### 🛡️ Rite: The Financial Projector CLI (rite/)
 [Proyecto monolítico con fases internas desbloqueables](rite/requirements) (Solo accesible bajo auditoría del DM — `/scry`).
 1. **Extraction Layer:** Implementar `AbstractExtractor` y dependencias (CSV/JSON).
 2. **Domain Entities:** Modelar Transacciones (Income/Expense).
 3. **Transformation Engine:** Capa de cálculo (AnalyticsEngine).
-4. **Orchestration + CLI:** Envolver la aplicación de consola con `Typer`.
+4. **Orchestration + CLI:** Envolver la aplicación de consola con interfaz de línea de comandos mediante `argparse` estándar.
 
 ---
 
 ## 📗 Required Engineering Knowledge
-- Principios de Clean Architecture.
+- Diseño Modular por Capas y Separación de Responsabilidades (Extractors, Loaders, Engines).
 - Assertions estándar y mock fixtures de `pytest`.
 - Abstract Base Classes (`abc`). Modelos de Pydantic.
 - Estrategias formales de Error Handling mapeando excepciones a loggers dedicados.

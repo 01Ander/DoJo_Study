@@ -160,7 +160,7 @@ Para evitar la proliferación descontrolada de temas que retrasen la inserción 
 ### 4.2 Fases y Duración Estimada
 1. **Fase 1: Formalización de `Syllabus 3.0` (Completado ✅)**
    * Actualizado formalmente [`system/docs/05-syllabus-maestro.md`](file:///Users/ander/Documents/DoJo/DoJo_Study/system/docs/05-syllabus-maestro.md) y [`system/docs/06-syllabus-post-empleo-fase2.md`](file:///Users/ander/Documents/DoJo/DoJo_Study/system/docs/06-syllabus-post-empleo-fase2.md).
-   * Ratificadas podas curriculares (Typer/Click, Clean Architecture, load_dotenv) y frontera con Fase 2.
+   * Ratificadas podas en [`content/subjects/python/chronicles/PY-POO/chronicle.md`](file:///Users/ander/Documents/DoJo/DoJo_Study/content/subjects/python/chronicles/PY-POO/chronicle.md) (Typer/Click y Clean Architecture) y delimitado criterio de `load_dotenv` (prohibido en Lambda, tolerado en dev local).
 2. **Fase 2: Bloque 2.1 — ROI Inmediato (Semana 3-4 — 3-4 días)**
    * Lore snippets + micro-quests para `defaultdict`, fixtures de pytest, cardinalidad de JOIN y `df.groupby`.
 3. **Fase 3: Bloques 2.2 y 2.3 por Materia (Semana 4-6)**
@@ -185,3 +185,4 @@ Para declarar formalmente concluida la Ola 2 y autorizar el inicio del proyecto 
 4. **Unidireccionalidad (`Rite ⊆ Lore`) (Regla 4):** Queda terminantemente prohibido evaluar en un test o Rite cualquier concepto que no haya sido explicado previamente en el `lore/`.
 5. **Cero Regresión:** Las suites de tests previas de los 4 subjects (consolidadas en Ola 1) deben mantenerse en estado 100% verde sin efectos colaterales.
 6. **Desacoplamiento Semántico en Excepciones:** En `DE-PIPELINES`, refactorizar `RateError` para heredar directamente de `Exception` y actualizar el test correspondiente para desacoplarlo de `AssertionError`.
+7. **Reconciliación 1:1 Anchor ↔ Material:** El Gate 2 auditará que cada bullet y competencia declarada en `Syllabus 3.0` y en los 4 chronicles cuente con respaldo verificable (capítulo en `lore/`, quest ejecutable o fase de rite), mitigando el riesgo estructural de promesas aspiracionales sin entrega real.

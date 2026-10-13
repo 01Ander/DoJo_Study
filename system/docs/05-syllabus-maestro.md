@@ -1,6 +1,7 @@
 # 05 - Syllabus Maestro 3.0 (Data & Automation Engineer — Pre-Empleo)
 
 > **Estado:** Activo (Ruta Crítica Pre-Empleo — Versión 3.0)  
+> **Estatus Epistémico:** Contrato curricular objetivo (Syllabus 3.0). Los contenidos nuevos se encuentran en proceso de despliegue en Ola 2 y su verificación formal se valida contra el material real en Gate 2.  
 > **Documento Rector de Auditoría:** [`meta/audits/2026-q3-contenido/analisis/dictamen-final-consolidado.md`](file:///Users/ander/Documents/DoJo/DoJo_Study/meta/audits/2026-q3-contenido/analisis/dictamen-final-consolidado.md)  
 > **Hoja de Ruta de Ejecución:** [`meta/remediacion/roadmap-ola-2.md`](file:///Users/ander/Documents/DoJo/DoJo_Study/meta/remediacion/roadmap-ola-2.md)  
 > **Objetivo:** Inserción laboral remota internacional antes de mediados de 2027 como **Data Automation Engineer / Python Automation Developer / ETL Integration Developer**.  
@@ -14,7 +15,7 @@ El **Syllabus 3.0** representa la reingeniería curricular definitiva del DoJo S
 
 ### Principios Rectores de la Versión 3.0:
 1. **La Cadena Funciona de Extremo a Extremo:** El mercado no busca acumuladores de cursos ni diplomas teóricos; busca ingenieros capaces de construir cadenas de datos robustas, tipadas, testeadas, orquestadas y monitoreadas.
-2. **Superación del Monocultivo de SQLite:** SQLite queda estrictamente confinado a pruebas unitarias efímeras en memoria (`:memory:`). Los pipelines y bases de datos relacionales operan sobre **PostgreSQL real**.
+2. **Superación del Monocultivo de SQLite en Pipelines:** Si bien `SQL-BASICO` enseña los fundamentos universales de SQL ANSI y modelado sobre un motor relacional embebido, los pipelines de datos productivos y almacenamiento en la nube operan sobre **PostgreSQL real** (domiciliado en `DE-PIPELINES`, `CLOUD-AWS` y `PORT-CAPSTONE`). SQLite queda confinado al aprendizaje sintáctico inicial y pruebas unitarias efímeras en memoria (`:memory:`).
 3. **Integración Natural sobre Fragmentación:** Las herramientas demandadas por la industria (**dbt, Airflow básico, Cloud Warehouse columnar, AWS Glue/Athena, Docker, Secrets Manager, Parquet**) no se dispersan en micro-cursos aislados: se integran directamente en las Chronicles existentes (`DE-PIPELINES` y `CLOUD-AWS`) y convergen en el proyecto de portafolio (`PORT-CAPSTONE`).
 4. **Cero Tolerancia a Promesas sin Código:** Todo concepto declarado en este temario cuenta con respaldo pedagógico en `lore/`, laboratorios con pruebas automatizadas en `quests/`, y evaluación rigurosa en `rite/` bajo la regla de **Bucle de Ejecución Cerrado (`exit code 0`)**.
 
@@ -22,7 +23,7 @@ El **Syllabus 3.0** representa la reingeniería curricular definitiva del DoJo S
 graph LR
     subgraph Core [Fundamentos de Programación & Datos]
         P1[PY-BASICO<br/>Python Scripting & Core] --> P2[PY-POO<br/>OOP, TDD & Modularidad]
-        P2 --> S1[SQL-BASICO<br/>Postgres, ACID & Modelado Dimensional]
+        P2 --> S1[SQL-BASICO<br/>SQL ANSI, ACID & Modelado Dimensional]
     end
 
     subgraph Datos & Cloud [Ingeniería de Datos & Nube Pragmática]
@@ -161,8 +162,8 @@ En estricto apego al Dictamen Rector (§4 2.4), se formalizan tres podas estrat�
    *Justificación:* El material ya enseña y domina `argparse` estándar de la librería estándar de Python. Se formaliza `argparse` en el temario y se suelta la promesa de frameworks CLI externos, evitando dependencias innecesarias en pipelines headless.
 2. **Poda de Clean Architecture Dogmática (`PY-015`):**  
    *Justificación:* La "Clean Architecture" dogmática introduce niveles de indirección innecesarios para pipelines de ingeniería de datos. Se sustituye formalmente por **"Diseño Modular por Capas y Separación de Responsabilidades"** (Extractors, Transformers, Loaders, Data Models).
-3. **Poda de `load_dotenv` en Lambda:**  
-   *Justificación:* Cargar archivos `.env` locales dentro de una función AWS Lambda es un antipatrón en la nube. Se erradica de las guías y se enseña el estándar de producción: variables de entorno nativas de AWS e inyección de secretos vía IAM Role y Secrets Manager.
+3. **Poda de `load_dotenv` en Contexto Serverless (Lambda):**  
+   *Justificación y Criterio:* Cargar archivos `.env` locales dentro de una función AWS Lambda en ejecución es un antipatrón en la nube. Se erradica de las guías serverless y se enseña el estándar de producción: variables de entorno nativas inyectadas por AWS Cloud y Secrets Manager. Se tolera el uso de `.env` exclusivamente en scripts locales de desarrollo y bootstrapping inicial para conectarse a RDS desde la máquina del desarrollador.
 
 ---
 
