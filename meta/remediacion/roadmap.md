@@ -2,8 +2,9 @@
 
 > **Documento Rector:** [dictamen-final-consolidado.md](file:///Users/ander/Documents/DoJo/DoJo_Study/meta/audits/2026-q3-contenido/analisis/dictamen-final-consolidado.md)  
 > **Ubicación Canónica de Gobernanza:** `meta/remediacion/`  
-> **Estado General:** Ola 1 En Ejecución  
-> **Última Actualización:** 2026-10-13
+> **Estado General:** Gate 1 Aprobado (100% Ola 1 Cerrada en commit `57073c4`) — Apertura de Ola 2  
+> **Última Actualización:** 2026-10-13  
+> **Hoja de Ruta Ola 2:** [`meta/remediacion/roadmap-ola-2.md`](roadmap-ola-2.md)
 
 ---
 
@@ -126,9 +127,13 @@ Cada materia cuenta con su documento de trabajo detallado:
 
 ---
 
-## 6. Criterios de Aprobación de Gate 1 (Hacia Ola 2)
+## 6. Criterios de Aprobación de Gate 1 (Superado ✅)
 
 Para declarar concluida la Ola 1 y abrir la Ola 2 (Syllabus 3.0):
-1. **100% de claims en estado verde:** Todos los comandos de verificación binaria reportados con `exit code 0`.
-2. **Registro de bitácoras completas:** Cada cuaderno debe documentar el log de mutación con las salidas exactas de la sonda inicial y final.
-3. **Cero regresión:** Todas las suites de tests unitarios existentes en los ritos continúan pasando sin fallos colaterales.
+1. **100% de claims en estado verde:** Todos los comandos de verificación binaria reportados con `exit code 0` (31/31 entregables).
+2. **Registro de bitácoras completas:** Cuadernos `02-py-poo.md`, `03-sql-basico.md`, `04-de-pipelines.md` y `05-cloud-aws.md` con trazabilidad completa de sondas iniciales y finales.
+3. **Cero regresión:** Todas las suites de tests unitarios existentes en los ritos ejecutadas con éxito sin fallos colaterales.
+4. **Commit de Cierre:** Registrado en `57073c4117bf5ebdf7e736a57e6c03637b8dbe67` en la rama `chronicles`.
+
+> **Transición:** La ejecución continúa formalmente en [`roadmap-ola-2.md`](file:///Users/ander/Documents/DoJo/DoJo_Study/meta/remediacion/roadmap-ola-2.md).
+
