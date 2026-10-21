@@ -52,43 +52,152 @@ class GamePipeline:
 
 ¿Por qué inyectar es mejor? Porque si mañana quieres probar tu código, puedes inyectar un "Mock" (un objeto falso) que no toque el disco duro, y tu clase ni se dará cuenta del cambio.
 
-## 3. I/O (Input/Output)
+## 3. I/O (Input/Output) y la Separación ETL
 
-La lectura y escritura de archivos debe estar aislada en clases (como tu Extractor del Cap 01). El orquestador une el mundo exterior "sucio y propenso a errores" (I/O, bases de datos, APIs) con el mundo interior "limpio y testeable" (Motores).
+En ingeniería de datos, un pipeline completo ejecuta el ciclo clásico **ETL**:
+1. **Extract (I/O de Entrada):** Clases Extractoras (`BaseExtractor`) que leen de fuentes externas (CSV, JSON, APIs).
+2. **Transform (Lógica Pura):** Clases Motor (`BaseEngine`) que calculan, filtran y transforman entidades sin tocar el disco ni la red.
+3. **Load (I/O de Salida):** Clases Cargadoras (**`BaseOutputLoader`**) que persisten o emiten el resultado final al destino elegido.
 
-## 4. Conexión con Testing (Nivel 4: Mocking)
+El Orquestador es la pieza que ensambla este flujo inyectando tanto la entrada como la salida.
 
-Un test unitario **jamás** debe depender de que un archivo exista en el disco duro o de que haya internet. Para testear un Orquestador aislado del mundo real, usamos Mocks. Un Mock es un doble de acción que programamos para dar una respuesta fija.
+---
+
+## 4. El Patrón Output Loader (Capa de Emisión y Persistencia)
+
+### ¿QUÉ es?
+Un **Output Loader** es una clase cuya única responsabilidad es recibir los datos ya procesados por el motor y transmitirlos al medio de destino (la consola estándar, un archivo JSON en disco, un bucket S3 o una tabla de base de datos).
+
+### ¿POR QUÉ importa? (Principio Abierto/Cerrado - OCP)
+Si el motor o el orquestador escribieran directamente en disco con `open("output.json", "w")`, cambiar el destino a una base de datos obligaría a modificar y arriesgar código que ya funcionaba. Al desacoplar la salida mediante una interfaz abstracta `BaseOutputLoader`, podemos cambiar el destino inyectando una subclase diferente sin alterar una sola línea del orquestador.
+
+### ¿CÓMO se implementa? (Domain Shifting: Observatorio Astrofísico)
 
 ```python
-from unittest.mock import Mock
+# 🎯 Objetivo de Negocio: Desacoplar la persistencia de espectros astronómicos procesados mediante el patrón polimórfico Output Loader.
 
-def test_game_pipeline():
-    # Creamos objetos falsos (Mocks) que fingen ser las dependencias
-    mock_loader = Mock()
-    mock_loader.load.return_value = ["Nivel 1", "Nivel 2"]
-    
-    mock_engine = Mock()
-    mock_engine.process.return_value = "Victoria"
-    
-    # Inyectamos los mocks en lugar de los objetos reales
-    pipeline = GamePipeline(loader=mock_loader, engine=mock_engine)
-    result = pipeline.run("dummy.txt")
-    
-    assert result == "Victoria"
-    # Podemos verificar que el pipeline llamó a los mocks correctamente
-    mock_loader.load.assert_called_once_with("dummy.txt")
+import json
+from abc import ABC, abstractmethod
+from typing import Any, Dict, List
+
+
+class BaseSpectralLoader(ABC):
+    """Abstract interface defining the output loading contract."""
+
+    @abstractmethod
+    def load(self, records: List[Dict[str, Any]], destination: str) -> int:
+        """
+        Persists or emits processed records to the specified destination.
+        Returns the total count of successfully loaded records.
+        """
+        pass
+
+
+class ConsoleSpectralLoader(BaseSpectralLoader):
+    """Concrete loader that emits formatted records to standard output."""
+
+    def load(self, records: List[Dict[str, Any]], destination: str = "stdout") -> int:
+        for item in records:
+            print(f"[SPECTRAL-LOADER:{destination.upper()}] {item}")
+        return len(records)
+
+
+class JsonFileSpectralLoader(BaseSpectralLoader):
+    """Concrete loader that serializes records into structured JSON files."""
+
+    def load(self, records: List[Dict[str, Any]], destination: str) -> int:
+        with open(destination, "w", encoding="utf-8") as file_handle:
+            json.dump(records, file_handle, indent=2)
+        return len(records)
 ```
 
-## 5. Mapa de Ejercicios
+---
+
+## 5. El Ciclo ETL Completo en el Orquestador
+
+Al ensamblar el pipeline, el Orquestador recibe por constructor todas sus dependencias externas mediante Inversión de Control:
+
+```python
+# 🎯 Objetivo de Negocio: Coordinar la extracción de señales estelares, su calibración y su persistencia desacoplada.
+
+from typing import Any, Dict, List
+
+
+class StellarObservationPipeline:
+    """Orchestrator class coordinating extraction, transformation and loading."""
+
+    def __init__(self, extractor: Any, engine: Any, loader: BaseSpectralLoader):
+        self.extractor = extractor
+        self.engine = engine
+        self.loader = loader
+
+    def run(self, source_path: str, output_destination: str) -> int:
+        # 1. Extract (I/O de entrada)
+        raw_signals = self.extractor.extract(source_path)
+
+        # 2. Transform (Lógica pura y desacoplada)
+        calibrated_signals = self.engine.process(raw_signals)
+
+        # 3. Load (I/O de salida polimórfica)
+        loaded_count = self.loader.load(calibrated_signals, output_destination)
+
+        return loaded_count
+```
+
+---
+
+## 6. Conexión con Testing (Ciclo AAA con Mocks para Orquestadores)
+
+Un test unitario del Orquestador **jamás debe tocar el disco duro ni la red**. Usamos `unittest.mock.Mock` para simular tanto el Extractor como el Loader, verificando que los métodos sean llamados con los parámetros exactos y en el orden estricto.
+
+```python
+# 🎯 Objetivo de Negocio: Verificar que el orquestador coordine el ciclo ETL completo sin ejecutar operaciones de I/O reales.
+
+from unittest.mock import Mock
+
+
+def test_stellar_pipeline_coordinates_etl_flow():
+    # Arrange: Configurar dobles de prueba (Mocks) para cada componente
+    mock_extractor = Mock()
+    mock_extractor.extract.return_value = [{"raw_wavelength": 656.3}]
+
+    mock_engine = Mock()
+    mock_engine.process.return_value = [{"calibrated_wavelength": 656.28, "element": "Hydrogen-Alpha"}]
+
+    mock_loader = Mock()
+    mock_loader.load.return_value = 1
+
+    # Act: Inyectar dependencias y ejecutar el orquestador
+    pipeline = StellarObservationPipeline(
+        extractor=mock_extractor,
+        engine=mock_engine,
+        loader=mock_loader
+    )
+    result_count = pipeline.run(source_path="telescope_raw.dat", output_destination="spectral_db.json")
+
+    # Assert: Validar retornos y que cada componente fue invocado en orden
+    assert result_count == 1
+    mock_extractor.extract.assert_called_once_with("telescope_raw.dat")
+    mock_engine.process.assert_called_once_with([{"raw_wavelength": 656.3}])
+    mock_loader.load.assert_called_once_with(
+        [{"calibrated_wavelength": 656.28, "element": "Hydrogen-Alpha"}],
+        "spectral_db.json"
+    )
+```
+
+---
+
+## 7. Mapa de Ejercicios
 
 Dirígete a `quests/04-orchestration/`:
 
 - [[01-pipeline-assembly]]
 - [[02-mocking-io]]
+- [[03-output-loaders]]
 
 ```text
 PY-POO/quests/04-orchestration/
 ├── [[01-pipeline-assembly]].md      (Tipo A: Inyección de Dependencias)
-└── [[02-mocking-io]].md             (Tipo B: Testing con Mocks)
+├── [[02-mocking-io]].md             (Tipo B: Testing con Mocks)
+└── [[03-output-loaders]].md         (Tipo A: Patrón Output Loaders)
 ```

@@ -12,74 +12,79 @@
 |---|---|---|---|---|---|
 | **`PY-010`** | `02-py-poo` | Constructores con `super()` | [`quests/02-entities/rpg_character.py`](file:///Users/ander/Documents/DoJo/DoJo_Study/content/subjects/python/chronicles/PY-POO/quests/02-entities/rpg_character.py) | `pytest quests/02-entities/test_rpg_character.py` | 🟢 **COMPLETADO** |
 | **`PY-011.1`** | `02-py-poo` | De Dataclass a Pydantic con `Field` | [`quests/06-logging/user_account_schema.py`](file:///Users/ander/Documents/DoJo/DoJo_Study/content/subjects/python/chronicles/PY-POO/quests/06-logging/user_account_schema.py) | `pytest quests/06-logging/test_user_account_schema.py` | 🟢 **COMPLETADO** |
-| **`PY-011.2`** | `02-py-poo` | Validadores de Negocio y Excepciones | [`quests/06-logging/transaction_schema.py`](file:///Users/ander/Documents/DoJo/DoJo_Study/content/subjects/python/chronicles/PY-POO/quests/06-logging/transaction_schema.py) | `pytest quests/06-logging/test_transaction_schema.py` | 🟡 **ACTIVA (Tu turno)** |
-| **`PY-013`** | `02-py-poo` | Patrón Output Loaders | *Próximamente en quests/04-orchestration/* | — | ⏳ En espera |
+| **`PY-011.2`** | `02-py-poo` | Validadores de Negocio y Excepciones | [`quests/06-logging/transaction_schema.py`](file:///Users/ander/Documents/DoJo/DoJo_Study/content/subjects/python/chronicles/PY-POO/quests/06-logging/transaction_schema.py) | `pytest quests/06-logging/test_transaction_schema.py` | 🟢 **COMPLETADO** |
+| **`PY-013`** | `02-py-poo` | Patrón Output Loaders | [`quests/04-orchestration/output_loaders.py`](file:///Users/ander/Documents/DoJo/DoJo_Study/content/subjects/python/chronicles/PY-POO/quests/04-orchestration/output_loaders.py) | `pytest quests/04-orchestration/test_output_loaders.py` | 🟡 **ACTIVA (Tu turno)** |
 | **`PY-014`** | `02-py-poo` | Extractor desacoplado | *Próximamente en quests/01-abstractions/* | — | ⏳ En espera |
 | **`PY-020`** | `02-py-poo` | Ciclo TDD Red-Green | *Próximamente en quests/05-testing/* | — | ⏳ En espera |
 
 ---
 
-## 2. 🚀 MISIÓN ACTIVA: `PY-011.2` — Validadores de Negocio y Excepciones de Dominio
+## 2. 🚀 MISIÓN ACTIVA: `PY-013` — Patrón Output Loaders y Orquestación ETL
 
 * **Materia:** `02-py-poo`  
-* **Archivo a editar por el Operador:** [`content/subjects/python/chronicles/PY-POO/quests/06-logging/transaction_schema.py`](file:///Users/ander/Documents/DoJo/DoJo_Study/content/subjects/python/chronicles/PY-POO/quests/06-logging/transaction_schema.py)  
-* **Enunciado de la Quest:** [`content/subjects/python/chronicles/PY-POO/quests/06-logging/04-pydantic-domain-exceptions.md`](file:///Users/ander/Documents/DoJo/DoJo_Study/content/subjects/python/chronicles/PY-POO/quests/06-logging/04-pydantic-domain-exceptions.md)  
-* **Teoría de Respaldo:** [`content/subjects/python/chronicles/PY-POO/lore/06b-pydantic-and-data-contracts.md` (§4.3, §5, §6 y §7)](file:///Users/ander/Documents/DoJo/DoJo_Study/content/subjects/python/chronicles/PY-POO/lore/06b-pydantic-and-data-contracts.md)
+* **Archivo a editar por el Operador:** [`content/subjects/python/chronicles/PY-POO/quests/04-orchestration/output_loaders.py`](file:///Users/ander/Documents/DoJo/DoJo_Study/content/subjects/python/chronicles/PY-POO/quests/04-orchestration/output_loaders.py)  
+* **Enunciado de la Quest:** [`content/subjects/python/chronicles/PY-POO/quests/04-orchestration/03-output-loaders.md`](file:///Users/ander/Documents/DoJo/DoJo_Study/content/subjects/python/chronicles/PY-POO/quests/04-orchestration/03-output-loaders.md)  
+* **Teoría de Respaldo:** [`content/subjects/python/chronicles/PY-POO/lore/04-orchestration-and-io.md` (§3, §4, §5 y §6)](file:///Users/ander/Documents/DoJo/DoJo_Study/content/subjects/python/chronicles/PY-POO/lore/04-orchestration-and-io.md)
 
 ### 📋 El Contrato que debes cumplir:
 
-1. **`InvalidTransactionDataError(Exception)`:**
-   * Excepción de dominio personalizada para errores de validación en transacciones (hereda de `Exception`).
+1. **`BaseOutputLoader` (Clase Base Abstracta):**
+   * Hereda de `abc.ABC`.
+   * Define el método `@abstractmethod def load(self, records: List[Dict[str, Any]], destination: str) -> int`.
+   * No debe poder instanciarse directamente.
 
-2. **`TransactionPayload(BaseModel)`:**
-   * Hereda de `BaseModel` de Pydantic.
-   * Campos y restricciones requeridas:
-     * `transaction_id: str`: Longitud mínima de 3 caracteres (`Field(min_length=3)`).
-     * `account_id: int`: Estrictamente positivo (`Field(gt=0)`).
-     * `amount: float`: Estrictamente positivo (`Field(gt=0.0)`).
-     * `currency: str`: Por defecto `"USD"`.
-   * Validador personalizado (`@field_validator("currency")` como `@classmethod`):
-     * Convierte el valor recibido a mayúsculas (`v.upper()`).
-     * Verifica que esté en el conjunto permitido: `{"USD", "EUR", "GBP", "COP"}`.
-     * Si no pertenece, lanza un `ValueError(f"Moneda '{v}' no soportada")`.
+2. **`ConsoleOutputLoader` (Subclase de `BaseOutputLoader`):**
+   * Implementa `load(self, records: List[Dict[str, Any]], destination: str = "console") -> int`:
+     * Itera sobre cada registro en `records` e imprime: `f"[CONSOLE:{destination}] {record}"`.
+     * Retorna `len(records)`.
 
-3. **Función `validate_and_create_transaction(data: dict) -> TransactionPayload`:**
-   * Recibe un diccionario crudo no tipado.
-   * Intenta instanciar `TransactionPayload(**data)`.
-   * Si Pydantic arroja `pydantic.ValidationError`, **captura la excepción** y levanta un `InvalidTransactionDataError(str(e))`.
-   * Si es válido, retorna la instancia construida de `TransactionPayload`.
+3. **`JsonFileOutputLoader` (Subclase de `BaseOutputLoader`):**
+   * Implementa `load(self, records: List[Dict[str, Any]], destination: str) -> int`:
+     * Abre el archivo en `destination` en modo escritura con UTF-8 (`with open(...)`).
+     * Serializa los registros con `json.dump(records, file_handle, indent=2)`.
+     * Retorna `len(records)`.
+
+4. **`ManagedDataPipeline` (Orquestador ETL):**
+   * Constructor `__init__(self, extractor: Any, engine: Any, loader: BaseOutputLoader)`:
+     * Almacena las dependencias inyectadas: `self.extractor`, `self.engine`, `self.loader`.
+   * Método `run(self, source_path: str, destination_path: str) -> int`:
+     * Extrae: `raw_records = self.extractor.extract(source_path)`
+     * Transforma: `processed_records = self.engine.process(raw_records)`
+     * Carga: `count = self.loader.load(processed_records, destination_path)`
+     * Retorna `count`.
 
 ---
 
-### 💡 Ejemplo con Domain Shifting (Telemetría Satelital):
-*Observa cómo la frontera captura el error técnico de Pydantic y lo transforma en una excepción de dominio con logging (ver ejemplo completo en Lore 06B §6):*
+### 💡 Ejemplo con Domain Shifting (Observatorio Astrofísico):
+*Observa cómo la interfaz abstracta desacopla la salida del motor y del orquestador:*
 
 ```python
-# 🎯 Objetivo de Negocio: Validar un payload de telemetría y atrapar errores de esquema en la frontera perimetral.
+# 🎯 Objetivo de Negocio: Desacoplar la persistencia de espectros astronómicos procesados mediante el patrón polimórfico Output Loader.
 
-from pydantic import BaseModel, Field, field_validator, ValidationError
+from abc import ABC, abstractmethod
+import json
 
-class CorruptedTelemetryPacketError(Exception):
-    pass
+class BaseSpectralLoader(ABC):
+    @abstractmethod
+    def load(self, records: list, destination: str) -> int:
+        pass
 
-class SatelliteTelemetry(BaseModel):
-    sensor_id: str = Field(min_length=3)
-    battery_pct: float = Field(ge=0.0, le=100.0)
-    band: str = "UHF"
+class ConsoleSpectralLoader(BaseSpectralLoader):
+    def load(self, records: list, destination: str = "stdout") -> int:
+        for r in records:
+            print(f"[SPECTRAL:{destination}] {r}")
+        return len(records)
 
-    @field_validator("band")
-    @classmethod
-    def check_band(cls, v: str) -> str:
-        clean_band = v.strip().upper()
-        if clean_band not in {"UHF", "VHF", "S-BAND"}:
-            raise ValueError(f"Banda '{v}' no autorizada")
-        return clean_band
+class StellarPipeline:
+    def __init__(self, extractor, engine, loader: BaseSpectralLoader):
+        self.extractor = extractor
+        self.engine = engine
+        self.loader = loader
 
-def ingest_packet(raw_data: dict) -> SatelliteTelemetry:
-    try:
-        return SatelliteTelemetry(**raw_data)
-    except ValidationError as err:
-        raise CorruptedTelemetryPacketError(f"Rechazo en frontera: {err}")
+    def run(self, src: str, dest: str) -> int:
+        data = self.extractor.extract(src)
+        processed = self.engine.process(data)
+        return self.loader.load(processed, dest)
 ```
 
 ---
@@ -87,24 +92,27 @@ def ingest_packet(raw_data: dict) -> SatelliteTelemetry:
 ### 🧪 Comando de Verificación Binaria (Sonda Final):
 Ejecuta en tu terminal desde la raíz del repositorio:
 ```bash
-/Users/ander/Documents/DoJo/DoJo_Study/content/subjects/python/chronicles/PY-POO/rite/.venv/bin/pytest content/subjects/python/chronicles/PY-POO/quests/06-logging/test_transaction_schema.py -v
+/Users/ander/Documents/DoJo/DoJo_Study/content/subjects/python/chronicles/PY-POO/rite/.venv/bin/pytest content/subjects/python/chronicles/PY-POO/quests/04-orchestration/test_output_loaders.py -v
 ```
-*(Criterio de éxito: 6 passed con exit code 0).*
+*(Criterio de éxito: 5 passed con exit code 0).*
 
 ---
 
 ## 3. Bitácora de Cambios del Sistema (Carril B — Antigravity)
 
-Registro de archivos nuevos o actualizados en el sistema según las reglas de `09-generation-protocol.md`:
+Registro de archivos nuevos o actualizados en el sistema bajo las reglas de `09-generation-protocol.md`:
 
-* `content/subjects/python/chronicles/PY-POO/lore/06b-pydantic-and-data-contracts.md`:
-  * *Cambio:* Reescritura exhaustiva bajo el protocolo de generación (Zero Assumption con setup pip, Zero Surprise Syntax, 2 analogías del mundo real, `🎯 Objetivo de Negocio:`, English First en código, Ejemplo End-to-End completo en §6 y suite de testing bajo ciclo AAA en §7).
-* `content/subjects/python/chronicles/PY-POO/quests/06-logging/user_account_schema.py`:
-  * *Cambio:* **Implementado y aprobado por el Operador (`5/5 passed`, exit code 0).**
 * `content/subjects/python/chronicles/PY-POO/quests/06-logging/transaction_schema.py`:
-  * *Cambio:* Plantilla para el Operador con `pass` para la misión activa `PY-011.2`.
-* `content/subjects/python/chronicles/PY-POO/quests/06-logging/test_transaction_schema.py`:
-  * *Cambio:* Suite evaluadora automatizada con 6 tests unitarios.
+  * *Cambio:* **Implementado y aprobado por el Operador (`6/6 passed`, exit code 0). Cierre formal de la brecha `PY-011`.**
+* `content/subjects/python/chronicles/PY-POO/lore/04-orchestration-and-io.md`:
+  * *Cambio:* Añadida Sección 4 (Patrón Output Loader), Sección 5 (Ciclo ETL en el Orquestador) y Sección 6 (Testing AAA con Mocks).
+* `content/subjects/python/chronicles/PY-POO/quests/04-orchestration/03-output-loaders.md`:
+  * *Cambio:* Enunciado didáctico de la Quest 04-03 (`PY-013`).
+* `content/subjects/python/chronicles/PY-POO/quests/04-orchestration/output_loaders.py`:
+  * *Cambio:* Plantilla inicial para el Operador con `pass` y firmas de método.
+* `content/subjects/python/chronicles/PY-POO/quests/04-orchestration/test_output_loaders.py`:
+  * *Cambio:* Suite evaluadora automatizada con 5 tests unitarios.
+
 
 
 
