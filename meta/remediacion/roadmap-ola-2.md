@@ -95,44 +95,46 @@ Para evitar la proliferación descontrolada de temas que retrasen la inserción 
 
 ---
 
-### 3.2 Bloque 2.2 — Núcleo Curricular (14 Tipo A Activos + 2 CLAIM-MKT Integrados)
+### 3.2 Bloque 2.2 — Núcleo Curricular y Profundización Ordenados por Secuencia Pedagógica
 
-> *Nota de Trazabilidad:* Los 2 Tipo A restantes (`PY-012` y `PY-015`) quedan formalmente cerrados por poda arquitectónica en §2.3.
+> ⚠️ **Regla de Secuencialidad Pedagógica Obligatoria (Directriz de Operación):**  
+> A partir de las siguientes materias (`03-SQL-BASICO`, `04-DE-PIPELINES`, `05-CLOUD-AWS`), la ejecución de remediaciones y quests del Operador DEBE seguir estrictamente el orden canónico y cronológico de los capítulos del temario (Cap 00 $\rightarrow$ Cap 01 $\rightarrow$ Cap 02 $\rightarrow$ ...). Queda prohibido agrupar por número de ID de auditoría si esto implica saltar adelante y atrás entre capítulos, garantizando que los conceptos de soporte siempre precedan a sus consumidores.
+>
+> *Nota de Trazabilidad:* Los 2 Tipo A podados (`PY-012` Typer/Click y `PY-015` Clean Architecture) quedan formalmente ratificados como podas curriculares en §2.3.
 
-| Claim ID | Subject | Promesa en Temario | Brecha Detectada | Entregable Ola 2 | Carril |
-|---|---|---|---|---|---|
-| **`PY-010`** | `02-py-poo` | Cap 02: Constructores con `super()` | Solo herencia básica sin delegación de inicializadores | Lore + Quest con jerarquías compuestas usando `super().__init__()` | B/A |
-| **`PY-011`** | `02-py-poo` | Cap 06: Validación con Pydantic | Pydantic prometido pero no enseñado | Lore de modelos Pydantic + Quest de validación de esquemas | B/A |
-| **`PY-013`** | `02-py-poo` | Cap 04: "Output Loaders" | Patrón Loader ausente | Quest modular con clase abstracta `BaseLoader` y subclases | B/A |
-| **`PY-014`** | `02-py-poo` | Fase 1 Rite: `JSONExtractor` | Clase abstracta omitida | Quest/Andamiaje que modele la extracción desacoplada | B/A |
-| **`SQL-005`** | `03-sql-basico` | Cap 08: `ROLLBACK` y ACID | Transacciones explicadas superficialmente sin práctica | Quest con transacciones explícitas (`BEGIN`, `COMMIT`, `ROLLBACK`) | B/A |
-| **`DE-004`** | `04-de-pipelines` | Cap 04: Carga a PostgreSQL | Sustituido por SQLite en el 100% de ejercicios | Quest con PostgreSQL real (vía Docker) usando SQLAlchemy/psycopg | B/A |
-| **`DE-005`** | `04-de-pipelines` | Cap 05: Orquestación Periódica | Scheduling con Prefect/Airflow ausente | Implementación de scheduler periódico y reintentos automáticos | B/A |
-| **`DE-009`** | `04-de-pipelines` | Cap 05: Logs de ejecución | Reemplazado por `print()` | Integración de logger de orquestación (`get_run_logger` / logging estructurado) | B/A |
-| **`AWS-004`** | `05-cloud-aws` | Cap 00: IAM Programático | Solo verificación de roles preexistentes | Quest con `boto3` para crear roles, policies y trust relationships | B/A |
-| **`AWS-005`** | `05-cloud-aws` | Cap 01: Creación de Buckets | Solo upload a buckets creados en setup | Quest de aprovisionamiento `create_bucket` con validación DNS | B/A |
-| **`AWS-006`** | `05-cloud-aws` | Cap 01: Serialización Parquet | Solo JSON plano | Quest de conversión DataFrame $\rightarrow$ Parquet con compresión Snappy en S3 | B/A |
-| **`AWS-007`** | `05-cloud-aws` | Cap 02: RDS + Security Groups | Solo queries a base mockeada | Quest de configuración de red y conexión a base administrada | B/A |
-| **`AWS-008`** | `05-cloud-aws` | Cap 03: Despliegue de Lambda | Solo handler unitario | Empaquetado zip y despliegue programático con `create_function` | B/A |
-| **`AWS-009`** | `05-cloud-aws` | Cap 04: CloudWatch Alarms | Solo lectura de logs | Creación de alarmas de error sobre Metric Filters | B/A |
-| **`MKT-SQL-002`** | `03-sql-basico` | Mercado: Modelado Dimensional | Falta SCD Tipo 2 | Ejercicio de Slowly Changing Dimensions Tipo 2 (historial de cambios) | B/A |
-| **`MKT-AWS-002`** | `05-cloud-aws` | Mercado: Cero Hardcoding | Falta gestión de secretos | Uso de AWS Secrets Manager / KMS para credenciales | B/A |
+#### Secuencia de Ejecución de Brechas por Materia y Capítulo:
+
+| Claim ID | Subject | Ubicación Canónica | Brecha / Tema | Entregable Ola 2 | Carril | Estado |
+|---|---|---|---|---|---|---|
+| **`PY-010`** | `02-py-poo` | Cap 02: Entidades | Constructores con `super()` | Lore 02 §4 + Quest 02-03 jerarquías compuestas | B/A | 🟢 Completado |
+| **`PY-011`** | `02-py-poo` | Cap 06: Error Handling | Validación con Pydantic V2 | Lore 06B + Quests 06-03 y 06-04 con contratos | B/A | 🟢 Completado |
+| **`PY-013`** | `02-py-poo` | Cap 04: Orquestación | Patrón Output Loaders | Lore 04 §4-6 + Quest 04-03 `BaseOutputLoader` | B/A | 🟢 Completado |
+| **`PY-014`** | `02-py-poo` | Cap 01: Abstracciones | Extractor desacoplado CSV/JSON | Lore 01 §5 + Quest 01-03 `AbstractDataExtractor` | B/A | 🟡 **ACTIVA (Tu turno)** |
+| **`PY-020`** | `02-py-poo` | Cap 05: Testing | Modelado de ciclo TDD | Lore 05 + Quest guiada Red-Green-Refactor | B/A | ⏳ En espera (Cierre PY) |
+|---|---|---|---|---|---|---|
+| **`SQL-013`** | `03-sql-basico`| Cap 02: Filtros | Semántica tri-valor de `NULL` | Lore 02 + Quest sobre operadores, `NOT IN` y `COALESCE` | B/A | ⏳ Próximo Subject |
+| **`SQL-006`** | `03-sql-basico`| Cap 03: Agregaciones | Agregaciones condicionales | Lore 03 + Quest `SUM(CASE WHEN...)` pivoteo métricas | B/A | ⏳ Próximo Subject |
+| **`SQL-005`** | `03-sql-basico`| Cap 08: Transacciones | `ROLLBACK` y ACID | Lore 08 + Quest transacciones explícitas (`BEGIN/COMMIT`) | B/A | ⏳ Próximo Subject |
+| **`MKT-SQL-002`**| `03-sql-basico`| Cap 09: Modelado | SCD Tipo 2 en Star Schema | Lore dimensional + Quest SCD2 con vigencias | B/A | ⏳ Próximo Subject |
+|---|---|---|---|---|---|---|
+| **`DE-007`** | `04-de-pipelines`| Cap 02: Extracción API | Paginación resiliente de APIs | Lore 02 + Quest cursor/offset con rate limits | B/A | ⏳ En cola |
+| **`DE-004`** | `04-de-pipelines`| Cap 04: Carga DB | Carga a PostgreSQL real | Docker Compose Postgres + Quest SQLAlchemy/psycopg | B/A | ⏳ En cola |
+| **`DE-009`** | `04-de-pipelines`| Cap 05: Orquestación | Logs estructurados de run | Lore 05 + Quest logging estructurado de ejecución | B/A | ⏳ En cola |
+| **`DE-005`** | `04-de-pipelines`| Cap 05: Orquestación | Orquestación Periódica/Airflow | Lore + Quest DAG básico con scheduler y reintentos | B/A | ⏳ En cola |
+|---|---|---|---|---|---|---|
+| **`AWS-004`** | `05-cloud-aws` | Cap 00: Seguridad IAM | IAM Programático | Lore 00 + Quest creación programática de roles/policies | B/A | ⏳ En cola |
+| **`AWS-010`** | `05-cloud-aws` | Cap 00: Seguridad IAM | Profundidad de políticas IAM | Lore 00 + Quest evaluación Deny, conditions, ARNs | B/A | ⏳ En cola |
+| **`AWS-005`** | `05-cloud-aws` | Cap 01: Storage S3 | Creación de Buckets | Lore 01 + Quest aprovisionamiento con validación DNS | B/A | ⏳ En cola |
+| **`AWS-006`** | `05-cloud-aws` | Cap 01: Storage S3 | Serialización Parquet | Lore 01 + Quest DataFrame $\rightarrow$ Parquet Snappy en S3 | B/A | ⏳ En cola |
+| **`AWS-007`** | `05-cloud-aws` | Cap 02: Bases Cloud | RDS + Security Groups | Lore 02 + Quest conexión y reglas de red administradas | B/A | ⏳ En cola |
+| **`MKT-AWS-002`**| `05-cloud-aws` | Cap 02: Bases Cloud | Gestión de Secretos (Cero Hardcode) | Lore 02 + Quest AWS Secrets Manager / KMS | B/A | ⏳ En cola |
+| **`AWS-008`** | `05-cloud-aws` | Cap 03: Compute Serverless| Despliegue de Lambda | Lore 03 + Quest empaquetado zip y `create_function` | B/A | ⏳ En cola |
+| **`AWS-009`** | `05-cloud-aws` | Cap 04: Observabilidad | CloudWatch Alarms | Lore 04 + Quest alarmas sobre Metric Filters | B/A | ⏳ En cola |
 
 ---
 
-### 3.3 Bloque 2.3 — Profundización de Habilidades (Los 5 Tipo E)
+### 3.3 Bloque 2.3 — Tooling Transversal e Integración de Mercado (CLAIM-MKT)
 
-| Claim ID | Subject | Tema a Profundizar | Acción Pedagógica | Carril |
-|---|---|---|---|---|
-| **`SQL-006`** | `03-sql-basico` | Agregaciones condicionales | `SUM(CASE WHEN...)` y `COUNT(DISTINCT CASE...)` para pivoteo de métricas | B/A |
-| **`SQL-013`** | `03-sql-basico` | Semántica tri-valor de `NULL` | Comportamiento de `NULL` en operadores lógicos, `IN`, `NOT IN` y `COALESCE` | B/A |
-| **`DE-007`** | `04-de-pipelines` | Paginación resiliente de APIs | Consumo de APIs con cursor/offset pagination y manejo de rate limits | B/A |
-| **`AWS-010`** | `05-cloud-aws` | Profundidad de políticas IAM | Evaluación de políticas IAM complejas (Deny explícito, condiciones, Resource ARNs) | B/A |
-| **`PY-020`** | `02-py-poo` | Modelado de ciclo TDD | Modelado explícito del ciclo Red-Green-Refactor paso a paso | B/A |
-
----
-
-### 3.4 Bloque 2.4 — Tooling Transversal e Integración de Mercado (CLAIM-MKT)
 
 | Componente / MKT ID | Subject(s) | Implementación y Entregable Concreto |
 |---|---|---|
