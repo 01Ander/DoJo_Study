@@ -33,4 +33,17 @@ class StorageBillingCalculator:
         # TODO: Implement tiered pricing calculation
         # TODO: Apply enterprise discount if is_enterprise is True
         # TODO: Return final total amount
-        pass
+        if gigabytes < 0:
+            raise ValueError("Storage consumption cannot be negative")
+        if gigabytes == 0.0:
+            cost = 0.00
+        if gigabytes <= self.TIER_1_LIMIT:
+            cost = gigabytes * self.TIER_1_RATE
+        else:
+            cost_tier1 = 100 * self.TIER_1_RATE
+            overcost = (gigabytes - self.TIER_1_LIMIT) * self.TIER_2_RATE
+            cost = cost_tier1 + overcost
+        if is_enterprise:
+            cost *= (1.0 - self.ENTERPRISE_DISCOUNT)
+
+        return cost
