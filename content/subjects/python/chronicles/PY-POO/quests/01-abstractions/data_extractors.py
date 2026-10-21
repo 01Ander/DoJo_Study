@@ -28,7 +28,9 @@ class CSVDataExtractor(AbstractDataExtractor):
     def extract(self, file_path: str) -> List[Dict[str, Any]]:
         # TODO: Abrir file_path en modo lectura con encoding="utf-8"
         # TODO: Leer usando csv.DictReader y retornar lista de diccionarios [dict(row) for row in reader]
-        pass
+        with open(file_path, mode="r", encoding="utf-8") as file_handle:
+            reader = csv.DictReader(file_handle)
+            return [dict(row) for row in reader]
 
 
 class JSONDataExtractor(AbstractDataExtractor):
@@ -37,4 +39,8 @@ class JSONDataExtractor(AbstractDataExtractor):
     def extract(self, file_path: str) -> List[Dict[str, Any]]:
         # TODO: Abrir file_path en modo lectura con encoding="utf-8"
         # TODO: Parsear con json.load. Si es lista retornar la lista; si es dict retornar [data]
-        pass
+        with open(file_path, mode="r", encoding="utf-8") as file_handle:
+            content = json.load(file_handle)
+            if isinstance(content, list):
+                return content
+            return [content]
