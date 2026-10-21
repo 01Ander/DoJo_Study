@@ -10,59 +10,74 @@
 
 | Tarea ID | Materia | Concepto | Archivo que debes editar | Comando de Verificación | Estado |
 |---|---|---|---|---|---|
-| **`PY-010`** | `02-py-poo` | Constructores con `super()` | [`quests/02-entities/rpg_character.py`](file:///Users/ander/Documents/DoJo/DoJo_Study/content/subjects/python/chronicles/PY-POO/quests/02-entities/rpg_character.py) | `pytest quests/02-entities/test_rpg_character.py` | 🟡 **ACTIVA (Tu turno)** |
-| **`PY-011`** | `02-py-poo` | Validación con Pydantic | *Próximamente en quests/06-logging/* | — | ⏳ En espera |
+| **`PY-010`** | `02-py-poo` | Constructores con `super()` | [`quests/02-entities/rpg_character.py`](file:///Users/ander/Documents/DoJo/DoJo_Study/content/subjects/python/chronicles/PY-POO/quests/02-entities/rpg_character.py) | `pytest quests/02-entities/test_rpg_character.py` | 🟢 **COMPLETADO** |
+| **`PY-011`** | `02-py-poo` | Validación con Pydantic | [`quests/06-logging/transaction_schema.py`](file:///Users/ander/Documents/DoJo/DoJo_Study/content/subjects/python/chronicles/PY-POO/quests/06-logging/transaction_schema.py) | `pytest quests/06-logging/test_transaction_schema.py` | 🟡 **ACTIVA (Tu turno)** |
 | **`PY-013`** | `02-py-poo` | Patrón Output Loaders | *Próximamente en quests/04-orchestration/* | — | ⏳ En espera |
 | **`PY-014`** | `02-py-poo` | Extractor desacoplado | *Próximamente en quests/01-abstractions/* | — | ⏳ En espera |
 | **`PY-020`** | `02-py-poo` | Ciclo TDD Red-Green | *Próximamente en quests/05-testing/* | — | ⏳ En espera |
 
 ---
 
-## 2. 🚀 MISIÓN ACTIVA: `PY-010` — Constructores con `super()`
+## 2. 🚀 MISIÓN ACTIVA: `PY-011` — Validación con Pydantic V2
 
 * **Materia:** `02-py-poo`  
-* **Archivo a editar por el Operador:** [`content/subjects/python/chronicles/PY-POO/quests/02-entities/rpg_character.py`](file:///Users/ander/Documents/DoJo/DoJo_Study/content/subjects/python/chronicles/PY-POO/quests/02-entities/rpg_character.py)  
-* **Enunciado de la Quest:** [`content/subjects/python/chronicles/PY-POO/quests/02-entities/03-inheritance-super.md`](file:///Users/ander/Documents/DoJo/DoJo_Study/content/subjects/python/chronicles/PY-POO/quests/02-entities/03-inheritance-super.md)  
-* **Teoría de Respaldo:** [`content/subjects/python/chronicles/PY-POO/lore/02-domain-entities-and-dataclasses.md` (Sección 4)](file:///Users/ander/Documents/DoJo/DoJo_Study/content/subjects/python/chronicles/PY-POO/lore/02-domain-entities-and-dataclasses.md)
+* **Archivo a editar por el Operador:** [`content/subjects/python/chronicles/PY-POO/quests/06-logging/transaction_schema.py`](file:///Users/ander/Documents/DoJo/DoJo_Study/content/subjects/python/chronicles/PY-POO/quests/06-logging/transaction_schema.py)  
+* **Enunciado de la Quest:** [`content/subjects/python/chronicles/PY-POO/quests/06-logging/03-pydantic-validation.md`](file:///Users/ander/Documents/DoJo/DoJo_Study/content/subjects/python/chronicles/PY-POO/quests/06-logging/03-pydantic-validation.md)  
+* **Teoría de Respaldo:** [`content/subjects/python/chronicles/PY-POO/lore/06-logging-and-error-handling.md` (Sección 5)](file:///Users/ander/Documents/DoJo/DoJo_Study/content/subjects/python/chronicles/PY-POO/lore/06-logging-and-error-handling.md)
 
 ### 📋 El Contrato que debes cumplir:
-1. **`Character` (Clase Base):**
-   * `__init__(self, name: str, health: int)`: Inicializa `self.name` y `self.health`.
-   * `take_damage(self, amount: int) -> None`: Reduce la vida en `amount`. Si la vida cae por debajo de 0, queda en `0`.
-   * `is_alive(self) -> bool`: Retorna `True` si `self.health > 0`, sino `False`.
-2. **`Mage` (Hereda de `Character`):**
-   * `__init__(self, name: str, health: int, mana: int)`: **Debe llamar a `super().__init__(name, health)`** e inicializar `self.mana = mana`.
-   * `cast_spell(self, cost: int) -> bool`: Si `self.mana >= cost`, descuenta `cost` del maná y retorna `True`. Si no alcanza, retorna `False` sin descontar maná.
-3. **`Warrior` (Hereda de `Character`):**
-   * `__init__(self, name: str, health: int, shield: int)`: **Debe llamar a `super().__init__(name, health)`** e inicializar `self.shield = shield`.
-   * `take_damage(self, amount: int) -> None`: El daño impacta primero al escudo (`self.shield`). Si el daño supera el escudo, el remanente reduce la vida llamando a `super().take_damage(remanente)` y el escudo queda en `0`.
+
+1. **`InvalidTransactionDataError(Exception)`:**
+   * Excepción de dominio para errores de validación de transacciones (hereda de `Exception`).
+
+2. **`TransactionPayload(BaseModel)`:**
+   * Hereda de `BaseModel` de Pydantic.
+   * Campos y restricciones requeridas:
+     * `transaction_id: str`: Con longitud mínima de 3 caracteres (`Field(min_length=3)`).
+     * `account_id: int`: Estrictamente positivo (`Field(gt=0)`).
+     * `amount: float`: Estrictamente positivo (`Field(gt=0.0)`).
+     * `currency: str`: Por defecto `"USD"`.
+   * Validador personalizado (`@field_validator("currency")` como `@classmethod`):
+     * Convierte el valor a mayúsculas (`value.upper()`).
+     * Verifica que esté en el conjunto permitido: `{"USD", "EUR", "GBP", "COP"}`.
+     * Si no pertenece, lanza un `ValueError(f"Moneda '{value}' no soportada")`.
+
+3. **Función `validate_and_create_transaction(data: dict) -> TransactionPayload`:**
+   * Recibe un diccionario crudo no tipado.
+   * Intenta instanciar `TransactionPayload(**data)`.
+   * Si Pydantic arroja `pydantic.ValidationError`, **captura la excepción** y levanta un `InvalidTransactionDataError(str(e))`.
+   * Si es válido, retorna la instancia construida de `TransactionPayload`.
 
 ---
 
-### 💡 Ejemplo con Domain Shifting (Flota Espacial):
-*Observa cómo la subclase delega la inicialización base al padre y cómo reutiliza su comportamiento:*
+### 💡 Ejemplo con Domain Shifting (Telemetría Satelital):
+*Observa cómo Pydantic valida tipos y restricciones, y cómo un helper envuelve el error técnico en una excepción del negocio:*
 
 ```python
-class Spaceship:
-    def __init__(self, code: str, hull_integrity: int):
-        self.code = code
-        self.hull_integrity = hull_integrity
+from pydantic import BaseModel, Field, field_validator, ValidationError
 
-    def take_hit(self, damage: int) -> None:
-        self.hull_integrity = max(0, self.hull_integrity - damage)
+class TelemetryError(Exception):
+    """Excepción de dominio de telemetría."""
+    pass
 
-class StealthCorvette(Spaceship):
-    def __init__(self, code: str, hull_integrity: int, cloak_energy: int):
-        # 1. Delegamos al constructor del ancestro:
-        super().__init__(code=code, hull_integrity=hull_integrity)
-        # 2. Inicializamos lo exclusivo de la subclase:
-        self.cloak_energy = cloak_energy
+class SatelliteReading(BaseModel):
+    satellite_code: str = Field(min_length=2)
+    battery_level: float = Field(gt=0.0, le=100.0)
+    transmission_band: str = "UHF"
 
-    def activate_cloak(self) -> bool:
-        if self.cloak_energy >= 15:
-            self.cloak_energy -= 15
-            return True
-        return False
+    @field_validator("transmission_band")
+    @classmethod
+    def check_band(cls, v: str) -> str:
+        valid_bands = {"UHF", "VHF", "S-BAND", "X-BAND"}
+        if v.upper() not in valid_bands:
+            raise ValueError(f"Banda '{v}' fuera del espectro asignado.")
+        return v.upper()
+
+def parse_telemetry_packet(raw_dict: dict) -> SatelliteReading:
+    try:
+        return SatelliteReading(**raw_dict)
+    except ValidationError as err:
+        raise TelemetryError(f"Paquete satelital corrupto: {err}")
 ```
 
 ---
@@ -70,9 +85,9 @@ class StealthCorvette(Spaceship):
 ### 🧪 Comando de Verificación Binaria (Sonda Final):
 Ejecuta en tu terminal desde la raíz del repositorio:
 ```bash
-/Users/ander/Documents/DoJo/DoJo_Study/content/subjects/python/chronicles/PY-POO/rite/.venv/bin/pytest content/subjects/python/chronicles/PY-POO/quests/02-entities/test_rpg_character.py -v
+/Users/ander/Documents/DoJo/DoJo_Study/content/subjects/python/chronicles/PY-POO/rite/.venv/bin/pytest content/subjects/python/chronicles/PY-POO/quests/06-logging/test_transaction_schema.py -v
 ```
-*(Criterio de éxito: 3 passed con exit code 0).*
+*(Criterio de éxito: 6 passed con exit code 0).*
 
 ---
 
@@ -85,6 +100,13 @@ Registro de archivos nuevos o actualizados en el sistema para que sepas exactame
 * `content/subjects/python/chronicles/PY-POO/quests/02-entities/03-inheritance-super.md`:
   * *Cambio:* Enunciado didáctico de la Quest 02-03.
 * `content/subjects/python/chronicles/PY-POO/quests/02-entities/rpg_character.py`:
+  * *Cambio:* Implementado exitosamente por el Operador (`3/3 passed`).
+* `content/subjects/python/chronicles/PY-POO/lore/06-logging-and-error-handling.md`:
+  * *Cambio:* Añadida Sección 5 sobre Validación de Contratos Fuertes con Pydantic V2 y actualización del mapa de ejercicios.
+* `content/subjects/python/chronicles/PY-POO/quests/06-logging/03-pydantic-validation.md`:
+  * *Cambio:* Enunciado didáctico de la Quest 06-03 (`PY-011`).
+* `content/subjects/python/chronicles/PY-POO/quests/06-logging/transaction_schema.py`:
   * *Cambio:* Plantilla inicial para el Operador con `pass` y firmas de método.
-* `content/subjects/python/chronicles/PY-POO/quests/02-entities/test_rpg_character.py`:
-  * *Cambio:* Suite evaluadora automatizada con 3 tests unitarios.
+* `content/subjects/python/chronicles/PY-POO/quests/06-logging/test_transaction_schema.py`:
+  * *Cambio:* Suite evaluadora automatizada con 6 tests unitarios.
+

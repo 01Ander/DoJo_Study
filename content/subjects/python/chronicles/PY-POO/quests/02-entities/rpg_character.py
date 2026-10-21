@@ -10,15 +10,18 @@ class Character:
 
     def __init__(self, name: str, health: int):
         # TODO: Asignar name y health
-        pass
+        self.name = name
+        self.health = health
 
     def take_damage(self, amount: int) -> None:
         # TODO: Reducir health por amount. No permitir valores negativos (mínimo 0).
-        pass
+        self.health = max(0, self.health - amount)
 
     def is_alive(self) -> bool:
         # TODO: Retornar True si health > 0, False de lo contrario.
-        pass
+        if self.health > 0 :
+            return True
+        return False
 
 
 class Mage(Character):
@@ -27,11 +30,15 @@ class Mage(Character):
     def __init__(self, name: str, health: int, mana: int):
         # TODO: Invocar al constructor padre con super().__init__(...)
         # TODO: Inicializar self.mana
-        pass
+        super().__init__(name=name, health=health)
+        self.mana = mana
 
     def cast_spell(self, cost: int) -> bool:
         # TODO: Si mana >= cost, restar cost y retornar True. Sino, retornar False.
-        pass
+        if self.mana >= cost:
+            self.mana -= cost
+            return True
+        return False
 
 
 class Warrior(Character):
@@ -40,8 +47,14 @@ class Warrior(Character):
     def __init__(self, name: str, health: int, shield: int):
         # TODO: Invocar al constructor padre con super().__init__(...)
         # TODO: Inicializar self.shield
-        pass
+        super().__init__(name=name, health=health)
+        self.shield = shield
 
     def take_damage(self, amount: int) -> None:
         # TODO: Reducir primero el escudo. Si sobra daño, llamar a super().take_damage(...)
-        pass
+        if self.shield > amount:
+            self.shield -= amount
+        else:
+            remanent = amount - self.shield
+            self.shield = 0
+            super().take_damage(remanent)
