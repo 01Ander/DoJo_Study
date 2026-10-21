@@ -245,6 +245,15 @@ def test_negative_particulate_reading_raises_error():
         monitor.classify_pm25(-5.0)
 ```
 
+> [!NOTE]
+> ### 🔍 Desglose de Sintaxis (Zero Surprise Syntax): `pytest.raises`
+> * **¿Qué hace?** `pytest.raises` es un administrador de contexto (*context manager*, usado con `with`) provisto por pytest para interceptar y verificar que una porción de código arroje una excepción esperada.
+> * **¿Por qué se eligió?** Sin `pytest.raises`, tendrías que envolver el código en un engorroso bloque `try...except`, definir banderas booleanas manuales y lanzar asserts artificiales. `pytest.raises` hace que el test sea declarativo y conciso.
+> * **¿Cómo funciona internamente?** 
+>   1. Ejecuta el código dentro del bloque `with`.
+>   2. Si el código lanza la excepción esperada (`ValueError`) y su mensaje coincide con la expresión regular o texto pasado en `match`, la captura de forma segura y marca la aserción como exitosa.
+>   3. Si el código **no lanza ninguna excepción** (o lanza una excepción de otro tipo), `pytest.raises` falla inmediatamente el test informando `Failed: DID NOT RAISE <Exception>`.
+
 Al ejecutar `pytest test_air_monitor.py` en la terminal, observamos el fallo esperado:
 ```text
 FAILED test_air_monitor.py::test_air_quality_categorization - AttributeError: 'AirQualityMonitor' object has no attribute 'classify_pm25'
@@ -284,7 +293,11 @@ test_air_monitor.py::test_negative_particulate_reading_raises_error PASSED
 
 #### Paso 3: 🔵 REFACTOR — Mejorar el Diseño sin Romper los Tests
 
-El código funciona, pero contiene "números mágicos" (`50.0`, `150.0`) y strings dispersos ("HEALTHY", "MODERATE", "HAZARDOUS"). Refactorizamos usando constantes explícitas de negocio para elevar la mantenibilidad profesional:
+El código funciona, pero contiene dos olores de diseño (*code smells*):
+1. **Números Mágicos:** `50.0` y `150.0` están incrustados directamente en las condiciones. Si el estándar ambiental cambia, hay que rastrear cada número a mano.
+2. **Strings Mágicos (*Magic Strings*):** `"HEALTHY"`, `"MODERATE"` y `"HAZARDOUS"` son cadenas de texto propensas a errores tipográficos accidentales (ej. `"HEATLHY"`).
+
+Refactorizamos usando constantes de clase para los umbrales numéricos y una **Enumeración (`Enum`)** para los estados de calidad:
 
 ```python
 # 🎯 Objetivo de Negocio: Refactorizar el clasificador desacoplando constantes de umbral para prevenir números mágicos.
@@ -310,6 +323,21 @@ class AirQualityMonitor:
             return QualityTier.MODERATE.value
         return QualityTier.HAZARDOUS.value
 ```
+
+> [!NOTE]
+> ### 🔍 Desglose de Sintaxis (Zero Surprise Syntax): `Enum` y `(str, Enum)`
+> * **¿Qué es `Enum`?** Una enumeración (`Enum`, del módulo estándar `enum`) es una clase especial que vincula un conjunto finito e inmutable de nombres simbólicos a valores constantes únicos.
+> * **¿Por qué se usa aquí en lugar de strings sueltos?**
+>   1. **Protección contra Typos:** Si intentas escribir `QualityTier.HEATLHY`, tu IDE o linter marcarán el error de inmediato antes de ejecutar el código. Con un string plano `"HEATLHY"`, el error pasa desapercibido hasta que corrompe datos en producción.
+>   2. **Fuente Única de Verdad (*Single Source of Truth*):** Si la empresa decide renombrar un valor, solo modificas el enum en un único lugar sin arriesgarte a olvidar strings dispersos en docenas de archivos.
+>   3. **Autocompletado y Tipado Estricto:** Permite a herramientas como Mypy validar que una función solo reciba o retorne miembros válidos de `QualityTier`.
+> * **¿Cómo funciona internamente?**
+>   1. **Herencia Dual `class QualityTier(str, Enum)`:** Al heredar tanto de `str` como de `Enum`, cada miembro de la enumeración es simultáneamente una instancia de `str`. Esto garantiza que `QualityTier.HEALTHY == "HEALTHY"` sea verdadero y que pueda serializarse o formatearse como texto sin necesidad de conversiones forzadas.
+>   2. **Propiedades `.name` y `.value`:** Todo miembro de un `Enum` posee dos atributos fundamentales:
+>      * `.name`: El identificador simbólico en mayúsculas (ej. `"HEALTHY"`).
+>      * `.value`: El valor real almacenado internamente (en este caso, el string literal `"HEALTHY"`).
+>      * Al hacer `QualityTier.HEALTHY.value`, extraemos directamente la cadena de texto requerida por el contrato de retorno.
+>   3. **Constantes de Clase (`HEALTHY_THRESHOLD`):** Se definen directamente dentro del cuerpo de `AirQualityMonitor` pero fuera de cualquier método. Pertenecen al espacio de nombres de la clase y son compartidas por todas las instancias, evitando duplicar variables en cada invocación.
 
 Volvemos a ejecutar `pytest test_air_monitor.py`:
 ```text
