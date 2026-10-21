@@ -168,7 +168,160 @@ def test_treasury_gold_balance():
 
 ---
 
-## 6. Setup del Entorno (CRÍTICO)
+## 6. El Ciclo Virtuoso de TDD: Red-Green-Refactor
+
+### ¿Qué es TDD?
+**Test-Driven Development (Desarrollo Guiado por Pruebas)** es una disciplina de ingeniería de software donde las pruebas automatizadas se escriben **antes** que el código de producción. En lugar de escribir una clase y luego pensar "a ver cómo la pruebo", inviertes el orden: defines el contrato de negocio en un test que falla, y luego escribes el código estrictamente necesario para que pase.
+
+El ciclo de TDD se compone de tres fases iterativas e inquebrantables:
+
+```mermaid
+graph LR
+    A["🔴 RED: Escribe test que falla"] --> B["🟢 GREEN: Código mínimo que pasa"]
+    B --> C["🔵 REFACTOR: Limpia y optimiza"]
+    C --> A
+```
+
+1. **🔴 RED (Fase Roja):** Escribes una prueba unitaria que describe el comportamiento esperado de una función o clase que **aún no existe o no tiene lógica**. Al ejecutar `pytest`, el test DEBE fallar (rojo). Si pasa sin que hayas escrito código, tu test está mal diseñado o no está probando nada.
+2. **🟢 GREEN (Fase Verde):** Escribes la solución de código más simple, directa e inmediata que haga que el test pase. En esta fase no buscas la elegancia suprema ni la abstracción perfecta; el objetivo único es satisfacer el contrato exigido por el test.
+3. **🔵 REFACTOR (Fase de Refactorización):** Con la barra verde de `pytest` respaldándote, limpias el código: eliminas duplicación, extraes constantes, mejoras nombres de variables y simplificas condicionales. Ejecutas `pytest` tras cada pequeño cambio para garantizar que nada se haya roto.
+
+---
+
+### Analogías del Mundo Real
+
+#### Analogía 1: Los Planos y Pruebas de Carga en Ingeniería Civil
+Ningún ingeniero civil vierte toneladas de hormigón en un puente para luego cruzar los dedos y rezar para que soporte el paso de un camión. Primero se diseñan las especificaciones de carga en simuladores matemáticos (los tests). En el simulador, una estructura inexistente arroja fallo de carga (**RED**). Luego se calculan y vierten las vigas requeridas hasta que la simulación resiste el tonelaje (**GREEN**). Finalmente, los arquitectos pulen los acabados estéticos, optimizan las canalizaciones de cables y aligeran materiales no estructurales (**REFACTOR**), sabiendo con certeza matemática que el puente nunca colapsará.
+
+#### Analogía 2: Los Anclajes de Seguridad en Escalada en Roca
+Un escalador que trepa una pared vertical sin cuerda asciende paralizado por el miedo. No puede intentar movimientos audaces ni corregir su postura, porque cualquier resbalón es fatal. En cambio, con arnés y anclajes fijos:
+- Colocas el seguro en la roca unos centímetros por encima de ti (**RED**: el objetivo aún no ha sido alcanzado).
+- Realizas el movimiento físico hasta alcanzar el peldaño seguro (**GREEN**: el apoyo está asegurado).
+- Una vez apoyado firmemente, descansas, acomodas la postura de tus piernas y respiras con total tranquilidad (**REFACTOR**), sabiendo que si te resbalas, el anclaje te sostiene de inmediato.
+
+---
+
+### ¿Por Qué Importa en Data Engineering y Backend?
+- **Erradica el Over-Engineering (Principio YAGNI - You Aren't Gonna Need It):** Si no hay un test que justifique una línea de código, esa línea no se escribe.
+- **Elimina el Miedo a Modificar Código:** La frase "si funciona no lo toques" es el síntoma de una base de código legacy sin tests. Con una suite de tests robusta, cualquier refactorización mayor se realiza con confianza absoluta.
+- **Documentación Viva y Ejecutable:** Los tests son la especificación más verídica del sistema. A diferencia de un documento de Word que se desactualiza, si los tests no coinciden con la realidad del código, el pipeline falla de inmediato.
+
+---
+
+### Demostración Paso a Paso (Domain Shifting: Monitor de Calidad del Aire)
+
+Imagina que desarrollamos un sistema de telemetría para estaciones meteorológicas (`AirQualityMonitor`) que clasifica el índice de partículas suspendidas $PM_{2.5}$ en tres niveles:
+- $\le 50.0 \rightarrow$ `"HEALTHY"`
+- $\le 150.0 \rightarrow$ `"MODERATE"`
+- $> 150.0 \rightarrow$ `"HAZARDOUS"`
+
+Veamos cómo se construye esta funcionalidad siguiendo estrictamente el ciclo Red-Green-Refactor:
+
+#### Paso 1: 🔴 RED — Escribir el Test Primero
+
+Escribimos la prueba unitaria en `test_air_monitor.py` antes de que la clase tenga cualquier lógica:
+
+```python
+# 🎯 Objetivo de Negocio: Probar la clasificación estricta de niveles de calidad del aire según concentración de partículas.
+
+import pytest
+from air_monitor import AirQualityMonitor
+
+def test_air_quality_categorization():
+    # 1. ARRANGE
+    monitor = AirQualityMonitor()
+    
+    # 2. ACT & ASSERT (Validamos los tres umbrales de negocio)
+    assert monitor.classify_pm25(25.0) == "HEALTHY"
+    assert monitor.classify_pm25(75.5) == "MODERATE"
+    assert monitor.classify_pm25(180.2) == "HAZARDOUS"
+
+def test_negative_particulate_reading_raises_error():
+    # 1. ARRANGE
+    monitor = AirQualityMonitor()
+    
+    # 2. ACT & ASSERT (Garantizamos rechazo de lecturas físicas imposibles)
+    with pytest.raises(ValueError, match="Particulate concentration cannot be negative"):
+        monitor.classify_pm25(-5.0)
+```
+
+Al ejecutar `pytest test_air_monitor.py` en la terminal, observamos el fallo esperado:
+```text
+FAILED test_air_monitor.py::test_air_quality_categorization - AttributeError: 'AirQualityMonitor' object has no attribute 'classify_pm25'
+```
+**¡Estamos formalmente en RED!** El test ha demostrado de manera inequívoca que la funcionalidad aún no existe.
+
+---
+
+#### Paso 2: 🟢 GREEN — Escribir la Solución Mínima
+
+En `air_monitor.py`, implementamos la lógica más directa para que los tests pasen:
+
+```python
+# 🎯 Objetivo de Negocio: Implementar la clasificación elemental de calidad del aire para pasar los tests unitarios.
+
+class AirQualityMonitor:
+    def classify_pm25(self, concentration: float) -> str:
+        if concentration < 0:
+            raise ValueError("Particulate concentration cannot be negative")
+        if concentration <= 50.0:
+            return "HEALTHY"
+        elif concentration <= 150.0:
+            return "MODERATE"
+        else:
+            return "HAZARDOUS"
+```
+
+Ejecutamos `pytest test_air_monitor.py`:
+```text
+test_air_monitor.py::test_air_quality_categorization PASSED
+test_air_monitor.py::test_negative_particulate_reading_raises_error PASSED
+============================== 2 passed in 0.01s ===============================
+```
+**¡Estamos formalmente en GREEN!** Todos los requerimientos fueron satisfechos.
+
+---
+
+#### Paso 3: 🔵 REFACTOR — Mejorar el Diseño sin Romper los Tests
+
+El código funciona, pero contiene "números mágicos" (`50.0`, `150.0`) y strings dispersos ("HEALTHY", "MODERATE", "HAZARDOUS"). Refactorizamos usando constantes explícitas de negocio para elevar la mantenibilidad profesional:
+
+```python
+# 🎯 Objetivo de Negocio: Refactorizar el clasificador desacoplando constantes de umbral para prevenir números mágicos.
+
+from enum import Enum
+
+class QualityTier(str, Enum):
+    HEALTHY = "HEALTHY"
+    MODERATE = "MODERATE"
+    HAZARDOUS = "HAZARDOUS"
+
+class AirQualityMonitor:
+    HEALTHY_THRESHOLD: float = 50.0
+    MODERATE_THRESHOLD: float = 150.0
+
+    def classify_pm25(self, concentration: float) -> str:
+        if concentration < 0:
+            raise ValueError("Particulate concentration cannot be negative")
+        
+        if concentration <= self.HEALTHY_THRESHOLD:
+            return QualityTier.HEALTHY.value
+        if concentration <= self.MODERATE_THRESHOLD:
+            return QualityTier.MODERATE.value
+        return QualityTier.HAZARDOUS.value
+```
+
+Volvemos a ejecutar `pytest test_air_monitor.py`:
+```text
+test_air_monitor.py::test_air_quality_categorization PASSED
+test_air_monitor.py::test_negative_particulate_reading_raises_error PASSED
+============================== 2 passed in 0.01s ===============================
+```
+**La suite sigue 100% verde.** El diseño del código mejoró drásticamente y tenemos la garantía automatizada de que no introdujimos ninguna regresión.
+
+---
+
+## 7. Setup del Entorno (CRÍTICO)
 
 Pytest y Mypy NO son nativos. Deben instalarse en un entorno virtual aislado para no contaminar tu sistema.
 
@@ -192,7 +345,7 @@ Pytest y Mypy NO son nativos. Deben instalarse en un entorno virtual aislado par
    pytest -v
    ```
 
-## 7. Errores Comunes de Pytest
+## 8. Errores Comunes de Pytest
 
 **Error:** `ModuleNotFoundError: No module named 'pytest'`
 - **Causa:** No activaste tu entorno virtual o no instalaste pytest.
@@ -204,17 +357,20 @@ Pytest y Mypy NO son nativos. Deben instalarse en un entorno virtual aislado par
 
 ---
 
-## 8. Mapa de Ejercicios
+## 9. Mapa de Ejercicios
 
 Dirígete a `quests/05-testing/` y completa los ejercicios:
 
 - [[01-fixture-creation]]
 - [[02-test-from-scratch]]
 - [[03-io-and-approx]]
+- [[04-tdd-red-green-refactor]]
 
 ```text
 PY-POO/quests/05-testing/
 ├── [[01-fixture-creation]].md       (Tipo B: Nivel 3 - Fixtures)
 ├── [[02-test-from-scratch]].md      (Tipo B: Nivel 4 - Test Completo)
-└── [[03-io-and-approx]].md          (Tipo B: Nivel 4 - tmp_path y approx)
+├── [[03-io-and-approx]].md          (Tipo B: Nivel 4 - tmp_path y approx)
+└── [[04-tdd-red-green-refactor]].md (Tipo A: Nivel 4 - Ciclo TDD Red-Green-Refactor)
 ```
+

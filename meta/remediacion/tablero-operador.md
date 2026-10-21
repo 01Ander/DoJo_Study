@@ -14,64 +14,67 @@
 | **`PY-011.1`** | `02-py-poo` | De Dataclass a Pydantic con `Field` | [`quests/06-logging/user_account_schema.py`](file:///Users/ander/Documents/DoJo/DoJo_Study/content/subjects/python/chronicles/PY-POO/quests/06-logging/user_account_schema.py) | `pytest quests/06-logging/test_user_account_schema.py` | 🟢 **COMPLETADO** |
 | **`PY-011.2`** | `02-py-poo` | Validadores de Negocio y Excepciones | [`quests/06-logging/transaction_schema.py`](file:///Users/ander/Documents/DoJo/DoJo_Study/content/subjects/python/chronicles/PY-POO/quests/06-logging/transaction_schema.py) | `pytest quests/06-logging/test_transaction_schema.py` | 🟢 **COMPLETADO** |
 | **`PY-013`** | `02-py-poo` | Patrón Output Loaders | [`quests/04-orchestration/output_loaders.py`](file:///Users/ander/Documents/DoJo/DoJo_Study/content/subjects/python/chronicles/PY-POO/quests/04-orchestration/output_loaders.py) | `pytest quests/04-orchestration/test_output_loaders.py` | 🟢 **COMPLETADO** |
-| **`PY-014`** | `02-py-poo` | Extractor desacoplado CSV/JSON | [`quests/01-abstractions/data_extractors.py`](file:///Users/ander/Documents/DoJo/DoJo_Study/content/subjects/python/chronicles/PY-POO/quests/01-abstractions/data_extractors.py) | `pytest quests/01-abstractions/test_data_extractors.py` | 🟡 **ACTIVA (Tu turno)** |
-| **`PY-020`** | `02-py-poo` | Ciclo TDD Red-Green | *Próximamente en quests/05-testing/* | — | ⏳ En espera |
+| **`PY-014`** | `02-py-poo` | Extractor desacoplado CSV/JSON | [`quests/01-abstractions/data_extractors.py`](file:///Users/ander/Documents/DoJo/DoJo_Study/content/subjects/python/chronicles/PY-POO/quests/01-abstractions/data_extractors.py) | `pytest quests/01-abstractions/test_data_extractors.py` | 🟢 **COMPLETADO** |
+| **`PY-020`** | `02-py-poo` | Ciclo TDD Red-Green-Refactor | [`quests/05-testing/billing_service.py`](file:///Users/ander/Documents/DoJo/DoJo_Study/content/subjects/python/chronicles/PY-POO/quests/05-testing/billing_service.py) | `pytest quests/05-testing/test_billing_service.py` | 🟡 **ACTIVA (Tu turno - Cierre PY)** |
 
 ---
 
-## 2. 🚀 MISIÓN ACTIVA: `PY-014` — Extractor Desacoplado CSV y JSON
+## 2. 🚀 MISIÓN ACTIVA: `PY-020` — Ciclo TDD Red-Green-Refactor (Cierre de PY-POO)
 
-* **Materia:** `02-py-poo`  
-* **Archivo a editar por el Operador:** [`content/subjects/python/chronicles/PY-POO/quests/01-abstractions/data_extractors.py`](file:///Users/ander/Documents/DoJo/DoJo_Study/content/subjects/python/chronicles/PY-POO/quests/01-abstractions/data_extractors.py)  
-* **Enunciado de la Quest:** [`content/subjects/python/chronicles/PY-POO/quests/01-abstractions/03-decoupled-json-extractor.md`](file:///Users/ander/Documents/DoJo/DoJo_Study/content/subjects/python/chronicles/PY-POO/quests/01-abstractions/03-decoupled-json-extractor.md)  
-* **Teoría de Respaldo:** [`content/subjects/python/chronicles/PY-POO/lore/01-abstract-classes-and-interfaces.md` (§5)](file:///Users/ander/Documents/DoJo/DoJo_Study/content/subjects/python/chronicles/PY-POO/lore/01-abstract-classes-and-interfaces.md)
+* **Materia:** `02-py-poo` (Última misión antes de pasar a `03-sql-basico`)  
+* **Archivo a editar por el Operador:** [`content/subjects/python/chronicles/PY-POO/quests/05-testing/billing_service.py`](file:///Users/ander/Documents/DoJo/DoJo_Study/content/subjects/python/chronicles/PY-POO/quests/05-testing/billing_service.py)  
+* **Enunciado de la Quest:** [`content/subjects/python/chronicles/PY-POO/quests/05-testing/04-tdd-red-green-refactor.md`](file:///Users/ander/Documents/DoJo/DoJo_Study/content/subjects/python/chronicles/PY-POO/quests/05-testing/04-tdd-red-green-refactor.md)  
+* **Teoría de Respaldo:** [`content/subjects/python/chronicles/PY-POO/lore/05-testing-with-pytest.md` (§6)](file:///Users/ander/Documents/DoJo/DoJo_Study/content/subjects/python/chronicles/PY-POO/lore/05-testing-with-pytest.md)
 
 ### 📋 El Contrato que debes cumplir:
 
-1. **`AbstractDataExtractor` (Clase Base Abstracta):**
-   * Hereda de `abc.ABC`.
-   * Define el método `@abstractmethod def extract(self, file_path: str) -> List[Dict[str, Any]]`.
-   * Debe impedir instanciación directa.
+Implementa en [`billing_service.py`](file:///Users/ander/Documents/DoJo/DoJo_Study/content/subjects/python/chronicles/PY-POO/quests/05-testing/billing_service.py) el método:
+```python
+def calculate_invoice(self, gigabytes: float, is_enterprise: bool = False) -> float:
+```
 
-2. **`CSVDataExtractor` (Subclase de `AbstractDataExtractor`):**
-   * Implementa `extract(self, file_path: str) -> List[Dict[str, Any]]`:
-     * Abre `file_path` con UTF-8 (`with open(file_path, "r", encoding="utf-8") as f:`).
-     * Lee con `csv.DictReader(f)` y retorna `[dict(row) for row in reader]`.
-
-3. **`JSONDataExtractor` (Subclase de `AbstractDataExtractor`):**
-   * Implementa `extract(self, file_path: str) -> List[Dict[str, Any]]`:
-     * Abre `file_path` con UTF-8 (`with open(file_path, "r", encoding="utf-8") as f:`).
-     * Parsea el contenido con `json.load(f)`.
-     * Si el contenido es una lista (`isinstance(data, list)`), la retorna directamente.
-     * Si es un diccionario único, lo retorna envuelto en una lista `[data]`.
+1. **Validación de Integridad:**
+   * Si `gigabytes < 0`, lanzar `ValueError("Storage consumption cannot be negative")`.
+2. **Consumo Cero:**
+   * Si `gigabytes == 0.0`, retorna `0.0`.
+3. **Nivel 1 (Estándar):**
+   * Si `gigabytes <= self.TIER_1_LIMIT` (100.0), el subtotal es `gigabytes * self.TIER_1_RATE` (0.02).
+4. **Nivel 2 (Excedente escalonado):**
+   * Si `gigabytes > self.TIER_1_LIMIT`:
+     * Los primeros 100 GB se cobran a `self.TIER_1_RATE` (`100.0 * 0.02 = 2.00`).
+     * Los GB excedentes (`gigabytes - 100.0`) se cobran a `self.TIER_2_RATE` (0.015).
+5. **Descuento Enterprise:**
+   * Si `is_enterprise is True`, aplica un 10% de descuento sobre el subtotal (`subtotal * (1.0 - self.ENTERPRISE_DISCOUNT)`).
+6. **Retorno:**
+   * Retorna el monto final como `float`.
 
 ---
 
-### 💡 Ejemplo con Domain Shifting (Observatorio Meteorológico):
-*Observa cómo la interfaz abstracta homogeniza la lectura de distintos formatos:*
+### 🔄 Fases TDD:
+
+1. **🔴 RED:** Ejecuta el comando de test y confirma que los 5 tests fallan.
+2. **🟢 GREEN:** Escribe la lógica en `billing_service.py` hasta que los 5 tests pasen.
+3. **🔵 REFACTOR:** Limpia el código usando las constantes de clase y manteniendo los tests verdes.
+
+---
+
+### 💡 Ejemplo con Domain Shifting (Monitor de Calidad del Aire):
 
 ```python
-# 🎯 Objetivo de Negocio: Extraer observaciones meteorológicas multiformato de forma intercambiable.
+# 🎯 Objetivo de Negocio: Clasificar índice de partículas y validar rangos físicos en TDD.
 
-from abc import ABC, abstractmethod
-import csv
-import json
+class AirQualityMonitor:
+    HEALTHY_THRESHOLD: float = 50.0
+    MODERATE_THRESHOLD: float = 150.0
 
-class AbstractClimateExtractor(ABC):
-    @abstractmethod
-    def extract(self, file_path: str) -> list[dict]:
-        pass
-
-class CSVClimateExtractor(AbstractClimateExtractor):
-    def extract(self, file_path: str) -> list[dict]:
-        with open(file_path, "r", encoding="utf-8") as f:
-            return [dict(row) for row in csv.DictReader(f)]
-
-class JSONClimateExtractor(AbstractClimateExtractor):
-    def extract(self, file_path: str) -> list[dict]:
-        with open(file_path, "r", encoding="utf-8") as f:
-            data = json.load(f)
-            return data if isinstance(data, list) else [data]
+    def classify_pm25(self, concentration: float) -> str:
+        if concentration < 0:
+            raise ValueError("Particulate concentration cannot be negative")
+        if concentration <= self.HEALTHY_THRESHOLD:
+            return "HEALTHY"
+        elif concentration <= self.MODERATE_THRESHOLD:
+            return "MODERATE"
+        return "HAZARDOUS"
 ```
 
 ---
@@ -79,9 +82,9 @@ class JSONClimateExtractor(AbstractClimateExtractor):
 ### 🧪 Comando de Verificación Binaria (Sonda Final):
 Ejecuta en tu terminal desde la raíz del repositorio:
 ```bash
-/Users/ander/Documents/DoJo/DoJo_Study/content/subjects/python/chronicles/PY-POO/rite/.venv/bin/pytest content/subjects/python/chronicles/PY-POO/quests/01-abstractions/test_data_extractors.py -v
+/Users/ander/Documents/DoJo/DoJo_Study/content/subjects/python/chronicles/PY-POO/rite/.venv/bin/pytest content/subjects/python/chronicles/PY-POO/quests/05-testing/test_billing_service.py -v
 ```
-*(Criterio de éxito: 4 passed con exit code 0).*
+*(Criterio de éxito: 5 passed con exit code 0).*
 
 ---
 
@@ -89,16 +92,17 @@ Ejecuta en tu terminal desde la raíz del repositorio:
 
 Registro de archivos nuevos o actualizados en el sistema bajo las reglas de `09-generation-protocol.md`:
 
-* `content/subjects/python/chronicles/PY-POO/quests/04-orchestration/output_loaders.py`:
-  * *Cambio:* **Implementado y aprobado por el Operador (`5/5 passed`, exit code 0). Cierre formal de la brecha `PY-013`.**
-* `content/subjects/python/chronicles/PY-POO/lore/01-abstract-classes-and-interfaces.md`:
-  * *Cambio:* Añadida Sección 5 sobre Extracción Polimórfica Desacoplada (AbstractExtractor, CSV y JSON) con Domain Shifting y ciclo AAA.
-* `content/subjects/python/chronicles/PY-POO/quests/01-abstractions/03-decoupled-json-extractor.md`:
-  * *Cambio:* Enunciado didáctico de la Quest 01-03 (`PY-014`).
 * `content/subjects/python/chronicles/PY-POO/quests/01-abstractions/data_extractors.py`:
+  * *Cambio:* **Implementado y aprobado por el Operador (`4/4 passed`, exit code 0). Cierre formal de la brecha `PY-014`.**
+* `content/subjects/python/chronicles/PY-POO/lore/05-testing-with-pytest.md`:
+  * *Cambio:* Añadida Sección 6 sobre el Ciclo Virtuoso TDD (Red-Green-Refactor) con dos analogías, ciclo paso a paso, Domain Shifting y ciclo AAA.
+* `content/subjects/python/chronicles/PY-POO/quests/05-testing/04-tdd-red-green-refactor.md`:
+  * *Cambio:* Enunciado didáctico de la Quest 05-04 (`PY-020`).
+* `content/subjects/python/chronicles/PY-POO/quests/05-testing/billing_service.py`:
   * *Cambio:* Plantilla inicial para el Operador con `pass` y firmas de método.
-* `content/subjects/python/chronicles/PY-POO/quests/01-abstractions/test_data_extractors.py`:
-  * *Cambio:* Suite evaluadora automatizada con 4 tests unitarios.
+* `content/subjects/python/chronicles/PY-POO/quests/05-testing/test_billing_service.py`:
+  * *Cambio:* Suite evaluadora automatizada con 5 tests unitarios cubriendo casos límite y escalonados.
+
 
 
 
