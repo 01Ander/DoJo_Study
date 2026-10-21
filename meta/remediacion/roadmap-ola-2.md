@@ -110,9 +110,9 @@ Para evitar la proliferación descontrolada de temas que retrasen la inserción 
 | **`PY-011`** | `02-py-poo` | Cap 06: Error Handling | Validación con Pydantic V2 | Lore 06B + Quests 06-03 y 06-04 con contratos | B/A | 🟢 Completado |
 | **`PY-013`** | `02-py-poo` | Cap 04: Orquestación | Patrón Output Loaders | Lore 04 §4-6 + Quest 04-03 `BaseOutputLoader` | B/A | 🟢 Completado |
 | **`PY-014`** | `02-py-poo` | Cap 01: Abstracciones | Extractor desacoplado CSV/JSON | Lore 01 §5 + Quest 01-03 `AbstractDataExtractor` | B/A | 🟢 Completado |
-| **`PY-020`** | `02-py-poo` | Cap 05: Testing | Modelado de ciclo TDD | Lore 05 §6 + Quest 05-04 Red-Green-Refactor | B/A | 🟡 **ACTIVA (Tu turno - Cierre PY)** |
+| **`PY-020`** | `02-py-poo` | Cap 05: Testing | Modelado de ciclo TDD | Lore 05 §6 + Quest 05-04 Red-Green-Refactor | B/A | 🟢 Completado |
 |---|---|---|---|---|---|---|
-| **`SQL-013`** | `03-sql-basico`| Cap 02: Filtros | Semántica tri-valor de `NULL` | Lore 02 + Quest sobre operadores, `NOT IN` y `COALESCE` | B/A | ⏳ Próximo Subject |
+| **`SQL-013`** | `03-sql-basico`| Cap 02: Filtros | Semántica tri-valor de `NULL` | Lore 02 §4 + Quest 02-03 `null_semantics.sql` | B/A | 🟡 **ACTIVA (Tu turno)** |
 | **`SQL-006`** | `03-sql-basico`| Cap 03: Agregaciones | Agregaciones condicionales | Lore 03 + Quest `SUM(CASE WHEN...)` pivoteo métricas | B/A | ⏳ Próximo Subject |
 | **`SQL-005`** | `03-sql-basico`| Cap 08: Transacciones | `ROLLBACK` y ACID | Lore 08 + Quest transacciones explícitas (`BEGIN/COMMIT`) | B/A | ⏳ Próximo Subject |
 | **`MKT-SQL-002`**| `03-sql-basico`| Cap 09: Modelado | SCD Tipo 2 en Star Schema | Lore dimensional + Quest SCD2 con vigencias | B/A | ⏳ Próximo Subject |

@@ -100,21 +100,104 @@ WHERE specialty IN ('Pediatria', 'Neurologia');
 
 ---
 
-## 4. El Manejo de `NULL`
+## 4. El Manejo de `NULL` y la Lógica Tri-Valor (Three-Valued Logic - 3VL)
 
-En SQL, `NULL` representa la **ausencia de datos** o un valor desconocido. `NULL` **no** es igual a cero (`0`) ni a una cadena vacía (`""`).
+En SQL, `NULL` no representa el número cero (`0`), un espacio en blanco (`' '`) ni una cadena vacía (`""`). Representa estrictamente la **ausencia de datos**, un valor desconocido o un hecho no aplicable.
 
-Para verificar si un campo es o no nulo, se deben usar estrictamente los operadores `IS NULL` o `IS NOT NULL`.
+Debido a que `NULL` representa lo desconocido, el motor SQL no opera bajo la lógica booleana clásica binaria (`TRUE` / `FALSE`), sino bajo un sistema formal llamado **Lógica Tri-Valor (Three-Valued Logic o 3VL)**, cuyos tres estados son:
+1. `TRUE` (Verdadero)
+2. `FALSE` (Falso)
+3. **`UNKNOWN` (Desconocido)**
+
+---
+
+### Analogías del Mundo Real
+
+#### Analogía 1: La Caja Sellada de Schrödinger
+Si tienes una caja sellada y opaca en las manos y alguien te pregunta: *"¿El contenido pesa más de 10 kilogramos?"*, no puedes responder con rigor ni "Sí" ni "No". Tu única respuesta verídica es: *"No lo sé / Desconocido"* (`UNKNOWN`). 
+Si colocas otra caja sellada idéntica al lado y te preguntan: *"¿Ambas cajas contienen exactamente el mismo peso?"*, tampoco puedes responder "Sí". Como desconoces ambos contenidos, la comparación `NULL = NULL` evalúa a `UNKNOWN`, jamás a `TRUE`.
+
+#### Analogía 2: El Veredicto de un Jurado (Juicio Nulo por Falta de Pruebas)
+En un juicio penal, si las pruebas clave desaparecieron o nunca fueron recolectadas (`NULL`), el jurado no puede declarar al acusado culpable (`TRUE`) ni inocente con total certeza (`FALSE`). El proceso entra en estado de indeterminación o juicio nulo (`UNKNOWN`). La justicia no puede ejecutar una condena basada en una incógnita.
+
+---
+
+### Tablas de Verdad en Lógica Tri-Valor (3VL)
+
+Cuando combinas condiciones lógicas que involucran `UNKNOWN`, el motor aplica estas reglas formales:
+
+| Expresión | Resultado | Justificación Lógica |
+|---|---|---|
+| `TRUE AND UNKNOWN` | **`UNKNOWN`** | No podemos confirmar el `AND` hasta que no sepamos qué es la incógnita. |
+| `FALSE AND UNKNOWN` | **`FALSE`** | Si una parte ya es falsa, el `AND` es falso sin importar la incógnita. |
+| `TRUE OR UNKNOWN` | **`TRUE`** | Si una parte ya es verdadera, el `OR` se satisface de inmediato. |
+| `FALSE OR UNKNOWN` | **`UNKNOWN`** | Depende de si la incógnita resulta ser verdadera o falsa. |
+| `NOT UNKNOWN` | **`UNKNOWN`** | La negación de algo desconocido sigue siendo desconocido. |
+
+> [!IMPORTANT]
+> **La Regla de Oro de la Cláusula WHERE:**  
+> Una fila **solo se incluye en el resultado final si la condición del `WHERE` evalúa estrictamente a `TRUE`**. Si la condición evalúa a `FALSE` o a `UNKNOWN`, la fila es descartada silenciosamente.
+
+---
+
+### ❌ La Trampa Mortal de `NOT IN` con `NULL` (The Fatal NULL Trap)
+
+Uno de los bugs más destructivos y silenciosos en producción ocurre al combinar `NOT IN` con listas o subconsultas que contienen al menos un valor `NULL`.
+
+#### ¿Por qué explota?
+Internamente, el motor SQL traduce una expresión `x IN (1, 2)` como:
+$$(x = 1) \lor (x = 2)$$
+
+Por lo tanto, la negación `x NOT IN (1, 2, NULL)` se traduce por las Leyes de De Morgan como:
+$$(x \neq 1) \land (x \neq 2) \land (x \neq \text{NULL})$$
+
+Como cualquier comparación directa con `NULL` arroja `UNKNOWN`:
+$$(x \neq 1) \land (x \neq 2) \land \text{UNKNOWN} \implies \text{UNKNOWN}$$
+
+**Consecuencia directa:** ¡La condición NUNCA será `TRUE` para ninguna fila de la tabla! La consulta devolverá **cero filas**, haciendo que reportes críticos de auditoría, fraude o conciliación financiera reporten falsos vacíos.
 
 ```sql
--- ❌ MAL: Esto NO funcionará como esperas en SQL porque NULL = NULL da UNKNOWN
-SELECT patient_name FROM appointments WHERE notes = NULL;
+-- 🎯 Objetivo de Negocio: Identificar citas cuyos doctores no pertenezcan a la lista de asignación especial.
 
--- ✅ BIEN: Utilizar IS NULL o IS NOT NULL
-SELECT patient_name, status 
-FROM appointments 
-WHERE notes IS NULL;
+-- ❌ EL MAL CAMINO: Si la lista de exclusión contiene un NULL, la consulta devuelve CERO filas
+SELECT id, patient_name, doctor_id
+FROM appointments
+WHERE doctor_id NOT IN (1, 2, NULL); -- ⚠️ Retorna vacío (0 filas) debido a 3VL
+
+-- ✅ EL BUEN CAMINO: Filtrar los NULL explícitamente o usar NOT EXISTS
+SELECT id, patient_name, doctor_id
+FROM appointments
+WHERE doctor_id NOT IN (
+    SELECT id FROM doctors WHERE id IS NOT NULL AND specialty = 'Pediatria'
+);
 ```
+
+---
+
+### La Función de Contingencia: `COALESCE`
+
+Para realizar cálculos aritméticos o comparaciones seguras sin que un `NULL` "contamine" la operación (recuerda que `100.0 + NULL = NULL`), SQL provee la función estándar `COALESCE`.
+
+* **¿Qué hace?** Evalúa una lista de argumentos en orden de izquierda a derecha y devuelve el **primer valor no nulo**.
+* **Sintaxis:** `COALESCE(columna, valor_por_defecto)`
+
+```sql
+-- 🎯 Objetivo de Negocio: Calcular el total a pagar garantizando que notas vacías muestren un mensaje por defecto y tarifas nulas no rompan sumatorias.
+
+SELECT 
+    patient_name,
+    status,
+    COALESCE(notes, 'Sin observaciones registradas') AS sanitized_notes,
+    COALESCE(fee, 0.0) + 15.0 AS total_with_admin_surcharge
+FROM appointments;
+```
+
+---
+
+> [!NOTE]
+> ### 🔍 Desglose de Sintaxis (Zero Surprise Syntax): `IS NULL`, `IS NOT NULL` y `COALESCE`
+> * **`columna IS NULL` / `columna IS NOT NULL`:** Son los únicos operadores válidos en SQL para verificar nulidad. `columna = NULL` es un error de diseño porque evalúa a `UNKNOWN` y nunca devolverá filas.
+> * **`COALESCE(expr1, expr2, ...)`:** Admite $N$ parámetros. Si `expr1` no es nulo, lo devuelve. Si es nulo, evalúa `expr2`, y así sucesivamente. Si todos son nulos, devuelve `NULL`. Es estándar ANSI SQL y funciona de manera idéntica en SQLite, PostgreSQL, MySQL y DuckDB.
 
 ---
 
@@ -123,6 +206,8 @@ WHERE notes IS NULL;
 Puedes ordenar los resultados por una o varias columnas con `ORDER BY` en sentido ascendente (`ASC`, por defecto) o descendente (`DESC`).
 
 ```sql
+-- 🎯 Objetivo de Negocio: Consultar los doctores más experimentados aplicando paginación para interfaces web.
+
 -- Doctores ordenados por años de experiencia (de mayor a menor)
 SELECT name, specialty, years_experience 
 FROM doctors 
@@ -154,6 +239,8 @@ DELETE FROM doctors;
 La regla de oro en ingeniería de datos es ejecutar primero un `SELECT` con el `WHERE` para verificar qué filas van a ser modificadas, y luego ejecutar la actualización o borrado usando la Primary Key.
 
 ```sql
+-- 🎯 Objetivo de Negocio: Cancelar una cita específica y purgar registros obsoletos usando llaves primarias.
+
 -- 1. Verificamos la cita a cancelar
 SELECT id, patient_name, status FROM appointments WHERE id = 3;
 
@@ -174,9 +261,12 @@ Dirígete a la carpeta `quests/02-filtering/`:
 
 - [[01-crud-operations.md]] (Tipo A: Consultas de filtrado, actualización y borrado controlado)
 - [[02-query-challenges.md]] (Tipo B: Desafíos de lógica de filtrado con operadores lógicos y patrones LIKE)
+- [[03-null-semantics-and-three-valued-logic.md]] (Tipo A: Semántica Tri-Valor de NULL, trampa de NOT IN y COALESCE)
 
 ```text
 subjects/sql/chronicles/SQL-BASICO/quests/02-filtering/
 ├── 01-crud-operations.md
-└── 02-query-challenges.md
+├── 02-query-challenges.md
+└── 03-null-semantics-and-three-valued-logic.md
 ```
+

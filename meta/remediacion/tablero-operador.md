@@ -1,90 +1,97 @@
 # 🎯 Tablero de Acción del Operador — Ola 2
 
 > **Propósito:** Registro directo, claro y accionable de las tareas que el Operador debe programar (Carril A) y de los nuevos cambios introducidos en el sistema (Carril B), sin la sobrecarga del roadmap general.  
-> **Última Actualización:** 2026-10-19  
-> **Materia Activa:** `02-py-poo` (Python Orientado a Objetos & TDD)
+> **Última Actualización:** 2026-10-21  
+> **Materia Activa:** `03-sql-basico` (SQL Básico, Modelado y Transacciones)
 
 ---
 
 ## 1. Radar de Progreso de Tareas del Operador (Carril A)
 
-| Tarea ID | Materia | Concepto | Archivo que debes editar | Comando de Verificación | Estado |
-|---|---|---|---|---|---|
-| **`PY-010`** | `02-py-poo` | Constructores con `super()` | [`quests/02-entities/rpg_character.py`](file:///Users/ander/Documents/DoJo/DoJo_Study/content/subjects/python/chronicles/PY-POO/quests/02-entities/rpg_character.py) | `pytest quests/02-entities/test_rpg_character.py` | 🟢 **COMPLETADO** |
-| **`PY-011.1`** | `02-py-poo` | De Dataclass a Pydantic con `Field` | [`quests/06-logging/user_account_schema.py`](file:///Users/ander/Documents/DoJo/DoJo_Study/content/subjects/python/chronicles/PY-POO/quests/06-logging/user_account_schema.py) | `pytest quests/06-logging/test_user_account_schema.py` | 🟢 **COMPLETADO** |
-| **`PY-011.2`** | `02-py-poo` | Validadores de Negocio y Excepciones | [`quests/06-logging/transaction_schema.py`](file:///Users/ander/Documents/DoJo/DoJo_Study/content/subjects/python/chronicles/PY-POO/quests/06-logging/transaction_schema.py) | `pytest quests/06-logging/test_transaction_schema.py` | 🟢 **COMPLETADO** |
-| **`PY-013`** | `02-py-poo` | Patrón Output Loaders | [`quests/04-orchestration/output_loaders.py`](file:///Users/ander/Documents/DoJo/DoJo_Study/content/subjects/python/chronicles/PY-POO/quests/04-orchestration/output_loaders.py) | `pytest quests/04-orchestration/test_output_loaders.py` | 🟢 **COMPLETADO** |
-| **`PY-014`** | `02-py-poo` | Extractor desacoplado CSV/JSON | [`quests/01-abstractions/data_extractors.py`](file:///Users/ander/Documents/DoJo/DoJo_Study/content/subjects/python/chronicles/PY-POO/quests/01-abstractions/data_extractors.py) | `pytest quests/01-abstractions/test_data_extractors.py` | 🟢 **COMPLETADO** |
-| **`PY-020`** | `02-py-poo` | Ciclo TDD Red-Green-Refactor | [`quests/05-testing/billing_service.py`](file:///Users/ander/Documents/DoJo/DoJo_Study/content/subjects/python/chronicles/PY-POO/quests/05-testing/billing_service.py) | `pytest quests/05-testing/test_billing_service.py` | 🟡 **ACTIVA (Tu turno - Cierre PY)** |
+### 🐍 Fase 1: `02-py-poo` (100% COMPLETADO 🟢)
+| Tarea ID | Materia | Concepto | Archivo editado | Estado |
+|---|---|---|---|---|
+| `PY-010` | `02-py-poo` | Constructores con `super()` | `quests/02-entities/rpg_character.py` | 🟢 **COMPLETADO** |
+| `PY-011.1` | `02-py-poo` | De Dataclass a Pydantic con `Field` | `quests/06-logging/user_account_schema.py` | 🟢 **COMPLETADO** |
+| `PY-011.2` | `02-py-poo` | Validadores de Negocio y Excepciones | `quests/06-logging/transaction_schema.py` | 🟢 **COMPLETADO** |
+| `PY-013` | `02-py-poo` | Patrón Output Loaders | `quests/04-orchestration/output_loaders.py` | 🟢 **COMPLETADO** |
+| `PY-014` | `02-py-poo` | Extractor desacoplado CSV/JSON | `quests/01-abstractions/data_extractors.py` | 🟢 **COMPLETADO** |
+| `PY-020` | `02-py-poo` | Ciclo TDD Red-Green-Refactor | `quests/05-testing/billing_service.py` | 🟢 **COMPLETADO** |
 
 ---
 
-## 2. 🚀 MISIÓN ACTIVA: `PY-020` — Ciclo TDD Red-Green-Refactor (Cierre de PY-POO)
+### 🗄️ Fase 2: `03-sql-basico` (En Curso)
+| Tarea ID | Materia | Ubicación | Concepto | Archivo que debes editar | Comando de Verificación | Estado |
+|---|---|---|---|---|---|---|
+| **`SQL-013`** | `03-sql-basico` | Cap 02: Filtros | Semántica 3VL de `NULL`, trampa de `NOT IN` y `COALESCE` | [`quests/02-filtering/null_semantics.sql`](file:///Users/ander/Documents/DoJo/DoJo_Study/content/subjects/sql/chronicles/SQL-BASICO/quests/02-filtering/null_semantics.sql) | `pytest quests/02-filtering/test_null_semantics.py` | 🟡 **ACTIVA (Tu turno)** |
+| **`SQL-006`** | `03-sql-basico` | Cap 03: Agregaciones | Agregaciones condicionales `CASE WHEN` | `quests/03-functions/conditional_aggregations.sql` | — | ⏳ En espera |
+| **`SQL-005`** | `03-sql-basico` | Cap 08: Transacciones | Transacciones explícitas, `ROLLBACK` y ACID | `quests/08-set-ops/transactions_acid.sql` | — | ⏳ En espera |
+| **`MKT-SQL-002`**| `03-sql-basico` | Cap 09: Modelado | SCD Tipo 2 en Star Schema dimensional | `quests/09-integrity/scd_type2_dim.sql` | — | ⏳ En espera |
 
-* **Materia:** `02-py-poo` (Última misión antes de pasar a `03-sql-basico`)  
-* **Archivo a editar por el Operador:** [`content/subjects/python/chronicles/PY-POO/quests/05-testing/billing_service.py`](file:///Users/ander/Documents/DoJo/DoJo_Study/content/subjects/python/chronicles/PY-POO/quests/05-testing/billing_service.py)  
-* **Enunciado de la Quest:** [`content/subjects/python/chronicles/PY-POO/quests/05-testing/04-tdd-red-green-refactor.md`](file:///Users/ander/Documents/DoJo/DoJo_Study/content/subjects/python/chronicles/PY-POO/quests/05-testing/04-tdd-red-green-refactor.md)  
-* **Teoría de Respaldo:** [`content/subjects/python/chronicles/PY-POO/lore/05-testing-with-pytest.md` (§6)](file:///Users/ander/Documents/DoJo/DoJo_Study/content/subjects/python/chronicles/PY-POO/lore/05-testing-with-pytest.md)
+---
+
+## 2. 🚀 MISIÓN ACTIVA: `SQL-013` — Semántica Tri-Valor de NULL y Trampa de NOT IN
+
+* **Materia:** `03-sql-basico` (Capítulo 02: Filtering & Sorting)  
+* **Archivo a editar por el Operador:** [`content/subjects/sql/chronicles/SQL-BASICO/quests/02-filtering/null_semantics.sql`](file:///Users/ander/Documents/DoJo/DoJo_Study/content/subjects/sql/chronicles/SQL-BASICO/quests/02-filtering/null_semantics.sql)  
+* **Enunciado de la Quest:** [`content/subjects/sql/chronicles/SQL-BASICO/quests/02-filtering/03-null-semantics-and-three-valued-logic.md`](file:///Users/ander/Documents/DoJo/DoJo_Study/content/subjects/sql/chronicles/SQL-BASICO/quests/02-filtering/03-null-semantics-and-three-valued-logic.md)  
+* **Teoría de Respaldo:** [`content/subjects/sql/chronicles/SQL-BASICO/lore/02-filtering-and-sorting.md` (§4)](file:///Users/ander/Documents/DoJo/DoJo_Study/content/subjects/sql/chronicles/SQL-BASICO/lore/02-filtering-and-sorting.md#4-el-manejo-de-null-y-la-lógica-tri-valor-three-valued-logic---3vl)
 
 ### 📋 El Contrato que debes cumplir:
 
-Implementa en [`billing_service.py`](file:///Users/ander/Documents/DoJo/DoJo_Study/content/subjects/python/chronicles/PY-POO/quests/05-testing/billing_service.py) el método:
-```python
-def calculate_invoice(self, gigabytes: float, is_enterprise: bool = False) -> float:
-```
+Reemplaza los `SELECT` dummy dentro de las 3 vistas en [`null_semantics.sql`](file:///Users/ander/Documents/DoJo/DoJo_Study/content/subjects/sql/chronicles/SQL-BASICO/quests/02-filtering/null_semantics.sql):
 
-1. **Validación de Integridad:**
-   * Si `gigabytes < 0`, lanzar `ValueError("Storage consumption cannot be negative")`.
-2. **Consumo Cero:**
-   * Si `gigabytes == 0.0`, retorna `0.0`.
-3. **Nivel 1 (Estándar):**
-   * Si `gigabytes <= self.TIER_1_LIMIT` (100.0), el subtotal es `gigabytes * self.TIER_1_RATE` (0.02).
-4. **Nivel 2 (Excedente escalonado):**
-   * Si `gigabytes > self.TIER_1_LIMIT`:
-     * Los primeros 100 GB se cobran a `self.TIER_1_RATE` (`100.0 * 0.02 = 2.00`).
-     * Los GB excedentes (`gigabytes - 100.0`) se cobran a `self.TIER_2_RATE` (0.015).
-5. **Descuento Enterprise:**
-   * Si `is_enterprise is True`, aplica un 10% de descuento sobre el subtotal (`subtotal * (1.0 - self.ENTERPRISE_DISCOUNT)`).
-6. **Retorno:**
-   * Retorna el monto final como `float`.
+1. **`v_effective_customs_fees` (Desafío 1 - Fallback con COALESCE):**
+   * Retorna `tracking_code`, `destination_country`, y `effective_customs_fee`.
+   * `effective_customs_fee = COALESCE(customs_fee, 0.0) + 10.0` (recargo fijo). Si `customs_fee` es NULL, debe sumar `$0.0 + $10.0 = $10.0`.
+   * Ordena por `tracking_code ASC`.
+
+2. **`v_unsanctioned_shipments` (Desafío 2 - Eludir la Trampa de 3VL con NOT IN):**
+   * Retorna `tracking_code`, `destination_country`, `weight_kg`.
+   * Filtra envíos cuyo `destination_country` **NO** pertenezca a `sanctioned_destinations`.
+   * ⚠️ **Trampa 3VL:** `sanctioned_destinations` contiene un registro `NULL`. Si haces `NOT IN (SELECT country_code FROM sanctioned_destinations)` sin filtrar, el motor evaluará `UNKNOWN` y devolverá 0 filas. Debes asegurar `WHERE country_code IS NOT NULL` en la subconsulta (o usar `NOT EXISTS`).
+   * Ordena por `tracking_code ASC` (debe retornar 5 filas: `CAN`, `MEX`, `FRA`, `DEU`, `JPN`).
+
+3. **`v_unassigned_carriers` (Desafío 3 - Filtrado con IS NULL):**
+   * Retorna `tracking_code`, `destination_country`.
+   * Filtra los paquetes sin transportista asignado usando `WHERE carrier_id IS NULL` (nunca `= NULL`).
+   * Ordena por `tracking_code ASC` (debe retornar 2 filas: `TRK-1003` y `TRK-1005`).
 
 ---
 
-### 🔄 Fases TDD:
+### 💡 Ejemplo con Domain Shifting (Sistema Hospitalario):
 
-1. **🔴 RED:** Ejecuta el comando de test y confirma que los 5 tests fallan.
-2. **🟢 GREEN:** Escribe la lógica en `billing_service.py` hasta que los 5 tests pasen.
-3. **🔵 REFACTOR:** Limpia el código usando las constantes de clase y manteniendo los tests verdes.
+```sql
+-- 🎯 Objetivo de Negocio: Calcular facturación con tarifa base por defecto y eludir la trampa de 3VL en listas de exclusión.
 
----
+-- 1. Uso de COALESCE para evitar contaminación de sumas con NULL:
+SELECT 
+    patient_name,
+    COALESCE(fee, 0.0) + 15.0 AS total_billing
+FROM appointments;
 
-### 💡 Ejemplo con Domain Shifting (Monitor de Calidad del Aire):
-
-```python
-# 🎯 Objetivo de Negocio: Clasificar índice de partículas y validar rangos físicos en TDD.
-
-class AirQualityMonitor:
-    HEALTHY_THRESHOLD: float = 50.0
-    MODERATE_THRESHOLD: float = 150.0
-
-    def classify_pm25(self, concentration: float) -> str:
-        if concentration < 0:
-            raise ValueError("Particulate concentration cannot be negative")
-        if concentration <= self.HEALTHY_THRESHOLD:
-            return "HEALTHY"
-        elif concentration <= self.MODERATE_THRESHOLD:
-            return "MODERATE"
-        return "HAZARDOUS"
+-- 2. Elusión de la trampa NOT IN al consultar doctores no restringidos:
+SELECT id, patient_name, doctor_id
+FROM appointments
+WHERE doctor_id NOT IN (
+    SELECT id FROM restricted_doctors WHERE id IS NOT NULL
+);
 ```
 
 ---
 
-### 🧪 Comando de Verificación Binaria (Sonda Final):
-Ejecuta en tu terminal desde la raíz del repositorio:
-```bash
-/Users/ander/Documents/DoJo/DoJo_Study/content/subjects/python/chronicles/PY-POO/rite/.venv/bin/pytest content/subjects/python/chronicles/PY-POO/quests/05-testing/test_billing_service.py -v
-```
-*(Criterio de éxito: 5 passed con exit code 0).*
+### 🧪 Comandos de Verificación Binaria:
+
+1. **Validación Funcional y de Lógica de Negocio (Pytest):**
+   ```bash
+   /Users/ander/Documents/DoJo/DoJo_Study/content/subjects/python/chronicles/PY-POO/rite/.venv/bin/pytest content/subjects/sql/chronicles/SQL-BASICO/quests/02-filtering/test_null_semantics.py -v
+   ```
+   *(Criterio de éxito: 3 passed con exit code 0).*
+
+2. **Validación Sintáctica de SQLite en Memoria (Runner del DoJo):**
+   ```bash
+   python3 system/tools/sql_runner.py content/subjects/sql/chronicles/SQL-BASICO/quests/02-filtering/null_semantics.sql
+   ```
 
 ---
 
@@ -92,16 +99,17 @@ Ejecuta en tu terminal desde la raíz del repositorio:
 
 Registro de archivos nuevos o actualizados en el sistema bajo las reglas de `09-generation-protocol.md`:
 
-* `content/subjects/python/chronicles/PY-POO/quests/01-abstractions/data_extractors.py`:
-  * *Cambio:* **Implementado y aprobado por el Operador (`4/4 passed`, exit code 0). Cierre formal de la brecha `PY-014`.**
-* `content/subjects/python/chronicles/PY-POO/lore/05-testing-with-pytest.md`:
-  * *Cambio:* Añadida Sección 6 sobre el Ciclo Virtuoso TDD (Red-Green-Refactor) con dos analogías, ciclo paso a paso, Domain Shifting y ciclo AAA.
-* `content/subjects/python/chronicles/PY-POO/quests/05-testing/04-tdd-red-green-refactor.md`:
-  * *Cambio:* Enunciado didáctico de la Quest 05-04 (`PY-020`).
 * `content/subjects/python/chronicles/PY-POO/quests/05-testing/billing_service.py`:
-  * *Cambio:* Plantilla inicial para el Operador con `pass` y firmas de método.
-* `content/subjects/python/chronicles/PY-POO/quests/05-testing/test_billing_service.py`:
-  * *Cambio:* Suite evaluadora automatizada con 5 tests unitarios cubriendo casos límite y escalonados.
+  * *Cambio:* **Implementado y aprobado por el Operador (`5/5 passed`, exit code 0). Cierre formal de la brecha `PY-020` y de la materia `02-py-poo`.**
+* `content/subjects/sql/chronicles/SQL-BASICO/lore/02-filtering-and-sorting.md`:
+  * *Cambio:* Sección 4 ampliada con semántica Tri-Valor (3VL), tablas de verdad `TRUE/FALSE/UNKNOWN`, trampa mortal de `NOT IN` con `NULL`, función `COALESCE`, analogías y Zero Surprise Syntax.
+* `content/subjects/sql/chronicles/SQL-BASICO/quests/02-filtering/03-null-semantics-and-three-valued-logic.md`:
+  * *Cambio:* Enunciado didáctico de la Quest 02-03 (`SQL-013`).
+* `content/subjects/sql/chronicles/SQL-BASICO/quests/02-filtering/null_semantics.sql`:
+  * *Cambio:* Plantilla inicial para el Operador con esquema de carga, seed data y vistas dummy.
+* `content/subjects/sql/chronicles/SQL-BASICO/quests/02-filtering/test_null_semantics.py`:
+  * *Cambio:* Suite evaluadora automatizada con 3 tests unitarios validando 3VL, trampa `NOT IN` y `COALESCE`.
+
 
 
 
