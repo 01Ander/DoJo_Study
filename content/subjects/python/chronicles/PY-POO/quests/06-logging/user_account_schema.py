@@ -19,4 +19,7 @@ class UserAccount(BaseModel):
     - is_active: bool (valor por defecto True)
     """
     # TODO: Define los campos requeridos utilizando Field con sus restricciones declarativas
-    pass
+    username: str = Field(min_length=3)
+    age: int = Field(ge=18)
+    balance: float = Field(ge=0.0)
+    is_active: bool = True
