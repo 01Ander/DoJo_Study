@@ -19,7 +19,7 @@ class BaseOutputLoader(ABC):
         Persiste o emite los registros procesados al destino especificado.
         Retorna el número de registros cargados.
         """
-        pass
+        return len(records)
 
 
 class ConsoleOutputLoader(BaseOutputLoader):
@@ -28,7 +28,9 @@ class ConsoleOutputLoader(BaseOutputLoader):
     def load(self, records: List[Dict[str, Any]], destination: str = "console") -> int:
         # TODO: Iterar sobre records e imprimir cada uno precedido por f"[CONSOLE:{destination}] {record}"
         # TODO: Retornar el número de registros cargados (len(records))
-        pass
+        for record in records:
+            print(f"[CONSOLE:{destination}] {record}")
+        return len(records)
 
 
 class JsonFileOutputLoader(BaseOutputLoader):
@@ -38,7 +40,9 @@ class JsonFileOutputLoader(BaseOutputLoader):
         # TODO: Abrir destination en modo escritura con UTF-8
         # TODO: Serializar records usando json.dump(records, f, indent=2)
         # TODO: Retornar el número de registros cargados (len(records))
-        pass
+        with open(destination, 'w', encoding="utf-8") as file:
+            json.dump(records, file, indent=2)
+        return len(records)
 
 
 class ManagedDataPipeline:
@@ -46,11 +50,16 @@ class ManagedDataPipeline:
 
     def __init__(self, extractor: Any, engine: Any, loader: BaseOutputLoader):
         # TODO: Almacenar extractor, engine y loader inyectados
-        pass
+        self.extractor = extractor
+        self.engine = engine
+        self.loader = loader
 
     def run(self, source_path: str, destination_path: str) -> int:
         # TODO: 1. Extraer registros usando self.extractor.extract(source_path)
         # TODO: 2. Procesar registros usando self.engine.process(raw_records)
         # TODO: 3. Cargar registros usando self.loader.load(processed_records, destination_path)
         # TODO: 4. Retornar el conteo obtenido del loader
-        pass
+        raw_records = self.extractor.extract(source_path)
+        processed_records = self.engine.process(raw_records)
+        count = self.loader.load(processed_records, destination_path)
+        return count
