@@ -29,11 +29,20 @@ class TransactionPayload(BaseModel):
     - Si no pertenece, debe levantar un ValueError con un mensaje explicativo.
     """
     # TODO: Define los campos transaction_id, account_id, amount y currency con sus restricciones
-    pass
+    transaction_id : str = Field(min_length=3)
+    account_id: int = Field(gt=0)
+    amount: float = Field(gt=0.0)
+    currency: str = "USD"
 
     # TODO: Implementa el validador @field_validator("currency") con @classmethod
-    # pass
-
+    @field_validator("currency")
+    @classmethod
+    def valid_currency(cls, value: str) -> str:
+        clean_currency = value.strip().upper()
+        authorized_currency = {"USD", "EUR", "GBP", "COP"}
+        if clean_currency not in authorized_currency:
+            raise ValueError(f"Moneda '{value}' no soportada")
+        return clean_currency
 
 def validate_and_create_transaction(data: dict) -> TransactionPayload:
     """
@@ -45,4 +54,12 @@ def validate_and_create_transaction(data: dict) -> TransactionPayload:
     - Si la validación es exitosa, retorna la instancia de TransactionPayload.
     """
     # TODO: Implementar try/except capturando ValidationError y levantando InvalidTransactionDataError
-    pass
+    try:
+        return TransactionPayload(**data)
+    except ValidationError as validation_err:
+        error_details = [
+            f"Field '{err['loc'][0]}': {err['msg']} (received: {err.get('input')})"
+            for err in validation_err.errors()
+        ]
+        summary_message = " | ".join(error_details)
+        raise InvalidTransactionDataError(f"Telemetry ingestion rejected due to schema violations: {summary_message}") from validation_err
