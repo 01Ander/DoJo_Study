@@ -84,19 +84,96 @@ def test_email_sender_obeys_contract():
 
 ---
 
-## 5. Setup y Ejecución
+## 5. Extracción Polimórfica Desacoplada (Caso de Estudio: Extractores Multiformato)
 
-El módulo `abc` viene incluido (built-in) en la librería estándar de Python. No necesitas instalar nada.
+### ¿QUÉ es?
+En arquitectura de software e ingeniería de datos, desacoplar la extracción significa definir una interfaz abstracta (`AbstractDataExtractor`) que estipule un método común: `.extract(file_path: str) -> list[dict]`. De este modo, los consumidores del pipeline leen registros sin importar si la fuente física es un archivo `.csv` con delimitadores por comas o un archivo `.json` jerárquico.
 
-## 6. Mapa de Ejercicios
+### Analogía del Mundo Real: El Adaptador Universal de Viaje
+Cuando viajas por el mundo, cada país tiene enchufes físicos distintos (tipo A en América, tipo C en Europa, tipo G en Reino Unido). Tu laptop no sabe ni le interesa qué forma física tiene la pared; solo le interesa recibir energía a 220V/110V. El adaptador universal (la clase abstracta) convierte cualquier enchufe físico en la interfaz estándar que tu laptop espera.
+
+### ¿CÓMO se implementa? (Domain Shifting: Red de Observación Meteorológica)
+
+```python
+# 🎯 Objetivo de Negocio: Ingestar observaciones climáticas multiformato (CSV y JSON) bajo un contrato polimórfico común.
+
+from abc import ABC, abstractmethod
+import csv
+import json
+from typing import Any, Dict, List
+
+
+class AbstractClimateExtractor(ABC):
+    """Abstract contract enforcing uniform data extraction across formats."""
+
+    @abstractmethod
+    def extract(self, file_path: str) -> List[Dict[str, Any]]:
+        """
+        Extracts records from file_path and returns a normalized list of dictionaries.
+        """
+        pass
+
+
+class CSVClimateExtractor(AbstractClimateExtractor):
+    """Concrete extractor parsing comma-separated meteorological logs."""
+
+    def extract(self, file_path: str) -> List[Dict[str, Any]]:
+        with open(file_path, mode="r", encoding="utf-8") as file_handle:
+            reader = csv.DictReader(file_handle)
+            return [dict(row) for row in reader]
+
+
+class JSONClimateExtractor(AbstractClimateExtractor):
+    """Concrete extractor parsing JSON observation arrays."""
+
+    def extract(self, file_path: str) -> List[Dict[str, Any]]:
+        with open(file_path, mode="r", encoding="utf-8") as file_handle:
+            content = json.load(file_handle)
+            if isinstance(content, list):
+                return content
+            return [content]
+```
+
+### Conexión con Testing (Ciclo AAA y Polimorfismo)
+
+```python
+# 🎯 Objetivo de Negocio: Validar que ambos extractores cumplan el contrato y retornen listas de diccionarios equivalentes.
+
+def test_extractors_obey_polymorphic_contract(tmp_path):
+    # Arrange: Preparar datos idénticos en ambos formatos
+    json_path = tmp_path / "readings.json"
+    json_path.write_text('[{"station": "EST-01", "temp": 21.5}]', encoding="utf-8")
+
+    # Act: Extraer con el extractor JSON
+    extractor: AbstractClimateExtractor = JSONClimateExtractor()
+    records = extractor.extract(str(json_path))
+
+    # Assert: Validar estructura del contrato
+    assert isinstance(records, list)
+    assert len(records) == 1
+    assert records[0]["station"] == "EST-01"
+```
+
+---
+
+## 6. Setup y Ejecución
+
+Los módulos `abc`, `csv` y `json` forman parte de la librería estándar de Python (`built-in`). No requieren instalación adicional.
+
+---
+
+## 7. Mapa de Ejercicios
 
 Dirígete a `quests/01-abstractions/` y completa los ejercicios:
 
 - [[01-interface-segregation]]
 - [[02-test-structure]]
+- [[03-decoupled-json-extractor]]
 
 ```text
 PY-POO/quests/01-abstractions/
-├── [[01-interface-segregation]].md   (Tipo A: Implementación ABC)
-└── [[02-test-structure]].md          (Tipo B: Testing Nivel 2)
+├── [[01-interface-segregation]].md     (Tipo A: Implementación ABC)
+├── [[02-test-structure]].md            (Tipo B: Testing Nivel 2)
+└── [[03-decoupled-json-extractor]].md   (Tipo A: Extractor Desacoplado CSV y JSON)
 ```
+
