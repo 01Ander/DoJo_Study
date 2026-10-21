@@ -35,7 +35,7 @@ El motor debe ingerir datos transaccionales sin procesar, aislar las entradas di
 - [**Cap 03: Data Transformation Patterns.**](lore/03-stateless-engines-and-composition) Stateless functions, `collections.defaultdict`.
 - [**Cap 04: Output Loaders & Orchestration.**](lore/04-orchestration-and-io) Dependency injection, Orchestrator pattern.
 - [**Cap 05: Testing with Pytest.**](lore/05-testing-with-pytest) TDD lifecycle, GIVEN/WHEN/THEN, fixtures, mocks.
-- [**Cap 06: Validation & Logging.**](lore/06-logging-and-error-handling) Pydantic models, error handling strategies.
+- [**Cap 06: Validation & Logging.**](lore/06-logging-and-error-handling) Error handling strategies y logging. [**Cap 06B: Data Contracts.**](lore/06b-pydantic-and-data-contracts) Modelos Pydantic V2 y validación de esquemas.
 - [**Cap 07: CLI Applications.**](lore/07-cli-and-production) Consolas de producción con `argparse` estándar y terminal styling modular.
 
 ### 🛡️ Rite: The Financial Projector CLI (rite/)

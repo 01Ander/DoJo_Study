@@ -87,58 +87,11 @@ def test_raises_invalid_transaction():
         engine.process(-5, 2025)
 ```
 
-## 5. Validación de Datos con Pydantic (Modelos y Contratos Fuertes)
+## 5. De Excepciones Manuales a Validación con Pydantic
 
-En pipelines modernos de ingeniería de datos, los registros provienen de orígenes no confiables: APIs externas, archivos CSV con columnas corruptas, o JSONs con tipos inesperados (`"100"` en vez de `100`, campos nulos donde se requería un entero, o montos negativos).
+El manejo manual con `if-else` y excepciones custom es el cimiento, pero en sistemas modernos de ingeniería de datos los contratos de datos se formalizan con **Pydantic V2**.
 
-Si validáramos cada campo manualmente usando cascadas de `if isinstance(...)` y `if amount < 0`, el código se volvería inmanejable y frágil. Aquí es donde entra **Pydantic**.
-
-### Analogía: La Aduana Aeroportuaria
-Imagina la entrada a un país de alta seguridad:
-- **Validación manual básica:** Un guardia le pregunta al viajero: "¿Trae algo ilegal?". Si el viajero miente o no sabe responder, pasa sin revisión profunda.
-- **Pydantic:** Es el escáner biométrico de rayos X. Analiza el equipaje completo contra un manifiesto estricto: tipo de datos, límites, formatos de texto y reglas especiales. Si algo viola las leyes, emite una alarma inmediata (`ValidationError`) indicando con precisión quirúrgica qué maleta (campo) y qué norma falló.
-
-### Componentes Clave de Pydantic V2
-
-1. **`BaseModel`:** Clase base de la que heredan todos los esquemas. Convierte tipos automáticamente si es posible (e.g. `"42"` a `42`) y valida tipos estrictos.
-2. **`Field`:** Permite definir restricciones declarativas como `gt` (mayor que), `ge` (mayor o igual), `min_length`, valores por defecto o descripciones.
-3. **`@field_validator`:** Decorador para reglas de negocio personalizadas sobre campos específicos.
-4. **`ValidationError`:** Excepción nativa que lanza Pydantic al encontrar inconsistencias. Contiene la lista detallada de errores (`e.errors()`).
-
-### Ejemplo Didáctico (Dominio Alquímico / Laboratorio Mágico)
-
-```python
-from pydantic import BaseModel, Field, field_validator, ValidationError
-
-class PotionRecipe(BaseModel):
-    name: str = Field(min_length=3)
-    potency: int = Field(gt=0, le=100)
-    element: str = "Neutral"
-
-    @field_validator("element")
-    @classmethod
-    def validate_element(cls, value: str) -> str:
-        allowed = {"Fire", "Water", "Earth", "Air", "Neutral"}
-        if value.capitalize() not in allowed:
-            raise ValueError(f"Elemento '{value}' no reconocido en el grimorio.")
-        return value.capitalize()
-
-# Uso exitoso:
-recipe = PotionRecipe(name="Elixir de Fénix", potency=85, element="fire")
-print(recipe.element)  # Output: "Fire" (normalizado por el validador)
-
-# Falla de validación:
-try:
-    bad_recipe = PotionRecipe(name="Veneno", potency=150, element="Void")
-except ValidationError as e:
-    # Pydantic nos dice exactamente qué campos fallaron:
-    # 1. potency: Input should be less than or equal to 100
-    # 2. element: Elemento 'Void' no reconocido en el grimorio.
-    print(f"Alquimia rechazada: {e}")
-```
-
-### Integración con Excepciones de Dominio y Logging
-En la capa de servicio o ingesta, un buen patrón consiste en capturar `ValidationError` y transformar la falla técnica en una **Excepción de Dominio** contextualizada (como `InvalidRecordError`) o registrar el incidente en el logger antes de descartar el registro.
+👉 **Continúa con la guía profunda:** [[06b-pydantic-and-data-contracts|Capítulo 06B: Contratos Fuertes y Validación de Datos con Pydantic V2]] para ver la evolución desde `@dataclass`, qué hace cada módulo y cómo se ubica en la frontera del sistema.
 
 ---
 
@@ -148,12 +101,15 @@ Dirígete a `quests/06-logging/`:
 
 - [[01-custom-exceptions]]
 - [[02-test-exceptions]]
-- [[03-pydantic-validation]]
+- [[03-dataclass-to-pydantic]]
+- [[04-pydantic-domain-exceptions]]
 
 ```text
 PY-POO/quests/06-logging/
-├── [[01-custom-exceptions]].md      (Tipo A: Lanzar Errores)
-├── [[02-test-exceptions]].md        (Tipo B: Testing Nivel 2)
-└── [[03-pydantic-validation]].md     (Tipo A: Validación de Esquemas con Pydantic)
+├── [[01-custom-exceptions]].md          (Tipo A: Lanzar Errores)
+├── [[02-test-exceptions]].md            (Tipo B: Testing Nivel 2)
+├── [[03-dataclass-to-pydantic]].md      (Tipo A: Migración de Dataclass a BaseModel con Field)
+└── [[04-pydantic-domain-exceptions]].md  (Tipo A: Validadores de Negocio y Excepciones de Dominio)
 ```
+
 

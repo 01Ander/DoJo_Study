@@ -1,2 +1,13 @@
+[project]
+name = "py-poo"
+version = "0.1.0"
+description = "Entorno canónico para PY-POO (OOP, TDD, Pydantic y Testing)"
+requires-python = ">=3.12"
+dependencies = [
+    "pytest>=8.0.0",
+    "pydantic>=2.8.0",
+    "mypy>=1.10.0",
+]
+
 [tool.pytest.ini_options]
 pythonpath = ["."]

@@ -11,73 +11,54 @@
 | Tarea ID | Materia | Concepto | Archivo que debes editar | Comando de Verificación | Estado |
 |---|---|---|---|---|---|
 | **`PY-010`** | `02-py-poo` | Constructores con `super()` | [`quests/02-entities/rpg_character.py`](file:///Users/ander/Documents/DoJo/DoJo_Study/content/subjects/python/chronicles/PY-POO/quests/02-entities/rpg_character.py) | `pytest quests/02-entities/test_rpg_character.py` | 🟢 **COMPLETADO** |
-| **`PY-011`** | `02-py-poo` | Validación con Pydantic | [`quests/06-logging/transaction_schema.py`](file:///Users/ander/Documents/DoJo/DoJo_Study/content/subjects/python/chronicles/PY-POO/quests/06-logging/transaction_schema.py) | `pytest quests/06-logging/test_transaction_schema.py` | 🟡 **ACTIVA (Tu turno)** |
+| **`PY-011.1`** | `02-py-poo` | De Dataclass a Pydantic con `Field` | [`quests/06-logging/user_account_schema.py`](file:///Users/ander/Documents/DoJo/DoJo_Study/content/subjects/python/chronicles/PY-POO/quests/06-logging/user_account_schema.py) | `pytest quests/06-logging/test_user_account_schema.py` | 🟡 **ACTIVA (Tu turno)** |
+| **`PY-011.2`** | `02-py-poo` | Validadores de Negocio y Excepciones | [`quests/06-logging/transaction_schema.py`](file:///Users/ander/Documents/DoJo/DoJo_Study/content/subjects/python/chronicles/PY-POO/quests/06-logging/transaction_schema.py) | `pytest quests/06-logging/test_transaction_schema.py` | ⏳ En espera (Paso 2) |
 | **`PY-013`** | `02-py-poo` | Patrón Output Loaders | *Próximamente en quests/04-orchestration/* | — | ⏳ En espera |
 | **`PY-014`** | `02-py-poo` | Extractor desacoplado | *Próximamente en quests/01-abstractions/* | — | ⏳ En espera |
 | **`PY-020`** | `02-py-poo` | Ciclo TDD Red-Green | *Próximamente en quests/05-testing/* | — | ⏳ En espera |
 
 ---
 
-## 2. 🚀 MISIÓN ACTIVA: `PY-011` — Validación con Pydantic V2
+## 2. 🚀 MISIÓN ACTIVA: `PY-011.1` — De Dataclass a Pydantic BaseModel con `Field`
 
 * **Materia:** `02-py-poo`  
-* **Archivo a editar por el Operador:** [`content/subjects/python/chronicles/PY-POO/quests/06-logging/transaction_schema.py`](file:///Users/ander/Documents/DoJo/DoJo_Study/content/subjects/python/chronicles/PY-POO/quests/06-logging/transaction_schema.py)  
-* **Enunciado de la Quest:** [`content/subjects/python/chronicles/PY-POO/quests/06-logging/03-pydantic-validation.md`](file:///Users/ander/Documents/DoJo/DoJo_Study/content/subjects/python/chronicles/PY-POO/quests/06-logging/03-pydantic-validation.md)  
-* **Teoría de Respaldo:** [`content/subjects/python/chronicles/PY-POO/lore/06-logging-and-error-handling.md` (Sección 5)](file:///Users/ander/Documents/DoJo/DoJo_Study/content/subjects/python/chronicles/PY-POO/lore/06-logging-and-error-handling.md)
+* **Archivo a editar por el Operador:** [`content/subjects/python/chronicles/PY-POO/quests/06-logging/user_account_schema.py`](file:///Users/ander/Documents/DoJo/DoJo_Study/content/subjects/python/chronicles/PY-POO/quests/06-logging/user_account_schema.py)  
+* **Enunciado de la Quest:** [`content/subjects/python/chronicles/PY-POO/quests/06-logging/03-dataclass-to-pydantic.md`](file:///Users/ander/Documents/DoJo/DoJo_Study/content/subjects/python/chronicles/PY-POO/quests/06-logging/03-dataclass-to-pydantic.md)  
+* **Teoría de Respaldo:** [`content/subjects/python/chronicles/PY-POO/lore/06b-pydantic-and-data-contracts.md`](file:///Users/ander/Documents/DoJo/DoJo_Study/content/subjects/python/chronicles/PY-POO/lore/06b-pydantic-and-data-contracts.md) (Capítulo completo dedicado)
 
 ### 📋 El Contrato que debes cumplir:
 
-1. **`InvalidTransactionDataError(Exception)`:**
-   * Excepción de dominio para errores de validación de transacciones (hereda de `Exception`).
-
-2. **`TransactionPayload(BaseModel)`:**
-   * Hereda de `BaseModel` de Pydantic.
+1. **`UserAccount(BaseModel)`:**
+   * Hereda de `pydantic.BaseModel`.
    * Campos y restricciones requeridas:
-     * `transaction_id: str`: Con longitud mínima de 3 caracteres (`Field(min_length=3)`).
-     * `account_id: int`: Estrictamente positivo (`Field(gt=0)`).
-     * `amount: float`: Estrictamente positivo (`Field(gt=0.0)`).
-     * `currency: str`: Por defecto `"USD"`.
-   * Validador personalizado (`@field_validator("currency")` como `@classmethod`):
-     * Convierte el valor a mayúsculas (`value.upper()`).
-     * Verifica que esté en el conjunto permitido: `{"USD", "EUR", "GBP", "COP"}`.
-     * Si no pertenece, lanza un `ValueError(f"Moneda '{value}' no soportada")`.
-
-3. **Función `validate_and_create_transaction(data: dict) -> TransactionPayload`:**
-   * Recibe un diccionario crudo no tipado.
-   * Intenta instanciar `TransactionPayload(**data)`.
-   * Si Pydantic arroja `pydantic.ValidationError`, **captura la excepción** y levanta un `InvalidTransactionDataError(str(e))`.
-   * Si es válido, retorna la instancia construida de `TransactionPayload`.
+     * `username: str`: Longitud mínima de 3 caracteres (`Field(min_length=3)`).
+     * `age: int`: Mayor o igual a 18 años (`Field(ge=18)`).
+     * `balance: float`: No negativo, mayor o igual a 0.0 (`Field(ge=0.0)`).
+     * `is_active: bool`: Valor por defecto `True`.
 
 ---
 
-### 💡 Ejemplo con Domain Shifting (Telemetría Satelital):
-*Observa cómo Pydantic valida tipos y restricciones, y cómo un helper envuelve el error técnico en una excepción del negocio:*
+### 💡 Ejemplo con Domain Shifting (Especificación de Naves Espaciales):
+*Observa cómo sustituir una dataclass por `BaseModel` con `Field` aplica restricciones declarativas sin necesidad de escribir métodos `__post_init__`:*
 
 ```python
-from pydantic import BaseModel, Field, field_validator, ValidationError
+from pydantic import BaseModel, Field, ValidationError
 
-class TelemetryError(Exception):
-    """Excepción de dominio de telemetría."""
-    pass
+class StarshipSpec(BaseModel):
+    model_name: str = Field(min_length=2)
+    crew_capacity: int = Field(ge=1)
+    warp_factor: float = Field(ge=0.0, le=9.9)
+    hyperdrive_ready: bool = True
 
-class SatelliteReading(BaseModel):
-    satellite_code: str = Field(min_length=2)
-    battery_level: float = Field(gt=0.0, le=100.0)
-    transmission_band: str = "UHF"
+# Coerción exitosa: convierte string "5" en int 5
+ship = StarshipSpec(model_name="NX-01", crew_capacity="5", warp_factor=5.2)
+assert ship.crew_capacity == 5
 
-    @field_validator("transmission_band")
-    @classmethod
-    def check_band(cls, v: str) -> str:
-        valid_bands = {"UHF", "VHF", "S-BAND", "X-BAND"}
-        if v.upper() not in valid_bands:
-            raise ValueError(f"Banda '{v}' fuera del espectro asignado.")
-        return v.upper()
-
-def parse_telemetry_packet(raw_dict: dict) -> SatelliteReading:
-    try:
-        return SatelliteReading(**raw_dict)
-    except ValidationError as err:
-        raise TelemetryError(f"Paquete satelital corrupto: {err}")
+# Falla inmediata ante datos fuera de rango:
+try:
+    bad_ship = StarshipSpec(model_name="X", crew_capacity=0, warp_factor=15.0)
+except ValidationError as e:
+    print(f"Especificación rechazada: {e.errors()}")
 ```
 
 ---
@@ -85,9 +66,9 @@ def parse_telemetry_packet(raw_dict: dict) -> SatelliteReading:
 ### 🧪 Comando de Verificación Binaria (Sonda Final):
 Ejecuta en tu terminal desde la raíz del repositorio:
 ```bash
-/Users/ander/Documents/DoJo/DoJo_Study/content/subjects/python/chronicles/PY-POO/rite/.venv/bin/pytest content/subjects/python/chronicles/PY-POO/quests/06-logging/test_transaction_schema.py -v
+/Users/ander/Documents/DoJo/DoJo_Study/content/subjects/python/chronicles/PY-POO/rite/.venv/bin/pytest content/subjects/python/chronicles/PY-POO/quests/06-logging/test_user_account_schema.py -v
 ```
-*(Criterio de éxito: 6 passed con exit code 0).*
+*(Criterio de éxito: 5 passed con exit code 0).*
 
 ---
 
@@ -95,18 +76,21 @@ Ejecuta en tu terminal desde la raíz del repositorio:
 
 Registro de archivos nuevos o actualizados en el sistema para que sepas exactamente qué ha cambiado:
 
-* `content/subjects/python/chronicles/PY-POO/lore/02-domain-entities-and-dataclasses.md`:
-  * *Cambio:* Añadida la Sección 4 sobre Herencia Compuesta y uso correcto de `super().__init__()`.
-* `content/subjects/python/chronicles/PY-POO/quests/02-entities/03-inheritance-super.md`:
-  * *Cambio:* Enunciado didáctico de la Quest 02-03.
-* `content/subjects/python/chronicles/PY-POO/quests/02-entities/rpg_character.py`:
-  * *Cambio:* Implementado exitosamente por el Operador (`3/3 passed`).
+* `content/subjects/python/chronicles/PY-POO/rite/pyproject.toml` y `requirements.txt`:
+  * *Cambio:* Declaradas formalmente las dependencias canónicas del entorno (`pytest`, `pydantic>=2.8.0`, `mypy`).
+* `content/subjects/python/chronicles/PY-POO/lore/06b-pydantic-and-data-contracts.md`:
+  * *Cambio:* Capítulo teórico completo dedicado a la evolución desde `@dataclass`, explicación detallada de cada módulo de Pydantic V2 y su rol en la frontera del sistema.
 * `content/subjects/python/chronicles/PY-POO/lore/06-logging-and-error-handling.md`:
-  * *Cambio:* Añadida Sección 5 sobre Validación de Contratos Fuertes con Pydantic V2 y actualización del mapa de ejercicios.
-* `content/subjects/python/chronicles/PY-POO/quests/06-logging/03-pydantic-validation.md`:
-  * *Cambio:* Enunciado didáctico de la Quest 06-03 (`PY-011`).
-* `content/subjects/python/chronicles/PY-POO/quests/06-logging/transaction_schema.py`:
-  * *Cambio:* Plantilla inicial para el Operador con `pass` y firmas de método.
-* `content/subjects/python/chronicles/PY-POO/quests/06-logging/test_transaction_schema.py`:
-  * *Cambio:* Suite evaluadora automatizada con 6 tests unitarios.
+  * *Cambio:* Vinculación al Cap 06B y mapa actualizado de 4 ejercicios.
+* `content/subjects/python/chronicles/PY-POO/chronicle.md`:
+  * *Cambio:* Enlace directo al nuevo Cap 06B en el índice curricular.
+* `content/subjects/python/chronicles/PY-POO/quests/06-logging/03-dataclass-to-pydantic.md`:
+  * *Cambio:* Enunciado de la Quest 06-03 (Paso 1: Migración a `BaseModel` con `Field`).
+* `content/subjects/python/chronicles/PY-POO/quests/06-logging/user_account_schema.py`:
+  * *Cambio:* Plantilla inicial para el Operador con `pass` y firmas de campos.
+* `content/subjects/python/chronicles/PY-POO/quests/06-logging/test_user_account_schema.py`:
+  * *Cambio:* Suite evaluadora automatizada con 5 tests unitarios para Quest 06-03.
+* `content/subjects/python/chronicles/PY-POO/quests/06-logging/04-pydantic-domain-exceptions.md` & `test_transaction_schema.py`:
+  * *Cambio:* Preparado para el Paso 2 (Validadores `@field_validator` y traducción a excepciones de negocio).
+
 
