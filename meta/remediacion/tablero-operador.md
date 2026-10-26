@@ -20,106 +20,102 @@
 
 ---
 
-### 🗄️ Fase 2: `03-sql-basico` (En Curso)
+### 🗄️ Fase 2: `03-sql-basico` (100% COMPLETADO 🟢)
 | Tarea ID | Materia | Ubicación | Concepto | Archivo que debes editar | Comando de Verificación | Estado |
 |---|---|---|---|---|---|---|
 | **`SQL-013`** | `03-sql-basico` | Cap 02: Filtros | Semántica 3VL de `NULL`, trampa de `NOT IN` y `COALESCE` | [`quests/02-filtering/null_semantics.sql`](file:///Users/ander/Documents/DoJo/DoJo_Study/content/subjects/sql/chronicles/SQL-BASICO/quests/02-filtering/null_semantics.sql) | `pytest quests/02-filtering/test_null_semantics.py` | 🟢 **COMPLETADO** |
 | **`SQL-006`** | `03-sql-basico` | Cap 03: Agregaciones | Agregaciones condicionales `SUM(CASE WHEN...)` | [`quests/03-functions/conditional_aggregations.sql`](file:///Users/ander/Documents/DoJo/DoJo_Study/content/subjects/sql/chronicles/SQL-BASICO/quests/03-functions/conditional_aggregations.sql) | `pytest quests/03-functions/test_conditional_aggregations.py` | 🟢 **COMPLETADO** |
 | **`SQL-005`** | `03-sql-basico` | Cap 09: Transacciones | Transacciones explícitas, `ROLLBACK`, `SAVEPOINT` y ACID | [`quests/09-integrity/transactions_acid.sql`](file:///Users/ander/Documents/DoJo/DoJo_Study/content/subjects/sql/chronicles/SQL-BASICO/quests/09-integrity/transactions_acid.sql) | `pytest quests/09-integrity/test_transactions_acid.py` | 🟢 **COMPLETADO** |
-| **`MKT-SQL-002`**| `03-sql-basico` | Cap 09: Modelado | SCD Tipo 2 en Star Schema dimensional | [`quests/09-integrity/scd_type2_dim.sql`](file:///Users/ander/Documents/DoJo/DoJo_Study/content/subjects/sql/chronicles/SQL-BASICO/quests/09-integrity/scd_type2_dim.sql) | `pytest quests/09-integrity/test_scd_type2_dim.py` | 🟡 **ACTIVA (Tu turno)** |
+| **`MKT-SQL-002`**| `03-sql-basico` | Cap 09: Modelado | SCD Tipo 2 en Star Schema dimensional | [`quests/09-integrity/scd_type2_dim.sql`](file:///Users/ander/Documents/DoJo/DoJo_Study/content/subjects/sql/chronicles/SQL-BASICO/quests/09-integrity/scd_type2_dim.sql) | `pytest quests/09-integrity/test_scd_type2_dim.py` | 🟢 **COMPLETADO** |
 
 ---
 
-## 2. 🚀 MISIÓN ACTIVA: `MKT-SQL-002` — Slowly Changing Dimensions (SCD Tipo 2) en Modelado Dimensional
+### ⚙️ Fase 3: `04-de-pipelines` (En Curso 🟡)
+| Tarea ID | Materia | Ubicación | Concepto | Archivo que debes editar | Comando de Verificación | Estado |
+|---|---|---|---|---|---|---|
+| **`DE-007`** | `04-de-pipelines` | Cap 01: Extracción API | Paginación resiliente (Offset & Cursor) y Rate Limits | [`quests/01-extraccion-api/api_paginator.py`](file:///Users/ander/Documents/DoJo/DoJo_Study/content/subjects/data_engineering/chronicles/DE-PIPELINES/quests/01-extraccion-api/api_paginator.py) | `pytest quests/01-extraccion-api/test_api_pagination.py` | 🟡 **ACTIVA (Tu turno)** |
+| **`DE-004`** | `04-de-pipelines` | Cap 04: Carga DB | Carga a PostgreSQL real con Docker Compose | `quests/04-carga-postgresql/postgres_loader.py` | — | ⏳ En espera |
+| **`DE-009`** | `04-de-pipelines` | Cap 05: Orquestación | Logs estructurados de run (`get_run_logger`) | `quests/05-orquestacion-prefect/flow_logger.py` | — | ⏳ En espera |
+| **`DE-005`** | `04-de-pipelines` | Cap 05: Orquestación | Orquestación Periódica/Airflow básico | `quests/05-orquestacion-prefect/airflow_dag.py` | — | ⏳ En espera |
 
-* **Materia:** `03-sql-basico` (Capítulo 09: Views, Indexes & Transactions — Extensión Dimensional)  
-* **Archivo a editar por el Operador:** [`content/subjects/sql/chronicles/SQL-BASICO/quests/09-integrity/scd_type2_dim.sql`](file:///Users/ander/Documents/DoJo/DoJo_Study/content/subjects/sql/chronicles/SQL-BASICO/quests/09-integrity/scd_type2_dim.sql)  
-* **Enunciado de la Quest:** [`content/subjects/sql/chronicles/SQL-BASICO/quests/09-integrity/04-scd-type2-dimensional-modeling.md`](file:///Users/ander/Documents/DoJo/DoJo_Study/content/subjects/sql/chronicles/SQL-BASICO/quests/09-integrity/04-scd-type2-dimensional-modeling.md)  
-* **Teoría de Respaldo:** [`content/subjects/sql/chronicles/SQL-BASICO/lore/09-views-indexes-and-transactions.md` (§6)](file:///Users/ander/Documents/DoJo/DoJo_Study/content/subjects/sql/chronicles/SQL-BASICO/lore/09-views-indexes-and-transactions.md#6-modelado-dimensional-y-slowly-changing-dimensions-scd-tipo-2)
+---
+
+## 2. 🚀 MISIÓN ACTIVA: `DE-007` — Consumo Resiliente de APIs con Paginación y Rate Limiting (AeroFleet Telemetry)
+
+* **Materia:** `04-de-pipelines` (Capítulo 01: Extracción Automatizada — APIs REST)  
+* **Archivo a editar por el Operador:** [`content/subjects/data_engineering/chronicles/DE-PIPELINES/quests/01-extraccion-api/api_paginator.py`](file:///Users/ander/Documents/DoJo/DoJo_Study/content/subjects/data_engineering/chronicles/DE-PIPELINES/quests/01-extraccion-api/api_paginator.py)  
+* **Enunciado de la Quest:** [`content/subjects/data_engineering/chronicles/DE-PIPELINES/quests/01-extraccion-api/02-api-pagination.md`](file:///Users/ander/Documents/DoJo/DoJo_Study/content/subjects/data_engineering/chronicles/DE-PIPELINES/quests/01-extraccion-api/02-api-pagination.md)  
+* **Teoría de Respaldo:** [`content/subjects/data_engineering/chronicles/DE-PIPELINES/lore/01-extraccion-api.md` (§3)](file:///Users/ander/Documents/DoJo/DoJo_Study/content/subjects/data_engineering/chronicles/DE-PIPELINES/lore/01-extraccion-api.md#3-paginación-cuando-el-catálogo-es-masivo)
 
 ### 📋 El Contrato que debes cumplir:
 
-Edita [`scd_type2_dim.sql`](file:///Users/ander/Documents/DoJo/DoJo_Study/content/subjects/sql/chronicles/SQL-BASICO/quests/09-integrity/scd_type2_dim.sql) resolviendo los 3 desafíos:
+Implementa en [`api_paginator.py`](file:///Users/ander/Documents/DoJo/DoJo_Study/content/subjects/data_engineering/chronicles/DE-PIPELINES/quests/01-extraccion-api/api_paginator.py) las dos funciones extractoras:
 
-1. **Desafío 1: Transición SCD Tipo 2 (Evolución de Atributos)**
-   * El `'2025-07-01'`, el comercio `'MKT-101'` sube a `risk_tier = 'HIGH'` y `fee_rate = 0.050`.
-   * Abre `BEGIN TRANSACTION;`.
-   * **Expirar versión vigente:**
-     ```sql
-     UPDATE dim_merchants
-     SET valid_to = '2025-07-01', is_current = 0
-     WHERE merchant_id = 'MKT-101' AND is_current = 1;
-     ```
-   * **Insertar nueva versión activa:**
-     ```sql
-     INSERT INTO dim_merchants (merchant_id, merchant_name, risk_tier, fee_rate, valid_from, valid_to, is_current)
-     VALUES ('MKT-101', 'Solaris Market', 'HIGH', 0.050, '2025-07-01', NULL, 1);
-     ```
-   * Cierra con `COMMIT;`.
+1. **`extract_paginated_offset(api_url: str, token: str, page_size: int = 20, max_pages: int = 50) -> list[dict[str, Any]]`**
+   * Envía cabecera `Authorization: Bearer <token>`.
+   * Itera iniciando en `page = 1`, enviando `params={"page": page, "limit": page_size}`.
+   * Extrae la lista bajo la llave `"data"` de la respuesta JSON.
+   * **Deduplicación:** Filtra registros duplicados por `"id"` usando un `set()` de memoria.
+   * **Parada:** Detén el bucle si `batch` está vacío, si `len(batch) < page_size`, o si `page > max_pages`.
+   * Retorna la lista acumulada de diccionarios únicos.
 
-2. **Desafío 2: Vista Analítica Point-in-Time (`v_settlement_reporting`)**
-   * Une `fact_settlements` con `dim_merchants` usando la cláusula de ventana temporal:
-     ```sql
-     ON f.merchant_id = d.merchant_id
-    AND f.settlement_date >= d.valid_from
-    AND (f.settlement_date < d.valid_to OR d.valid_to IS NULL)
-     ```
-   * Columnas proyectadas: `settlement_id`, `settlement_date`, `merchant_id`, `merchant_name`, `risk_tier`, `gross_volume_usd`, `fee_rate`, y `ROUND(gross_volume_usd * fee_rate, 2) AS fee_amount_usd`.
-   * Ordena por `settlement_id ASC`.
-
-3. **Desafío 3: Vista de Estado Actual de la Dimensión (`v_current_merchants`)**
-   * Selecciona de `dim_merchants` únicamente los registros con `is_current = 1`.
-   * Columnas proyectadas: `merchant_id`, `merchant_name`, `risk_tier`, `fee_rate`, `valid_from`.
-   * Ordena por `merchant_id ASC`.
+2. **`extract_paginated_cursor(api_url: str, token: str, max_pages: int = 50, max_retries: int = 3) -> list[dict[str, Any]]`**
+   * Envía cabecera `Authorization: Bearer <token>`.
+   * Envía `params={"limit": 50}` (y añade `"cursor": next_cursor` si `next_cursor` no es `None`).
+   * **Resiliencia ante Rate Limits (HTTP 429):**
+     * Si `response.status_code == 429`:
+       * Extrae el tiempo de espera de `response.headers.get("Retry-After", 1.0)`.
+       * Ejecuta `time.sleep(wait_time)`.
+       * Reintenta hasta `max_retries` veces.
+       * Si se agotan los reintentos, lanza `RateLimitExceededError`.
+     * Para otros estados no exitosos, llama `response.raise_for_status()`.
+   * Acumula los elementos de `"items"`.
+   * Extrae `"next_cursor"` del payload: si es `None` o vacío, o si `pages_processed >= max_pages`, termina el bucle.
+   * Retorna la lista acumulada de eventos.
 
 ---
 
-### 💡 Ejemplo con Domain Shifting (Suscripciones SaaS - Cambio de Plan):
+### 💡 Ejemplo con Domain Shifting (Ingesta de Clientes CRM):
 
-```sql
--- 🎯 Objetivo de Negocio: Ingestar cambio de plan de 'BASIC' a 'PRO' y reportar consumo histórico con el precio vigente.
+```python
+# 🎯 Objetivo de Negocio: Extraer leads paginados por offset deduplicando contactos y respetando límite de seguridad.
 
--- 1. Transición SCD2
-BEGIN TRANSACTION;
-UPDATE dim_tenants 
-SET valid_to = '2025-05-01', is_current = 0 
-WHERE tenant_id = 'TNT-500' AND is_current = 1;
+def extract_crm_leads(api_url: str, api_key: str, page_size: int = 10, max_pages: int = 20) -> list[dict]:
+    headers = {"Authorization": f"Bearer {api_key}"}
+    leads = []
+    seen_emails = set()
+    page = 1
 
-INSERT INTO dim_tenants (tenant_id, tenant_name, plan_name, cost_per_gb, valid_from, valid_to, is_current)
-VALUES ('TNT-500', 'Nova Cloud', 'PRO', 0.08, '2025-05-01', NULL, 1);
-COMMIT;
+    while page <= max_pages:
+        resp = requests.get(api_url, headers=headers, params={"page": page, "limit": page_size}, timeout=10)
+        resp.raise_for_status()
+        batch = resp.json().get("leads", [])
+        
+        if not batch:
+            break
 
--- 2. Reporte Point-in-Time
-CREATE VIEW v_usage_billing AS
-SELECT 
-    u.usage_id,
-    u.usage_date,
-    t.tenant_name,
-    t.plan_name,
-    u.gb_consumed,
-    ROUND(u.gb_consumed * t.cost_per_gb, 2) AS billed_usd
-FROM fact_storage_usage u
-JOIN dim_tenants t
-  ON u.tenant_id = t.tenant_id
- AND u.usage_date >= t.valid_from
- AND (u.usage_date < t.valid_to OR t.valid_to IS NULL)
-ORDER BY u.usage_id ASC;
+        for item in batch:
+            email = item.get("email")
+            if email and email not in seen_emails:
+                seen_emails.add(email)
+                leads.append(item)
+
+        if len(batch) < page_size:
+            break
+
+        page += 1
+
+    return leads
 ```
 
 ---
 
 ### 🧪 Comandos de Verificación Binaria:
 
-1. **Validación Funcional y de Fidelidad Temporal (Pytest):**
-   ```bash
-   /Users/ander/Documents/DoJo/DoJo_Study/content/subjects/python/chronicles/PY-POO/rite/.venv/bin/pytest content/subjects/sql/chronicles/SQL-BASICO/quests/09-integrity/test_scd_type2_dim.py -v
-   ```
-   *(Criterio de éxito: 3 passed con exit code 0).*
-
-2. **Validación Sintáctica de SQLite (Runner del DoJo):**
-   ```bash
-   python3 system/tools/sql_runner.py content/subjects/sql/chronicles/SQL-BASICO/quests/09-integrity/scd_type2_dim.sql
-   ```
+```bash
+/Users/ander/Documents/DoJo/DoJo_Study/content/subjects/data_engineering/chronicles/DE-PIPELINES/.venv/bin/pytest content/subjects/data_engineering/chronicles/DE-PIPELINES/quests/01-extraccion-api/test_api_pagination.py -v
+```
+*(Criterio de éxito: 5 passed con exit code 0).*
 
 ---
 
@@ -127,16 +123,16 @@ ORDER BY u.usage_id ASC;
 
 Registro de archivos nuevos o actualizados en el sistema bajo las reglas de `09-generation-protocol.md`:
 
-* `content/subjects/sql/chronicles/SQL-BASICO/quests/09-integrity/transactions_acid.sql`:
-  * *Cambio:* **Implementado y aprobado por el Operador (`2/2 passed`, exit code 0). Cierre formal de la brecha `SQL-005`.**
-* `content/subjects/sql/chronicles/SQL-BASICO/lore/09-views-indexes-and-transactions.md`:
-  * *Cambio:* Sección 6 añadida sobre Modelado Dimensional (Star Schema) y Slowly Changing Dimensions (SCD Tipo 2).
-* `content/subjects/sql/chronicles/SQL-BASICO/quests/09-integrity/04-scd-type2-dimensional-modeling.md`:
-  * *Cambio:* Enunciado didáctico de la Quest 09-04 (`MKT-SQL-002`).
 * `content/subjects/sql/chronicles/SQL-BASICO/quests/09-integrity/scd_type2_dim.sql`:
-  * *Cambio:* Plantilla inicial para el Operador con esquema Star Schema (`dim_merchants`, `fact_settlements`), seed data y desafíos `TODO`.
-* `content/subjects/sql/chronicles/SQL-BASICO/quests/09-integrity/test_scd_type2_dim.py`:
-  * *Cambio:* Suite evaluadora automatizada con 3 tests unitarios validando transición SCD2, joins temporales Point-in-Time y snapshot activo.
+  * *Cambio:* **Implementado y aprobado por el Operador (`3/3 passed`, exit code 0). Cierre definitivo de la materia `03-sql-basico`.**
+* `content/subjects/data_engineering/chronicles/DE-PIPELINES/lore/01-extraccion-api.md`:
+  * *Cambio:* Sección 3 profundamente expandida con teoría de paginación por Offset vs Cursor, resiliencia ante Rate Limits (HTTP 429), cabecera `Retry-After`, backoff, deduplicación y salvaguardas de bucles.
+* `content/subjects/data_engineering/chronicles/DE-PIPELINES/quests/01-extraccion-api/02-api-pagination.md`:
+  * *Cambio:* Enunciado didáctico de la Quest 01-02 (`DE-007`).
+* `content/subjects/data_engineering/chronicles/DE-PIPELINES/quests/01-extraccion-api/api_paginator.py`:
+  * *Cambio:* Plantilla inicial para el Operador con `RateLimitExceededError` y funciones `extract_paginated_offset` y `extract_paginated_cursor`.
+* `content/subjects/data_engineering/chronicles/DE-PIPELINES/quests/01-extraccion-api/test_api_pagination.py`:
+  * *Cambio:* Suite evaluadora automatizada con 5 tests unitarios validando paginación multi-página, deduplicación, salvaguarda de páginas máximas, cursores continuos y reintentos ante HTTP 429.
 
 
 

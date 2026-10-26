@@ -65,36 +65,161 @@ def get_ingredients(api_url: str, guild_token: str) -> list:
 > 2. **Es temporal:** Los tokens suelen tener una fecha de expiración.
 > 3. **Protege tu identidad:** No envías tu información sensible en cada petición HTTP, solo un permiso temporal.
 > *Analogía:* El token es como una llave de hotel temporal. Si la pierdes, el hotel la desactiva. Tu identidad original nunca estuvo en riesgo.
-## 3. Paginación: Cuando el catálogo es muy grande
+## 3. Paginación: Cuando el catálogo es masivo
 
-**Analogía 2 (Los Tomos del Catálogo):**
-Si el Mercado Negro tiene 10,000 ingredientes, el recepcionista no te dará una caja de una tonelada. Te dará el "Tomo 1" y te dirá: *"Si quieres más, pídeme la página 2"*. Esto es la paginación.
+**Analogía 2 (Los Tomos del Catálogo y el Marcapáginas):**
+Si el Mercado Negro tiene 50,000 ingredientes, el recepcionista no te entregará una carreta de 5 toneladas en un solo viaje. Te entregará el "Tomo 1" con 100 pergaminos y una nota al final diciendo: *"Si deseas continuar, solicita el Tomo 2"* o *"Usa este marcapáginas sellado (Cursor) para la siguiente entrega"*. Esto es la paginación.
 
-En código, las APIs de producción **imponen** paginación por defecto (ej. devolviendo 100 registros por página). No es un parámetro opcional. Si no implementas un bucle para pedir la página 2, 3, etc., tu extracción **solo traerá la primera página y perderás el resto de los datos silenciosamente**, ya que el código no arrojará ningún error.
+En código, las APIs de producción **imponen** paginación por defecto. No es una opción: si tu script no itera por todas las páginas, **perderás el 99% de los datos silenciosamente**, ya que la primera petición responderá con código HTTP 200 sin emitir advertencia alguna.
 
-**Ejemplo de Paginación Robusta:**
+---
+
+### 3.1 Los Dos Estándares de la Industria: Offset vs Cursor
+
+| Característica | Paginación por Página / Offset (`page=2`) | Paginación por Cursor (`cursor=tok_99x`) |
+|---|---|---|
+| **Mecanismo** | Salta $N$ registros en la base de datos (`OFFSET 100`). | Usa un puntero indexado hacia el último ID procesado. |
+| **Ventaja** | Simple e intuitiva; permite saltar a páginas intermedias arbitrarias. | Extremadamente rápida ($O(1)$) y no degrada con millones de registros. |
+| **Vulnerabilidad** | **Page Drift:** Si se insertan o eliminan filas mientras iteras, puedes leer duplicados o saltarte registros. | Inmune al Page Drift; el cursor apunta con exactitud al límite del lote. |
+| **Casos de Uso** | Búsquedas en UI, catálogos pequeños o datos históricos inmutables. | Feeds en tiempo real, APIs de alto volumen (Stripe, GitHub, Slack, Shopify). |
+
+---
+
+### 3.2 Patrón de Producción 1: Paginación por Offset/Página con Salvaguarda
+
 ```python
-def get_all_ingredients(api_url: str, guild_token: str) -> list:
-    headers = {"Authorization": f"Bearer {guild_token}"}
-    all_data = []
-    page = 1
-    
-    while True:
-        # Añadimos el parámetro de página a la petición
-        response = requests.get(f"{api_url}?page={page}", headers=headers)
+import requests
+from typing import Any
+
+# 🎯 Objetivo de Negocio: Extraer catálogo paginado evitando bucles infinitos con un límite de seguridad.
+
+def extract_all_pages_offset(
+    api_url: str, 
+    token: str, 
+    page_size: int = 50, 
+    max_pages: int = 100
+) -> list[dict[str, Any]]:
+    headers = {"Authorization": f"Bearer {token}"}
+    records: list[dict[str, Any]] = []
+    seen_ids: set[str] = set()
+    current_page = 1
+
+    while current_page <= max_pages:
+        # Pasamos parámetros query en un diccionario estructurado (requests los codifica en la URL)
+        params = {"page": current_page, "limit": page_size}
+        response = requests.get(api_url, headers=headers, params=params, timeout=10)
         response.raise_for_status()
-        
-        batch = response.json().get("ingredients", [])
-        
-        # Si la caja (página) viene vacía, ya sacamos todo el catálogo
+
+        payload = response.json()
+        batch = payload.get("data", [])
+
+        # Condición de salida 1: Página vacía (fin del catálogo)
         if not batch:
             break
-            
-        all_data.extend(batch)
-        page += 1 # Pedir el siguiente tomo
-        
-    return all_data
+
+        # Deduplicación defensiva en memoria
+        for item in batch:
+            item_id = item.get("id")
+            if item_id and item_id not in seen_ids:
+                seen_ids.add(item_id)
+                records.append(item)
+
+        # Condición de salida 2: Si el lote trajo menos registros que el tamaño de página, era la última
+        if len(batch) < page_size:
+            break
+
+        current_page += 1
+
+    return records
 ```
+
+---
+
+### 3.3 Patrón de Producción 2: Paginación por Cursor y Resiliencia a Rate Limits (HTTP 429)
+
+Cuando extraes miles de registros, la API puede responder con un código **HTTP 429 Too Many Requests**, indicando que sobrepasaste su cuota por segundo o minuto. Un pipeline resiliente no debe colapsar: debe leer la cabecera `Retry-After`, aplicar una pausa controlada (*backoff*) y reintentar.
+
+```python
+import time
+import requests
+from typing import Any
+
+class RateLimitExceededError(Exception):
+    """Excepción de dominio lanzada cuando se agotan los reintentos tras recibir HTTP 429."""
+    pass
+
+# 🎯 Objetivo de Negocio: Ingestar eventos mediante cursor continuo manejando rate limits y pausas de servidor.
+
+def extract_feed_by_cursor(
+    api_url: str,
+    token: str,
+    max_pages: int = 50,
+    max_retries_per_page: int = 3
+) -> list[dict[str, Any]]:
+    headers = {"Authorization": f"Bearer {token}"}
+    all_events: list[dict[str, Any]] = []
+    next_cursor: str | None = None
+    pages_processed = 0
+
+    while pages_processed < max_pages:
+        params: dict[str, Any] = {"limit": 100}
+        if next_cursor:
+            params["cursor"] = next_cursor
+
+        # Bucle de reintento para la página actual
+        retries = 0
+        response = None
+        while retries <= max_retries_per_page:
+            response = requests.get(api_url, headers=headers, params=params, timeout=10)
+            
+            if response.status_code == 429:
+                # El servidor nos pide esperar: leemos Retry-After o usamos fallback progresivo
+                wait_seconds = float(response.headers.get("Retry-After", 1.5))
+                time.sleep(wait_seconds)
+                retries += 1
+                continue
+            
+            response.raise_for_status()
+            break
+        else:
+            raise RateLimitExceededError(
+                f"Rate limit superado tras {max_retries_per_page} reintentos en cursor '{next_cursor}'."
+            )
+
+        payload = response.json()
+        batch = payload.get("events", [])
+        all_events.extend(batch)
+        pages_processed += 1
+
+        # El servidor nos entrega el cursor de la próxima página; si es None o vacío, terminamos
+        next_cursor = payload.get("next_cursor")
+        if not next_cursor:
+            break
+
+    return all_events
+```
+
+---
+
+> [!NOTE]
+> ### 🔍 Desglose de Sintaxis (Zero Surprise Syntax): Paginación y Resiliencia
+> * **`params={"page": page, "limit": page_size}`:** En `requests`, pasar un diccionario al argumento `params` codifica automáticamente los valores URL-encoded de forma segura (`?page=1&limit=50`), previniendo errores de concatenación de strings.
+> * **`payload.get("next_cursor")`:** Extrae el token de continuación devuelto por la API. Si la API no lo incluye o devuelve `None`, indica de manera no ambigua que se ha alcanzado el final del dataset.
+> * **`response.status_code == 429`:** Código de estado HTTP oficial para *Too Many Requests*.
+> * **`response.headers.get("Retry-After", 1.5)`:** Inspecciona la cabecera enviada por la API indicando cuántos segundos debemos aguardar antes de reintentar.
+> * **`while ... else:` en Python:** El bloque `else` de un bucle `while` se ejecuta únicamente si el bucle terminó normalmente sin alcanzar un `break`. Si agotamos todos los reintentos sin éxito, levantamos nuestra excepción de dominio `RateLimitExceededError`.
+> * **`max_pages`:** Salvaguarda esencial de ingeniería para impedir bucles infinitos en caso de que la API devuelva cursores circulares por error.
+
+---
+
+### 🌐 Analogías del Mundo Real (Domain Shifting)
+
+1. **Analogía 1 (Atención Bancaria — Turnero vs Ficha):**
+   * *Offset:* Pedir "los clientes del 10 al 20". Si un cajero atiende a alguien y cancela una cuenta en medio del conteo, el turno 11 de la lista se corre, provocando que atiendas a alguien dos veces o saltes a un cliente.
+   * *Cursor:* El cliente sostiene una ficha con un hash único (`F-489A`). El cajero dice: *"Quien tenga la ficha siguiente a F-489A, pase adelante"*. No importa si entra o sale gente de la sucursal: el orden relativo está fijado en la ficha.
+
+2. **Analogía 2 (Control de Tráfico Portuario — Rate Limiting):**
+   Un barco de carga no puede desembarcar contenedores a discreción si el muelle está saturado. La torre de control emite una bandera roja (*HTTP 429*) y le ordena fondear durante 15 minutos (*Retry-After*). El capitán espera disciplinadamente y vuelve a solicitar muelle cuando expira la orden, en lugar de embestir el puerto.
 
 ## 4. Testing de APIs sin golpear el Mercado (Mocking con `responses`)
 
