@@ -34,3 +34,10 @@ audits/
 # IDE / OS
 .DS_Store
 .vscode/
+
+# SQLite & Pytest cache
+*.db
+*.sqlite
+*.sqlite3
+.pytest_cache/
+

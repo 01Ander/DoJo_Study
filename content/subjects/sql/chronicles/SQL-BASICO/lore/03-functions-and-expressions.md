@@ -173,15 +173,95 @@ FROM students;
 
 ---
 
-## 7. Mapa de Ejercicios
+## 7. Agregaciones Condicionales con `CASE WHEN` (Pivoteo Analítico)
+
+### ¿Qué es una Agregación Condicional?
+Una **Agregación Condicional** es el patrón analítico que consiste en envolver una expresión `CASE WHEN` dentro de una función de agregación (`SUM`, `COUNT` o `AVG`).
+
+A diferencia de la cláusula `WHERE` (que actúa como un filtro global descartando del reporte a todas las filas que no cumplan la condición), la agregación condicional evalúa cada fila individualmente dentro del acumulador. Esto permite calcular simultáneamente múltiples sub-métricas independientes sobre la misma tabla en **una sola pasada de escaneo**.
+
+---
+
+### Analogías del Mundo Real
+
+#### Analogía 1: Las Ranuras de Clasificación en una Máquina Contadora de Monedas
+Una máquina contadora de monedas en un banco no te exige que pases todas las monedas de $100 primero, vacíes la máquina, y luego metas las de $500. Tiene una sola ranura. A medida que entra cada moneda (cada fila de datos), sus sensores ópticos evalúan el diámetro y peso (`CASE WHEN`). Si es de $100, activa el acumulador de $100 (`SUM(CASE WHEN denomination = 100 THEN 1 ELSE 0)`); si es de $500, activa el acumulador de $500. En un único pase de lectura, la máquina entrega el total por cada denominación y el gran total general.
+
+#### Analogía 2: El Tablero de Votos en un Parlamento Electrónico
+En una asamblea legislativa de 200 diputados, cuando se vota una moción de ley, no se desaloja a los que votan en contra para contar primero a los que votan a favor. Todos los diputados presionan su botón al mismo tiempo. El software del tablero escanea los 200 asientos una sola vez y despliega tres columnas en la pantalla gigante: "A Favor", "En Contra" y "Abstenciones". Cada asiento sumó a un acumulador condicional diferente.
+
+---
+
+### ¿Por Qué Importa en Data Engineering?
+1. **Pivoteo de Filas a Columnas (Pivot Table):** En bases de datos transaccionales, los estados suelen registrarse como filas verticales (ej. un registro por cada cambio de estado). Los reportes de Business Intelligence y Data Warehouses necesitan ver estos estados horizontalmente en columnas separadas (`active_users`, `churned_users`, `pending_verification`).
+2. **Optimización Extrema de Cómputo (Single Table Scan):** En lugar de hacer 3 o 4 subconsultas con `JOIN` sobre tablas con miles de millones de filas (lo que multiplicaría por 4 el costo de I/O de disco y memoria), una agregación condicional resuelve todas las métricas en un único escaneo lineal.
+3. **Cálculo de Ratios y KPIs:** Permite calcular porcentajes como la tasa de retención, porcentaje de aprobación o ratio de error directamente en SQL:
+   $$\text{Tasa de Aprobación} = \frac{\text{Estudiantes con Nota } \ge 60}{\text{Total de Estudiantes}} \times 100$$
+
+---
+
+### Demostración Paso a Paso (Sistema Universitario)
+
+Tomemos la tabla `grades` de nuestro dominio de ejemplo. Queremos generar un reporte ejecutivo por asignatura (`course_code`) que muestre:
+- Total de inscritos.
+- Cantidad de aprobados (nota $\ge 60.0$).
+- Cantidad de reprobados (nota $< 60.0$).
+- Cantidad de ausentes (nota `NULL`).
+- Porcentaje de aprobación.
+
+#### ❌ El Mal Camino: Subconsultas Múltiples o JOINs Repetitivos
+```sql
+-- ❌ MAL: Escanea la tabla 'grades' 3 veces distintas y las une con JOIN, desperdiciando recursos
+SELECT 
+    t.course_code,
+    t.total_students,
+    p.passed_count
+FROM (SELECT course_code, COUNT(*) AS total_students FROM grades GROUP BY course_code) t
+LEFT JOIN (SELECT course_code, COUNT(*) AS passed_count FROM grades WHERE numeric_score >= 60 GROUP BY course_code) p
+  ON t.course_code = p.course_code;
+```
+
+#### ✅ El Buen Camino: Pivoteo Limpio en un Solo Escaneo con `SUM(CASE WHEN...)`
+```sql
+-- 🎯 Objetivo de Negocio: Pivotear el conteo de notas aprobadas, reprobadas y ausentes por curso en una sola pasada.
+
+SELECT 
+    course_code,
+    COUNT(*) AS total_students,
+    SUM(CASE WHEN numeric_score >= 60.0 THEN 1 ELSE 0 END) AS passed_students,
+    SUM(CASE WHEN numeric_score < 60.0 THEN 1 ELSE 0 END) AS failed_students,
+    SUM(CASE WHEN numeric_score IS NULL THEN 1 ELSE 0 END) AS absent_students,
+    ROUND(
+        SUM(CASE WHEN numeric_score >= 60.0 THEN 1.0 ELSE 0.0 END) / COUNT(*) * 100.0, 
+        1
+    ) AS pass_rate_pct
+FROM grades
+GROUP BY course_code
+ORDER BY course_code ASC;
+```
+
+---
+
+> [!NOTE]
+> ### 🔍 Desglose de Sintaxis (Zero Surprise Syntax): `SUM(CASE WHEN...)` y Flotantes
+> * **`SUM(CASE WHEN condicion THEN 1 ELSE 0 END)`:** Si la fila cumple la condición, el `CASE` evalúa a `1`; si no, evalúa a `0`. La función `SUM` suma todos los unos y ceros, actuando eficazmente como un contador selectivo.
+> * **¿Por qué `1.0` en lugar de `1` en el ratio?** En SQLite y PostgreSQL, dividir dos enteros (ej. `3 / 4`) realiza una división entera truncando el resultado a `0`. Al colocar `1.0` en el `THEN`, forzamos a que el numerador sea de tipo `REAL` (punto flotante), permitiendo calcular decimales exactos (`3.0 / 4 = 0.75`).
+> * **`ROUND(expresion, decimales)`:** Redondea el valor resultante al número especificado de posiciones decimales para presentación limpia en reportes.
+
+---
+
+## 8. Mapa de Ejercicios
 
 Dirígete a la carpeta `quests/03-functions/`:
 
 - [[01-data-cleaning.md]] (Tipo A: Escribir consultas de limpieza de texto, fechas y conversión de tipos)
 - [[02-case-when-practice.md]] (Tipo B: Crear expresiones `CASE WHEN` complejas para categorizar registros de negocio)
+- [[03-conditional-aggregations.md]] (Tipo A: Agregaciones condicionales `SUM(CASE WHEN...)` y pivoteo de métricas)
 
 ```text
 subjects/sql/chronicles/SQL-BASICO/quests/03-functions/
 ├── 01-data-cleaning.md
-└── 02-case-when-practice.md
+├── 02-case-when-practice.md
+└── 03-conditional-aggregations.md
 ```
+

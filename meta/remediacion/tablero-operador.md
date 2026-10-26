@@ -23,59 +23,63 @@
 ### 🗄️ Fase 2: `03-sql-basico` (En Curso)
 | Tarea ID | Materia | Ubicación | Concepto | Archivo que debes editar | Comando de Verificación | Estado |
 |---|---|---|---|---|---|---|
-| **`SQL-013`** | `03-sql-basico` | Cap 02: Filtros | Semántica 3VL de `NULL`, trampa de `NOT IN` y `COALESCE` | [`quests/02-filtering/null_semantics.sql`](file:///Users/ander/Documents/DoJo/DoJo_Study/content/subjects/sql/chronicles/SQL-BASICO/quests/02-filtering/null_semantics.sql) | `pytest quests/02-filtering/test_null_semantics.py` | 🟡 **ACTIVA (Tu turno)** |
-| **`SQL-006`** | `03-sql-basico` | Cap 03: Agregaciones | Agregaciones condicionales `CASE WHEN` | `quests/03-functions/conditional_aggregations.sql` | — | ⏳ En espera |
+| **`SQL-013`** | `03-sql-basico` | Cap 02: Filtros | Semántica 3VL de `NULL`, trampa de `NOT IN` y `COALESCE` | [`quests/02-filtering/null_semantics.sql`](file:///Users/ander/Documents/DoJo/DoJo_Study/content/subjects/sql/chronicles/SQL-BASICO/quests/02-filtering/null_semantics.sql) | `pytest quests/02-filtering/test_null_semantics.py` | 🟢 **COMPLETADO** |
+| **`SQL-006`** | `03-sql-basico` | Cap 03: Agregaciones | Agregaciones condicionales `SUM(CASE WHEN...)` | [`quests/03-functions/conditional_aggregations.sql`](file:///Users/ander/Documents/DoJo/DoJo_Study/content/subjects/sql/chronicles/SQL-BASICO/quests/03-functions/conditional_aggregations.sql) | `pytest quests/03-functions/test_conditional_aggregations.py` | 🟡 **ACTIVA (Tu turno)** |
 | **`SQL-005`** | `03-sql-basico` | Cap 08: Transacciones | Transacciones explícitas, `ROLLBACK` y ACID | `quests/08-set-ops/transactions_acid.sql` | — | ⏳ En espera |
 | **`MKT-SQL-002`**| `03-sql-basico` | Cap 09: Modelado | SCD Tipo 2 en Star Schema dimensional | `quests/09-integrity/scd_type2_dim.sql` | — | ⏳ En espera |
 
 ---
 
-## 2. 🚀 MISIÓN ACTIVA: `SQL-013` — Semántica Tri-Valor de NULL y Trampa de NOT IN
+## 2. 🚀 MISIÓN ACTIVA: `SQL-006` — Agregaciones Condicionales con CASE WHEN (Pivoteo Analítico)
 
-* **Materia:** `03-sql-basico` (Capítulo 02: Filtering & Sorting)  
-* **Archivo a editar por el Operador:** [`content/subjects/sql/chronicles/SQL-BASICO/quests/02-filtering/null_semantics.sql`](file:///Users/ander/Documents/DoJo/DoJo_Study/content/subjects/sql/chronicles/SQL-BASICO/quests/02-filtering/null_semantics.sql)  
-* **Enunciado de la Quest:** [`content/subjects/sql/chronicles/SQL-BASICO/quests/02-filtering/03-null-semantics-and-three-valued-logic.md`](file:///Users/ander/Documents/DoJo/DoJo_Study/content/subjects/sql/chronicles/SQL-BASICO/quests/02-filtering/03-null-semantics-and-three-valued-logic.md)  
-* **Teoría de Respaldo:** [`content/subjects/sql/chronicles/SQL-BASICO/lore/02-filtering-and-sorting.md` (§4)](file:///Users/ander/Documents/DoJo/DoJo_Study/content/subjects/sql/chronicles/SQL-BASICO/lore/02-filtering-and-sorting.md#4-el-manejo-de-null-y-la-lógica-tri-valor-three-valued-logic---3vl)
+* **Materia:** `03-sql-basico` (Capítulo 03: Scalar Functions, CASE WHEN & Data Types)  
+* **Archivo a editar por el Operador:** [`content/subjects/sql/chronicles/SQL-BASICO/quests/03-functions/conditional_aggregations.sql`](file:///Users/ander/Documents/DoJo/DoJo_Study/content/subjects/sql/chronicles/SQL-BASICO/quests/03-functions/conditional_aggregations.sql)  
+* **Enunciado de la Quest:** [`content/subjects/sql/chronicles/SQL-BASICO/quests/03-functions/03-conditional-aggregations.md`](file:///Users/ander/Documents/DoJo/DoJo_Study/content/subjects/sql/chronicles/SQL-BASICO/quests/03-functions/03-conditional-aggregations.md)  
+* **Teoría de Respaldo:** [`content/subjects/sql/chronicles/SQL-BASICO/lore/03-functions-and-expressions.md` (§7)](file:///Users/ander/Documents/DoJo/DoJo_Study/content/subjects/sql/chronicles/SQL-BASICO/lore/03-functions-and-expressions.md#7-agregaciones-condicionales-con-case-when-pivoteo-analítico)
 
 ### 📋 El Contrato que debes cumplir:
 
-Reemplaza los `SELECT` dummy dentro de las 3 vistas en [`null_semantics.sql`](file:///Users/ander/Documents/DoJo/DoJo_Study/content/subjects/sql/chronicles/SQL-BASICO/quests/02-filtering/null_semantics.sql):
+Reemplaza los `SELECT` dummy dentro de las 2 vistas analíticas en [`conditional_aggregations.sql`](file:///Users/ander/Documents/DoJo/DoJo_Study/content/subjects/sql/chronicles/SQL-BASICO/quests/03-functions/conditional_aggregations.sql):
 
-1. **`v_effective_customs_fees` (Desafío 1 - Fallback con COALESCE):**
-   * Retorna `tracking_code`, `destination_country`, y `effective_customs_fee`.
-   * `effective_customs_fee = COALESCE(customs_fee, 0.0) + 10.0` (recargo fijo). Si `customs_fee` es NULL, debe sumar `$0.0 + $10.0 = $10.0`.
-   * Ordena por `tracking_code ASC`.
+1. **`v_merchant_status_pivot` (Desafío 1 - Pivoteo de Estados y Montos):**
+   * Agrupa por `merchant_id` y calcula en una sola pasada:
+     * `merchant_id`: ID del comercio.
+     * `total_orders`: Total general de órdenes (`COUNT(*)`).
+     * `completed_orders`: Órdenes con `order_status = 'COMPLETED'` (`SUM(CASE WHEN order_status = 'COMPLETED' THEN 1 ELSE 0 END)`).
+     * `failed_orders`: Órdenes con `order_status = 'FAILED'`.
+     * `refunded_orders`: Órdenes con `order_status = 'REFUNDED'`.
+     * `total_completed_amount`: Suma del `amount` **únicamente** para órdenes `COMPLETED` (`SUM(CASE WHEN order_status = 'COMPLETED' THEN amount ELSE 0.0 END)`).
+   * Ordena por `merchant_id ASC`.
 
-2. **`v_unsanctioned_shipments` (Desafío 2 - Eludir la Trampa de 3VL con NOT IN):**
-   * Retorna `tracking_code`, `destination_country`, `weight_kg`.
-   * Filtra envíos cuyo `destination_country` **NO** pertenezca a `sanctioned_destinations`.
-   * ⚠️ **Trampa 3VL:** `sanctioned_destinations` contiene un registro `NULL`. Si haces `NOT IN (SELECT country_code FROM sanctioned_destinations)` sin filtrar, el motor evaluará `UNKNOWN` y devolverá 0 filas. Debes asegurar `WHERE country_code IS NOT NULL` en la subconsulta (o usar `NOT EXISTS`).
-   * Ordena por `tracking_code ASC` (debe retornar 5 filas: `CAN`, `MEX`, `FRA`, `DEU`, `JPN`).
-
-3. **`v_unassigned_carriers` (Desafío 3 - Filtrado con IS NULL):**
-   * Retorna `tracking_code`, `destination_country`.
-   * Filtra los paquetes sin transportista asignado usando `WHERE carrier_id IS NULL` (nunca `= NULL`).
-   * Ordena por `tracking_code ASC` (debe retornar 2 filas: `TRK-1003` y `TRK-1005`).
+2. **`v_merchant_payment_breakdown` (Desafío 2 - Métricas de Canal y Tasa de Éxito):**
+   * Agrupa por `merchant_id` y calcula:
+     * `merchant_id`: ID del comercio.
+     * `credit_card_orders`: Órdenes pagadas con `'CREDIT_CARD'`.
+     * `crypto_orders`: Órdenes pagadas con `'CRYPTO'`.
+     * `success_rate_pct`: Porcentaje de éxito de órdenes completadas sobre el total, redondeado a 1 decimal:
+       $$\text{ROUND}\left(\frac{\sum (\text{COMPLETED})}{\text{total}} \times 100.0, 1\right)$$
+       *(⚠️ Recuerda forzar punto flotante usando `1.0` o `100.0` para evitar división entera a cero).*
+   * Ordena por `merchant_id ASC`.
 
 ---
 
-### 💡 Ejemplo con Domain Shifting (Sistema Hospitalario):
+### 💡 Ejemplo con Domain Shifting (Sistema Universitario):
 
 ```sql
--- 🎯 Objetivo de Negocio: Calcular facturación con tarifa base por defecto y eludir la trampa de 3VL en listas de exclusión.
+-- 🎯 Objetivo de Negocio: Pivotear notas aprobadas, reprobadas y calcular tasa de aprobación en una pasada.
 
--- 1. Uso de COALESCE para evitar contaminación de sumas con NULL:
 SELECT 
-    patient_name,
-    COALESCE(fee, 0.0) + 15.0 AS total_billing
-FROM appointments;
-
--- 2. Elusión de la trampa NOT IN al consultar doctores no restringidos:
-SELECT id, patient_name, doctor_id
-FROM appointments
-WHERE doctor_id NOT IN (
-    SELECT id FROM restricted_doctors WHERE id IS NOT NULL
-);
+    course_code,
+    COUNT(*) AS total_students,
+    SUM(CASE WHEN numeric_score >= 60.0 THEN 1 ELSE 0 END) AS passed_students,
+    SUM(CASE WHEN numeric_score < 60.0 THEN 1 ELSE 0 END) AS failed_students,
+    ROUND(
+        SUM(CASE WHEN numeric_score >= 60.0 THEN 1.0 ELSE 0.0 END) / COUNT(*) * 100.0, 
+        1
+    ) AS pass_rate_pct
+FROM grades
+GROUP BY course_code
+ORDER BY course_code ASC;
 ```
 
 ---
@@ -84,13 +88,13 @@ WHERE doctor_id NOT IN (
 
 1. **Validación Funcional y de Lógica de Negocio (Pytest):**
    ```bash
-   /Users/ander/Documents/DoJo/DoJo_Study/content/subjects/python/chronicles/PY-POO/rite/.venv/bin/pytest content/subjects/sql/chronicles/SQL-BASICO/quests/02-filtering/test_null_semantics.py -v
+   /Users/ander/Documents/DoJo/DoJo_Study/content/subjects/python/chronicles/PY-POO/rite/.venv/bin/pytest content/subjects/sql/chronicles/SQL-BASICO/quests/03-functions/test_conditional_aggregations.py -v
    ```
-   *(Criterio de éxito: 3 passed con exit code 0).*
+   *(Criterio de éxito: 2 passed con exit code 0).*
 
 2. **Validación Sintáctica de SQLite en Memoria (Runner del DoJo):**
    ```bash
-   python3 system/tools/sql_runner.py content/subjects/sql/chronicles/SQL-BASICO/quests/02-filtering/null_semantics.sql
+   python3 system/tools/sql_runner.py content/subjects/sql/chronicles/SQL-BASICO/quests/03-functions/conditional_aggregations.sql
    ```
 
 ---
@@ -99,16 +103,17 @@ WHERE doctor_id NOT IN (
 
 Registro de archivos nuevos o actualizados en el sistema bajo las reglas de `09-generation-protocol.md`:
 
-* `content/subjects/python/chronicles/PY-POO/quests/05-testing/billing_service.py`:
-  * *Cambio:* **Implementado y aprobado por el Operador (`5/5 passed`, exit code 0). Cierre formal de la brecha `PY-020` y de la materia `02-py-poo`.**
-* `content/subjects/sql/chronicles/SQL-BASICO/lore/02-filtering-and-sorting.md`:
-  * *Cambio:* Sección 4 ampliada con semántica Tri-Valor (3VL), tablas de verdad `TRUE/FALSE/UNKNOWN`, trampa mortal de `NOT IN` con `NULL`, función `COALESCE`, analogías y Zero Surprise Syntax.
-* `content/subjects/sql/chronicles/SQL-BASICO/quests/02-filtering/03-null-semantics-and-three-valued-logic.md`:
-  * *Cambio:* Enunciado didáctico de la Quest 02-03 (`SQL-013`).
 * `content/subjects/sql/chronicles/SQL-BASICO/quests/02-filtering/null_semantics.sql`:
-  * *Cambio:* Plantilla inicial para el Operador con esquema de carga, seed data y vistas dummy.
-* `content/subjects/sql/chronicles/SQL-BASICO/quests/02-filtering/test_null_semantics.py`:
-  * *Cambio:* Suite evaluadora automatizada con 3 tests unitarios validando 3VL, trampa `NOT IN` y `COALESCE`.
+  * *Cambio:* **Implementado y aprobado por el Operador (`3/3 passed`, exit code 0). Cierre formal de la brecha `SQL-013`.**
+* `content/subjects/sql/chronicles/SQL-BASICO/lore/03-functions-and-expressions.md`:
+  * *Cambio:* Sección 7 añadida sobre Agregaciones Condicionales con `CASE WHEN` (pivoteo de filas a columnas, optimización de escaneo único y ratios porcentuales).
+* `content/subjects/sql/chronicles/SQL-BASICO/quests/03-functions/03-conditional-aggregations.md`:
+  * *Cambio:* Enunciado didáctico de la Quest 03-03 (`SQL-006`).
+* `content/subjects/sql/chronicles/SQL-BASICO/quests/03-functions/conditional_aggregations.sql`:
+  * *Cambio:* Plantilla inicial para el Operador con esquema de órdenes, seed data y vistas analíticas.
+* `content/subjects/sql/chronicles/SQL-BASICO/quests/03-functions/test_conditional_aggregations.py`:
+  * *Cambio:* Suite evaluadora automatizada con 2 tests unitarios evaluando pivoteo y métricas de tasa de éxito.
+
 
 
 
