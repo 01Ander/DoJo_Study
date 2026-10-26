@@ -44,15 +44,16 @@ INSERT INTO orders (order_code, merchant_id, payment_method, order_status, amoun
 DROP VIEW IF EXISTS v_merchant_status_pivot;
 CREATE VIEW v_merchant_status_pivot AS
 -- TODO: Reemplaza este SELECT dummy con tu consulta de agregación condicional
-SELECT 
+SELECT
     merchant_id,
-    0 AS total_orders,
-    0 AS completed_orders,
-    0 AS failed_orders,
-    0 AS refunded_orders,
-    0.0 AS total_completed_amount
+    COUNT(*) AS total_orders,
+    SUM(CASE WHEN order_status = 'COMPLETED' THEN 1 ELSE 0 END) AS completed_orders,
+    SUM(CASE WHEN order_status = 'FAILED' THEN 1 ELSE 0 END) AS failed_orders,
+    SUM(CASE WHEN order_status = 'REFUNDED' THEN 1 ELSE 0 END) AS refunded_orders,
+    SUM(CASE WHEN order_status = 'COMPLETED' THEN amount ELSE 0 END) AS total_completed_amount
 FROM orders
-GROUP BY merchant_id;
+GROUP BY merchant_id
+ORDER BY merchant_id ASC;
 
 
 -- ============================================================================
@@ -69,10 +70,12 @@ GROUP BY merchant_id;
 DROP VIEW IF EXISTS v_merchant_payment_breakdown;
 CREATE VIEW v_merchant_payment_breakdown AS
 -- TODO: Reemplaza este SELECT dummy con tu consulta calculando canales y ratio
-SELECT 
+SELECT
     merchant_id,
-    0 AS credit_card_orders,
-    0 AS crypto_orders,
-    0.0 AS success_rate_pct
+    SUM(CASE WHEN payment_method = 'CREDIT_CARD' THEN 1 ELSE 0 END) AS credit_card_orders,
+    SUM(CASE WHEN payment_method = 'CRYPTO' THEN 1 ELSE 0 END) AS crypto_orders,
+    ROUND(
+        SUM(CASE WHEN order_status = 'COMPLETED' THEN 1.0 ELSE 0 END) / COUNT(*) * 100.0, 1) AS success_rate_pct
 FROM orders
-GROUP BY merchant_id;
+GROUP BY merchant_id
+ORDER BY merchant_id ASC;
