@@ -62,7 +62,30 @@ INSERT INTO fact_settlements (settlement_id, merchant_id, settlement_date, gross
 -- BEGIN TRANSACTION;
 -- ...
 -- COMMIT;
+BEGIN TRANSACTION;
 
+UPDATE dim_merchants
+SET valid_to = '2025-07-01', is_current = 0 WHERE merchant_id = 'MKT-101' AND is_current = 1;
+
+INSERT INTO dim_merchants (
+    merchant_id,
+    merchant_name,
+    risk_tier,
+    fee_rate,
+    valid_from,
+    valid_to,
+    is_current
+) VALUES (
+    'MKT-101',
+    'Solaris Market',
+    'HIGH',
+    0.050,
+    '2025-07-01',
+    NULL,
+    1
+);
+
+COMMIT;
 
 -- ============================================================================
 -- DESAFÍO 2: Vista Analítica Point-in-Time (v_settlement_reporting)
@@ -85,16 +108,21 @@ INSERT INTO fact_settlements (settlement_id, merchant_id, settlement_date, gross
 
 -- TODO: Reemplaza la consulta dummy de la vista v_settlement_reporting:
 CREATE VIEW v_settlement_reporting AS
-SELECT 
-    1 AS settlement_id,
-    '2025-01-01' AS settlement_date,
-    'MKT-DUMMY' AS merchant_id,
-    'Dummy Name' AS merchant_name,
-    'LOW' AS risk_tier,
-    0.0 AS gross_volume_usd,
-    0.0 AS fee_rate,
-    0.0 AS fee_amount_usd;
-
+SELECT
+    f.settlement_id,
+    f.settlement_date,
+    f.merchant_id,
+    d.merchant_name,
+    d.risk_tier,
+    f.gross_volume_usd,
+    d.fee_rate,
+    ROUND(f.gross_volume_usd * d.fee_rate, 2) AS fee_amount_usd
+FROM fact_settlements AS f
+JOIN dim_merchants AS d
+ON f.merchant_id = d.merchant_id
+AND f.settlement_date >= d.valid_from
+AND (f.settlement_date < d.valid_to OR d.valid_to IS NULL)
+ORDER BY settlement_id ASC;
 
 -- ============================================================================
 -- DESAFÍO 3: Vista de Estado Actual de la Dimensión (v_current_merchants)
@@ -110,9 +138,12 @@ SELECT
 
 -- TODO: Reemplaza la consulta dummy de la vista v_current_merchants:
 CREATE VIEW v_current_merchants AS
-SELECT 
-    'MKT-DUMMY' AS merchant_id,
-    'Dummy Name' AS merchant_name,
-    'LOW' AS risk_tier,
-    0.0 AS fee_rate,
-    '2025-01-01' AS valid_from;
+SELECT
+    merchant_id,
+    merchant_name,
+    risk_tier,
+    fee_rate,
+    valid_from
+FROM dim_merchants
+WHERE is_current = 1
+ORDER BY merchant_id ASC;
