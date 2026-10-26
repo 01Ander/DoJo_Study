@@ -1,8 +1,8 @@
 # 🎯 Tablero de Acción del Operador — Ola 2
 
 > **Propósito:** Registro directo, claro y accionable de las tareas que el Operador debe programar (Carril A) y de los nuevos cambios introducidos en el sistema (Carril B), sin la sobrecarga del roadmap general.  
-> **Última Actualización:** 2026-10-21  
-> **Materia Activa:** `03-sql-basico` (SQL Básico, Modelado y Transacciones)
+> **Última Actualización:** 2026-10-26  
+> **Materia Activa:** `04-de-pipelines` (Data Pipelines, ETL, PostgreSQL y Prefect)
 
 ---
 
@@ -33,79 +33,64 @@
 ### ⚙️ Fase 3: `04-de-pipelines` (En Curso 🟡)
 | Tarea ID | Materia | Ubicación | Concepto | Archivo que debes editar | Comando de Verificación | Estado |
 |---|---|---|---|---|---|---|
-| **`DE-007`** | `04-de-pipelines` | Cap 01: Extracción API | Paginación resiliente (Offset & Cursor) y Rate Limits | [`quests/01-extraccion-api/api_paginator.py`](file:///Users/ander/Documents/DoJo/DoJo_Study/content/subjects/data_engineering/chronicles/DE-PIPELINES/quests/01-extraccion-api/api_paginator.py) | `pytest quests/01-extraccion-api/test_api_pagination.py` | 🟡 **ACTIVA (Tu turno)** |
-| **`DE-004`** | `04-de-pipelines` | Cap 04: Carga DB | Carga a PostgreSQL real con Docker Compose | `quests/04-carga-postgresql/postgres_loader.py` | — | ⏳ En espera |
+| **`DE-007`** | `04-de-pipelines` | Cap 01: Extracción API | Paginación resiliente (Offset & Cursor) y Rate Limits | [`quests/01-extraccion-api/api_paginator.py`](file:///Users/ander/Documents/DoJo/DoJo_Study/content/subjects/data_engineering/chronicles/DE-PIPELINES/quests/01-extraccion-api/api_paginator.py) | `pytest quests/01-extraccion-api/test_api_pagination.py` | 🟢 **COMPLETADO** |
+| **`DE-004`** | `04-de-pipelines` | Cap 04: Carga DB | Carga a PostgreSQL real con Docker Compose | [`quests/04-carga-postgresql/postgres_loader.py`](file:///Users/ander/Documents/DoJo/DoJo_Study/content/subjects/data_engineering/chronicles/DE-PIPELINES/quests/04-carga-postgresql/postgres_loader.py) | `pytest quests/04-carga-postgresql/test_postgres_loader.py` | 🟡 **ACTIVA (Tu turno)** |
 | **`DE-009`** | `04-de-pipelines` | Cap 05: Orquestación | Logs estructurados de run (`get_run_logger`) | `quests/05-orquestacion-prefect/flow_logger.py` | — | ⏳ En espera |
 | **`DE-005`** | `04-de-pipelines` | Cap 05: Orquestación | Orquestación Periódica/Airflow básico | `quests/05-orquestacion-prefect/airflow_dag.py` | — | ⏳ En espera |
 
 ---
 
-## 2. 🚀 MISIÓN ACTIVA: `DE-007` — Consumo Resiliente de APIs con Paginación y Rate Limiting (AeroFleet Telemetry)
+## 2. 🚀 MISIÓN ACTIVA: `DE-004` — Carga Masiva a PostgreSQL con SQLAlchemy y Connection Pools (FinCorp Global)
 
-* **Materia:** `04-de-pipelines` (Capítulo 01: Extracción Automatizada — APIs REST)  
-* **Archivo a editar por el Operador:** [`content/subjects/data_engineering/chronicles/DE-PIPELINES/quests/01-extraccion-api/api_paginator.py`](file:///Users/ander/Documents/DoJo/DoJo_Study/content/subjects/data_engineering/chronicles/DE-PIPELINES/quests/01-extraccion-api/api_paginator.py)  
-* **Enunciado de la Quest:** [`content/subjects/data_engineering/chronicles/DE-PIPELINES/quests/01-extraccion-api/02-api-pagination.md`](file:///Users/ander/Documents/DoJo/DoJo_Study/content/subjects/data_engineering/chronicles/DE-PIPELINES/quests/01-extraccion-api/02-api-pagination.md)  
-* **Teoría de Respaldo:** [`content/subjects/data_engineering/chronicles/DE-PIPELINES/lore/01-extraccion-api.md` (§3)](file:///Users/ander/Documents/DoJo/DoJo_Study/content/subjects/data_engineering/chronicles/DE-PIPELINES/lore/01-extraccion-api.md#3-paginación-cuando-el-catálogo-es-masivo)
+* **Materia:** `04-de-pipelines` (Capítulo 04: Carga de Datos Estructurados a PostgreSQL)  
+* **Archivo a editar por el Operador:** [`content/subjects/data_engineering/chronicles/DE-PIPELINES/quests/04-carga-postgresql/postgres_loader.py`](file:///Users/ander/Documents/DoJo/DoJo_Study/content/subjects/data_engineering/chronicles/DE-PIPELINES/quests/04-carga-postgresql/postgres_loader.py)  
+* **Enunciado de la Quest:** [`content/subjects/data_engineering/chronicles/DE-PIPELINES/quests/04-carga-postgresql/02-postgres-loader.md`](file:///Users/ander/Documents/DoJo/DoJo_Study/content/subjects/data_engineering/chronicles/DE-PIPELINES/quests/04-carga-postgresql/02-postgres-loader.md)  
+* **Teoría de Respaldo:** [`content/subjects/data_engineering/chronicles/DE-PIPELINES/lore/04-carga-postgresql.md`](file:///Users/ander/Documents/DoJo/DoJo_Study/content/subjects/data_engineering/chronicles/DE-PIPELINES/lore/04-carga-postgresql.md)
 
 ### 📋 El Contrato que debes cumplir:
 
-Implementa en [`api_paginator.py`](file:///Users/ander/Documents/DoJo/DoJo_Study/content/subjects/data_engineering/chronicles/DE-PIPELINES/quests/01-extraccion-api/api_paginator.py) las dos funciones extractoras:
+Implementa en [`postgres_loader.py`](file:///Users/ander/Documents/DoJo/DoJo_Study/content/subjects/data_engineering/chronicles/DE-PIPELINES/quests/04-carga-postgresql/postgres_loader.py) los 3 componentes:
 
-1. **`extract_paginated_offset(api_url: str, token: str, page_size: int = 20, max_pages: int = 50) -> list[dict[str, Any]]`**
-   * Envía cabecera `Authorization: Bearer <token>`.
-   * Itera iniciando en `page = 1`, enviando `params={"page": page, "limit": page_size}`.
-   * Extrae la lista bajo la llave `"data"` de la respuesta JSON.
-   * **Deduplicación:** Filtra registros duplicados por `"id"` usando un `set()` de memoria.
-   * **Parada:** Detén el bucle si `batch` está vacío, si `len(batch) < page_size`, o si `page > max_pages`.
-   * Retorna la lista acumulada de diccionarios únicos.
+1. **`class DatabaseConfig` (Método `get_uri(self) -> str`)**
+   * Retorna la URI con formato estándar:
+     `f"{self.driver}://{self.username}:{self.password}@{self.host}:{self.port}/{self.database}"`
 
-2. **`extract_paginated_cursor(api_url: str, token: str, max_pages: int = 50, max_retries: int = 3) -> list[dict[str, Any]]`**
-   * Envía cabecera `Authorization: Bearer <token>`.
-   * Envía `params={"limit": 50}` (y añade `"cursor": next_cursor` si `next_cursor` no es `None`).
-   * **Resiliencia ante Rate Limits (HTTP 429):**
-     * Si `response.status_code == 429`:
-       * Extrae el tiempo de espera de `response.headers.get("Retry-After", 1.0)`.
-       * Ejecuta `time.sleep(wait_time)`.
-       * Reintenta hasta `max_retries` veces.
-       * Si se agotan los reintentos, lanza `RateLimitExceededError`.
-     * Para otros estados no exitosos, llama `response.raise_for_status()`.
-   * Acumula los elementos de `"items"`.
-   * Extrae `"next_cursor"` del payload: si es `None` o vacío, o si `pages_processed >= max_pages`, termina el bucle.
-   * Retorna la lista acumulada de eventos.
+2. **`create_production_engine(connection_uri: str, pool_size: int = 5, pool_pre_ping: bool = True) -> Engine`**
+   * Retorna un `create_engine(connection_uri, pool_size=pool_size, pool_pre_ping=pool_pre_ping)`.
+
+3. **`load_gold_dataframe(df: pd.DataFrame, table_name: str, engine: Engine, chunksize: int = 500) -> int`**
+   * Si `df.empty`: retorna `0`.
+   * Bloque `try / except SQLAlchemyError as err`:
+     * Ejecuta `df.to_sql(name=table_name, con=engine, if_exists="append", index=False, chunksize=chunksize)`.
+     * Retorna `len(df)`.
+     * Si falla, lanza `raise DatabaseLoadError(f"Fallo al cargar en {table_name}: {err}") from err`.
 
 ---
 
-### 💡 Ejemplo con Domain Shifting (Ingesta de Clientes CRM):
+### 💡 Ejemplo con Domain Shifting (Ingesta Logística LogiTrack):
 
 ```python
-# 🎯 Objetivo de Negocio: Extraer leads paginados por offset deduplicando contactos y respetando límite de seguridad.
+# 🎯 Objetivo de Negocio: Construir connection URI y persistir despachos de transporte por bloques.
 
-def extract_crm_leads(api_url: str, api_key: str, page_size: int = 10, max_pages: int = 20) -> list[dict]:
-    headers = {"Authorization": f"Bearer {api_key}"}
-    leads = []
-    seen_emails = set()
-    page = 1
+@dataclass
+class FleetDbConfig:
+    host: str
+    port: int
+    db: str
+    user: str
+    pwd: str
 
-    while page <= max_pages:
-        resp = requests.get(api_url, headers=headers, params={"page": page, "limit": page_size}, timeout=10)
-        resp.raise_for_status()
-        batch = resp.json().get("leads", [])
-        
-        if not batch:
-            break
+    def build_url(self) -> str:
+        return f"postgresql+psycopg2://{self.user}:{self.pwd}@{self.host}:{self.port}/{self.db}"
 
-        for item in batch:
-            email = item.get("email")
-            if email and email not in seen_emails:
-                seen_emails.add(email)
-                leads.append(item)
-
-        if len(batch) < page_size:
-            break
-
-        page += 1
-
-    return leads
+def persist_shipments(df: pd.DataFrame, table: str, engine: Engine) -> int:
+    if df.empty:
+        return 0
+    try:
+        df.to_sql(name=table, con=engine, if_exists="append", index=False, chunksize=250)
+        return len(df)
+    except SQLAlchemyError as err:
+        raise DatabaseLoadError(f"Error persisting to {table}") from err
 ```
 
 ---
@@ -113,7 +98,7 @@ def extract_crm_leads(api_url: str, api_key: str, page_size: int = 10, max_pages
 ### 🧪 Comandos de Verificación Binaria:
 
 ```bash
-/Users/ander/Documents/DoJo/DoJo_Study/content/subjects/data_engineering/chronicles/DE-PIPELINES/.venv/bin/pytest content/subjects/data_engineering/chronicles/DE-PIPELINES/quests/01-extraccion-api/test_api_pagination.py -v
+/Users/ander/Documents/DoJo/DoJo_Study/content/subjects/data_engineering/chronicles/DE-PIPELINES/.venv/bin/pytest content/subjects/data_engineering/chronicles/DE-PIPELINES/quests/04-carga-postgresql/test_postgres_loader.py -v
 ```
 *(Criterio de éxito: 5 passed con exit code 0).*
 
@@ -123,16 +108,18 @@ def extract_crm_leads(api_url: str, api_key: str, page_size: int = 10, max_pages
 
 Registro de archivos nuevos o actualizados en el sistema bajo las reglas de `09-generation-protocol.md`:
 
-* `content/subjects/sql/chronicles/SQL-BASICO/quests/09-integrity/scd_type2_dim.sql`:
-  * *Cambio:* **Implementado y aprobado por el Operador (`3/3 passed`, exit code 0). Cierre definitivo de la materia `03-sql-basico`.**
-* `content/subjects/data_engineering/chronicles/DE-PIPELINES/lore/01-extraccion-api.md`:
-  * *Cambio:* Sección 3 profundamente expandida con teoría de paginación por Offset vs Cursor, resiliencia ante Rate Limits (HTTP 429), cabecera `Retry-After`, backoff, deduplicación y salvaguardas de bucles.
-* `content/subjects/data_engineering/chronicles/DE-PIPELINES/quests/01-extraccion-api/02-api-pagination.md`:
-  * *Cambio:* Enunciado didáctico de la Quest 01-02 (`DE-007`).
+* `docker-compose.yml`:
+  * *Cambio:* Creado en la raíz del proyecto para aprovisionamiento local de PostgreSQL 16 Alpine con healthcheck.
 * `content/subjects/data_engineering/chronicles/DE-PIPELINES/quests/01-extraccion-api/api_paginator.py`:
-  * *Cambio:* Plantilla inicial para el Operador con `RateLimitExceededError` y funciones `extract_paginated_offset` y `extract_paginated_cursor`.
-* `content/subjects/data_engineering/chronicles/DE-PIPELINES/quests/01-extraccion-api/test_api_pagination.py`:
-  * *Cambio:* Suite evaluadora automatizada con 5 tests unitarios validando paginación multi-página, deduplicación, salvaguarda de páginas máximas, cursores continuos y reintentos ante HTTP 429.
+  * *Cambio:* **Implementado y aprobado por el Operador (`5/5 passed`, exit code 0). Cierre formal de la brecha `DE-007`.**
+* `content/subjects/data_engineering/chronicles/DE-PIPELINES/lore/04-carga-postgresql.md`:
+  * *Cambio:* Reescribo exhaustivo con driver `psycopg2`, Connection URIs formales, Docker Compose, Connection Pooling (`pool_pre_ping=True`) y carga masiva por chunks.
+* `content/subjects/data_engineering/chronicles/DE-PIPELINES/quests/04-carga-postgresql/02-postgres-loader.md`:
+  * *Cambio:* Enunciado didáctico de la Quest 04-02 (`DE-004`).
+* `content/subjects/data_engineering/chronicles/DE-PIPELINES/quests/04-carga-postgresql/postgres_loader.py`:
+  * *Cambio:* Plantilla inicial para el Operador con `DatabaseConfig`, `create_production_engine` y `load_gold_dataframe`.
+* `content/subjects/data_engineering/chronicles/DE-PIPELINES/quests/04-carga-postgresql/test_postgres_loader.py`:
+  * *Cambio:* Suite evaluadora automatizada con 5 tests unitarios validando formato de URI, pooling, inserción en chunks y captura de errores.
 
 
 

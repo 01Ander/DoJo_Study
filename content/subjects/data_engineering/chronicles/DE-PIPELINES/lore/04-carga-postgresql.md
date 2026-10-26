@@ -1,87 +1,174 @@
-# Capítulo 04: Carga de Datos a Bases Relacionales (SQLAlchemy)
+# Capítulo 04: Carga de Datos Estructurados a PostgreSQL (SQLAlchemy)
 
-> 🎯 **Objetivo de Negocio:** El inventario de pociones en la Zona Gold está listo. Ahora necesitamos guardarlo de forma permanente y segura en el Gran Archivo del Gremio (nuestra base de datos PostgreSQL) para que los maestros puedan consultarlo con SQL.
+> 🎯 **Objetivo de Negocio:** El inventario curado de la Zona Gold está validado y saneado. Ahora debemos persistirlo de forma masiva, transaccional y permanente en el almacén de datos central (**PostgreSQL de producción**) para que los analistas, modelos de Machine Learning y dashboards de BI consuman información consistente.
 
-Para hablar con bases de datos relacionales desde Python, usamos una librería llamada **SQLAlchemy**. Esta actúa como un puente mágico (ORM y DBAPI) entre el código Python y el motor de la base de datos.
+En la ingeniería de datos profesional, SQLite es una herramienta excelente para prototipado rápido y pruebas unitarias aisladas en memoria. Sin embargo, **los pipelines de datos de producción exigen motores relacionales cliente-servidor como PostgreSQL**, capaces de soportar cientos de transacciones concurrentes, tipos nativos avanzados (`JSONB`, `UUID`, `TIMESTAMP WITH TIME ZONE`), particionamiento de tablas y control granular de roles y conexiones.
 
-## 1. Instalación y Connection Strings
+---
 
-*Zero Assumption Setup:* Necesitas instalar sqlalchemy. Si estuviéramos conectándonos a Postgres de verdad, necesitarías `psycopg2-binary`. Para este laboratorio usaremos SQLite (incluido en Python), así que solo necesitas SQLAlchemy.
+## 1. El Driver de Producción y la Cadena de Conexión (Connection URI)
+
+Para comunicar Python con PostgreSQL, **SQLAlchemy** requiere un conector de bajo nivel (*DBAPI driver*). El estándar de la industria es **`psycopg2`** (o `psycopg2-binary`):
+
 ```bash
-pip install sqlalchemy
+pip install sqlalchemy psycopg2-binary
 ```
 
-**Analogía (El Portal de Teletransporte):**
-Para mandar objetos de tu laboratorio al Gran Archivo, primero debes "dibujar" las runas de conexión del portal. A esto se le llama **Connection String**. Tiene el formato: `motor://usuario:contraseña@servidor/base_de_datos`.
+### Anatomía de una Connection URI en PostgreSQL
 
-## 2. El Engine y la Carga de Datos
-
-Pandas tiene un método mágico llamado `to_sql()` que toma un DataFrame entero y lo inserta en la base de datos de un solo golpe.
-
-### Ejemplo Progresivo: Carga a Base de Datos
-
-**El Mal Camino (SQL concatenado - Vulnerable y Lento):**
-```python
-# 🎯 Objective: Save potions to the database
-def load_potions_bad(gold_data, db_conn):
-    # Doing inserts one by one writing SQL by hand is prone 
-    # to SQL injection and takes too long.
-    for potion, amount in gold_data.items():
-        sql = f"INSERT INTO inventory VALUES ('{potion}', {amount})"
-        db_conn.execute(sql)
+```text
+postgresql+psycopg2://dojo_user:dojo_password@localhost:5432/guild_gold
+└──┬───────────────┘  └───┬───┘ └───┬─────────┘ └───┬───┘ └──┬─┘ └───┬──────┘
+   │                      │         │               │        │       │
+ Dialecto + Driver     Usuario   Contraseña        Host    Puerto Base de Datos
 ```
 
-**El Buen Camino (Pandas + SQLAlchemy):**
-```python
-import pandas as pd
-from sqlalchemy import create_engine
+* **`dialect+driver`:** Informa a SQLAlchemy qué motor relacional se utilizará (`postgresql`) y a través de qué librería nativa de Python se ejecutarán los sockets (`psycopg2`).
+* **Seguridad de Secretos:** Nunca escribas contraseñas en código duro. En pipelines productivos, estos valores se cargan desde variables de entorno (`os.getenv`) o administradores de secretos.
 
-def load_potions_good(df_gold: pd.DataFrame):
-    # 1. Dibujamos el portal (Engine). 
-    # Aquí usamos sqlite en memoria por simplicidad, pero para 
-    # Postgres sería algo como: 'postgresql://user:pass@localhost:5432/mydb'
-    db_engine = create_engine('sqlite:///:memory:')
-    
-    # 2. Pasamos el cargamento a través del portal
-    # df_gold viaja completo hacia la tabla 'potion_inventory'
-    df_gold.to_sql(
-        name='potion_inventory',
-        con=db_engine,
-        if_exists='append',
-        index=False
-    )
+---
+
+## 2. Aprovisionamiento Efímero con Docker Compose
+
+Para evitar instalar PostgreSQL directamente en tu sistema operativo y garantizar reproducibilidad idéntica entre tu máquina local y los servidores de integración continua (CI), el DoJo incluye un archivo `docker-compose.yml` en la raíz del repositorio:
+
+```yaml
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: dojo_postgres
+    environment:
+      POSTGRES_USER: dojo_user
+      POSTGRES_PASSWORD: dojo_password
+      POSTGRES_DB: guild_gold
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
 ```
 
-> **Explicación de Sintaxis:**
-> - `create_engine(url)`: Esta función no se conecta inmediatamente, solo prepara la maquinaria y las reglas para conectarse cuando sea necesario (crea el pool de conexiones).
-> - `df.to_sql(...)`: 
->   - `name`: El nombre de la tabla en la base de datos.
->   - `con`: El motor (engine) que acabamos de crear.
->   - `if_exists='append'`: ¿Qué hacemos si la tabla ya existe? `append` agrega las filas nuevas al final de la tabla. Otras opciones son `fail` (explotar) o `replace` (borrar tabla y crearla de nuevo).
->   - `index=False`: Le dice a Pandas que no guarde el número de fila (el índice 0, 1, 2...) como una columna extra en la base de datos, solo nos interesan los datos reales.
-
-## 3. Consultas Crudas (Testing con SQLAlchemy Core)
-
-En nuestros tests, a veces necesitamos verificar si Pandas de verdad insertó los datos. Para hacer consultas SQL crudas directamente al motor, SQLAlchemy provee métodos de bajo nivel:
-- `text("SELECT * FROM tabla")`: Envuelve tu string SQL plano en una estructura segura de SQLAlchemy.
-- `with engine.connect() as conn:`: Abre una conexión viva con la base de datos y la cierra automáticamente al terminar el bloque `with`.
-- `conn.execute(sql)`: Envía el comando SQL al servidor.
-- `.fetchall()`: Toma el resultado de `execute` y te devuelve todas las filas encontradas como una lista de tuplas.
-
-**Ejemplo: Verificar datos insertados**
-```python
-from sqlalchemy import text
-
-# Después de haber cargado datos con to_sql()...
-with db_engine.connect() as conn:
-    result = conn.execute(text("SELECT * FROM potion_inventory")).fetchall()
-    print(result)  # [(Invisibility, 10), (Healing, 25)]
+Con una sola instrucción en la terminal, levantas un cluster de PostgreSQL 16 aislado y listo:
+```bash
+docker compose up -d
 ```
 
 ---
 
-## Misión a seguir
-El inventario está auditado y listo. Ve a `quests/04-carga-postgresql/` y diseña la función para teletransportar el DataFrame a la base de datos.
+## 3. Configuración de Engines de Producción (Connection Pooling)
 
-> [!TIP]
-> **Semantic Commit:** Al finalizar este capítulo y su quest, recuerda hacer un commit semántico en tu repositorio. Ej: `docs(lore): asimilar carga masiva con to_sql` o `feat(quests): cargar datos gold a postgresql`.
+Un error crítico en pipelines de datos es abrir y cerrar una conexión TCP nueva por cada fila o lote procesado. SQLAlchemy gestiona automáticamente un **Pool de Conexiones** (*Connection Pool*) reutilizable:
+
+```python
+from sqlalchemy import create_engine
+from sqlalchemy.engine import Engine
+
+# 🎯 Objetivo de Negocio: Instanciar un motor relacional de alto rendimiento con validación de liveness.
+
+def get_postgres_engine(database_uri: str) -> Engine:
+    return create_engine(
+        database_uri,
+        pool_size=5,             # Conexiones persistentes abiertas en el pool
+        max_overflow=10,         # Conexiones adicionales permitidas durante picos de carga
+        pool_timeout=30,         # Segundos de espera máxima antes de fallar si el pool está lleno
+        pool_recycle=1800,       # Recicla conexiones tras 30 min para evitar desconexiones silenciosas
+        pool_pre_ping=True       # "Pre-ping": verifica que el socket siga vivo antes de entregar la conexión
+    )
+```
+
+> **¿Qué hace `pool_pre_ping=True`?**  
+> Envía un `SELECT 1` imperceptible antes de ejecutar cualquier consulta. Si el firewall o el servidor cerró la conexión por inactividad, SQLAlchemy la descarta y abre una nueva automáticamente, eliminando errores de desconexión en jobs de larga duración.
+
+---
+
+## 4. Carga Masiva Profesional con Pandas (`to_sql`)
+
+Pandas permite persistir DataFrames enteros directamente hacia PostgreSQL mediante el método `to_sql()`. Sin embargo, hacerlo sin configuración adecuada puede saturar la memoria RAM o generar miles de llamadas HTTP/TCP individuales.
+
+```python
+import pandas as pd
+from sqlalchemy.engine import Engine
+from sqlalchemy.exc import SQLAlchemyError
+from typing import Any
+
+class DatabaseLoadError(Exception):
+    """Excepción de dominio lanzada cuando la carga a base de datos falla."""
+    pass
+
+# 🎯 Objetivo de Negocio: Cargar datos en lotes controlados con manejo de errores transaccionales.
+
+def load_dataframe_to_postgres(
+    df: pd.DataFrame,
+    table_name: str,
+    engine: Engine,
+    chunksize: int = 1000,
+    dtype_mapping: dict[str, Any] | None = None
+) -> int:
+    """Inserta un DataFrame en PostgreSQL por bloques de forma transaccional.
+    
+    Retorna:
+        Número total de registros cargados con éxito.
+    """
+    if df.empty:
+        return 0
+
+    try:
+        df.to_sql(
+            name=table_name,
+            con=engine,
+            if_exists="append",   # 'append' preserva la tabla existente; 'replace' la borra
+            index=False,          # Evita crear una columna numérica extra con el índice de Pandas
+            chunksize=chunksize,  # Inserta en bloques (evita saturar la memoria con millones de filas)
+            method="multi",       # Genera sintaxis multi-tupla: INSERT INTO table VALUES (...), (...)
+            dtype=dtype_mapping   # Mapeo explícito a tipos PostgreSQL (opcional)
+        )
+        return len(df)
+    except SQLAlchemyError as err:
+        raise DatabaseLoadError(f"Fallo al cargar DataFrame en la tabla '{table_name}': {err}") from err
+```
+
+---
+
+> [!NOTE]
+> ### 🔍 Desglose de Sintaxis (Zero Surprise Syntax): Carga a BD
+> * **`chunksize=1000`:** Divide el DataFrame internamente y emite inserciones en bloques de 1,000 registros, protegiendo al worker de desbordamiento de memoria (*OOM*).
+> * **`method="multi"`:** Por defecto, SQLAlchemy ejecuta un `INSERT` por cada fila. `method="multi"` agrupa filas en un único comando SQL con múltiples valores (`VALUES (...), (...)`), acelerando la carga hasta 10 veces en redes de producción.
+> * **`if_exists="append"`:** Agrega los nuevos registros sin destruir la tabla ni alterar las llaves primarias existentes.
+> * **`DatabaseLoadError`:** Patrón de enmascaramiento defensivo: previene que excepciones internas de la base de datos (con detalles de conexión sensibles) se filtren sin control a capas superiores del sistema.
+
+---
+
+## 5. Verificación de Integridad con SQLAlchemy Core
+
+En pruebas automatizadas y chequeos de reconciliación ETL, validamos la carga consultando directamente la base de datos:
+
+```python
+from sqlalchemy import text
+
+# 🎯 Objetivo de Negocio: Verificar que los registros se hayan persistido correctamente en la tabla destino.
+
+with engine.connect() as connection:
+    # Contar total de filas
+    count_query = text(f"SELECT COUNT(*) FROM {table_name}")
+    total_records = connection.execute(count_query).scalar()
+    
+    # Inspeccionar una muestra
+    sample_query = text(f"SELECT * FROM {table_name} LIMIT 5")
+    rows = connection.execute(sample_query).fetchall()
+```
+
+---
+
+### 🌐 Analogías del Mundo Real (Domain Shifting)
+
+1. **Analogía 1 (Muelle de Carga Portuario — `chunksize` y `method="multi"`):**
+   Descargar un barco de 100,000 toneladas llevando una caja individualmente en carretilla colapsa el muelle por congestión. `chunksize` y `method="multi"` equivalen a usar grúas pórtico que bajan contenedores marítimos estandarizados de 40 pies en un solo movimiento coordinado.
+
+2. **Analogía 2 (Red de Bombeo Hidráulico — Connection Pool y `pool_pre_ping`):**
+   Si una estación de bomberos tuviera que tender y desenrollar mangueras desde cero cada vez que se detecta humo, el edificio se quemaría. El Connection Pool mantiene líneas presurizadas listas; la válvula `pool_pre_ping` comprueba que la línea tenga agua y presión antes de abrir el grifo.
+
+---
+
+## 6. Misión a Seguir
+
+Dirígete a `quests/04-carga-postgresql/` y completa el laboratorio de carga profesional a base de datos relacional.
+

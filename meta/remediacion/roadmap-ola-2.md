@@ -75,6 +75,7 @@ Para evitar la proliferación descontrolada de temas que retrasen la inserción 
 
 ---
 
+
 ## 3. Matriz Maestra de Claims a Cerrar en Ola 2 (28 Claims de Auditoría + Integración MKT)
 
 > **Trazabilidad Aritmética de los 28 Claims de Contenido Faltante:**  
@@ -117,8 +118,8 @@ Para evitar la proliferación descontrolada de temas que retrasen la inserción 
 | **`SQL-005`** | `03-sql-basico`| Cap 09: Transacciones | `ROLLBACK` y ACID | Lore 09 §5 + Quest 09-03 `transactions_acid.sql` | B/A | 🟢 Completado |
 | **`MKT-SQL-002`**| `03-sql-basico`| Cap 09: Modelado | SCD Tipo 2 en Star Schema | Lore 09 §6 + Quest 09-04 `scd_type2_dim.sql` | B/A | 🟢 Completado |
 |---|---|---|---|---|---|---|
-| **`DE-007`** | `04-de-pipelines`| Cap 02: Extracción API | Paginación resiliente de APIs | Lore 02 + Quest cursor/offset con rate limits | B/A | 🟡 **ACTIVA (Tu turno)** |
-| **`DE-004`** | `04-de-pipelines`| Cap 04: Carga DB | Carga a PostgreSQL real | Docker Compose Postgres + Quest SQLAlchemy/psycopg | B/A | ⏳ En cola |
+| **`DE-007`** | `04-de-pipelines`| Cap 01: Extracción API | Paginación resiliente de APIs | Lore 01 §3 + Quest 01-02 `api_paginator.py` | B/A | 🟢 Completado |
+| **`DE-004`** | `04-de-pipelines`| Cap 04: Carga DB | Carga a PostgreSQL real | Docker Compose Postgres + Quest SQLAlchemy/psycopg | B/A | 🟡 **ACTIVA (Tu turno)** |
 | **`DE-009`** | `04-de-pipelines`| Cap 05: Orquestación | Logs estructurados de run | Lore 05 + Quest logging estructurado de ejecución | B/A | ⏳ En cola |
 | **`DE-005`** | `04-de-pipelines`| Cap 05: Orquestación | Orquestación Periódica/Airflow | Lore + Quest DAG básico con scheduler y reintentos | B/A | ⏳ En cola |
 |---|---|---|---|---|---|---|
