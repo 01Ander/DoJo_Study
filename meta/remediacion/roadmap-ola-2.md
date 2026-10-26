@@ -114,8 +114,8 @@ Para evitar la proliferación descontrolada de temas que retrasen la inserción 
 |---|---|---|---|---|---|---|
 | **`SQL-013`** | `03-sql-basico`| Cap 02: Filtros | Semántica tri-valor de `NULL` | Lore 02 §4 + Quest 02-03 `null_semantics.sql` | B/A | 🟢 Completado |
 | **`SQL-006`** | `03-sql-basico`| Cap 03: Agregaciones | Agregaciones condicionales | Lore 03 §7 + Quest 03-03 `conditional_aggregations.sql` | B/A | 🟢 Completado |
-| **`SQL-005`** | `03-sql-basico`| Cap 09: Transacciones | `ROLLBACK` y ACID | Lore 09 §5 + Quest 09-03 `transactions_acid.sql` | B/A | 🟡 **ACTIVA (Tu turno)** |
-| **`MKT-SQL-002`**| `03-sql-basico`| Cap 09: Modelado | SCD Tipo 2 en Star Schema | Lore dimensional + Quest SCD2 con vigencias | B/A | ⏳ Próximo Subject |
+| **`SQL-005`** | `03-sql-basico`| Cap 09: Transacciones | `ROLLBACK` y ACID | Lore 09 §5 + Quest 09-03 `transactions_acid.sql` | B/A | 🟢 Completado |
+| **`MKT-SQL-002`**| `03-sql-basico`| Cap 09: Modelado | SCD Tipo 2 en Star Schema | Lore 09 §6 + Quest 09-04 `scd_type2_dim.sql` | B/A | 🟡 **ACTIVA (Tu turno)** |
 |---|---|---|---|---|---|---|
 | **`DE-007`** | `04-de-pipelines`| Cap 02: Extracción API | Paginación resiliente de APIs | Lore 02 + Quest cursor/offset con rate limits | B/A | ⏳ En cola |
 | **`DE-004`** | `04-de-pipelines`| Cap 04: Carga DB | Carga a PostgreSQL real | Docker Compose Postgres + Quest SQLAlchemy/psycopg | B/A | ⏳ En cola |

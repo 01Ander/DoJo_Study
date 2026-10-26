@@ -244,34 +244,186 @@ COMMIT;
 
 ---
 
-## 6. Resumen de la Chronicle `SQL-BASICO`
+## 6. Modelado Dimensional y Slowly Changing Dimensions (SCD Tipo 2)
 
-¡Felicitaciones! Has completado el recorrido teórico de los 10 capítulos de la Chronicle. Ahora posees la caja de herramientas completa:
+En aplicaciones transaccionales (OLTP), las tablas se normalizan en **3NF** para garantizar integridad referencial y evitar duplicaciones. Sin embargo, en la ingeniería de datos moderna y el almacenamiento analítico (**Data Warehouses** como BigQuery, Snowflake, Redshift o Databricks), el modelo dominante es el **Modelado Dimensional (Star Schema)** formalizado por Ralph Kimball.
+
+```text
+┌─────────────────────────┐          ┌─────────────────────────┐
+│     dim_customers       │          │      dim_products       │
+│─────────────────────────│          │─────────────────────────│
+│ customer_sk (PK)        │          │ product_sk (PK)         │
+│ customer_id (Nat Key)   │          │ product_id (Nat Key)    │
+│ customer_name           │          │ product_name            │
+│ tier / region           │          │ category                │
+│ valid_from / valid_to   │          │ unit_price              │
+│ is_current              │          └────────────┬────────────┘
+└────────────┬────────────┘                       │
+             │        ┌─────────────────────────┐ │
+             │        │       fact_orders       │ │
+             └───────>│─────────────────────────│<┘
+                      │ order_id (PK)           │
+                      │ order_date              │
+                      │ customer_id (FK)        │
+                      │ product_id (FK)         │
+                      │ quantity                │
+                      │ total_amount            │
+                      └─────────────────────────┘
+```
+
+* **Tablas de Hechos (*Fact Tables*):** Registran eventos discretos de negocio y métricas numéricas acumulativas o aditivas (ej. `fact_orders`, `fact_payments`, `fact_impressions`).
+* **Tablas de Dimensión (*Dimension Tables*):** Proveen el contexto descriptivo, jerarquías y atributos para filtrar y agrupar los hechos (ej. `dim_customers`, `dim_stores`, `dim_products`).
+
+---
+
+### El Dilema del Tiempo: ¿Qué pasa cuando los atributos de una dimensión cambian?
+
+Imagina que el cliente `CUST-101` vive en **Bogotá** en 2024 y realiza compras por $50,000 USD. En enero de 2025, se muda a **Miami** y compra $10,000 USD.
+* Si ejecutamos un simple `UPDATE dim_customers SET city = 'Miami' WHERE customer_id = 'CUST-101'`, habremos cometido el pecado de **SCD Tipo 1 (Sobrescritura)**. Al generar un reporte histórico de ventas por ciudad para 2024, parecerá falsamente que los $50,000 USD se vendieron en Miami, corrompiendo la auditoría de negocio.
+* Para resolver esto, los ingenieros de datos implementan **Slowly Changing Dimensions Tipo 2 (SCD Tipo 2)**: en lugar de destruir el valor anterior, **se preserva el registro histórico intacto y se inserta una nueva fila con intervalos de vigencia temporal**.
+
+---
+
+### Anatomía de una Tabla de Dimensión SCD Tipo 2
+
+Para rastrear cambios históricos, una dimensión SCD Tipo 2 introduce 3 componentes estructurales obligatorios:
+
+1. **Surrogate Key (`_sk`):** Una llave primaria artificial (`INTEGER PRIMARY KEY AUTOINCREMENT`). Como la llave de negocio natural (`customer_id`) existirá en múltiples filas (una por cada versión histórica del cliente), la llave natural ya no puede ser la Primary Key.
+2. **Columnas de Vigencia Temporal (`valid_from` y `valid_to`):** Marcas de tiempo o fechas en formato ISO-8601 (`YYYY-MM-DD` o `YYYY-MM-DD HH:MM:SS`) que definen el intervalo de tiempo exacto durante el cual dicha fila representó la realidad del negocio.
+3. **Bandera de Estado Actual (`is_current`):** Un entero booleano (`1` o `0`) que permite a las consultas operacionales y dashboards consultar el estado presente sin escanear fechas.
+
+```sql
+-- 🎯 Objetivo de Negocio: Estructurar una dimensión de clientes con trazabilidad histórica completa (SCD Tipo 2).
+
+CREATE TABLE dim_customers_scd2 (
+    customer_sk INTEGER PRIMARY KEY AUTOINCREMENT,
+    customer_id TEXT NOT NULL,           -- Business / Natural Key
+    customer_name TEXT NOT NULL,
+    membership_tier TEXT NOT NULL,       -- Atributo cambiante (e.g., 'BRONZE', 'GOLD', 'PLATINUM')
+    discount_pct REAL NOT NULL,          -- Atributo cambiante (e.g., 0.05, 0.15)
+    valid_from TEXT NOT NULL,            -- Inicio de vigencia (e.g., '2024-01-01')
+    valid_to TEXT,                       -- Fin de vigencia (NULL o '9999-12-31' indica que sigue vigente)
+    is_current INTEGER NOT NULL CHECK(is_current IN (0, 1)) -- 1 = Activo actual, 0 = Histórico
+);
+```
+
+---
+
+### El Ciclo de Transición SCD Tipo 2: Expirar e Insertar
+
+Cuando un atributo del cliente cambia, el pipeline de datos ejecuta dos pasos atómicos dentro de una transacción:
+
+```sql
+-- 🎯 Objetivo de Negocio: Ascender a 'CUST-001' de 'BRONZE' a 'GOLD' con fecha efectiva 2025-06-01.
+
+BEGIN TRANSACTION;
+
+-- Paso 1: Expirar la versión activa actual cerrando su ventana de vigencia
+UPDATE dim_customers_scd2
+SET valid_to = '2025-06-01',
+    is_current = 0
+WHERE customer_id = 'CUST-001' 
+  AND is_current = 1;
+
+-- Paso 2: Insertar la nueva versión activa con los atributos actualizados
+INSERT INTO dim_customers_scd2 (
+    customer_id, 
+    customer_name, 
+    membership_tier, 
+    discount_pct, 
+    valid_from, 
+    valid_to, 
+    is_current
+) VALUES (
+    'CUST-001', 
+    'Atlas Corp', 
+    'GOLD', 
+    0.15, 
+    '2025-06-01', 
+    NULL, 
+    1
+);
+
+COMMIT;
+```
+
+---
+
+### Consultas Temporales Point-in-Time (Cruce con Fact Tables)
+
+La verdadera potencia del SCD Tipo 2 emerge al cruzar la tabla de hechos con la dimensión. Al unir por `customer_id` y restringir la fecha del hecho entre `valid_from` y `valid_to`, cada orden se asocia automáticamente a los beneficios y atributos que el cliente tenía **en el instante exacto en que ocurrió la orden**:
+
+```sql
+-- 🎯 Objetivo de Negocio: Reportar órdenes calculando el descuento histórico exacto vigente al momento de la compra.
+
+SELECT 
+    f.order_id,
+    f.order_date,
+    f.gross_amount,
+    d.membership_tier AS historical_tier,
+    d.discount_pct AS applied_discount_pct,
+    ROUND(f.gross_amount * (1.0 - d.discount_pct), 2) AS net_amount_usd
+FROM fact_orders f
+JOIN dim_customers_scd2 d
+  ON f.customer_id = d.customer_id
+ AND f.order_date >= d.valid_from
+ AND (f.order_date < d.valid_to OR d.valid_to IS NULL)
+ORDER BY f.order_date ASC;
+```
+
+---
+
+> [!NOTE]
+> ### 🔍 Desglose de Sintaxis (Zero Surprise Syntax): Consultas Temporales SCD2
+> * **`customer_sk` vs `customer_id`:** `customer_id` identifica a la entidad en el mundo real. `customer_sk` identifica de forma unívoca una *fotografía temporal* específica de esa entidad.
+> * **`valid_to IS NULL`:** En SQL relacional, el registro vigente no tiene fecha de finalización conocida, por lo que `valid_to` se almacena como `NULL` (o alternativamente como fecha centinela `'9999-12-31'`).
+> * **`f.order_date >= d.valid_from AND (f.order_date < d.valid_to OR d.valid_to IS NULL)`:** Esta cláusula de rango temporal garantiza que cada orden coincida con una y solo una versión histórica de la dimensión, evitando duplicaciones cartesianas.
+> * **`WHERE is_current = 1`:** Permite obtener un snapshot instantáneo de todos los clientes activos hoy sin incurrir en cálculos de fechas.
+
+---
+
+### 🌐 Analogías del Mundo Real (Domain Shifting)
+
+1. **Analogía 1 (Aeronáutica — Licencias de Piloto y Habilitaciones):**
+   Un piloto comercial (`PILOT-442`) obtiene su licencia inicial con calificación monomotor (*Single-Engine*) en 2020. En 2023, obtiene la habilitación bimotor a reacción (*Multi-Engine Jet*). Si la aerolínea investiga un vuelo de 2021, la consulta SCD2 confirma con exactitud que en esa fecha el piloto volaba bajo su habilitación monomotor original, sin falsear la auditoría con sus calificaciones presentes.
+
+2. **Analogía 2 (Telecomunicaciones — Planes Móviles y Roaming):**
+   Un suscriptor de telefonía móvil inicia con el plan *Prepaid Standard* ($0.10/minuto). A los seis meses se pasa a *Postpaid Unlimited* ($0.00/minuto). Al auditar llamadas de su primer mes, la facturadora cruza con la dimensión SCD2 y cobra $0.10/minuto, mientras que las llamadas del séptimo mes se facturan a $0.00.
+
+---
+
+## 7. Resumen de la Chronicle `SQL-BASICO`
+
+¡Felicitaciones! Has completado el recorrido teórico de los 10 capítulos de la Chronicle. Ahora posees la caja de herramientas completa que exige la industria en 2026:
 - **Fundamentos:** Tablas, Tipos, DDL, DML.
 - **Modelado:** Primary Keys, Foreign Keys, Normalización 3NF.
 - **Consultas:** `WHERE`, `ORDER BY`, `LIMIT`, CRUD.
 - **Funciones:** Limpieza de Strings, Fechas, `CAST`, `COALESCE`, `CASE WHEN`.
 - **Relaciones:** `INNER JOIN`, `LEFT JOIN`, Self-Join, Aliases.
-- **Agregaciones:** `GROUP BY`, `HAVING`, `COUNT`, `SUM`, `AVG`.
+- **Agregaciones:** `GROUP BY`, `HAVING`, `COUNT`, `SUM`, `AVG`, Agregaciones condicionales.
 - **Estructuras Avanzadas:** Subqueries correlacionadas, CTEs con `WITH`.
 - **Analítica de Datos:** Window Functions (`ROW_NUMBER`, `RANK`, `LAG`, `LEAD`, deduplicación).
 - **Patrones ETL:** `UNION ALL`, `INSERT INTO ... SELECT`.
-- **Producción:** Views, Indexes (`EXPLAIN QUERY PLAN`), Transacciones ACID.
+- **Producción e Integridad:** Views, Indexes (`EXPLAIN QUERY PLAN`), Transacciones ACID (`COMMIT`, `ROLLBACK`, `SAVEPOINT`).
+- **Arquitectura de Datos:** Star Schema dimensional y Slowly Changing Dimensions (SCD Tipo 2).
 
 ---
 
-## 7. Mapa de Ejercicios
+## 8. Mapa de Ejercicios
 
 Dirígete a la carpeta `quests/09-integrity/`:
 
 - [[01-transactions.md]] (Tipo A: Crear vistas, construir índices optimizados con `EXPLAIN`)
 - [[02-final-review.md]] (Tipo B: Examen integrador completo de la chronicle)
 - [[03-transactions-acid-rollback.md]] (Tipo A: Transacciones explícitas, `ROLLBACK`, `SAVEPOINT` y atomicidad ACID)
+- [[04-scd-type2-dimensional-modeling.md]] (Tipo A: Modelado Star Schema y Slowly Changing Dimensions Tipo 2)
 
 ```text
 subjects/sql/chronicles/SQL-BASICO/quests/09-integrity/
 ├── 01-transactions.md
 ├── 02-final-review.md
-└── 03-transactions-acid-rollback.md
+├── 03-transactions-acid-rollback.md
+└── 04-scd-type2-dimensional-modeling.md
 ```
+
 
