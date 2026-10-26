@@ -13,7 +13,7 @@ CREATE TABLE vault_accounts (
     id INTEGER PRIMARY KEY,
     account_number TEXT NOT NULL UNIQUE,
     holder_name TEXT NOT NULL,
-    balance_usd REAL NOT NULL CHECK(balance_usd >= 0.0)
+    balance_usd REAL NOT NULL
 );
 
 CREATE TABLE transfer_logs (
@@ -49,6 +49,15 @@ INSERT INTO vault_accounts (id, account_number, holder_name, balance_usd) VALUES
 -- BEGIN TRANSACTION;
 -- ...
 -- COMMIT;
+BEGIN TRANSACTION;
+
+UPDATE vault_accounts SET balance_usd = balance_usd - 300.0 WHERE account_number = 'VAULT-001';
+
+UPDATE vault_accounts SET balance_usd = balance_usd + 300.0 WHERE account_number = 'VAULT-002';
+
+INSERT INTO transfer_logs (sender_account, receiver_account, amount, status) VALUES ('VAULT-001', 'VAULT-002', 300.0, 'CONFIRMED');
+
+COMMIT;
 
 
 -- ============================================================================
@@ -66,6 +75,11 @@ INSERT INTO vault_accounts (id, account_number, holder_name, balance_usd) VALUES
 -- ...
 -- ROLLBACK;
 
+BEGIN TRANSACTION;
+
+UPDATE vault_accounts SET balance_usd = balance_usd - 500.0 WHERE account_number = 'VAULT-003';
+
+ROLLBACK;
 
 -- ============================================================================
 -- TRANSACCIÓN 3: Savepoint y Reversión Parcial (SAVEPOINT & ROLLBACK TO)
@@ -84,3 +98,16 @@ INSERT INTO vault_accounts (id, account_number, holder_name, balance_usd) VALUES
 -- BEGIN TRANSACTION;
 -- ...
 -- COMMIT;
+BEGIN TRANSACTION;
+
+UPDATE vault_accounts SET balance_usd = balance_usd - 100 WHERE account_number = 'VAULT-001';
+
+UPDATE vault_accounts SET balance_usd = balance_usd + 100 WHERE account_number = 'VAULT-003';
+
+SAVEPOINT fee_step;
+
+UPDATE vault_accounts SET balance_usd = balance_usd - 50.0 WHERE account_number = 'VAULT-001';
+
+ROLLBACK TO fee_step;
+RELEASE SAVEPOINT fee_step;
+COMMIT;
