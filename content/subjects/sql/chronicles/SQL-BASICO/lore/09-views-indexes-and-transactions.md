@@ -134,55 +134,113 @@ SELECT * FROM products WHERE category = 'Electronics';
 
 ---
 
-## 5. Transacciones y los Principios ACID (`BEGIN`, `COMMIT`, `ROLLBACK`)
+## 5. Transacciones y los Principios ACID (`BEGIN`, `COMMIT`, `ROLLBACK` y `SAVEPOINT`)
 
-### Las 4 Propiedades ACID:
-- **Atomicity (Atomicidad):** Todo o nada. Si una sola sentencia dentro de la transacción falla, todas se revierten.
-- **Consistency (Consistencia):** La base de datos pasa de un estado válido a otro respetando todos los constraints.
-- **Isolation (Aislamiento):** Las transacciones concurrentes no interfieren entre sí.
-- **Durability (Durabilidad):** Una vez confirmado el `COMMIT`, los datos persisten en disco a prueba de fallos de energía.
+### ¿Qué es una Transacción?
+Una **Transacción** es un conjunto de una o más operaciones SQL (`INSERT`, `UPDATE`, `DELETE`) ejecutadas como una **única unidad atómica de trabajo**. O se ejecutan todas las operaciones con éxito absoluto, o la base de datos revierte todas las modificaciones como si nunca hubieran ocurrido.
+
+Las 4 garantías fundamentales que definen el estándar industrial de confiabilidad relacional se conocen como **ACID**:
+
+| Principio ACID | Definición Conceptual | Valor de Negocio / Consecuencia de no tenerlo |
+|---|---|---|
+| **Atomicity (Atomicidad)** | Todo o nada (*All-or-Nothing*). La transacción no puede completarse a medias. | Si falla el paso 4 de 5, el sistema deshace los primeros 3 pasos, impidiendo registros huérfanos o dinero evaporado. |
+| **Consistency (Consistencia)** | El estado de la base de datos siempre respeta todas las reglas (`CHECK`, `FOREIGN KEY`, `UNIQUE`, `NOT NULL`). | No pueden existir saldos negativos ni órdenes huérfanas sin cliente asociado. |
+| **Isolation (Aislamiento)** | Las operaciones concurrentes de múltiples usuarios no interfieren ni ven datos en estados intermedios. | Evita lecturas sucias (*dirty reads*) o sobreescritura accidental de saldos simultáneos. |
+| **Durability (Durabilidad)** | Una vez confirmado con `COMMIT`, los datos quedan guardados permanentemente en almacenamiento no volátil. | Si el servidor sufre un corte eléctrico un milisegundo después del `COMMIT`, los datos no se pierden. |
 
 ---
 
-### Ejemplo Progresivo 2: Procesamiento de Orden sin Transacción vs Transacción ACID Atómica
+### Analogías del Mundo Real
 
-> 🎯 **Objetivo de Negocio:** Procesar una orden de compra cobrando el saldo al cliente y descontando inventario de manera atómica, garantizando que si el cliente no tiene saldo o no hay stock, ninguna tabla quede alterada.
+#### Analogía 1: La Máquina del Tiempo de un Editor de Texto (`Ctrl + Z` / Deshacer)
+Cuando redactas un contrato vital en tu computadora y accidentalmente borras una cláusula o aplicas un formato erróneo, presionas `Ctrl + Z`. La aplicación no te obliga a cerrar el programa ni a reescribir el documento desde cero; simplemente revierte el estado de la memoria al punto anterior al error. En una base de datos, **`ROLLBACK`** es el `Ctrl + Z` universal: si un paso intermedio detecta una infracción o una excepción, deshace instantáneamente todas las mutaciones realizadas desde el `BEGIN TRANSACTION`.
 
-#### ❌ El Mal Camino: Modificar múltiples tablas sin bloque transaccional
+#### Analogía 2: La Cámara de Descompresión en un Submarino
+Para que un buzo salga de un submarino bajo el agua, entra a una esclusa hermética de dos compuertas. La compuerta interna se cierra y la cámara comienza a inundarse. Si los sensores detectan una falla en el traje o una fuga de presión en la compuerta externa, el procedimiento se cancela de inmediato: se bombea toda el agua hacia afuera y se reabre la compuerta interna (**`ROLLBACK`**). La compuerta exterior jamás se abre (**`COMMIT`**) a menos que todas las condiciones de integridad sean 100% seguras, evitando que el submarino se inunde.
+
+---
+
+### Mecánica de Ejecución: `BEGIN`, `COMMIT`, `ROLLBACK` y `SAVEPOINT`
+
+#### 1. Transacción Exitosa (`COMMIT`)
 ```sql
--- ❌ MAL: Si falla la deduccion de stock, la orden ya fue creada dejando datos inconsistentes
-INSERT INTO orders (customer_id, order_date, status, total_amount) 
-VALUES (1, '2026-07-31', 'Paid', 1200.0);
+-- 🎯 Objetivo de Negocio: Transferir saldo y deducir stock en una sola unidad atómica confirmada.
 
--- Si el sistema se apaga AQUI, el cliente pagó pero nunca se descontó el stock ni se verificó su saldo
-UPDATE products SET stock_quantity = stock_quantity - 1 WHERE id = 1;
-UPDATE customers SET balance = balance - 1200.0 WHERE id = 1;
-```
-
-#### ✅ El Buen Camino: Envolver la operación completa en `BEGIN TRANSACTION`
-```sql
--- ✅ BIEN: Operacion atomica con ROLLBACK en caso de error
 BEGIN TRANSACTION;
 
--- Step 1: Registrar la orden
-INSERT INTO orders (customer_id, order_date, status, total_amount) 
-VALUES (1, '2026-07-31', 'Paid', 1200.0);
-
--- Step 2: Descontar stock (Si la cantidad es insuficiente, el CHECK(stock_quantity >= 0) fallará)
+-- Paso 1: Deducir stock
 UPDATE products 
 SET stock_quantity = stock_quantity - 1 
 WHERE id = 1;
 
--- Step 3: Descontar saldo del cliente
+-- Paso 2: Descontar saldo del cliente
 UPDATE customers 
 SET balance = balance - 1200.0 
 WHERE id = 1;
 
--- Si todas las sentencias fueron exitosas, confirmamos los cambios permanentemente en disco
-COMMIT;
+-- Paso 3: Registrar la orden
+INSERT INTO orders (customer_id, order_date, status, total_amount) 
+VALUES (1, '2026-07-31', 'Paid', 1200.0);
 
--- Nota: Si cualquiera de los pasos falla por un constraint o error, SQLite ejecuta un ROLLBACK automatico.
+-- Si todo fue exitoso, confirmamos permanentemente los cambios
+COMMIT;
 ```
+
+#### 2. Reversión Total Explícita (`ROLLBACK`)
+Si una validación de negocio falla o una restricción de integridad (`CHECK` o `FOREIGN KEY`) se rompe, la transacción se aborta con `ROLLBACK`, dejando las tablas en su estado exacto inicial:
+
+```sql
+-- 🎯 Objetivo de Negocio: Abortar una transferencia y revertir todas las mutaciones si se detecta saldo insuficiente.
+
+BEGIN TRANSACTION;
+
+-- Intentamos deducir saldo
+UPDATE customers 
+SET balance = balance - 5000.0 
+WHERE id = 1;
+
+-- Se detecta que la cuenta no tiene fondos suficientes o una regla de negocio se incumple
+-- Deshacemos cualquier modificación previa:
+ROLLBACK;
+-- ✅ El balance del cliente permanece intacto, exactamente igual que antes del BEGIN.
+```
+
+#### 3. Puntos de Guardado Parciales (`SAVEPOINT` y `ROLLBACK TO`)
+En flujos transaccionales extensos, es posible definir **marcadores intermedios** para revertir solo una porción fallida sin descartar la operación principal:
+
+```sql
+-- 🎯 Objetivo de Negocio: Procesar un pago principal pero revertir un cargo accesorio opcional si excede el límite.
+
+BEGIN TRANSACTION;
+
+-- Operación principal: Deducir monto de la orden
+UPDATE customers SET balance = balance - 100.0 WHERE id = 1;
+
+-- Marcador de guardado intermedio
+SAVEPOINT pre_addon_fee;
+
+-- Intentamos aplicar un recargo de seguro opcional
+UPDATE customers SET balance = balance - 25.0 WHERE id = 1;
+
+-- Si el cliente rechaza el seguro o la póliza no está disponible, revertimos solo al savepoint:
+ROLLBACK TO pre_addon_fee;
+
+-- Liberamos el savepoint y confirmamos la operación principal
+RELEASE SAVEPOINT pre_addon_fee;
+COMMIT;
+-- ✅ Se descontaron los $100.0 principales, pero los $25.0 del recargo fueron limpiamente descartados.
+```
+
+---
+
+> [!NOTE]
+> ### 🔍 Desglose de Sintaxis (Zero Surprise Syntax): Control Transaccional
+> * **`BEGIN TRANSACTION;` (o `BEGIN;`):** Desactiva el modo de autocommit de la sesión. A partir de esta línea, todas las modificaciones se guardan en un registro temporal de transacción (*Write-Ahead Log / WAL*) y no son definitivas.
+> * **`COMMIT;`:** Aplica todas las mutaciones pendientes de forma permanente y atómica en el archivo de la base de datos.
+> * **`ROLLBACK;`:** Cancela la transacción activa y descarta todas las mutaciones realizadas desde el `BEGIN TRANSACTION`, liberando bloqueos de concurrencia.
+> * **`SAVEPOINT nombre;`:** Crea un punto de control nombrado dentro de la transacción activa.
+> * **`ROLLBACK TO nombre;`:** Revierte las operaciones ejecutadas **después** del savepoint, pero mantiene vivas las operaciones anteriores.
+> * **`RELEASE SAVEPOINT nombre;`:** Destruye el savepoint sin revertir sus efectos, manteniendo las mutaciones dentro de la transacción activa.
 
 ---
 
@@ -206,11 +264,14 @@ COMMIT;
 
 Dirígete a la carpeta `quests/09-integrity/`:
 
-- [[01-transactions.md]] (Tipo A: Crear vistas, construir índices optimizados con `EXPLAIN` y escribir bloques transaccionales `BEGIN/COMMIT/ROLLBACK`)
-- [[02-final-review.md]] (Tipo B: Examen integrador completo de la chronicle cubriendo capítulos 00 al 09)
+- [[01-transactions.md]] (Tipo A: Crear vistas, construir índices optimizados con `EXPLAIN`)
+- [[02-final-review.md]] (Tipo B: Examen integrador completo de la chronicle)
+- [[03-transactions-acid-rollback.md]] (Tipo A: Transacciones explícitas, `ROLLBACK`, `SAVEPOINT` y atomicidad ACID)
 
 ```text
 subjects/sql/chronicles/SQL-BASICO/quests/09-integrity/
 ├── 01-transactions.md
-└── 02-final-review.md
+├── 02-final-review.md
+└── 03-transactions-acid-rollback.md
 ```
+

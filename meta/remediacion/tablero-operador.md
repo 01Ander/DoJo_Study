@@ -24,77 +24,86 @@
 | Tarea ID | Materia | Ubicación | Concepto | Archivo que debes editar | Comando de Verificación | Estado |
 |---|---|---|---|---|---|---|
 | **`SQL-013`** | `03-sql-basico` | Cap 02: Filtros | Semántica 3VL de `NULL`, trampa de `NOT IN` y `COALESCE` | [`quests/02-filtering/null_semantics.sql`](file:///Users/ander/Documents/DoJo/DoJo_Study/content/subjects/sql/chronicles/SQL-BASICO/quests/02-filtering/null_semantics.sql) | `pytest quests/02-filtering/test_null_semantics.py` | 🟢 **COMPLETADO** |
-| **`SQL-006`** | `03-sql-basico` | Cap 03: Agregaciones | Agregaciones condicionales `SUM(CASE WHEN...)` | [`quests/03-functions/conditional_aggregations.sql`](file:///Users/ander/Documents/DoJo/DoJo_Study/content/subjects/sql/chronicles/SQL-BASICO/quests/03-functions/conditional_aggregations.sql) | `pytest quests/03-functions/test_conditional_aggregations.py` | 🟡 **ACTIVA (Tu turno)** |
-| **`SQL-005`** | `03-sql-basico` | Cap 08: Transacciones | Transacciones explícitas, `ROLLBACK` y ACID | `quests/08-set-ops/transactions_acid.sql` | — | ⏳ En espera |
-| **`MKT-SQL-002`**| `03-sql-basico` | Cap 09: Modelado | SCD Tipo 2 en Star Schema dimensional | `quests/09-integrity/scd_type2_dim.sql` | — | ⏳ En espera |
+| **`SQL-006`** | `03-sql-basico` | Cap 03: Agregaciones | Agregaciones condicionales `SUM(CASE WHEN...)` | [`quests/03-functions/conditional_aggregations.sql`](file:///Users/ander/Documents/DoJo/DoJo_Study/content/subjects/sql/chronicles/SQL-BASICO/quests/03-functions/conditional_aggregations.sql) | `pytest quests/03-functions/test_conditional_aggregations.py` | 🟢 **COMPLETADO** |
+| **`SQL-005`** | `03-sql-basico` | Cap 09: Transacciones | Transacciones explícitas, `ROLLBACK`, `SAVEPOINT` y ACID | [`quests/09-integrity/transactions_acid.sql`](file:///Users/ander/Documents/DoJo/DoJo_Study/content/subjects/sql/chronicles/SQL-BASICO/quests/09-integrity/transactions_acid.sql) | `pytest quests/09-integrity/test_transactions_acid.py` | 🟡 **ACTIVA (Tu turno)** |
+| **`MKT-SQL-002`**| `03-sql-basico` | Cap 09: Modelado | SCD Tipo 2 en Star Schema dimensional | `quests/09-integrity/scd_type2_dim.sql` | — | ⏳ Próximo Subject |
 
 ---
 
-## 2. 🚀 MISIÓN ACTIVA: `SQL-006` — Agregaciones Condicionales con CASE WHEN (Pivoteo Analítico)
+## 2. 🚀 MISIÓN ACTIVA: `SQL-005` — Transacciones Explícitas, ROLLBACK y ACID (VaultCustodian)
 
-* **Materia:** `03-sql-basico` (Capítulo 03: Scalar Functions, CASE WHEN & Data Types)  
-* **Archivo a editar por el Operador:** [`content/subjects/sql/chronicles/SQL-BASICO/quests/03-functions/conditional_aggregations.sql`](file:///Users/ander/Documents/DoJo/DoJo_Study/content/subjects/sql/chronicles/SQL-BASICO/quests/03-functions/conditional_aggregations.sql)  
-* **Enunciado de la Quest:** [`content/subjects/sql/chronicles/SQL-BASICO/quests/03-functions/03-conditional-aggregations.md`](file:///Users/ander/Documents/DoJo/DoJo_Study/content/subjects/sql/chronicles/SQL-BASICO/quests/03-functions/03-conditional-aggregations.md)  
-* **Teoría de Respaldo:** [`content/subjects/sql/chronicles/SQL-BASICO/lore/03-functions-and-expressions.md` (§7)](file:///Users/ander/Documents/DoJo/DoJo_Study/content/subjects/sql/chronicles/SQL-BASICO/lore/03-functions-and-expressions.md#7-agregaciones-condicionales-con-case-when-pivoteo-analítico)
+* **Materia:** `03-sql-basico` (Capítulo 09: Views, Indexes & Transactions)  
+* **Archivo a editar por el Operador:** [`content/subjects/sql/chronicles/SQL-BASICO/quests/09-integrity/transactions_acid.sql`](file:///Users/ander/Documents/DoJo/DoJo_Study/content/subjects/sql/chronicles/SQL-BASICO/quests/09-integrity/transactions_acid.sql)  
+* **Enunciado de la Quest:** [`content/subjects/sql/chronicles/SQL-BASICO/quests/09-integrity/03-transactions-acid-rollback.md`](file:///Users/ander/Documents/DoJo/DoJo_Study/content/subjects/sql/chronicles/SQL-BASICO/quests/09-integrity/03-transactions-acid-rollback.md)  
+* **Teoría de Respaldo:** [`content/subjects/sql/chronicles/SQL-BASICO/lore/09-views-indexes-and-transactions.md` (§5)](file:///Users/ander/Documents/DoJo/DoJo_Study/content/subjects/sql/chronicles/SQL-BASICO/lore/09-views-indexes-and-transactions.md#5-transacciones-explícitas-rollback-y-principios-acid)
 
 ### 📋 El Contrato que debes cumplir:
 
-Reemplaza los `SELECT` dummy dentro de las 2 vistas analíticas en [`conditional_aggregations.sql`](file:///Users/ander/Documents/DoJo/DoJo_Study/content/subjects/sql/chronicles/SQL-BASICO/quests/03-functions/conditional_aggregations.sql):
+Reemplaza los bloques `TODO` en [`transactions_acid.sql`](file:///Users/ander/Documents/DoJo/DoJo_Study/content/subjects/sql/chronicles/SQL-BASICO/quests/09-integrity/transactions_acid.sql) con las 3 transacciones explícitas:
 
-1. **`v_merchant_status_pivot` (Desafío 1 - Pivoteo de Estados y Montos):**
-   * Agrupa por `merchant_id` y calcula en una sola pasada:
-     * `merchant_id`: ID del comercio.
-     * `total_orders`: Total general de órdenes (`COUNT(*)`).
-     * `completed_orders`: Órdenes con `order_status = 'COMPLETED'` (`SUM(CASE WHEN order_status = 'COMPLETED' THEN 1 ELSE 0 END)`).
-     * `failed_orders`: Órdenes con `order_status = 'FAILED'`.
-     * `refunded_orders`: Órdenes con `order_status = 'REFUNDED'`.
-     * `total_completed_amount`: Suma del `amount` **únicamente** para órdenes `COMPLETED` (`SUM(CASE WHEN order_status = 'COMPLETED' THEN amount ELSE 0.0 END)`).
-   * Ordena por `merchant_id ASC`.
+1. **Transacción 1: Transferencia Atómica Confirmada (`COMMIT`)**
+   * Inicia con `BEGIN TRANSACTION;`.
+   * Resta `300.0` del `balance_usd` de `'VAULT-001'`.
+   * Suma `300.0` al `balance_usd` de `'VAULT-002'`.
+   * Inserta una fila en `transfer_logs` con `sender_account = 'VAULT-001'`, `receiver_account = 'VAULT-002'`, `amount = 300.0` y `status = 'CONFIRMED'`.
+   * Confirma permanentemente con `COMMIT;`.
+   * *Estado esperado:* `VAULT-001` pasa de 1000 a 700; `VAULT-002` pasa de 500 a 800.
 
-2. **`v_merchant_payment_breakdown` (Desafío 2 - Métricas de Canal y Tasa de Éxito):**
-   * Agrupa por `merchant_id` y calcula:
-     * `merchant_id`: ID del comercio.
-     * `credit_card_orders`: Órdenes pagadas con `'CREDIT_CARD'`.
-     * `crypto_orders`: Órdenes pagadas con `'CRYPTO'`.
-     * `success_rate_pct`: Porcentaje de éxito de órdenes completadas sobre el total, redondeado a 1 decimal:
-       $$\text{ROUND}\left(\frac{\sum (\text{COMPLETED})}{\text{total}} \times 100.0, 1\right)$$
-       *(⚠️ Recuerda forzar punto flotante usando `1.0` o `100.0` para evitar división entera a cero).*
-   * Ordena por `merchant_id ASC`.
+2. **Transacción 2: Retiro Abortado con Reversión Total (`ROLLBACK`)**
+   * Inicia con `BEGIN TRANSACTION;`.
+   * Intenta debitar `500.0` de `'VAULT-003'` (saldo actual: 200.0).
+   * Aborta de inmediato con `ROLLBACK;`.
+   * *Estado esperado:* Gracias a `ROLLBACK`, el saldo de `'VAULT-003'` permanece intacto en `200.0`.
+
+3. **Transacción 3: Savepoint y Reversión Parcial (`SAVEPOINT` & `ROLLBACK TO`)**
+   * Inicia con `BEGIN TRANSACTION;`.
+   * Transfiere `100.0` restándolos de `'VAULT-001'` y sumándolos a `'VAULT-003'`.
+   * Crea un punto de guardado: `SAVEPOINT fee_step;`.
+   * Intenta aplicar un recargo debitando `50.0` adicionales de `'VAULT-001'`.
+   * Revierte únicamente el recargo con `ROLLBACK TO fee_step;`.
+   * Libera el marcador: `RELEASE SAVEPOINT fee_step;`.
+   * Confirma la operación principal con `COMMIT;`.
+   * *Saldos finales:* `VAULT-001 = 600.0` (1000 - 300 - 100, recargo de 50 revertido), `VAULT-002 = 800.0`, `VAULT-003 = 300.0` (200 + 100).
 
 ---
 
-### 💡 Ejemplo con Domain Shifting (Sistema Universitario):
+### 💡 Ejemplo con Domain Shifting (Sistema Hospitalario - Asignación de Camas):
 
 ```sql
--- 🎯 Objetivo de Negocio: Pivotear notas aprobadas, reprobadas y calcular tasa de aprobación en una pasada.
+-- 🎯 Objetivo de Negocio: Reasignar cama de UCI, revertir cargo de ambulancia opcional si se cancela.
 
-SELECT 
-    course_code,
-    COUNT(*) AS total_students,
-    SUM(CASE WHEN numeric_score >= 60.0 THEN 1 ELSE 0 END) AS passed_students,
-    SUM(CASE WHEN numeric_score < 60.0 THEN 1 ELSE 0 END) AS failed_students,
-    ROUND(
-        SUM(CASE WHEN numeric_score >= 60.0 THEN 1.0 ELSE 0.0 END) / COUNT(*) * 100.0, 
-        1
-    ) AS pass_rate_pct
-FROM grades
-GROUP BY course_code
-ORDER BY course_code ASC;
+BEGIN TRANSACTION;
+-- Operación principal: Reasignar recurso
+UPDATE hospital_rooms SET occupied_beds = occupied_beds - 1 WHERE room_code = 'ICU-A';
+UPDATE hospital_rooms SET occupied_beds = occupied_beds + 1 WHERE room_code = 'ICU-B';
+
+-- Punto de control intermedio
+SAVEPOINT transport_addon;
+
+-- Cargo opcional de traslado en ambulancia
+INSERT INTO billing_records (patient_id, concept, amount) VALUES (42, 'AMBULANCE_TRANSFER', 150.0);
+
+-- El traslado se cancela por mal tiempo: revertir SOLO el cargo
+ROLLBACK TO transport_addon;
+RELEASE SAVEPOINT transport_addon;
+
+-- Confirmar la reasignación de cama
+COMMIT;
 ```
 
 ---
 
 ### 🧪 Comandos de Verificación Binaria:
 
-1. **Validación Funcional y de Lógica de Negocio (Pytest):**
+1. **Validación Funcional y de Integridad (Pytest):**
    ```bash
-   /Users/ander/Documents/DoJo/DoJo_Study/content/subjects/python/chronicles/PY-POO/rite/.venv/bin/pytest content/subjects/sql/chronicles/SQL-BASICO/quests/03-functions/test_conditional_aggregations.py -v
+   /Users/ander/Documents/DoJo/DoJo_Study/content/subjects/python/chronicles/PY-POO/rite/.venv/bin/pytest content/subjects/sql/chronicles/SQL-BASICO/quests/09-integrity/test_transactions_acid.py -v
    ```
    *(Criterio de éxito: 2 passed con exit code 0).*
 
-2. **Validación Sintáctica de SQLite en Memoria (Runner del DoJo):**
+2. **Validación Sintáctica del Script SQL Completo (Runner del DoJo):**
    ```bash
-   python3 system/tools/sql_runner.py content/subjects/sql/chronicles/SQL-BASICO/quests/03-functions/conditional_aggregations.sql
+   python3 system/tools/sql_runner.py content/subjects/sql/chronicles/SQL-BASICO/quests/09-integrity/transactions_acid.sql
    ```
 
 ---
@@ -103,16 +112,16 @@ ORDER BY course_code ASC;
 
 Registro de archivos nuevos o actualizados en el sistema bajo las reglas de `09-generation-protocol.md`:
 
-* `content/subjects/sql/chronicles/SQL-BASICO/quests/02-filtering/null_semantics.sql`:
-  * *Cambio:* **Implementado y aprobado por el Operador (`3/3 passed`, exit code 0). Cierre formal de la brecha `SQL-013`.**
-* `content/subjects/sql/chronicles/SQL-BASICO/lore/03-functions-and-expressions.md`:
-  * *Cambio:* Sección 7 añadida sobre Agregaciones Condicionales con `CASE WHEN` (pivoteo de filas a columnas, optimización de escaneo único y ratios porcentuales).
-* `content/subjects/sql/chronicles/SQL-BASICO/quests/03-functions/03-conditional-aggregations.md`:
-  * *Cambio:* Enunciado didáctico de la Quest 03-03 (`SQL-006`).
 * `content/subjects/sql/chronicles/SQL-BASICO/quests/03-functions/conditional_aggregations.sql`:
-  * *Cambio:* Plantilla inicial para el Operador con esquema de órdenes, seed data y vistas analíticas.
-* `content/subjects/sql/chronicles/SQL-BASICO/quests/03-functions/test_conditional_aggregations.py`:
-  * *Cambio:* Suite evaluadora automatizada con 2 tests unitarios evaluando pivoteo y métricas de tasa de éxito.
+  * *Cambio:* **Implementado y aprobado por el Operador (`2/2 passed`, exit code 0). Cierre formal de la brecha `SQL-006`.**
+* `content/subjects/sql/chronicles/SQL-BASICO/lore/09-views-indexes-and-transactions.md`:
+  * *Cambio:* Sección 5 añadida con teoría profunda de Transacciones Explícitas, `ROLLBACK`, `SAVEPOINT` y Principios ACID.
+* `content/subjects/sql/chronicles/SQL-BASICO/quests/09-integrity/03-transactions-acid-rollback.md`:
+  * *Cambio:* Enunciado didáctico de la Quest 09-03 (`SQL-005`).
+* `content/subjects/sql/chronicles/SQL-BASICO/quests/09-integrity/transactions_acid.sql`:
+  * *Cambio:* Plantilla inicial para el Operador con esquema de bóveda financiera, seed data y bloques transaccionales `TODO`.
+* `content/subjects/sql/chronicles/SQL-BASICO/quests/09-integrity/test_transactions_acid.py`:
+  * *Cambio:* Suite evaluadora automatizada con 2 tests unitarios validando atomicidad, reversión de sobregiros y aislamiento de savepoints.
 
 
 
