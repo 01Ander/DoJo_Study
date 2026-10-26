@@ -50,11 +50,12 @@ INSERT INTO sanctioned_destinations (id, country_code) VALUES
 DROP VIEW IF EXISTS v_effective_customs_fees;
 CREATE VIEW v_effective_customs_fees AS
 -- TODO: Reemplaza este SELECT dummy con tu consulta usando COALESCE
-SELECT 
-    tracking_code, 
-    destination_country, 
-    0.0 AS effective_customs_fee 
-FROM shipments;
+SELECT
+    tracking_code,
+    destination_country,
+    COALESCE(customs_fee, 0.0) + 10.0 AS effective_customs_fee
+FROM shipments
+ORDER BY tracking_code ASC;
 
 
 -- ============================================================================
@@ -72,12 +73,14 @@ FROM shipments;
 DROP VIEW IF EXISTS v_unsanctioned_shipments;
 CREATE VIEW v_unsanctioned_shipments AS
 -- TODO: Reemplaza este SELECT dummy con tu consulta eludiendo la trampa del NULL
-SELECT 
-    tracking_code, 
-    destination_country, 
-    weight_kg 
-FROM shipments 
-WHERE 1 = 0;
+SELECT
+    tracking_code,
+    destination_country,
+    weight_kg
+FROM shipments
+WHERE destination_country NOT IN (
+    SELECT country_code FROM sanctioned_destinations WHERE country_code IS NOT NULL);
+
 
 
 -- ============================================================================
@@ -92,8 +95,10 @@ WHERE 1 = 0;
 DROP VIEW IF EXISTS v_unassigned_carriers;
 CREATE VIEW v_unassigned_carriers AS
 -- TODO: Reemplaza este SELECT dummy con tu consulta usando IS NULL
-SELECT 
-    tracking_code, 
-    destination_country 
-FROM shipments 
-WHERE 1 = 0;
+SELECT
+    tracking_code,
+    destination_country
+FROM shipments
+WHERE carrier_id IS NULL
+ORDER BY tracking_code ASC;
+
