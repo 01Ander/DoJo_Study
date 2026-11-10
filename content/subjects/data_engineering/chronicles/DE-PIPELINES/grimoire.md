@@ -107,6 +107,10 @@ Este documento es tu registro académico. Después de leer cada capítulo en `lo
 > Duda conceptual de porque no se guardaba la funcion que pasaba a sql en una variable de python, se comprende que es una funcion que no retorna nada, un side effect. Se entiende que la verificacion de sqlalchemy entrega una dupla (x,y) en numeros, no se puede acceder a la info como un objeto o diccionario de python. 
 > Ligero fallo del lore frente a lo requerido en el quest correspondiente.
 
+3. **[Actualización Ola 2 — `M1`]** ¿Por qué construimos un `Dockerfile` en dos etapas (`builder` y `runtime`) en lugar de una sola, y qué problema resuelve `pool_pre_ping=True` en el Connection Pool de SQLAlchemy hacia PostgreSQL?
+> La construccion del Dockerfile se maneja en dos etapas para que sea mucho mas ligero el container y a su vez las herramientas instaladas sean exclusivamente las necesarias.
+> Este comando permite hacer una consulta oculta para poder comprobar si el servidor o el firewall aun tiene conexiona activa, o esta se cerro por inactividad, y si es asi, genera una nueva conexion automatica, evitando errores de desconexion en trabajos de larga duracion.
+
 ---
 
 ## 📝 Capítulo 05: Orquestación con Prefect (Local)
@@ -127,5 +131,12 @@ Este documento es tu registro académico. Después de leer cada capítulo en `lo
 **Friction Log (Opcional):**
 > El lore no explico jamas el uso de hasttr para los tests de la quest, por lo que no se podia llegar a la solucion. Se dicidio observar y ver que es lo que hacia la solucion propuesta. 
 
+3. **[Actualización Ola 2 — `M2`]** ¿Por qué en producción usamos `get_run_logger()` dentro de las tareas de Prefect en lugar de `print()`, y cómo se relacionan conceptualmente un `@flow`/`@task` de Prefect con un `DAG`/`PythonOperator`/`>>` de Apache Airflow?
+> logger permite manejar una severidad mayor a los mensajes que se generar en el pipeline, permite tener identificacion unica por corrida y la posibilidad de filtrarse con herramientas de monitoreo.
+> Ambos realizan las mismas tareas con una sintaxis especifica. DAG permite realizar el flow de prefect, y pythonoperator realiza el trabajo de task. Siendo el primero el flujo completo que manda llamar al segundo como tareas y la posibilidad de volverlas a llamar si alguna de estas falla.
+
 ---
-**Auditoría del DM:** [Pendiente]
+**Auditoría del DM:** ✅ **APROBADO (Cap 00–05 + Actualización Ola 2 `M1`/`M2` Cerrada)**
+> *Evaluación del DM (Ola 2):* Excelente síntesis de los dos pilares de producción añadidos en el Sprint 1:
+> 1. **Docker Multi-Stage & `pool_pre_ping` (`M1`):** Comprensión clara de por qué separamos la etapa de compilación (`builder`) de la imagen final (`runtime`) para minimizar tamaño y superficie de ataque, y cómo el ping pesimista (`SELECT 1`) de SQLAlchemy recicla conexiones muertas en jobs largos.
+> 2. **Logging Estructurado & Orquestadores (`M2`):** Asimilación exacta de las ventajas de `get_run_logger()` (severidad, trazabilidad por corrida y filtrado) y equivalencia directa entre el grafo de Prefect (`@flow`/`@task`) y Apache Airflow (`DAG`/`PythonOperator`).

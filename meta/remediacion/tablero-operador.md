@@ -1,130 +1,148 @@
-# 🎯 Tablero de Acción del Operador — Ola 2
+# 🎯 Tablero Único de Ejecución — Ola 2 (Plan Híbrido: 2 Sprints, 9 Misiones)
 
-> **Propósito:** Registro directo, claro y accionable de las tareas que el Operador debe programar (Carril A) y de los nuevos cambios introducidos en el sistema (Carril B), sin la sobrecarga del roadmap general.  
-> **Última Actualización:** 2026-10-26  
-> **Materia Activa:** `04-de-pipelines` (Data Pipelines, ETL, PostgreSQL y Prefect)
-
----
-
-## 1. Radar de Progreso de Tareas del Operador (Carril A)
-
-### 🐍 Fase 1: `02-py-poo` (100% COMPLETADO 🟢)
-| Tarea ID | Materia | Concepto | Archivo editado | Estado |
-|---|---|---|---|---|
-| `PY-010` | `02-py-poo` | Constructores con `super()` | `quests/02-entities/rpg_character.py` | 🟢 **COMPLETADO** |
-| `PY-011.1` | `02-py-poo` | De Dataclass a Pydantic con `Field` | `quests/06-logging/user_account_schema.py` | 🟢 **COMPLETADO** |
-| `PY-011.2` | `02-py-poo` | Validadores de Negocio y Excepciones | `quests/06-logging/transaction_schema.py` | 🟢 **COMPLETADO** |
-| `PY-013` | `02-py-poo` | Patrón Output Loaders | `quests/04-orchestration/output_loaders.py` | 🟢 **COMPLETADO** |
-| `PY-014` | `02-py-poo` | Extractor desacoplado CSV/JSON | `quests/01-abstractions/data_extractors.py` | 🟢 **COMPLETADO** |
-| `PY-020` | `02-py-poo` | Ciclo TDD Red-Green-Refactor | `quests/05-testing/billing_service.py` | 🟢 **COMPLETADO** |
+> **Propósito:** Fuente única de estado y acción para cerrar la Ola 2 sin fricción ni saltos de contexto. Reconciliado 1:1 con [`roadmap-ola-2.md`](file:///Users/ander/Documents/DoJo/DoJo_Study/meta/remediacion/roadmap-ola-2.md) tras superar **`M9` (Gate 2)**.  
+> **Última Actualización:** 2026-11-10  
+> **Hilo Conductor Unificado:** Pipeline Financiero **FinCorp Global** (Local ETL $\rightarrow$ Orquestación $\rightarrow$ Cloud AWS).  
+> **Estado Global:** **🏆 OLA 2 CERRADA AL 100% (`Gate 2` Aprobado — Ola 3 `PORT-CAPSTONE` Desbloqueada)**
 
 ---
 
-### 🗄️ Fase 2: `03-sql-basico` (100% COMPLETADO 🟢)
-| Tarea ID | Materia | Ubicación | Concepto | Archivo que debes editar | Comando de Verificación | Estado |
+## 1. Mapa Maestro de las 9 Misiones hacia Gate 2 (`M1`–`M9`)
+
+> **Bloques Cerrados al 100%:**  
+> ✅ **Bloque 2.1 (7/7 Tipo B)** | ✅ **`02-py-poo` (5/5 Claims)** | ✅ **`03-sql-basico` (4/4 Claims)** | ✅ **SPRINT 1: `04-de-pipelines` (`32/32` + Grimoire Pass)** | ✅ **SPRINT 2: `05-cloud-aws` (`22/22` + Grimoire Pass)** | ✅ **`M9` Gate 2 (`92/92 tests passed`)**
+
+| Sprint | Misión | Claims Fusionados | Materia / Cap | Entregable del Operador (Carril A) | Continuidad (Hilo FinCorp) | Estado |
 |---|---|---|---|---|---|---|
-| **`SQL-013`** | `03-sql-basico` | Cap 02: Filtros | Semántica 3VL de `NULL`, trampa de `NOT IN` y `COALESCE` | [`quests/02-filtering/null_semantics.sql`](file:///Users/ander/Documents/DoJo/DoJo_Study/content/subjects/sql/chronicles/SQL-BASICO/quests/02-filtering/null_semantics.sql) | `pytest quests/02-filtering/test_null_semantics.py` | 🟢 **COMPLETADO** |
-| **`SQL-006`** | `03-sql-basico` | Cap 03: Agregaciones | Agregaciones condicionales `SUM(CASE WHEN...)` | [`quests/03-functions/conditional_aggregations.sql`](file:///Users/ander/Documents/DoJo/DoJo_Study/content/subjects/sql/chronicles/SQL-BASICO/quests/03-functions/conditional_aggregations.sql) | `pytest quests/03-functions/test_conditional_aggregations.py` | 🟢 **COMPLETADO** |
-| **`SQL-005`** | `03-sql-basico` | Cap 09: Transacciones | Transacciones explícitas, `ROLLBACK`, `SAVEPOINT` y ACID | [`quests/09-integrity/transactions_acid.sql`](file:///Users/ander/Documents/DoJo/DoJo_Study/content/subjects/sql/chronicles/SQL-BASICO/quests/09-integrity/transactions_acid.sql) | `pytest quests/09-integrity/test_transactions_acid.py` | 🟢 **COMPLETADO** |
-| **`MKT-SQL-002`**| `03-sql-basico` | Cap 09: Modelado | SCD Tipo 2 en Star Schema dimensional | [`quests/09-integrity/scd_type2_dim.sql`](file:///Users/ander/Documents/DoJo/DoJo_Study/content/subjects/sql/chronicles/SQL-BASICO/quests/09-integrity/scd_type2_dim.sql) | `pytest quests/09-integrity/test_scd_type2_dim.py` | 🟢 **COMPLETADO** |
-
----
-
-### ⚙️ Fase 3: `04-de-pipelines` (En Curso 🟡)
-| Tarea ID | Materia | Ubicación | Concepto | Archivo que debes editar | Comando de Verificación | Estado |
+| **SPRINT 1** | **`M1`** | `DE-004` + `DOCKER` | `04-de-pipelines`<br>Cap 04 | [`postgres_loader.py`](file:///Users/ander/Documents/DoJo/DoJo_Study/content/subjects/data_engineering/chronicles/DE-PIPELINES/quests/04-carga-postgresql/postgres_loader.py) + [`Dockerfile`](file:///Users/ander/Documents/DoJo/DoJo_Study/content/subjects/data_engineering/chronicles/DE-PIPELINES/quests/04-carga-postgresql/Dockerfile) | Carga la Zona Gold de FinCorp a PostgreSQL con pooling, chunks y Dockerfile | 🟢 **COMPLETADO (`6/6 passed`)** |
+| **SPRINT 1** | **`M2`** | `DE-005` + `DE-009` | `04-de-pipelines`<br>Cap 05 | [`fincorp_orchestrator.py`](file:///Users/ander/Documents/DoJo/DoJo_Study/content/subjects/data_engineering/chronicles/DE-PIPELINES/quests/05-orquestacion-prefect/fincorp_orchestrator.py) | Orquesta el extractor (`DE-007`) y el loader de `M1` con `get_run_logger` y Cron | 🟢 **COMPLETADO (`5/5 passed`)** |
+| **SPRINT 1** | **`M3`** | Rite `DE` + `GIT-CI` | `04-de-pipelines`<br>Rite / Cap 03 | [`rite/src/quality.py`](file:///Users/ander/Documents/DoJo/DoJo_Study/content/subjects/data_engineering/chronicles/DE-PIPELINES/rite/src/quality.py) + [`grimoire.md`](file:///Users/ander/Documents/DoJo/DoJo_Study/content/subjects/data_engineering/chronicles/DE-PIPELINES/grimoire.md) | Desacopla `RateError(Exception)` de `AssertionError` y cierra `DE-PIPELINES` | 🟢 **COMPLETADO (`21/21 passed`)** |
 |---|---|---|---|---|---|---|
-| **`DE-007`** | `04-de-pipelines` | Cap 01: Extracción API | Paginación resiliente (Offset & Cursor) y Rate Limits | [`quests/01-extraccion-api/api_paginator.py`](file:///Users/ander/Documents/DoJo/DoJo_Study/content/subjects/data_engineering/chronicles/DE-PIPELINES/quests/01-extraccion-api/api_paginator.py) | `pytest quests/01-extraccion-api/test_api_pagination.py` | 🟢 **COMPLETADO** |
-| **`DE-004`** | `04-de-pipelines` | Cap 04: Carga DB | Carga a PostgreSQL real con Docker Compose | [`quests/04-carga-postgresql/postgres_loader.py`](file:///Users/ander/Documents/DoJo/DoJo_Study/content/subjects/data_engineering/chronicles/DE-PIPELINES/quests/04-carga-postgresql/postgres_loader.py) | `pytest quests/04-carga-postgresql/test_postgres_loader.py` | 🟡 **ACTIVA (Tu turno)** |
-| **`DE-009`** | `04-de-pipelines` | Cap 05: Orquestación | Logs estructurados de run (`get_run_logger`) | `quests/05-orquestacion-prefect/flow_logger.py` | — | ⏳ En espera |
-| **`DE-005`** | `04-de-pipelines` | Cap 05: Orquestación | Orquestación Periódica/Airflow básico | `quests/05-orquestacion-prefect/airflow_dag.py` | — | ⏳ En espera |
+| **SPRINT 2**<br>*(Listo en lote)* | **`M4`** | `AWS-004` + `AWS-010` | `05-cloud-aws`<br>Cap 00 (IAM) | [`quests/00-aws-iam/fincorp_iam.py`](file:///Users/ander/Documents/DoJo/DoJo_Study/content/subjects/cloud/chronicles/CLOUD-AWS/quests/00-aws-iam/fincorp_iam.py) | Crea programáticamente el rol IAM y políticas (`Allow` + `Explicit Deny`) para `M5–M7` | 🟢 **COMPLETADO (`4/4 passed`)** |
+| **SPRINT 2**<br>*(Listo en lote)* | **`M5`** | `AWS-005` + `AWS-006` | `05-cloud-aws`<br>Cap 01 (S3) | [`quests/01-aws-s3/fincorp_s3_parquet.py`](file:///Users/ander/Documents/DoJo/DoJo_Study/content/subjects/cloud/chronicles/CLOUD-AWS/quests/01-aws-s3/fincorp_s3_parquet.py) | Crea bucket S3 validado por DNS y persiste la Zona Gold en **Parquet Snappy** | 🟢 **COMPLETADO (`8/8 passed`)** |
+| **SPRINT 2**<br>*(Listo en lote)* | **`M6`** | `AWS-007` + `MKT-AWS-002` | `05-cloud-aws`<br>Cap 02 (RDS) | [`quests/02-aws-rds/fincorp_rds_secrets.py`](file:///Users/ander/Documents/DoJo/DoJo_Study/content/subjects/cloud/chronicles/CLOUD-AWS/quests/02-aws-rds/fincorp_rds_secrets.py) | Lee secretos de **Secrets Manager**, valida Security Group y reutiliza `get_uri()` de `M1` | 🟢 **COMPLETADO (`4/4 passed`)** |
+| **SPRINT 2**<br>*(Listo en lote)* | **`M7`** | `AWS-008` | `05-cloud-aws`<br>Cap 03 (Lambda) | [`quests/03-aws-lambda/fincorp_lambda_deploy.py`](file:///Users/ander/Documents/DoJo/DoJo_Study/content/subjects/cloud/chronicles/CLOUD-AWS/quests/03-aws-lambda/fincorp_lambda_deploy.py) | Empaqueta en `.zip` en RAM y despliega con `create_function` el worker que usa `M4` y `M5` | 🟢 **COMPLETADO (`3/3 passed`)** |
+| **SPRINT 2**<br>*(Listo en lote)* | **`M8`** | `AWS-009` | `05-cloud-aws`<br>Cap 04 (CW) | [`quests/04-aws-cloudwatch/fincorp_cloudwatch_alarm.py`](file:///Users/ander/Documents/DoJo/DoJo_Study/content/subjects/cloud/chronicles/CLOUD-AWS/quests/04-aws-cloudwatch/fincorp_cloudwatch_alarm.py) | Configura `Metric Filter` y `CloudWatch Alarm` sobre los fallos del worker de `M7` | 🟢 **COMPLETADO (`3/3 passed`)** |
+| **CIERRE** | **`M9`** | Gate 2 | Transversal | [`CLOUD-AWS/grimoire.md`](file:///Users/ander/Documents/DoJo/DoJo_Study/content/subjects/cloud/chronicles/CLOUD-AWS/grimoire.md#L153) + Conciliación 1:1 $\rightarrow$ **Apertura Ola 3 (`PORT-CAPSTONE`)** | Cierre formal de Ola 2 | 🟢 **COMPLETADO (`92/92 passed`)** |
 
 ---
 
-## 2. 🚀 MISIÓN ACTIVA: `DE-004` — Carga Masiva a PostgreSQL con SQLAlchemy y Connection Pools (FinCorp Global)
+## 2. ☁️ SPRINT 2 EN LOTE: Recorrido Continuo de `05-cloud-aws` (`M4` $\rightarrow$ `M8`)
 
-* **Materia:** `04-de-pipelines` (Capítulo 04: Carga de Datos Estructurados a PostgreSQL)  
-* **Archivo a editar por el Operador:** [`content/subjects/data_engineering/chronicles/DE-PIPELINES/quests/04-carga-postgresql/postgres_loader.py`](file:///Users/ander/Documents/DoJo/DoJo_Study/content/subjects/data_engineering/chronicles/DE-PIPELINES/quests/04-carga-postgresql/postgres_loader.py)  
-* **Enunciado de la Quest:** [`content/subjects/data_engineering/chronicles/DE-PIPELINES/quests/04-carga-postgresql/02-postgres-loader.md`](file:///Users/ander/Documents/DoJo/DoJo_Study/content/subjects/data_engineering/chronicles/DE-PIPELINES/quests/04-carga-postgresql/02-postgres-loader.md)  
-* **Teoría de Respaldo:** [`content/subjects/data_engineering/chronicles/DE-PIPELINES/lore/04-carga-postgresql.md`](file:///Users/ander/Documents/DoJo/DoJo_Study/content/subjects/data_engineering/chronicles/DE-PIPELINES/lore/04-carga-postgresql.md)
-
-### 📋 El Contrato que debes cumplir:
-
-Implementa en [`postgres_loader.py`](file:///Users/ander/Documents/DoJo/DoJo_Study/content/subjects/data_engineering/chronicles/DE-PIPELINES/quests/04-carga-postgresql/postgres_loader.py) los 3 componentes:
-
-1. **`class DatabaseConfig` (Método `get_uri(self) -> str`)**
-   * Retorna la URI con formato estándar:
-     `f"{self.driver}://{self.username}:{self.password}@{self.host}:{self.port}/{self.database}"`
-
-2. **`create_production_engine(connection_uri: str, pool_size: int = 5, pool_pre_ping: bool = True) -> Engine`**
-   * Retorna un `create_engine(connection_uri, pool_size=pool_size, pool_pre_ping=pool_pre_ping)`.
-
-3. **`load_gold_dataframe(df: pd.DataFrame, table_name: str, engine: Engine, chunksize: int = 500) -> int`**
-   * Si `df.empty`: retorna `0`.
-   * Bloque `try / except SQLAlchemyError as err`:
-     * Ejecuta `df.to_sql(name=table_name, con=engine, if_exists="append", index=False, chunksize=chunksize)`.
-     * Retorna `len(df)`.
-     * Si falla, lanza `raise DatabaseLoadError(f"Fallo al cargar en {table_name}: {err}") from err`.
+> 💡 **Paridad 1:1 Lore $\leftrightarrow$ Ejercicio Garantizada:**  
+> En este Sprint cada capítulo tiene **exactamente la misma firma y argumentos** en su sección nueva del Lore (`§3.1/§3.2` o `§5.1/§5.2`) y en la plantilla del ejercicio. No hay parámetros ocultos ni sorpresas de sintaxis.
 
 ---
 
-### 💡 Ejemplo con Domain Shifting (Ingesta Logística LogiTrack):
+### 🔹 PASO 1 DE 5 — MISIÓN `M4` (`AWS-004` + `AWS-010`): IAM Programático y Políticas (`Explicit Deny`)
 
-```python
-# 🎯 Objetivo de Negocio: Construir connection URI y persistir despachos de transporte por bloques.
+* **Archivo a editar:** [`content/subjects/cloud/chronicles/CLOUD-AWS/quests/00-aws-iam/fincorp_iam.py`](file:///Users/ander/Documents/DoJo/DoJo_Study/content/subjects/cloud/chronicles/CLOUD-AWS/quests/00-aws-iam/fincorp_iam.py)
+* **Enunciado:** [`02-iam-provisioning.md`](file:///Users/ander/Documents/DoJo/DoJo_Study/content/subjects/cloud/chronicles/CLOUD-AWS/quests/00-aws-iam/02-iam-provisioning.md) | **Teoría:** [`lore/00-aws-iam.md` (§3.1 y §3.2)](file:///Users/ander/Documents/DoJo/DoJo_Study/content/subjects/cloud/chronicles/CLOUD-AWS/lore/00-aws-iam.md#L53)
 
-@dataclass
-class FleetDbConfig:
-    host: str
-    port: int
-    db: str
-    user: str
-    pwd: str
+#### 📋 Contrato a implementar en `fincorp_iam.py`:
+1. **`build_fincorp_least_privilege_policy(bucket_name: str) -> dict[str, Any]`**:
+   * Retorna un diccionario con `"Version": "2012-10-17"` y `"Statement"` con 2 diccionarios:
+     - `{"Effect": "Allow", "Action": ["s3:GetObject", "s3:PutObject"], "Resource": f"arn:aws:s3:::{bucket_name}/*"}`
+     - `{"Effect": "Deny", "Action": ["s3:DeleteObject"], "Resource": f"arn:aws:s3:::{bucket_name}/*"}`
+2. **`provision_fincorp_lambda_role(iam_client: Any, role_name: str, bucket_name: str) -> str`**:
+   * Define `trust_policy` con `"Version": "2012-10-17"` y `"Statement": [{"Effect": "Allow", "Principal": {"Service": "lambda.amazonaws.com"}, "Action": "sts:AssumeRole"}]`.
+   * Llama a `role_resp = iam_client.create_role(RoleName=role_name, AssumeRolePolicyDocument=json.dumps(trust_policy))`.
+   * Obtiene `permissions_policy = build_fincorp_least_privilege_policy(bucket_name)`.
+   * Llama a `iam_client.put_role_policy(RoleName=role_name, PolicyName=f"{role_name}-least-privilege", PolicyDocument=json.dumps(permissions_policy))`.
+   * Retorna `role_resp["Role"]["Arn"]`.
 
-    def build_url(self) -> str:
-        return f"postgresql+psycopg2://{self.user}:{self.pwd}@{self.host}:{self.port}/{self.db}"
-
-def persist_shipments(df: pd.DataFrame, table: str, engine: Engine) -> int:
-    if df.empty:
-        return 0
-    try:
-        df.to_sql(name=table, con=engine, if_exists="append", index=False, chunksize=250)
-        return len(df)
-    except SQLAlchemyError as err:
-        raise DatabaseLoadError(f"Error persisting to {table}") from err
-```
-
----
-
-### 🧪 Comandos de Verificación Binaria:
-
+#### 🧪 Comando de Verificación Binaria (`M4`):
 ```bash
-/Users/ander/Documents/DoJo/DoJo_Study/content/subjects/data_engineering/chronicles/DE-PIPELINES/.venv/bin/pytest content/subjects/data_engineering/chronicles/DE-PIPELINES/quests/04-carga-postgresql/test_postgres_loader.py -v
+/Users/ander/Documents/DoJo/DoJo_Study/content/subjects/cloud/chronicles/CLOUD-AWS/.venv/bin/pytest content/subjects/cloud/chronicles/CLOUD-AWS/quests/00-aws-iam/test_fincorp_iam.py -v
 ```
-*(Criterio de éxito: 5 passed con exit code 0).*
+*(Criterio: `4 passed` con exit code 0).*
 
 ---
 
-## 3. Bitácora de Cambios del Sistema (Carril B — Antigravity)
+### 🔹 PASO 2 DE 5 — MISIÓN `M5` (`AWS-005` + `AWS-006`): Bucket S3 con Validación DNS y Parquet Snappy
 
-Registro de archivos nuevos o actualizados en el sistema bajo las reglas de `09-generation-protocol.md`:
+* **Archivo a editar:** [`content/subjects/cloud/chronicles/CLOUD-AWS/quests/01-aws-s3/fincorp_s3_parquet.py`](file:///Users/ander/Documents/DoJo/DoJo_Study/content/subjects/cloud/chronicles/CLOUD-AWS/quests/01-aws-s3/fincorp_s3_parquet.py)
+* **Enunciado:** [`02-s3-parquet.md`](file:///Users/ander/Documents/DoJo/DoJo_Study/content/subjects/cloud/chronicles/CLOUD-AWS/quests/01-aws-s3/02-s3-parquet.md) | **Teoría:** [`lore/01-aws-s3.md` (§5.1, §5.2 y §5.3)](file:///Users/ander/Documents/DoJo/DoJo_Study/content/subjects/cloud/chronicles/CLOUD-AWS/lore/01-aws-s3.md#L118)
 
-* `docker-compose.yml`:
-  * *Cambio:* Creado en la raíz del proyecto para aprovisionamiento local de PostgreSQL 16 Alpine con healthcheck.
-* `content/subjects/data_engineering/chronicles/DE-PIPELINES/quests/01-extraccion-api/api_paginator.py`:
-  * *Cambio:* **Implementado y aprobado por el Operador (`5/5 passed`, exit code 0). Cierre formal de la brecha `DE-007`.**
-* `content/subjects/data_engineering/chronicles/DE-PIPELINES/lore/04-carga-postgresql.md`:
-  * *Cambio:* Reescribo exhaustivo con driver `psycopg2`, Connection URIs formales, Docker Compose, Connection Pooling (`pool_pre_ping=True`) y carga masiva por chunks.
-* `content/subjects/data_engineering/chronicles/DE-PIPELINES/quests/04-carga-postgresql/02-postgres-loader.md`:
-  * *Cambio:* Enunciado didáctico de la Quest 04-02 (`DE-004`).
-* `content/subjects/data_engineering/chronicles/DE-PIPELINES/quests/04-carga-postgresql/postgres_loader.py`:
-  * *Cambio:* Plantilla inicial para el Operador con `DatabaseConfig`, `create_production_engine` y `load_gold_dataframe`.
-* `content/subjects/data_engineering/chronicles/DE-PIPELINES/quests/04-carga-postgresql/test_postgres_loader.py`:
-  * *Cambio:* Suite evaluadora automatizada con 5 tests unitarios validando formato de URI, pooling, inserción en chunks y captura de errores.
+#### 📋 Contrato a implementar en `fincorp_s3_parquet.py`:
+1. **`provision_valid_bucket(s3_client: Any, bucket_name: str) -> str`**:
+   * Si `not re.fullmatch(BUCKET_DNS_REGEX, bucket_name): raise ValueError(...)`.
+   * Llama a `s3_client.create_bucket(Bucket=bucket_name)` y retorna `bucket_name`.
+2. **`upload_gold_parquet(s3_client: Any, df: pd.DataFrame, bucket_name: str, s3_key: str) -> int`**:
+   * Crea `buffer = io.BytesIO()`.
+   * Ejecuta `df.to_parquet(buffer, engine="pyarrow", compression="snappy", index=False)`.
+   * Obtiene `parquet_bytes = buffer.getvalue()`, llama a `s3_client.put_object(Bucket=bucket_name, Key=s3_key, Body=parquet_bytes)` y retorna `len(parquet_bytes)`.
 
+#### 🧪 Comando de Verificación Binaria (`M5`):
+```bash
+/Users/ander/Documents/DoJo/DoJo_Study/content/subjects/cloud/chronicles/CLOUD-AWS/.venv/bin/pytest content/subjects/cloud/chronicles/CLOUD-AWS/quests/01-aws-s3/test_fincorp_s3_parquet.py -v
+```
+*(Criterio: `8 passed` con exit code 0).*
 
+---
 
+### 🔹 PASO 3 DE 5 — MISIÓN `M6` (`AWS-007` + `MKT-AWS-002`): RDS + Secrets Manager + Security Group
 
+* **Archivo a editar:** [`content/subjects/cloud/chronicles/CLOUD-AWS/quests/02-aws-rds/fincorp_rds_secrets.py`](file:///Users/ander/Documents/DoJo/DoJo_Study/content/subjects/cloud/chronicles/CLOUD-AWS/quests/02-aws-rds/fincorp_rds_secrets.py)
+* **Enunciado:** [`02-rds-secrets.md`](file:///Users/ander/Documents/DoJo/DoJo_Study/content/subjects/cloud/chronicles/CLOUD-AWS/quests/02-aws-rds/02-rds-secrets.md) | **Teoría:** [`lore/02-aws-rds.md` (§5.1 y §5.2)](file:///Users/ander/Documents/DoJo/DoJo_Study/content/subjects/cloud/chronicles/CLOUD-AWS/lore/02-aws-rds.md#L106)
 
+#### 📋 Contrato a implementar en `fincorp_rds_secrets.py`:
+1. **`RDSConfig.get_uri(self) -> str`**:
+   * Reutiliza tu implementación de `M1`: retorna `f"{self.driver}://{self.username}:{self.password}@{self.host}:{self.port}/{self.database}"`.
+2. **`load_rds_config_from_secrets(secrets_client: Any, secret_id: str) -> RDSConfig`**:
+   * Llama a `response = secrets_client.get_secret_value(SecretId=secret_id)`.
+   * Parsea `secret_payload = json.loads(response["SecretString"])`.
+   * Retorna `RDSConfig(host=secret_payload["host"], port=int(secret_payload.get("port", 5432)), database=secret_payload["dbname"], username=secret_payload["username"], password=secret_payload["password"])`.
+3. **`authorize_rds_ingress(ec2_client: Any, group_id: str, cidr_ip: str) -> dict[str, Any]`**:
+   * Si `cidr_ip == "0.0.0.0/0": raise ValueError(...)`.
+   * Retorna `ec2_client.authorize_security_group_ingress(GroupId=group_id, IpProtocol="tcp", FromPort=5432, ToPort=5432, CidrIp=cidr_ip)`.
 
+#### 🧪 Comando de Verificación Binaria (`M6`):
+```bash
+/Users/ander/Documents/DoJo/DoJo_Study/content/subjects/cloud/chronicles/CLOUD-AWS/.venv/bin/pytest content/subjects/cloud/chronicles/CLOUD-AWS/quests/02-aws-rds/test_fincorp_rds_secrets.py -v
+```
+*(Criterio: `4 passed` con exit code 0).*
 
+---
 
+### 🔹 PASO 4 DE 5 — MISIÓN `M7` (`AWS-008`): Empaquetado `.zip` y Despliegue de AWS Lambda
+
+* **Archivo a editar:** [`content/subjects/cloud/chronicles/CLOUD-AWS/quests/03-aws-lambda/fincorp_lambda_deploy.py`](file:///Users/ander/Documents/DoJo/DoJo_Study/content/subjects/cloud/chronicles/CLOUD-AWS/quests/03-aws-lambda/fincorp_lambda_deploy.py)
+* **Enunciado:** [`02-lambda-deploy.md`](file:///Users/ander/Documents/DoJo/DoJo_Study/content/subjects/cloud/chronicles/CLOUD-AWS/quests/03-aws-lambda/02-lambda-deploy.md) | **Teoría:** [`lore/03-aws-lambda.md` (§5.1)](file:///Users/ander/Documents/DoJo/DoJo_Study/content/subjects/cloud/chronicles/CLOUD-AWS/lore/03-aws-lambda.md#L90)
+
+#### 📋 Contrato a implementar en `fincorp_lambda_deploy.py`:
+1. **`build_lambda_zip(source_code: str, filename: str = "handler.py") -> bytes`**:
+   * Crea `buffer = io.BytesIO()`.
+   * Con `with zipfile.ZipFile(buffer, mode="w", compression=zipfile.ZIP_DEFLATED) as zf:` ejecuta `zf.writestr(filename, source_code)`.
+   * Retorna `buffer.getvalue()`.
+2. **`deploy_serverless_worker(lambda_client: Any, function_name: str, role_arn: str, zip_bytes: bytes, env_vars: dict[str, str]) -> str`**:
+   * Llama a `response = lambda_client.create_function(FunctionName=function_name, Runtime="python3.12", Role=role_arn, Handler="handler.lambda_handler", Code={"ZipFile": zip_bytes}, Environment={"Variables": env_vars}, Timeout=60, MemorySize=256)` y retorna `response["FunctionArn"]`.
+
+#### 🧪 Comando de Verificación Binaria (`M7`):
+```bash
+/Users/ander/Documents/DoJo/DoJo_Study/content/subjects/cloud/chronicles/CLOUD-AWS/.venv/bin/pytest content/subjects/cloud/chronicles/CLOUD-AWS/quests/03-aws-lambda/test_fincorp_lambda_deploy.py -v
+```
+*(Criterio: `3 passed` con exit code 0).*
+
+---
+
+### 🔹 PASO 5 DE 5 — MISIÓN `M8` (`AWS-009`): Metric Filters y Alarmas en CloudWatch
+
+* **Archivo a editar:** [`content/subjects/cloud/chronicles/CLOUD-AWS/quests/04-aws-cloudwatch/fincorp_cloudwatch_alarm.py`](file:///Users/ander/Documents/DoJo/DoJo_Study/content/subjects/cloud/chronicles/CLOUD-AWS/quests/04-aws-cloudwatch/fincorp_cloudwatch_alarm.py)
+* **Enunciado:** [`02-cloudwatch-alarms.md`](file:///Users/ander/Documents/DoJo/DoJo_Study/content/subjects/cloud/chronicles/CLOUD-AWS/quests/04-aws-cloudwatch/02-cloudwatch-alarms.md) | **Teoría:** [`lore/04-aws-cloudwatch.md` (§5.1)](file:///Users/ander/Documents/DoJo/DoJo_Study/content/subjects/cloud/chronicles/CLOUD-AWS/lore/04-aws-cloudwatch.md#L81)
+
+#### 📋 Contrato a implementar en `fincorp_cloudwatch_alarm.py`:
+1. **`configure_failure_alarm(logs_client: Any, cw_client: Any, log_group_name: str, metric_name: str, metric_namespace: str = "FinCorp/ETL") -> str`**:
+   * Llama a `logs_client.put_metric_filter(logGroupName=log_group_name, filterName=f"{metric_name}-Filter", filterPattern="ERROR", metricTransformations=[{"metricName": metric_name, "metricNamespace": metric_namespace, "metricValue": "1"}])`.
+   * Define `alarm_name = f"{metric_name}-CriticalAlarm"`, llama a `cw_client.put_metric_alarm(AlarmName=alarm_name, MetricName=metric_name, Namespace=metric_namespace, Statistic="Sum", Period=60, EvaluationPeriods=1, Threshold=1.0, ComparisonOperator="GreaterThanOrEqualToThreshold")` y retorna `alarm_name`.
+
+#### 🧪 Comando de Verificación Binaria (`M8`):
+```bash
+/Users/ander/Documents/DoJo/DoJo_Study/content/subjects/cloud/chronicles/CLOUD-AWS/.venv/bin/pytest content/subjects/cloud/chronicles/CLOUD-AWS/quests/04-aws-cloudwatch/test_fincorp_cloudwatch_alarm.py -v
+```
+*(Criterio: `3 passed` con exit code 0).*
+
+---
+
+### 📓 Validación de Conocimiento de `05-cloud-aws` (Grimoire — Síntesis Feynman)
+Al terminar `M4`–`M8`, responde las **2 preguntas de síntesis del Sprint 2** al final de [`CLOUD-AWS/grimoire.md`](file:///Users/ander/Documents/DoJo/DoJo_Study/content/subjects/cloud/chronicles/CLOUD-AWS/grimoire.md#L153).

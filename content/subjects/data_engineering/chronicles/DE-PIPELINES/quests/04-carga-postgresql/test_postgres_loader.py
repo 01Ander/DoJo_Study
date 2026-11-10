@@ -99,15 +99,50 @@ def test_load_gold_dataframe_empty():
 
 def test_load_gold_dataframe_error_wrapping():
     """Validates that database errors during to_sql are caught and wrapped into DatabaseLoadError."""
-    # Disposed engine that will fail execution
-    engine = create_engine("sqlite:///:memory:")
-    engine.dispose()
-
+    # Engine pointing to an unreachable/invalid path so SQLAlchemy raises OperationalError (subclass of SQLAlchemyError)
+    broken_engine = create_engine("sqlite:////nonexistent_dir_dojo_999/impossible.db")
     df = pd.DataFrame({"col": [1, 2, 3]})
 
-    # Pass an invalid target to trigger SQLAlchemy error
-    class BrokenEngine:
-        pass
-
     with pytest.raises(DatabaseLoadError):
-        load_gold_dataframe(df, "bad_table", BrokenEngine())  # type: ignore
+        load_gold_dataframe(df, "bad_table", broken_engine)
+
+
+def test_docker_multistage_and_compose_contract():
+    """Validates the Operator's multi-stage Dockerfile and the root docker-compose + init.sql setup."""
+    quest_dir = Path(__file__).resolve().parent
+    repo_root = quest_dir.parents[6]
+
+    dockerfile_path = quest_dir / "Dockerfile"
+    assert dockerfile_path.exists(), "Falta el archivo Dockerfile en quests/04-carga-postgresql/"
+    raw_lines = dockerfile_path.read_text(encoding="utf-8").splitlines()
+    active_lines = [line.strip() for line in raw_lines if line.strip() and not line.strip().startswith("#")]
+    dockerfile_content = "\n".join(active_lines)
+
+    # Verify multi-stage builder + runtime directives
+    assert "FROM python:3.12-slim AS builder" in dockerfile_content, (
+        "El Dockerfile debe declarar la primera etapa: 'FROM python:3.12-slim AS builder'"
+    )
+    assert "FROM python:3.12-slim AS runtime" in dockerfile_content, (
+        "El Dockerfile debe declarar la segunda etapa: 'FROM python:3.12-slim AS runtime'"
+    )
+    assert "COPY --from=builder" in dockerfile_content, (
+        "El Dockerfile debe copiar los artefactos desde la etapa builder ('COPY --from=builder')"
+    )
+    assert "WORKDIR /app" in dockerfile_content, "El Dockerfile debe establecer 'WORKDIR /app'"
+    assert "PYTHONDONTWRITEBYTECODE=1" in dockerfile_content, (
+        "El Dockerfile debe incluir ENV PYTHONDONTWRITEBYTECODE=1"
+    )
+    assert "CMD" in dockerfile_content and "postgres_loader.py" in dockerfile_content, (
+        "El Dockerfile debe definir CMD ejecutando postgres_loader.py"
+    )
+
+    # Verify root docker-compose.yml & docker/init.sql
+    compose_path = repo_root / "docker-compose.yml"
+    init_sql_path = repo_root / "docker" / "init.sql"
+    assert compose_path.exists(), "Falta docker-compose.yml en la raíz del repositorio"
+    assert init_sql_path.exists(), "Falta docker/init.sql para inicialización del contenedor PostgreSQL"
+    compose_content = compose_path.read_text(encoding="utf-8")
+    assert "postgres:16-alpine" in compose_content
+    assert "/docker-entrypoint-initdb.d/init.sql" in compose_content
+    assert "dojo_net" in compose_content
+

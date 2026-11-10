@@ -2,9 +2,9 @@
 
 > **Documento Rector:** [`meta/audits/2026-q3-contenido/analisis/dictamen-final-consolidado.md`](file:///Users/ander/Documents/DoJo/DoJo_Study/meta/audits/2026-q3-contenido/analisis/dictamen-final-consolidado.md)  
 > **Ubicación Canónica de Gobernanza:** `meta/remediacion/`  
-> **Estado General:** Fase de Arquitectura y Diseño Curricular (Syllabus 3.0)  
-> **Fecha de Inicio:** 2026-10-13  
-> **Prerrequisito Aprobado:** Gate 1 (Ola 1 cerrada al 100% en commit `57073c4`)
+> **Estado General:** ✅ **OLA 2 CERRADA AL 100% (`Gate 2` Aprobado — Ola 3 `PORT-CAPSTONE` Desbloqueada)**  
+> **Fecha de Inicio:** 2026-10-13 | **Fecha de Cierre (`Gate 2`):** 2026-11-10  
+> **Prerrequisito Aprobado:** Gate 1 (Ola 1 cerrada al 100% en commit `57073c4`) | **Tablero Operativo:** [`tablero-operador.md`](file:///Users/ander/Documents/DoJo/DoJo_Study/meta/remediacion/tablero-operador.md)
 
 ---
 
@@ -119,18 +119,18 @@ Para evitar la proliferación descontrolada de temas que retrasen la inserción 
 | **`MKT-SQL-002`**| `03-sql-basico`| Cap 09: Modelado | SCD Tipo 2 en Star Schema | Lore 09 §6 + Quest 09-04 `scd_type2_dim.sql` | B/A | 🟢 Completado |
 |---|---|---|---|---|---|---|
 | **`DE-007`** | `04-de-pipelines`| Cap 01: Extracción API | Paginación resiliente de APIs | Lore 01 §3 + Quest 01-02 `api_paginator.py` | B/A | 🟢 Completado |
-| **`DE-004`** | `04-de-pipelines`| Cap 04: Carga DB | Carga a PostgreSQL real | Docker Compose Postgres + Quest SQLAlchemy/psycopg | B/A | 🟡 **ACTIVA (Tu turno)** |
-| **`DE-009`** | `04-de-pipelines`| Cap 05: Orquestación | Logs estructurados de run | Lore 05 + Quest logging estructurado de ejecución | B/A | ⏳ En cola |
-| **`DE-005`** | `04-de-pipelines`| Cap 05: Orquestación | Orquestación Periódica/Airflow | Lore + Quest DAG básico con scheduler y reintentos | B/A | ⏳ En cola |
+| **`DE-004`** | `04-de-pipelines`| Cap 04: Carga DB | Carga a PostgreSQL real | Docker Compose Postgres + Quest `postgres_loader.py` (`M1`) | B/A | 🟢 Completado |
+| **`DE-009`** | `04-de-pipelines`| Cap 05: Orquestación | Logs estructurados de run | Lore 05 + Quest `fincorp_orchestrator.py` (`M2`) | B/A | 🟢 Completado |
+| **`DE-005`** | `04-de-pipelines`| Cap 05: Orquestación | Orquestación Periódica/Airflow | Lore 05 §5-6 + Quest `fincorp_orchestrator.py` (`M2`) | B/A | 🟢 Completado |
 |---|---|---|---|---|---|---|
-| **`AWS-004`** | `05-cloud-aws` | Cap 00: Seguridad IAM | IAM Programático | Lore 00 + Quest creación programática de roles/policies | B/A | ⏳ En cola |
-| **`AWS-010`** | `05-cloud-aws` | Cap 00: Seguridad IAM | Profundidad de políticas IAM | Lore 00 + Quest evaluación Deny, conditions, ARNs | B/A | ⏳ En cola |
-| **`AWS-005`** | `05-cloud-aws` | Cap 01: Storage S3 | Creación de Buckets | Lore 01 + Quest aprovisionamiento con validación DNS | B/A | ⏳ En cola |
-| **`AWS-006`** | `05-cloud-aws` | Cap 01: Storage S3 | Serialización Parquet | Lore 01 + Quest DataFrame $\rightarrow$ Parquet Snappy en S3 | B/A | ⏳ En cola |
-| **`AWS-007`** | `05-cloud-aws` | Cap 02: Bases Cloud | RDS + Security Groups | Lore 02 + Quest conexión y reglas de red administradas | B/A | ⏳ En cola |
-| **`MKT-AWS-002`**| `05-cloud-aws` | Cap 02: Bases Cloud | Gestión de Secretos (Cero Hardcode) | Lore 02 + Quest AWS Secrets Manager / KMS | B/A | ⏳ En cola |
-| **`AWS-008`** | `05-cloud-aws` | Cap 03: Compute Serverless| Despliegue de Lambda | Lore 03 + Quest empaquetado zip y `create_function` | B/A | ⏳ En cola |
-| **`AWS-009`** | `05-cloud-aws` | Cap 04: Observabilidad | CloudWatch Alarms | Lore 04 + Quest alarmas sobre Metric Filters | B/A | ⏳ En cola |
+| **`AWS-004`** | `05-cloud-aws` | Cap 00: Seguridad IAM | IAM Programático | Lore 00 §3.1-3.2 + Quest `fincorp_iam.py` (`M4`) | B/A | 🟢 Completado |
+| **`AWS-010`** | `05-cloud-aws` | Cap 00: Seguridad IAM | Profundidad de políticas IAM | Lore 00 §3.1-3.2 + Quest `fincorp_iam.py` (`M4`) | B/A | 🟢 Completado |
+| **`AWS-005`** | `05-cloud-aws` | Cap 01: Storage S3 | Creación de Buckets | Lore 01 §3.1 + Quest `fincorp_s3_parquet.py` (`M5`) | B/A | 🟢 Completado |
+| **`AWS-006`** | `05-cloud-aws` | Cap 01: Storage S3 | Serialización Parquet | Lore 01 §3.2 + Quest `fincorp_s3_parquet.py` (`M5`) | B/A | 🟢 Completado |
+| **`AWS-007`** | `05-cloud-aws` | Cap 02: Bases Cloud | RDS + Security Groups | Lore 02 §3.2 + Quest `fincorp_rds_secrets.py` (`M6`) | B/A | 🟢 Completado |
+| **`MKT-AWS-002`**| `05-cloud-aws` | Cap 02: Bases Cloud | Gestión de Secretos (Cero Hardcode) | Lore 02 §3.1 + Quest `fincorp_rds_secrets.py` (`M6`) | B/A | 🟢 Completado |
+| **`AWS-008`** | `05-cloud-aws` | Cap 03: Compute Serverless| Despliegue de Lambda | Lore 03 §3.1-3.2 + Quest `fincorp_lambda_deploy.py` (`M7`) | B/A | 🟢 Completado |
+| **`AWS-009`** | `05-cloud-aws` | Cap 04: Observabilidad | CloudWatch Alarms | Lore 04 §5.1 + Quest `fincorp_cloudwatch_alarm.py` (`M8`) | B/A | 🟢 Completado |
 
 ---
 

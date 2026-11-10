@@ -50,13 +50,21 @@ Inserta el contenido de un DataFrame en la tabla especificada:
 
 ---
 
+### 4. [`Dockerfile`](file:///Users/ander/Documents/DoJo/DoJo_Study/content/subjects/data_engineering/chronicles/DE-PIPELINES/quests/04-carga-postgresql/Dockerfile) Multi-Stage para el Worker ETL
+Edita también el archivo [`Dockerfile`](file:///Users/ander/Documents/DoJo/DoJo_Study/content/subjects/data_engineering/chronicles/DE-PIPELINES/quests/04-carga-postgresql/Dockerfile) en la misma carpeta aplicando el patrón Multi-Stage de Lore 04 (§2.1):
+1. **Etapa 1 (`builder`):** `FROM python:3.12-slim AS builder`, `WORKDIR /build`, copia `requirements.txt` y ejecuta `RUN pip install --no-cache-dir --prefix=/install -r requirements.txt`.
+2. **Etapa 2 (`runtime`):** `FROM python:3.12-slim AS runtime`, `WORKDIR /app`, declara `ENV PYTHONDONTWRITEBYTECODE=1` y `ENV PYTHONUNBUFFERED=1`.
+3. **Copia de artefactos y arranque:** Incluye `COPY --from=builder /install /usr/local`, `COPY postgres_loader.py .` y `CMD ["python", "postgres_loader.py"]`.
+
+---
+
 ## 🧪 Comandos de Verificación Binaria
 
 Ejecuta la suite de pruebas unitarias automatizada:
 ```bash
 /Users/ander/Documents/DoJo/DoJo_Study/content/subjects/data_engineering/chronicles/DE-PIPELINES/.venv/bin/pytest content/subjects/data_engineering/chronicles/DE-PIPELINES/quests/04-carga-postgresql/test_postgres_loader.py -v
 ```
-*(Criterio de éxito: 5 passed con exit code 0).*
+*(Criterio de éxito: 6 passed con exit code 0).*
 
 ---
 

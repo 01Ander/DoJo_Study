@@ -102,6 +102,77 @@ finally:
 - `cur.execute(query, (param,))`: Ejecuta el string SQL delegando a `psycopg2` la sanitización para evitar *SQL Injections*.
 - `cur.fetchone()`: Trae un único registro (la primera fila) resultado de la base de datos a Python, en forma de tupla.
 
+---
+
+## 5.1 Gestión de Credenciales con AWS Secrets Manager y KMS (`MKT-AWS-002`)
+
+En producción dentro de AWS, ni siquiera escribimos contraseñas de base de datos en variables de entorno planas: las almacenamos cifradas con llaves **AWS KMS (*Key Management Service*)** dentro de **AWS Secrets Manager**.
+
+Cuando tu pipeline arranca, solicita el secreto por su identificador (`SecretId`), AWS KMS lo descifra al vuelo en memoria y `get_secret_value()` te devuelve el JSON de credenciales en el campo `"SecretString"`. Con ese diccionario podemos instanciar directamente nuestra clase `DatabaseConfig` (el mismo patrón que construiste en `M1`):
+
+```python
+import json
+from dataclasses import dataclass
+from typing import Any
+
+# 🎯 Objetivo de Negocio: Recuperar credenciales de RDS desde Secrets Manager sin hardcoding.
+
+@dataclass
+class RDSConfig:
+    host: str
+    port: int
+    database: str
+    username: str
+    password: str
+    driver: str = "postgresql+psycopg2"
+
+    def get_uri(self) -> str:
+        return f"{self.driver}://{self.username}:{self.password}@{self.host}:{self.port}/{self.database}"
+
+def load_rds_config_from_secrets(secrets_client: Any, secret_id: str) -> RDSConfig:
+    # 1. Consultar el secreto cifrado en AWS Secrets Manager
+    response = secrets_client.get_secret_value(SecretId=secret_id)
+    
+    # 2. Parsear el JSON contenido en 'SecretString'
+    secret_payload = json.loads(response["SecretString"])
+    
+    return RDSConfig(
+        host=secret_payload["host"],
+        port=int(secret_payload.get("port", 5432)),
+        database=secret_payload["dbname"],
+        username=secret_payload["username"],
+        password=secret_payload["password"],
+    )
+```
+
+---
+
+## 5.2 Reglas de Red Administradas en Security Groups (`AWS-007`)
+
+Para que el worker pueda conectarse al puerto `5432` de RDS sin abrir la base de datos a todo internet (`0.0.0.0/0`), configuramos una regla de entrada (*Ingress Rule*) en el **Security Group** usando `ec2_client.authorize_security_group_ingress(...)`, exigiendo siempre un bloque CIDR privado (por ejemplo, `10.0.0.0/16`):
+
+```python
+from typing import Any
+
+# 🎯 Objetivo de Negocio: Autorizar tráfico TCP al puerto 5432 de RDS bloqueando 0.0.0.0/0.
+
+def authorize_rds_ingress(ec2_client: Any, group_id: str, cidr_ip: str) -> dict[str, Any]:
+    if cidr_ip == "0.0.0.0/0":
+        raise ValueError("Violación de seguridad: Prohibido abrir el puerto 5432 de RDS a 0.0.0.0/0")
+    
+    return ec2_client.authorize_security_group_ingress(
+        GroupId=group_id,
+        IpProtocol="tcp",
+        FromPort=5432,
+        ToPort=5432,
+        CidrIp=cidr_ip,
+    )
+```
+
+> **Zero Surprise Syntax:**
+> * **`secrets_client.get_secret_value(SecretId=...)`:** Retorna un diccionario cuya llave `"SecretString"` contiene el JSON de credenciales en formato texto (`str`).
+> * **`ec2_client.authorize_security_group_ingress(...)`:** En AWS, los Security Groups pertenecen a la capa de red VPC/EC2, por lo que se administran con `boto3.client('ec2')` especificando protocolo (`"tcp"`), rango de puertos (`5432` a `5432`) y rango IP autorizado (`CidrIp`).
+
 ## 6. Conexión con Testing (Test-Driven Lore)
 
 - **`MagicMock` encadenados:** Conectas (`psycopg2.connect`), lo que devuelve la Conexión (`mock_conn`), la cual devuelve un Cursor (`mock_cur`), el cual retorna tu Resultado (`mock_cur.fetchone.return_value`).

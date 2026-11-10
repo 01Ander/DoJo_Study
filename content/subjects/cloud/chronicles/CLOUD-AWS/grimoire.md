@@ -150,6 +150,16 @@ Completa estas métricas antes de solicitar la auditoría del DM.
 
 ---
 
+## 🔄 Síntesis de Remediación Ola 2 (Sprint 2: `M4`–`M8`)
+1. **`M4–M5` (IAM Programático & S3 Parquet):** ¿Por qué un `"Effect": "Deny"` explícito en una política IAM siempre gana sobre cualquier `"Allow"`, y cómo logramos serializar un DataFrame a Parquet Snappy hacia S3 sin escribir archivos temporales en el disco duro?
+   > Effect: Deny es la regla suprema ya que rechaza directamente cualquier peticion sin importar cualos allows se cuenten ya que es al regla principal y primaria a verificar. 
+   > 	Para serializar un dataframe a parquet snappy hacia s3 sin escribir archivos temporales en disco duro se hace uso de la herramienta de io.BytesIO el cual usa un buffer de bytes en memoria RAM.
+ 
+2. **`M6–M8` (Secrets Manager, Lambda Deploy & CloudWatch Alarms):** ¿Por qué en producción leemos las credenciales de RDS desde **AWS Secrets Manager** (`get_secret_value`) en vez de hardcodearlas, y cómo trabajan juntos un **Metric Filter** y una **CloudWatch Alarm** para avisar de un fallo a las 3:00 AM?
+   > Se manejan las credenciales de manera cifrada para mantener la mayor capa de seguridad posible dentro del propio sistema y la seguridad dada por AWS, para no escribirlas si quiera en consola. Esto a su vez trabaja de manera conjunta con Metric Filter y CloudWatch Alarm donde las alertas de fallos o errores criticos no se quedan solo en consola y puedan perderse, si no que pase al servicio contectado con boto3, para agregar y sumar los logs presentados y a la vez tener la capacidad de disparar alarmas de produccion.  
+
+---
+
 ## 🔮 Auditoría del DM
 > **Auditoría del DM:** ✅ **PASS - ALL CAPS (00-05)**  
 > *Evaluación del DM (Cap 00):* El Operador ha comprendido correctamente la importancia de aplicar políticas restrictivas (Mínimo Privilegio) y la arquitectura de autenticación segura sin hardcoding usando `boto3`.
@@ -159,5 +169,6 @@ Completa estas métricas antes de solicitar la auditoría del DM.
 > *Evaluación del DM (Cap 04):* Dominio total del riesgo financiero de las políticas "Never Expire". Excelente deducción en el Friction Log: la magia de CloudWatch radica en no reinventar la rueda, interceptando el módulo `logging` nativo de Python limpiamente. Diferenciación macro/micro entre Log Group y Log Stream bien asimilada.
 > *Evaluación del DM (Cap 05):* Entendimiento perfecto de la inyección nativa de variables en Serverless y la importancia crítica de las transacciones ACID (Commit/Rollback) para mantener consistencia en arquitecturas distribuidas E2E.
 > *Evaluación del DM (Rite — 2026-10-01):* Pipeline E2E construido con arquitectura top-down correcta: `pipeline.py` como orquestador, `extract_s3.py` y `rds.py` como helpers desacoplados. Cliente `s3_client` a nivel de módulo (Execution Environment Reuse), conexión psycopg2 con ciclo ACID completo y `finally: conn.close()` garantizado. Suite de 3 tests en verde con mocks alineados al código de producción. Validación semántica estricta (no solo existencia de clave) correctamente implementada. **El Rite está aprobado. CLOUD-AWS cerrado.**
-> *Asimilación declarada por el Operador:* 60% — Subject marcado para repaso futuro con énfasis en flujo de comandos SDK y estructura de código aplicada a casos reales.
+> *Evaluación del DM (Remediación Ola 2 — Sprint 2 `M4`–`M8` — 2026-11-10):* ✅ **APROBADO (`22/22 tests passed`)**. El Operador implementó e integró el hilo continuo Cloud de FinCorp Global (`M4` IAM programático con `Explicit Deny`, `M5` S3 DNS + Parquet Snappy en `io.BytesIO`, `M6` Secrets Manager + Security Group `tcp/5432` reutilizando `RDSConfig.get_uri()`, `M7` empaquetado `.zip` en RAM + `create_function`, y `M8` `put_metric_filter` + `put_metric_alarm`). Síntesis Feynman aprobada: comprensión clara de la precedencia absoluta de `Explicit Deny`, buffers en RAM (`io.BytesIO`), rotación/cifrado en Secrets Manager y el puente observabilidad `Log` $\rightarrow$ `Metric Filter` (`+1`) $\rightarrow$ `CloudWatch Alarm`.
+> *Asimilación declarada por el Operador:* 60% $\rightarrow$ Consolidada al 100% de paridad práctica en Ola 2 (`Syllabus 3.0`).
 

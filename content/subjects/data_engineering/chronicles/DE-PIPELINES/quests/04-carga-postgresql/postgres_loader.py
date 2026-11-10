@@ -8,6 +8,7 @@ from dataclasses import dataclass
 import pandas as pd
 from sqlalchemy.engine import Engine
 from sqlalchemy.exc import SQLAlchemyError
+from sqlalchemy import create_engine
 
 
 class DatabaseLoadError(Exception):
@@ -28,7 +29,7 @@ class DatabaseConfig:
     def get_uri(self) -> str:
         """Constructs and returns the database connection URI."""
         # TODO: Implement URI construction format: driver://username:password@host:port/database
-        pass
+        return f"{self.driver}://{self.username}:{self.password}@{self.host}:{self.port}/{self.database}"
 
 
 def create_production_engine(
@@ -47,7 +48,10 @@ def create_production_engine(
         Configured SQLAlchemy Engine.
     """
     # TODO: Implement Engine instantiation with pool_size and pool_pre_ping.
-    pass
+    return create_engine(
+        connection_uri,
+        pool_size=pool_size, pool_pre_ping=pool_pre_ping
+    )
 
 
 def load_gold_dataframe(
@@ -71,4 +75,18 @@ def load_gold_dataframe(
         DatabaseLoadError: Wrapped domain exception on any SQLAlchemyError.
     """
     # TODO: Implement DataFrame to_sql with if_exists="append", index=False, chunksize, and error handling.
-    pass
+    if df.empty:
+        return 0
+
+    try:
+        df.to_sql(
+            name=table_name,
+            con=engine,
+            if_exists="append",
+            index=False,
+            chunksize=chunksize
+        )
+        return len(df)
+    except SQLAlchemyError as err:
+        raise DatabaseLoadError(
+            f"Fallo al cargar DataFrame en la tabla '{table_name}': {err}") from err

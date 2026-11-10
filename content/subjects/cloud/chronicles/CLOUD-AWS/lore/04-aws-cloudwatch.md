@@ -77,6 +77,62 @@ def lambda_handler(event, context):
 - `logger.info()` y `logger.error()`: A diferencia de `print()`, adjuntan metadatos (hora, severidad) y son enviados nativamente a CloudWatch.
 - *Metric Filter (Concepto)*: Regla en la consola AWS que escanea el texto del log. Si halla un patrón exacto, detona alertas.
 
+---
+
+## 5.1 Configuración Programática de `Metric Filters` y `CloudWatch Alarms` (`AWS-009`)
+
+Emitir `logger.error("CRITICAL...")` desde Python es solo la mitad del trabajo. Si nadie está mirando la consola a las 3:00 AM, el fallo pasará desapercibido. Para automatizar la alerta en AWS conectamos dos servicios con `boto3`:
+
+1. **`logs_client.put_metric_filter(...)` (en `boto3.client('logs')`):**
+   Escanea en tiempo real un `logGroupName` buscando un patrón de texto (`filterPattern`, por ejemplo `"ERROR"`). Cada vez que aparece esa palabra en un log, suma `1` (`metricValue="1"`) a una métrica personalizada en CloudWatch.
+2. **`cw_client.put_metric_alarm(...)` (en `boto3.client('cloudwatch')`):**
+   Vigila esa métrica numérica. Si la suma (`Statistic="Sum"`) es mayor o igual al umbral (`Threshold=1.0`, `ComparisonOperator="GreaterThanOrEqualToThreshold"`) en una ventana de tiempo (`Period=60` segundos, `EvaluationPeriods=1`), dispara la alarma de producción.
+
+```python
+from typing import Any
+
+# 🎯 Objetivo de Negocio: Crear un Metric Filter sobre los logs de la Lambda y atarle una Alarma de CloudWatch.
+
+def configure_failure_alarm(
+    logs_client: Any,
+    cw_client: Any,
+    log_group_name: str,
+    metric_name: str,
+    metric_namespace: str = "FinCorp/ETL",
+) -> str:
+    # 1. Crear el Metric Filter que convierte cada línea con "ERROR" en un punto numérico = 1
+    logs_client.put_metric_filter(
+        logGroupName=log_group_name,
+        filterName=f"{metric_name}-Filter",
+        filterPattern="ERROR",
+        metricTransformations=[
+            {
+                "metricName": metric_name,
+                "metricNamespace": metric_namespace,
+                "metricValue": "1",
+            }
+        ],
+    )
+
+    # 2. Crear la Alarma en CloudWatch que se activa cuando la métrica llega a >= 1.0
+    alarm_name = f"{metric_name}-CriticalAlarm"
+    cw_client.put_metric_alarm(
+        AlarmName=alarm_name,
+        MetricName=metric_name,
+        Namespace=metric_namespace,
+        Statistic="Sum",
+        Period=60,
+        EvaluationPeriods=1,
+        Threshold=1.0,
+        ComparisonOperator="GreaterThanOrEqualToThreshold",
+    )
+    return alarm_name
+```
+
+> **Zero Surprise Syntax:**
+> * **`metricTransformations=[{"metricName": ..., "metricNamespace": ..., "metricValue": "1"}]`:** Le dice a CloudWatch Logs cómo traducir una coincidencia de texto (`filterPattern="ERROR"`) en una métrica numérica. Nota que `"metricValue": "1"` se pasa como string `"1"`.
+> * **`ComparisonOperator="GreaterThanOrEqualToThreshold"` y `Threshold=1.0`:** Condición estándar de AWS para que al primer error (`>= 1.0`) la alarma cambie inmediatamente a estado `ALARM`.
+
 ## 6. Conexión con Testing (Test-Driven Lore)
 
 Al probar código que emite observabilidad y gestiona fallos, debemos verificar tanto los registros de CloudWatch como el estado final devuelto.

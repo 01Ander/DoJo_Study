@@ -86,6 +86,54 @@ def lambda_handler(event, context):
 - `event['Records'][0]['s3']...`: Estructura estándar de un evento S3. AWS inyecta estos diccionarios anidados diciéndonos *exactamente* qué archivo detonó la Lambda.
 - `{'statusCode': 200, 'body': ...}`: Diccionario de respuesta estándar usado en invocaciones síncronas (API Gateway) y en pruebas unitarias. En pipelines asíncronos reales (S3), el valor retornado se descarta y los errores deben propagarse con `raise` para no silenciar las fallas ante AWS.
 
+---
+
+## 5.1 Empaquetado `.zip` y Despliegue Programático con `create_function` (`AWS-008`)
+
+Para desplegar una función Lambda en AWS sin usar la interfaz web, debemos cumplir dos pasos programáticos:
+1. **Empaquetar el archivo `.py` dentro de un archivo comprimido `.zip` en memoria** usando las librerías estándar `io.BytesIO` y `zipfile.ZipFile`.
+2. **Invocar `lambda_client.create_function(...)`** pasándole el nombre de la función, el runtime (`"python3.12"`), el **ARN del Rol IAM** (creado en el Cap 00), el punto de entrada (`"handler.lambda_handler"`), los bytes del `.zip` (`Code={"ZipFile": zip_bytes}`) y las **variables de entorno nativas de AWS** (`Environment={"Variables": {...}}`).
+
+```python
+import io
+import zipfile
+from typing import Any
+
+# 🎯 Objetivo de Negocio: Empaquetar código Python en un .zip en RAM y desplegar la función Lambda.
+
+def build_lambda_zip(source_code: str, filename: str = "handler.py") -> bytes:
+    buffer = io.BytesIO()
+    with zipfile.ZipFile(buffer, mode="w", compression=zipfile.ZIP_DEFLATED) as zf:
+        zf.writestr(filename, source_code)
+    return buffer.getvalue()
+
+
+def deploy_serverless_worker(
+    lambda_client: Any,
+    function_name: str,
+    role_arn: str,
+    zip_bytes: bytes,
+    env_vars: dict[str, str],
+) -> str:
+    response = lambda_client.create_function(
+        FunctionName=function_name,
+        Runtime="python3.12",
+        Role=role_arn,
+        Handler="handler.lambda_handler",
+        Code={"ZipFile": zip_bytes},
+        Environment={"Variables": env_vars},
+        Timeout=60,
+        MemorySize=256,
+    )
+    return response["FunctionArn"]
+```
+
+> **Zero Surprise Syntax:**
+> * **`with zipfile.ZipFile(buffer, mode="w", compression=zipfile.ZIP_DEFLATED) as zf:`:** Abre un archivo `.zip` directamente sobre nuestro buffer de memoria RAM (`io.BytesIO()`).
+> * **`zf.writestr(filename, source_code)`:** Escribe el texto de nuestro código Python dentro del `.zip` bajo el nombre `handler.py` sin necesidad de crear archivos en el disco duro.
+> * **`Handler="handler.lambda_handler"`:** Tiene el formato `<nombre_archivo_sin_py>.<nombre_funcion>`. Si el archivo dentro del `.zip` se llama `handler.py` y la función es `def lambda_handler(event, context):`, el Handler es `"handler.lambda_handler"`.
+> * **`Environment={"Variables": env_vars}`:** Así se inyectan variables de entorno reales en AWS Lambda (nunca subiendo un archivo `.env` dentro del `.zip`).
+
 ## 6. Conexión con Testing (Test-Driven Lore)
 
 ¿Cómo testeas funciones Serverless localmente si no tienes AWS corriendo en tu máquina? ¡Simplemente llamándolas con diccionarios de Python convencionales!

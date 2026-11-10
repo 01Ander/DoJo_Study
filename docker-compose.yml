@@ -11,6 +11,9 @@ services:
       - "${POSTGRES_PORT:-5432}:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
+      - ./docker/init.sql:/docker-entrypoint-initdb.d/init.sql:ro
+    networks:
+      - dojo_net
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-dojo_user} -d ${POSTGRES_DB:-guild_gold}"]
       interval: 5s
@@ -19,3 +22,7 @@ services:
 
 volumes:
   postgres_data:
+
+networks:
+  dojo_net:
+    driver: bridge

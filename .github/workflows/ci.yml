@@ -1,0 +1,45 @@
+name: DoJo Study CI (Typecheck & Test Suites)
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+
+jobs:
+  quality-and-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python 3.12
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install core testing and typing dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install pytest mypy pandas sqlalchemy psycopg2-binary prefect requests responses pydantic boto3 moto pyarrow
+
+      - name: Static Type Checking (mypy on DE-PIPELINES Rite)
+        run: |
+          mypy content/subjects/data_engineering/chronicles/DE-PIPELINES/rite/src --ignore-missing-imports
+
+      - name: Run PY-POO Test Suite
+        run: |
+          pytest content/subjects/python/chronicles/PY-POO/quests content/subjects/python/chronicles/PY-POO/rite
+
+      - name: Run SQL-BASICO Test Suite
+        run: |
+          pytest content/subjects/sql/chronicles/SQL-BASICO/quests
+
+      - name: Run DE-PIPELINES Test Suite
+        run: |
+          PYTHONPATH=content/subjects/data_engineering/chronicles/DE-PIPELINES/rite pytest content/subjects/data_engineering/chronicles/DE-PIPELINES/quests content/subjects/data_engineering/chronicles/DE-PIPELINES/rite/tests
+
+      - name: Run CLOUD-AWS Test Suite
+        run: |
+          PYTHONPATH=content/subjects/cloud/chronicles/CLOUD-AWS/rite pytest content/subjects/cloud/chronicles/CLOUD-AWS/quests/00-aws-iam/test_fincorp_iam.py content/subjects/cloud/chronicles/CLOUD-AWS/quests/01-aws-s3/test_fincorp_s3_parquet.py content/subjects/cloud/chronicles/CLOUD-AWS/quests/02-aws-rds/test_fincorp_rds_secrets.py content/subjects/cloud/chronicles/CLOUD-AWS/quests/03-aws-lambda/test_fincorp_lambda_deploy.py content/subjects/cloud/chronicles/CLOUD-AWS/quests/04-aws-cloudwatch/test_fincorp_cloudwatch_alarm.py content/subjects/cloud/chronicles/CLOUD-AWS/rite/tests
+

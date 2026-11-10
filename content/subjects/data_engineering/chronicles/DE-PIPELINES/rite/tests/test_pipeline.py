@@ -8,7 +8,7 @@ import pandas as pd
 from sqlalchemy import create_engine, text
 from src.extract import fetch_market, load_raw
 from src.transform import transform_market_catalog
-from src.quality import validate_silver_market
+from src.quality import RateError, validate_silver_market
 from src.aggregation import aggregate_silver_market
 from src.save_gold import save_gold_inventory
 from src.pipeline import pipeline
@@ -125,9 +125,16 @@ def test_returns_deduplicated_records_within_the_loss_limit(bronze_file):
     assert len(silver_records) == 9
 
 
+def test_rate_error_is_decoupled_from_assertion_error():
+    assert issubclass(RateError, Exception)
+    assert not issubclass(RateError, AssertionError), (
+        "RateError must inherit directly from Exception, not AssertionError"
+    )
+
+
 def test_reconciliation_gate_blocks_loss_above_ten_percent(bronze_file):
     records = transform_market_catalog(str(bronze_file))
-    with pytest.raises(AssertionError):
+    with pytest.raises(RateError):
         validate_silver_market(str(bronze_file), records[:6])
 
 
@@ -135,7 +142,7 @@ def test_null_gate_blocks_records_with_null_values(bronze_file):
     records = transform_market_catalog(str(bronze_file))
     null_record = load_payload()["results"][-1]
 
-    with pytest.raises(AssertionError):
+    with pytest.raises(RateError):
         validate_silver_market(str(bronze_file), records + [null_record])
 
 
@@ -237,7 +244,7 @@ def test_pipeline_stops_when_the_quality_gate_fails(tmp_path):
     responses.add(responses.GET, MARKET_URL, json=payload, status=200)
     db_url = f"sqlite:///{tmp_path / 'guild.db'}"
 
-    with pytest.raises(AssertionError):
+    with pytest.raises(RateError):
         pipeline(db_url=db_url, bronze_dir=str(tmp_path))
     assert not (tmp_path / "guild.db").exists()
 

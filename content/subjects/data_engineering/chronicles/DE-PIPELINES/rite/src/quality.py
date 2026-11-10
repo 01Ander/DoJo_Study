@@ -8,9 +8,10 @@ from src.config import RESULT_KEY, CRITICAL_COLUMNS
 logger = logging.getLogger(__name__)
 
 
-class RateError(AssertionError):
+class RateError(Exception):
     """Exception domain when data quality failed"""
     pass
+
 
 @task
 def validate_silver_market(bronze_path: str, records: list) -> list[dict]:
@@ -34,7 +35,8 @@ def validate_silver_market(bronze_path: str, records: list) -> list[dict]:
 
     for item in CRITICAL_COLUMNS:
         if not silver_data[item].notnull().all():
-            raise RateError(f"Data quality failed: null values found in critical column: {item}")
+            raise RateError(
+                f"Data quality failed: null values found in critical column: {item}")
 
     silver_data_dict = silver_data.to_dict(orient='records')
 

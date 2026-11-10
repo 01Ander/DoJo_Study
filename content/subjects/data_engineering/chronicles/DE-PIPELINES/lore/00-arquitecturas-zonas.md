@@ -89,6 +89,47 @@ El catálogo de ventas. Aquí ya no hay raíces ni escamas individuales, hay agr
 
 ---
 
+## 3. Evolución Moderna del Stack de Datos (ELT, Columnar y Procesamiento Distribuido)
+
+En los sistemas de producción actuales, las zonas Medallion (Bronze $\rightarrow$ Silver $\rightarrow$ Gold) se apoyan en tres tecnologías clave que escucharás en toda entrevista técnica:
+
+### 3.1 Transformación Declarativa en ELT con `dbt` (Data Build Tool)
+Cuando adoptamos **ELT** y cargamos los datos crudos directamente en la base de datos o Data Warehouse, ya no necesitamos extraer millones de filas a la memoria de Python para transformarlas. En su lugar, ejecutamos las transformaciones **dentro del motor SQL** usando **`dbt`**:
+
+* **Qué es `dbt`:** Un framework que convierte consultas `SELECT` modulares (archivos `.sql` dentro de una carpeta `models/`) en tablas o vistas materializadas automáticamente siguiendo el orden de dependencias.
+* **Primitivas clave:**
+  * `{{ source('raw_guild', 'potions_raw') }}`: Declara la tabla cruda de entrada (Zona Bronze).
+  * `{{ ref('stg_potions_cleaned') }}`: Referencia otro modelo de `dbt`, construyendo el grafo de linaje automáticamente entre Zona Silver y Zona Gold.
+  * **Tests Declarativos (`schema.yml`):** Permite declarar reglas de calidad como `not_null` y `unique` sobre las columnas sin escribir código imperativo.
+
+```sql
+-- Ejemplo conceptual de un modelo Gold en dbt: models/gold_alchemist_sales.sql
+{{ config(materialized='table') }}
+
+SELECT
+    potion_category,
+    COUNT(order_id) AS total_orders,
+    SUM(gold_coins) AS total_revenue
+FROM {{ ref('silver_potion_orders') }}
+GROUP BY potion_category
+```
+
+### 3.2 Motores Orientados a Filas (OLTP) vs. Orientados a Columnas (OLAP)
+¿Dónde guardamos la Zona Gold cuando el volumen crece de miles a cientos de millones de registros?
+
+| Característica | Base Relacional por Filas (OLTP)<br>*(PostgreSQL, RDS)* | Almacenamiento Columnar (OLAP)<br>*(Parquet, DuckDB, Snowflake, BigQuery)* |
+|---|---|---|
+| **Cómo guarda en disco** | Guarda cada fila completa contigua: `[id1, nombre1, precio1], [id2, nombre2, precio2]` | Guarda cada columna completa contigua: `[id1, id2...], [nombre1, nombre2...], [precio1, precio2...]` |
+| **Patrón ideal** | Buscar o insertar una transacción individual (`WHERE order_id = 99`). | Sumar o promediar una columna sobre millones de registros (`SELECT SUM(price) FROM sales`). |
+| **Ventaja clave** | Integridad transaccional ACID rápida por registro. | **Column Pruning & Compresión:** Si tu consulta solo pide `SUM(price)`, el motor lee únicamente el bloque físico de la columna `price` e ignora las otras 50 columnas. |
+
+### 3.3 Perspectiva de Arquitectura: ¿Cuándo Pandas/SQL y cuándo Apache Spark?
+Un error frecuente es usar un cañón para matar una mosca:
+* **Motores en un solo nodo (Pandas, Polars, DuckDB, PostgreSQL):** Resuelven el **90% de los pipelines empresariales** cuyos lotes caben en la RAM de un servidor moderno (desde megabytes hasta decenas de gigabytes). Son rápidos de desarrollar, fáciles de testear y no tienen sobrecosto de red (*network shuffle*).
+* **Procesamiento Distribuido (Apache Spark / PySpark):** Entra en juego cuando un lote supera la memoria física de una sola máquina (cientos de gigabytes o terabytes) y debe particionarse a través de un clúster de múltiples nodos trabajadores (*workers*), tanto en **Batch** como en **Streaming**.
+
+---
+
 ## Misión a seguir
 Dirígete a la carpeta `quests/00-arquitecturas-zonas` y completa los tests de andamiaje para construir tu primer paso entre zonas de datos.
 

@@ -49,6 +49,108 @@ Aunque es configuración y no Python, es fundamental entender la estructura de e
 - `"Action": ["s3:GetObject"]`: La acción específica que se permite. Sigue el formato `servicio:Accion`. En este caso, descargar objetos de S3.
 - `"Resource"`: A qué recurso exacto aplica la regla. El `arn` es el identificador único universal de AWS. El asterisco `/*` significa "cualquier archivo dentro del bucket".
 
+### 3.1 Evaluación Profunda de Políticas IAM: `Explicit Deny`, ARNs y `Condition` (`AWS-010`)
+
+Cuando una identidad intenta ejecutar una acción en AWS, el motor de evaluación de IAM sigue tres reglas de jerarquía inquebrantables:
+1. **Default Deny (Denegación Implícita):** Por defecto, todo está prohibido a menos que exista un `"Effect": "Allow"`.
+2. **Explicit Allow:** Si una política tiene `"Effect": "Allow"` para esa acción y recurso, se permite (salvo que aplique la regla 3).
+3. **Explicit Deny (La Regla Suprema):** Si **cualquier** política adjunta contiene un `"Effect": "Deny"` que coincida con la acción y el recurso, **la petición es rechazada inmediatamente**, sin importar cuántas otras políticas digan `"Allow"` (incluso si el usuario tiene `AdministratorAccess`).
+
+```json
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "AllowS3ReadWriteOnBucket",
+      "Effect": "Allow",
+      "Action": ["s3:GetObject", "s3:PutObject"],
+      "Resource": "arn:aws:s3:::fincorp-gold-prod/*"
+    },
+    {
+      "Sid": "DenyDeleteAndUnencryptedUploads",
+      "Effect": "Deny",
+      "Action": ["s3:DeleteObject"],
+      "Resource": "arn:aws:s3:::fincorp-gold-prod/*",
+      "Condition": {
+        "StringNotEquals": {
+          "s3:x-amz-server-side-encryption": "AES256"
+        }
+      }
+    }
+  ]
+}
+```
+
+> **Anatomía de un ARN (*Amazon Resource Name*) y del bloque `Condition`:**
+> * **Formato ARN:** `arn:aws:<servicio>:<región>:<account-id>:<recurso>`. Nota que Amazon S3 es un servicio global de nombres, por lo que sus ARNs omiten región y cuenta: `arn:aws:s3:::<nombre-bucket>/<key>`. En cambio, IAM incluye cuenta: `arn:aws:iam::123456789012:role/<nombre-rol>`.
+> * **`"Condition"`:** Añade restricciones contextuales obligatorias (por ejemplo, que la petición provenga de cierta IP `aws:SourceIp` o que obligue a cifrar los datos con `AES256`).
+
+---
+
+## 3.2 Aprovisionamiento Programático de Roles y Políticas con `boto3` (`AWS-004`)
+
+En producción no creamos roles haciendo clic manualmente en la consola web; los aprovisionamos desde código usando dos llamadas de `boto3.client('iam')`:
+
+1. **`iam_client.create_role(RoleName=..., AssumeRolePolicyDocument=...)`:**
+   Crea el rol definiendo su **Trust Policy** (*Política de Confianza*): un JSON (convertido a string con `json.dumps()`) que usa la acción `sts:AssumeRole` para declarar **qué servicio de AWS** (ej. `"Service": "lambda.amazonaws.com"`) tiene permiso de "ponerse ese sombrero".
+2. **`iam_client.put_role_policy(RoleName=..., PolicyName=..., PolicyDocument=...)`:**
+   Adjunta al rol la **Permissions Policy** (en formato string JSON) que define qué acciones (`s3:PutObject`, `logs:*`, etc.) podrá ejecutar dicho rol.
+
+```python
+import json
+from typing import Any
+
+# 🎯 Objetivo de Negocio: Aprovisionar programáticamente un IAM Execution Role para un worker Lambda.
+
+def provision_execution_role(iam_client: Any, role_name: str, bucket_name: str) -> str:
+    # 1. Trust Policy: Autoriza al servicio AWS Lambda a asumir este rol
+    trust_policy = {
+        "Version": "2012-10-17",
+        "Statement": [
+            {
+                "Effect": "Allow",
+                "Principal": {"Service": "lambda.amazonaws.com"},
+                "Action": "sts:AssumeRole",
+            }
+        ],
+    }
+
+    # 2. Crear el rol en IAM y capturar su ARN único
+    role_resp = iam_client.create_role(
+        RoleName=role_name,
+        AssumeRolePolicyDocument=json.dumps(trust_policy),
+    )
+    role_arn: str = role_resp["Role"]["Arn"]
+
+    # 3. Permissions Policy: Mínimo privilegio sobre el bucket + Explicit Deny contra borrado
+    permissions_policy = {
+        "Version": "2012-10-17",
+        "Statement": [
+            {
+                "Effect": "Allow",
+                "Action": ["s3:GetObject", "s3:PutObject"],
+                "Resource": f"arn:aws:s3:::{bucket_name}/*",
+            },
+            {
+                "Effect": "Deny",
+                "Action": ["s3:DeleteObject"],
+                "Resource": f"arn:aws:s3:::{bucket_name}/*",
+            },
+        ],
+    }
+
+    iam_client.put_role_policy(
+        RoleName=role_name,
+        PolicyName=f"{role_name}-least-privilege",
+        PolicyDocument=json.dumps(permissions_policy),
+    )
+    return role_arn
+```
+
+> **Zero Surprise Syntax:**
+> * **`json.dumps(policy_dict)`:** La API de AWS IAM exige que `AssumeRolePolicyDocument` y `PolicyDocument` se envíen como **cadenas de texto JSON (`str`)**, no como diccionarios crudos de Python.
+> * **`role_resp["Role"]["Arn"]`:** `create_role` devuelve un diccionario anidado `{"Role": {"RoleName": ..., "Arn": "arn:aws:iam::..."}}`. Extraemos `["Role"]["Arn"]` porque las funciones Lambda necesitan ese ARN exacto para ejecutarse.
+
 ## 4. Setup Inicial (Zero Assumption)
 
 Si nunca has interactuado con AWS desde Python, necesitas instalar la librería oficial de AWS llamada `boto3`, y `python-dotenv` para poder cargar variables de entorno locales de forma segura.
