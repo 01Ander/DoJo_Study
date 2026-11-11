@@ -2,9 +2,10 @@
 
 > **Documento Rector:** [dictamen-final-consolidado.md](file:///Users/ander/Documents/DoJo/DoJo_Study/meta/audits/2026-q3-contenido/analisis/dictamen-final-consolidado.md)  
 > **Ubicación Canónica de Gobernanza:** `meta/remediacion/`  
-> **Estado General:** Gate 1 Aprobado (100% Ola 1 Cerrada en commit `57073c4`) — Apertura de Ola 2  
-> **Última Actualización:** 2026-10-13  
-> **Hoja de Ruta Ola 2:** [`meta/remediacion/roadmap-ola-2.md`](roadmap-ola-2.md)
+> **Estado General:** Gate 1 Aprobado (`57073c4`) | Gate 2 Aprobado (`679a9d3`) — **Ola 3 v2 activa (2 artefactos + Carril E + Cloud no bloqueante)**  
+> **Última Actualización:** 2026-11-11  
+> **Hoja de Ruta Ola 2 (Cerrada):** [`meta/remediacion/roadmap-ola-2.md`](file:///Users/ander/Documents/DoJo/DoJo_Study/meta/remediacion/roadmap-ola-2.md)  
+> **Hoja de Ruta Ola 3 (Activa):** [`ola-3/roadmap-ola-3.md`](file:///Users/ander/Documents/DoJo/DoJo_Study/meta/remediacion/ola-3/roadmap-ola-3.md) · **Plan de Empleabilidad:** [`ola-3/empleabilidad-colombia.md`](file:///Users/ander/Documents/DoJo/DoJo_Study/meta/remediacion/ola-3/empleabilidad-colombia.md)
 
 ---
 
@@ -15,7 +16,7 @@ El proceso de remediación integral del DoJo se organiza en tres fases estrictam
 ```mermaid
 graph TD
     A["Ola 1: Saneamiento de Base (24 Claims)"] -->|Gate 1 Aprobado| B["Ola 2: Syllabus 3.0 y Reingeniería Curricular"]
-    B -->|Gate 2 Aprobado| C["Ola 3: Cierre, Nivelación Avanzada y Certificación"]
+    B -->|Gate 2 Aprobado| C["Ola 3: Portafolio, Empleabilidad Colombia y Cloud No Bloqueante"]
     
     subgraph Ola 1 [Ola 1: Saneamiento de Base]
         A1["21 Parches Locales (PY, SQL, DE, CLOUD)"]
@@ -37,10 +38,11 @@ graph TD
    - Rediseño formal de los programas de estudio.
    - Poda formal de promesas curriculares infladas (Typer/Click, Clean Architecture).
    - Normalización de scaffolding y alineación metodológica.
-3. **Ola 3: Cierre, Nivelación Avanzada y Certificación:**
-   - Auditoría final de consistencia cruzada.
-   - Consolidación del repositorio de producción.
-   - Certificación de competencias del Operador.
+3. **Ola 3: Portafolio, Empleabilidad Colombia y Cloud No Bloqueante:**
+   - Dos artefactos de portafolio: pipeline E2E (`fact_contrato` + `dim_entidad_scd2` + `dim_fecha`) y caso BI/SQL de negocio.
+   - Carril E de empleabilidad con Gates E1–E3 y postulaciones desde la Semana 9.
+   - Cloud AWS como diferenciador no bloqueante (Semanas 9–10), no como requisito para postular.
+   - Drills de entrevista y remediación guiada por rechazos reales.
 
 ---
 

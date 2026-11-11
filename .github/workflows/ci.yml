@@ -2,13 +2,27 @@ name: DoJo Study CI (Typecheck & Test Suites)
 
 on:
   push:
-    branches: [ main, master ]
+    branches: [ main, master, chronicles ]
   pull_request:
-    branches: [ main, master ]
+    branches: [ main, master, chronicles ]
 
 jobs:
   quality-and-tests:
     runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:16-alpine
+        env:
+          POSTGRES_USER: dojo_user
+          POSTGRES_PASSWORD: dojo_password
+          POSTGRES_DB: fincorp_dw
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 5
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -21,25 +35,35 @@ jobs:
       - name: Install core testing and typing dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install pytest mypy pandas sqlalchemy psycopg2-binary prefect requests responses pydantic boto3 moto pyarrow
+          pip install pytest mypy pandas sqlalchemy psycopg2-binary prefect requests responses pydantic boto3 moto pyarrow duckdb dbt-core dbt-postgres
 
       - name: Static Type Checking (mypy on DE-PIPELINES Rite)
         run: |
           mypy content/subjects/data_engineering/chronicles/DE-PIPELINES/rite/src --ignore-missing-imports
 
-      - name: Run PY-POO Test Suite
+      - name: Run PY-POO Test Suite (Quests & Rite separated to preserve rootdir)
         run: |
-          pytest content/subjects/python/chronicles/PY-POO/quests content/subjects/python/chronicles/PY-POO/rite
+          pytest content/subjects/python/chronicles/PY-POO/quests
+          pytest content/subjects/python/chronicles/PY-POO/rite
 
       - name: Run SQL-BASICO Test Suite
         run: |
           pytest content/subjects/sql/chronicles/SQL-BASICO/quests
 
-      - name: Run DE-PIPELINES Test Suite
+      - name: Run DE-PIPELINES Test Suite (Quests, Micro-Quests & Rite)
         run: |
-          PYTHONPATH=content/subjects/data_engineering/chronicles/DE-PIPELINES/rite pytest content/subjects/data_engineering/chronicles/DE-PIPELINES/quests content/subjects/data_engineering/chronicles/DE-PIPELINES/rite/tests
+          PYTHONPATH=content/subjects/data_engineering/chronicles/DE-PIPELINES/rite pytest content/subjects/data_engineering/chronicles/DE-PIPELINES/quests content/subjects/data_engineering/chronicles/DE-PIPELINES/rite/tests --ignore-glob='**/reference/**'
 
-      - name: Run CLOUD-AWS Test Suite
+      - name: Run CLOUD-AWS Test Suite (Wave 2 Quests, Corte 0 Micro-Quests & Rite)
         run: |
-          PYTHONPATH=content/subjects/cloud/chronicles/CLOUD-AWS/rite pytest content/subjects/cloud/chronicles/CLOUD-AWS/quests/00-aws-iam/test_fincorp_iam.py content/subjects/cloud/chronicles/CLOUD-AWS/quests/01-aws-s3/test_fincorp_s3_parquet.py content/subjects/cloud/chronicles/CLOUD-AWS/quests/02-aws-rds/test_fincorp_rds_secrets.py content/subjects/cloud/chronicles/CLOUD-AWS/quests/03-aws-lambda/test_fincorp_lambda_deploy.py content/subjects/cloud/chronicles/CLOUD-AWS/quests/04-aws-cloudwatch/test_fincorp_cloudwatch_alarm.py content/subjects/cloud/chronicles/CLOUD-AWS/rite/tests
+          PYTHONPATH=content/subjects/cloud/chronicles/CLOUD-AWS/rite pytest content/subjects/cloud/chronicles/CLOUD-AWS/quests content/subjects/cloud/chronicles/CLOUD-AWS/rite/tests --ignore-glob='**/test_my_solution.py' --ignore-glob='**/reference_test.py' --ignore-glob='**/reference/**'
+
+      - name: Run Wave 3 Black-Box Acceptance Suite (with SHA-256 integrity check)
+        run: |
+          if [ -f meta/remediacion/acceptance/ACCEPTANCE.sha256 ]; then
+            shasum -a 256 -c meta/remediacion/acceptance/ACCEPTANCE.sha256
+          fi
+          if [ -d meta/remediacion/acceptance ]; then
+            pytest meta/remediacion/acceptance
+          fi
 

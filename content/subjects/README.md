@@ -31,7 +31,8 @@ subjects/
 │  │  └─ SQL-BASICO/           <- (Data Engineering SQL Foundations)
 │  └─ README.md
 ├─ cloud/
-└─ data/
+├─ data_engineering/
+└─ ../portfolio/            <- (Ola 3: PORT-CAPSTONE Slice Local antes de exportar a repo público)
 ```
 
 ---

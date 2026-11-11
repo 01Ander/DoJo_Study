@@ -1,10 +1,10 @@
 # 05 - Syllabus Maestro 3.0 (Data & Automation Engineer — Pre-Empleo)
 
 > **Estado:** Activo (Ruta Crítica Pre-Empleo — Versión 3.0)  
-> **Estatus Epistémico:** Contrato curricular objetivo (Syllabus 3.0). Los contenidos nuevos se encuentran en proceso de despliegue en Ola 2 y su verificación formal se valida contra el material real en Gate 2.  
+> **Estatus Epistémico:** Contrato curricular objetivo (Syllabus 3.0). Los contenidos nuevos se despliegan en la Ola 3 y su verificación formal se valida contra el material real en Gate 2 (Ola 2 cerrada en `679a9d3`).  
 > **Documento Rector de Auditoría:** [`meta/audits/2026-q3-contenido/analisis/dictamen-final-consolidado.md`](file:///Users/ander/Documents/DoJo/DoJo_Study/meta/audits/2026-q3-contenido/analisis/dictamen-final-consolidado.md)  
-> **Hoja de Ruta de Ejecución:** [`meta/remediacion/roadmap-ola-2.md`](file:///Users/ander/Documents/DoJo/DoJo_Study/meta/remediacion/roadmap-ola-2.md)  
-> **Objetivo:** Inserción laboral remota internacional antes de mediados de 2027 como **Data Automation Engineer / Python Automation Developer / ETL Integration Developer**.  
+> **Hoja de Ruta de Ejecución:** [`meta/remediacion/ola-3/roadmap-ola-3.md`](file:///Users/ander/Documents/DoJo/DoJo_Study/meta/remediacion/ola-3/roadmap-ola-3.md) (Ola 3 v2; la Ola 2 cerró en `679a9d3`)  
+> **Objetivo:** Primer empleo en datos **en Colombia** (Analytics Engineer / Data Analyst junior) en 4–7 meses; el salto a remoto internacional como **Data Automation Engineer / Python Automation Developer / ETL Integration Developer** queda como destino a 12–24 meses.  
 > **Fase 2 (Post-Empleo):** Especialización corporativa y escalabilidad avanzada desacopladas en [`06-syllabus-post-empleo-fase2.md`](06-syllabus-post-empleo-fase2.md).
 
 ---
@@ -177,13 +177,18 @@ Para blindar la velocidad de inserción laboral y evitar que tecnologías corpor
 | **Orquestación & Big Data** | Apache Airflow básico (DAGs, PythonOperator, retries), Prefect local. Lectura conceptual de Apache Spark. | Clústeres distribuidos de Apache Spark (PySpark) y Apache Kafka para streaming en tiempo real. |
 | **Infraestructura & Contenedores** | Docker pragmático (`Dockerfile`, `docker-compose.yml`), AWS IAM básico, S3, RDS, Lambda, CloudWatch, Secrets Manager. | Kubernetes (K8s), Helm charts, Infraestructura como Código avanzada con Terraform multi-ambiente. |
 | **Testing & CI/CD** | TDD con `pytest`, fixtures modulares, mocking HTTP, `mypy`, GitHub Actions básicos. | Testing formal E2E empresarial, pruebas de carga y estrés masivo, auditoría SOC2/GDPR corporativa. |
-| **Analítica & Especialización** | SQL analítico avanzado, Glue Data Catalog, consultas Athena serverless. | Plataformas complejas de BI / Dashboards de autoservicio (Tableau/PowerBI empresarial), modelos LLM/RAG/GenAI (~9% de ofertas iniciales). |
+| **Analítica & Especialización** | SQL analítico avanzado, Glue Data Catalog, consultas Athena serverless, **BI básico (Power BI/Looker Studio, dashboard y métricas de negocio)**. | BI empresarial (semantic models, RLS, Fabric/Power BI Premium), modelos LLM/RAG/GenAI (~9% de ofertas iniciales). |
 
 ---
 
-## 6. Especificación del Proyecto de Portafolio: `PORT-CAPSTONE`
+## 6. Especificación del Portafolio: `PORT-CAPSTONE` + Caso BI/SQL
 
-El portafolio se concentra en **1 Proyecto End-to-End Monolítico, Robusto y Desplegable** que demuestra dominio de la cadena moderna completa de Data & Automation Engineering:
+El portafolio se concentra en **2 artefactos complementarios** que demuestran el perfil de **Analytics Engineer / Data Analyst junior**:
+
+1. **Artefacto 1 — `PORT-CAPSTONE`:** pipeline end-to-end robusto y desplegable (la cadena moderna completa de Data & Automation Engineering), con un **hecho a grano de contrato** (`fact_contrato`, SECOP II) conectado a `dim_entidad_scd2` por la versión vigente a la fecha y a `dim_fecha` con la TRM COP/USD.
+2. **Artefacto 2 — Caso BI/SQL de negocio:** pregunta de negocio acotada, SQL analítico reproducible y dashboard con hallazgos y recomendación.
+
+El Artefacto 1 demuestra la cadena completa:
 
 ```
 [ Fuente Externa: API REST Pública con Paginación ]
@@ -217,21 +222,25 @@ El portafolio se concentra en **1 Proyecto End-to-End Monolítico, Robusto y Des
                     (Alertas Métricas sobre Fallos de Ejecución)
 ```
 
-### Entregables del Capstone:
-1. **Repositorio Público en GitHub:** Estructura modular estandarizada (`src/`, `tests/`, `models_dbt/`, `docker-compose.yml`, `.github/workflows/`).
-2. **Entorno Dockerizado Reproducible:** Todo el pipeline se levanta y prueba localmente con un único comando `docker compose up`.
-3. **CI/CD Activo:** GitHub Actions validando linter, `mypy` y `pytest` en cada commit.
-4. **README Profesional en Inglés:** Diagrama de arquitectura, justificación de decisiones (ETL vs ELT, trade-offs de almacenamiento Parquet vs JSON, estrategia SCD2) y métricas de rendimiento.
-5. **Video Demo / Loom (3-5 min):** Explicación ejecutiva en inglés del pipeline en funcionamiento y recuperación ante fallos.
+### Entregables de los 2 artefactos:
+1. **Artefacto 1 — Pipeline E2E:** estructura modular (`src/`, `tests/`, `models_dbt/`, `docker-compose.yml`, `.github/workflows/`) con ingestión paginada, DQ, PostgreSQL, dbt, **`fact_contrato` + `dim_entidad_scd2` + `dim_fecha` con TRM**, orquestación y cero hechos huérfanos.
+2. **Artefacto 1 — Dashboard y métricas:** 5 métricas de negocio, 3 insights y 1 recomendación, con dashboard reproducible (Power BI/Looker Studio).
+3. **Artefacto 2 — Caso BI/SQL:** pregunta de negocio acotada, SQL analítico (CTEs, window functions, cohortes) y dashboard con conclusión accionable.
+4. **Repositorio publicable:** exportación por allowlist desde el monorepo a un repo público único (README raíz + una carpeta por artefacto), con denylist de `.env`, `data/`, credenciales y acceptance tests. La publicación pública es deseable pero **no bloqueante** para el primer empleo local; el checklist vive en `PUBLICAR.md`.
+5. **Entorno Dockerizado Reproducible:** `docker compose up` levanta PostgreSQL y el pipeline completo.
+6. **CI/CD Activo:** GitHub Actions con linter, `mypy`, `pytest` y tests de aceptación.
+7. **README bilingüe:** resumen ejecutivo en español + documentación técnica en inglés; arquitectura, decisiones (ETL vs ELT, Parquet vs JSON, SCD2), métricas de impacto y límites.
+8. **Video Demo / Loom (3–5 min):** explicación ejecutiva en español e inglés, incluyendo recuperación ante fallos.
 
 ---
 
 ## 7. El Disparador del Gate de Búsqueda Activa
 
 > [!IMPORTANT]
-> **GATE DE BÚSQUEDA PARALELA:**  
-> La postulación al mercado laboral internacional **NO espera** a que el portafolio esté finalizado.
+> **GATE DE BÚSQUEDA PARALELA — MERCADO COLOMBIANO:**  
+> La postulación **NO espera** a que el Corte 2 (cloud) esté terminado.
 > 
-> * **Hito de Activación:** Se dispara formalmente al **aprobar el Rite de `SQL-BASICO`**.
-> * **Justificación Técnica:** Con `PY-POO` (Python avanzado, OOP, TDD, Pydantic) y `SQL-BASICO` (DDL, JOINs complejos, CTEs, Window Functions, ACID, Modelado Dimensional), el Operador cuenta con las competencias críticas para superar el 85% de las pruebas de *Live Coding* y *Technical Screening*.
-> * **Acción a partir del Hito:** Se reserva un bloque semanal inamovible para enviar entre 5 y 10 postulaciones dirigidas en plataformas internacionales (LinkedIn, Wellfound, RemoteOK, Arc.dev, Otta) y realizar simulacros de entrevistas técnicas en inglés mientras se desarrollan `DE-PIPELINES`, `CLOUD-AWS` y `PORT-CAPSTONE`.
+> * **Hito de Activación:** cierre del **Gate E1** (2 artefactos + CV + LinkedIn + tracker), al final de la Semana 8. La Semana 8 se usa además para MQ-03/MQ-04 (pre-cloud); **las postulaciones empiezan en la Semana 9**.
+> * **Justificación Técnica:** con `PY-POO`, `SQL-BASICO`, el Artefacto 1 (pipeline + dbt + `fact_contrato` + SCD2 + dashboard) y el Artefacto 2 (caso BI/SQL), el Operador cubre las competencias que evalúan las pruebas de *Live Coding* y *Technical Screening* del mercado local.
+> * **Acción a partir del Hito:** bloque semanal inamovible para **10–15 postulaciones dirigidas** en canales colombianos y remotos LatAm (LinkedIn, Computrabajo, Elempleo, Magneto, GetOnBrd, Torre), **3–5 contactos de referido/semana**, **5 h de inglés técnico** y **1 simulacro de entrevista/semana**, mientras se completa el Corte 2 en paralelo.
+> * **Stop Rule:** ninguna tarea técnica del Corte 2 puede recortar las 10 postulaciones semanales.

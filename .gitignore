@@ -41,3 +41,7 @@ audits/
 *.sqlite3
 .pytest_cache/
 
+# Runtime test & pipeline data outputs
+/data/
+content/subjects/data_engineering/chronicles/DE-PIPELINES/data/
+
