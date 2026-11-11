@@ -60,10 +60,10 @@ jobs:
 
       - name: Run Wave 3 Black-Box Acceptance Suite (with SHA-256 integrity check)
         run: |
-          if [ -f meta/remediacion/acceptance/ACCEPTANCE.sha256 ]; then
-            shasum -a 256 -c meta/remediacion/acceptance/ACCEPTANCE.sha256
+          if [ -f meta/ola-3/acceptance/ACCEPTANCE.sha256 ]; then
+            shasum -a 256 -c meta/ola-3/acceptance/ACCEPTANCE.sha256
           fi
-          if [ -d meta/remediacion/acceptance ]; then
-            pytest meta/remediacion/acceptance
+          if [ -d meta/ola-3/acceptance ]; then
+            pytest meta/ola-3/acceptance
           fi
 

@@ -3,7 +3,7 @@
 > **Estado:** Activo (Ruta Crítica Pre-Empleo — Versión 3.0)  
 > **Estatus Epistémico:** Contrato curricular objetivo (Syllabus 3.0). Los contenidos nuevos se despliegan en la Ola 3 y su verificación formal se valida contra el material real en Gate 2 (Ola 2 cerrada en `679a9d3`).  
 > **Documento Rector de Auditoría:** [`meta/audits/2026-q3-contenido/analisis/dictamen-final-consolidado.md`](file:///Users/ander/Documents/DoJo/DoJo_Study/meta/audits/2026-q3-contenido/analisis/dictamen-final-consolidado.md)  
-> **Hoja de Ruta de Ejecución:** [`meta/remediacion/ola-3/roadmap-ola-3.md`](file:///Users/ander/Documents/DoJo/DoJo_Study/meta/remediacion/ola-3/roadmap-ola-3.md) (Ola 3 v2; la Ola 2 cerró en `679a9d3`)  
+> **Hoja de Ruta de Ejecución:** [`meta/ola-3/roadmap.md`](file:///Users/ander/Documents/DoJo/DoJo_Study/meta/ola-3/roadmap.md) (Ola 3 v2; la Ola 2 cerró en `679a9d3`)  
 > **Objetivo:** Primer empleo en datos **en Colombia** (Analytics Engineer / Data Analyst junior) en 4–7 meses; el salto a remoto internacional como **Data Automation Engineer / Python Automation Developer / ETL Integration Developer** queda como destino a 12–24 meses.  
 > **Fase 2 (Post-Empleo):** Especialización corporativa y escalabilidad avanzada desacopladas en [`06-syllabus-post-empleo-fase2.md`](06-syllabus-post-empleo-fase2.md).
 
@@ -26,13 +26,21 @@ graph LR
         P2 --> S1[SQL-BASICO<br/>SQL ANSI, ACID & Modelado Dimensional]
     end
 
+    subgraph Analitica [Analítica de Negocio & BI]
+        S1 --> XL[EXCEL-BASICO<br/>Tablas, XLOOKUP, Pivots & Power Query]
+        S1 --> BI[BI-BASICO<br/>Power Query, Star Schema 1:N, DAX & Service]
+    end
+
     subgraph Datos & Cloud [Ingeniería de Datos & Nube Pragmática]
         S1 -->|GATE: Búsqueda Activa & Mocks| DE[DE-PIPELINES<br/>ETL, Airflow, dbt & Columnar]
         DE --> CLOUD[CLOUD-AWS<br/>S3 Parquet, Athena, IAM, Lambda & RDS]
     end
 
     subgraph Portafolio [Demostración de Producción]
-        CLOUD --> PORT[PORT-CAPSTONE<br/>Pipeline E2E Dockerizado con CI/CD]
+        BI --> PORT[PORT-CAPSTONE + Caso BI<br/>2 Artefactos E2E con CI/CD]
+        XL --> PORT
+        CLOUD -.->|No bloqueante| PORT
+        DE --> PORT
     end
 ```
 
@@ -45,9 +53,11 @@ graph LR
 | **`PY-BASICO`** | Python | Sintaxis profesional, tipos de datos, control de flujo, scripting robusto y manejo de errores. |
 | **`PY-POO`** | Python | Programación Orientada a Objetos, TDD (`pytest`), modularización por capas, fixtures (`tmp_path`), validación de esquemas con **Pydantic**, constructores con `super()`, patrón Output Loaders y tipado estricto (`mypy`). |
 | **`SQL-BASICO`** | SQL | DDL, constraints relacionales, CRUD, relaciones complejas y cardinalidad N:M, CTEs encadenadas, Window Functions (`LAG`, `LEAD`, sumas móviles), transacciones ACID (`BEGIN`, `COMMIT`, `ROLLBACK`), agregaciones condicionales, semántica tri-valor de `NULL`, y **Modelado Dimensional (Star Schema y SCD Tipo 2)**. |
+| **`EXCEL-BASICO`** | Analítica | Limpieza con tablas estructuradas (`TRIM`, `TEXT`, validación), búsqueda y lógica (`XLOOKUP` + `IFERROR`, `SUMIFS`/`COUNTIFS`, `IFS`), tablas dinámicas con agrupación temporal y campos calculados, y **Power Query + Power Pivot** (modelo de datos con relación 1:N y medida DAX). |
+| **`BI-BASICO`** | Analítica | Ingesta reproducible en **Power Query (M)**, **Modelo Semántico en Estrella** (relaciones 1:N, dirección de filtro única, tabla de fechas marcada), **DAX I y II** (`CALCULATE`, `DIVIDE`, `SUMX`, contexto de filtro, Time Intelligence `YoY`/`YTD`/`MoM` reconciliados contra SQL), storytelling ejecutivo (5 métricas, 3 hallazgos, 1 recomendación) y publicación en **Power BI Service** (refresh + 1 rol **RLS**). |
 | **`DE-PIPELINES`** | Data Engineering | Ingesta resiliente con paginación de APIs REST y rate limiting, manipulación con Pandas (`df.groupby`), Data Quality defensivo con excepciones de dominio, carga a **PostgreSQL real** (Docker), orquestación con DAGs (**Prefect** y **Apache Airflow básico**), transformación declarativa con **dbt**, y carga a **Cloud Warehouse Columnar** (BigQuery / Snowflake sandbox o DuckDB local). |
 | **`CLOUD-AWS`** | Cloud Computing | Aprovisionamiento programático con `boto3` (IAM roles/policies de mínimo privilegio, buckets S3 `create_bucket`), almacenamiento columnar **Parquet** con compresión en S3, consultas analíticas serverless con **AWS Glue + Athena**, RDS PostgreSQL + Security Groups, serverless Lambda (empaquetado, variables de entorno de AWS e IAM roles), CloudWatch logs y alertas métricas, y gestión segura de credenciales con **AWS Secrets Manager / KMS** (cero hardcoding). |
-| **`PORT-CAPSTONE`** | Portafolio | Pipeline de datos productivo end-to-end completamente contenerizado con **Docker**, orquestado, con CI/CD en **GitHub Actions**, Data Quality gates, almacenamiento S3/Parquet, dbt, PostgreSQL/Warehouse, monitoreo y documentación técnica en inglés. |
+| **`PORT-CAPSTONE`** | Portafolio | Pipeline de datos productivo end-to-end completamente contenerizado con **Docker**, orquestado, con CI/CD en **GitHub Actions**, Data Quality gates, almacenamiento S3/Parquet, dbt, PostgreSQL/Warehouse, dashboard BI, monitoreo y documentación técnica en inglés. |
 
 ---
 
@@ -80,6 +90,21 @@ graph LR
   - Diferencias arquitectónicas entre OLTP (normalización) y OLAP (desnormalización analítica).
   - Diseño de Esquema en Estrella (*Star Schema*): tablas de hechos (*Fact Tables*) con métricas aditivas/semiaditivas y tablas de dimensiones (*Dimension Tables*) con llaves subrogadas (*Surrogate Keys*).
   - **Slowly Changing Dimensions (SCD Tipo 2):** Gestión del historial de cambios mediante llaves de versión, fechas de vigencia (`start_date`, `end_date`) e indicador de registro activo (`is_current`).
+
+---
+
+### 📊 ANALITICA – Power BI, Modelado Semántico, DAX & Excel Analítico
+*Chronicles asociadas: `BI-BASICO` (6 quests) y `EXCEL-BASICO` (4 quests) en `content/subjects/analitica/chronicles/`.*
+- **Excel Analítico (`EXCEL-BASICO`):**
+  - Limpieza reproducible sobre tablas estructuradas (`TRIM`, `TEXT`, fechas, eliminación de duplicados y validación de datos).
+  - Búsqueda y agregación condicional sin errores expuestos (`XLOOKUP` + `IFERROR`, `SUMIFS`/`COUNTIFS`, `IFS`).
+  - Tablas dinámicas con agrupación temporal, porcentaje del total, campos calculados y segmentadores (*slicers*).
+  - **Power Query + Power Pivot:** combinación de consultas, carga al modelo de datos, relación `1:N` y medida DAX básica.
+- **Business Intelligence con Power BI (`BI-BASICO`):**
+  - **Power Query (M):** conexión a marts de PostgreSQL o CSV con pasos reproducibles y cero limpieza manual en hojas.
+  - **Modelo Semántico en Estrella:** 1 tabla de hechos (`fact_contrato`) + dimensiones (`dim_entidad_scd2`, `dim_fecha`, `dim_proveedor`), cardinalidad `1:N`, dirección de filtro única y tabla de fechas marcada.
+  - **DAX I & II:** distinción entre medidas y columnas calculadas, `CALCULATE`, `DIVIDE`, `SUMX`, contexto de filtro e inteligencia de tiempo (`YoY`, `YTD`, variación mensual) reconciliados contra consultas SQL.
+  - **Visualización, Storytelling & Publicación:** diseño de dashboard ejecutivo de 1 página (5 métricas, 3 hallazgos cuantificados, 1 recomendación accionable), publicación en Power BI Service, configuración de refresh y 1 rol de seguridad a nivel de fila (**RLS**).
 
 ---
 
@@ -177,7 +202,7 @@ Para blindar la velocidad de inserción laboral y evitar que tecnologías corpor
 | **Orquestación & Big Data** | Apache Airflow básico (DAGs, PythonOperator, retries), Prefect local. Lectura conceptual de Apache Spark. | Clústeres distribuidos de Apache Spark (PySpark) y Apache Kafka para streaming en tiempo real. |
 | **Infraestructura & Contenedores** | Docker pragmático (`Dockerfile`, `docker-compose.yml`), AWS IAM básico, S3, RDS, Lambda, CloudWatch, Secrets Manager. | Kubernetes (K8s), Helm charts, Infraestructura como Código avanzada con Terraform multi-ambiente. |
 | **Testing & CI/CD** | TDD con `pytest`, fixtures modulares, mocking HTTP, `mypy`, GitHub Actions básicos. | Testing formal E2E empresarial, pruebas de carga y estrés masivo, auditoría SOC2/GDPR corporativa. |
-| **Analítica & Especialización** | SQL analítico avanzado, Glue Data Catalog, consultas Athena serverless, **BI básico (Power BI/Looker Studio, dashboard y métricas de negocio)**. | BI empresarial (semantic models, RLS, Fabric/Power BI Premium), modelos LLM/RAG/GenAI (~9% de ofertas iniciales). |
+| **Analítica & Especialización** | SQL analítico avanzado, Glue Data Catalog, consultas Athena serverless, **`EXCEL-BASICO` (tablas estructuradas, `XLOOKUP`, tablas dinámicas, Power Query/Power Pivot)** y **`BI-BASICO` (Power Query, Star Schema `1:N`, DAX con `CALCULATE` y Time Intelligence, storytelling, Service refresh y 1 rol RLS)**. | BI empresarial a escala (Microsoft Fabric, Power BI Premium, RLS dinámico corporativo, optimización fina con DAX Studio/Tabular Editor), modelos LLM/RAG/GenAI (~9% de ofertas iniciales). |
 
 ---
 

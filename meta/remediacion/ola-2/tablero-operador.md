@@ -1,6 +1,7 @@
 # 🎯 Tablero Único de Ejecución — Ola 2 (Plan Híbrido: 2 Sprints, 9 Misiones)
 
-> **Propósito:** Fuente única de estado y acción para cerrar la Ola 2 sin fricción ni saltos de contexto. Reconciliado 1:1 con [`roadmap-ola-2.md`](file:///Users/ander/Documents/DoJo/DoJo_Study/meta/remediacion/roadmap-ola-2.md) tras superar **`M9` (Gate 2)**.  
+> **Propósito:** Fuente única de estado y acción para cerrar la Ola 2 sin fricción ni saltos de contexto. Reconciliado 1:1 con [`roadmap.md`](file:///Users/ander/Documents/DoJo/DoJo_Study/meta/remediacion/ola-2/roadmap.md) tras superar **`M9` (Gate 2)**.  
+> **Índice de Remediación:** [`../README.md`](file:///Users/ander/Documents/DoJo/DoJo_Study/meta/remediacion/README.md)  
 > **Última Actualización:** 2026-11-10  
 > **Hilo Conductor Unificado:** Pipeline Financiero **FinCorp Global** (Local ETL $\rightarrow$ Orquestación $\rightarrow$ Cloud AWS).  
 > **Estado Global:** **🏆 OLA 2 CERRADA AL 100% (`Gate 2` Aprobado — Ola 3 `PORT-CAPSTONE` Desbloqueada)**

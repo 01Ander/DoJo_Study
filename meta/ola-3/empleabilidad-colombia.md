@@ -4,7 +4,9 @@
 >
 > **Fecha:** noviembre de 2026 · **Mercado:** Colombia (Bogotá, Medellín, Cali, remoto nacional).
 >
-> **Documento relacionado:** [`roadmap-ola-3.md`](roadmap-ola-3.md) — los dos artefactos de la Ola 3 (Corte 1 + Corte 1B) son la base de este plan.
+> **Documento relacionado:** [`roadmap.md`](roadmap.md) — los dos artefactos de la Ola 3 (Corte 1 + Corte 1B) son la base de este plan.
+>
+> **Índice de la Ola 3:** [`README.md`](README.md)
 
 ---
 
@@ -129,12 +131,12 @@ No te presentes como “aspirante a Data Engineer”. Preséntate como alguien q
 | # | Tema | Prioridad | Horas | Evidencia de que lo sabes | Estado en tu DoJo |
 |---|---|---|---|---|---|
 | 1 | **SQL**: joins, agregaciones, subconsultas, CTEs, window functions, `NULL`s, deduplicación | **P0** | 40–60 h | Resolver 20–30 ejercicios sin mirar; explicar un plan de ejecución básico | Cubierto; **refuerza window functions y performance** |
-| 2 | **Excel / Google Sheets**: tablas dinámicas, `BUSCARV`/`XLOOKUP`, limpieza, gráficos | **P0** | 10–15 h | Dashboard operativo en una hoja | Probablemente cubierto; úsalo para el día a día |
+| 2 | **Excel (básico-medio)**: tablas estructuradas, `XLOOKUP`, `SUMIFS`/`COUNTIFS`, `IFS`, limpieza (`TRIM`/`TEXT`/fechas), tablas dinámicas, Power Query y Power Pivot | **P0** | 15–20 h | Libro reproducible con tabla dinámica, `XLOOKUP` sin `#N/A` y una consulta de Power Query | **Sin contenido**: se construye como `EXCEL-BASICO` (Ola 3) |
 | 3 | **Estadística descriptiva y métricas de negocio**: media/mediana, distribución, correlación, variación, funnel, cohortes | **P0** | 15–20 h | Definir una métrica y explicar qué la mueve | Parcial; falta práctica de negocio |
 | 4 | **Python para datos**: pandas, `requests`, funciones, lectura/escritura de archivos, tests básicos | **P0** | 40–50 h | Script que ingesta, limpia y exporta con tests | **Cubierto** (PY-POO + pipelines) |
 | 5 | **Modelado de datos**: normalización, star schema, hechos/dimensiones, SCD2, grano | **P0** | 15–20 h | Explicar tu modelo en una pizarra | **En construcción** (Ola 3, Corte 1) |
 | 6 | **ETL/ELT y orquestación**: incremental vs full, idempotencia, retries, backfill, dependencias | **P1** | 20 h | Diseñar un pipeline y justificar decisiones | **En construcción** (Ola 3, Corte 1) |
-| 7 | **BI y visualización**: Power BI (DAX básico), Tableau, storytelling | **P1** | 25–30 h | Dashboard con 1 pregunta de negocio y 1 recomendación | **Nuevo** (MQ-02, Ola 3) |
+| 7 | **Power BI**: Power Query, modelo semántico (star schema), DAX (`CALCULATE`, `DIVIDE`, inteligencia de tiempo), visualización y storytelling | **P0** (pista Analista) / P1 (pista DE pura) | 20–24 h | Modelo con relaciones 1:N, 4 medidas DAX, YoY/YTD, dashboard con 3 hallazgos y 1 recomendación | **Sin contenido**: se construye como `BI-BASICO` (Ola 3) |
 | 8 | **Git y CI**: ramas, PR, revisión, tests automáticos | **P1** | 10 h | Repo con CI verde | **Cubierto** |
 | 9 | **Cloud fundamentals**: S3, IAM, Lambda, RDS, costes; o GCP equivalente | **P1** | 15–20 h | Desplegar y destruir un recurso | **Base cubierta**; despliegue real en Ola 3, Corte 2 |
 | 10 | **dbt**: modelos staging/marts, tests, `dbt run`/`dbt test` | **P1** | 15–20 h | Repo dbt con tests en verde | **En construcción** (Ola 3, Corte 0) |
@@ -146,9 +148,40 @@ No te presentes como “aspirante a Data Engineer”. Preséntate como alguien q
 
 > **Estado real a noviembre de 2026:** SQL, Python, Git/CI y la base de AWS están cubiertos. dbt, Star Schema/SCD2, el pipeline y el dashboard están **en construcción** dentro de la Ola 3; no los cuentes como “terminados” en el CV hasta que existan y pasen tests.
 
-> **Nota macOS:** Power BI Desktop es Windows-only y **Power BI Service no puede conectarse a un PostgreSQL local sin un gateway on-premises**, que también es Windows-only. Para MQ-02 usa **Power BI Desktop en una VM Windows** (UTM/Parallels/Windows 365) conectada al Postgres del host, o exporta los marts a CSV. **Prepara la VM antes de MQ-02**; la instalación no entra en el límite de 180 minutos. **Looker Studio** es el respaldo nativo si la VM se vuelve un problema; conserva Power BI como keyword principal.
+> **Nota macOS:** Power BI Desktop es Windows-only y **Power BI Service no puede conectarse a un PostgreSQL local sin un gateway on-premises**, que también es Windows-only. Para `BI-BASICO` usa **Power BI Desktop en una VM Windows** (UTM/Parallels/Windows 365) conectada al Postgres del host, o exporta los marts a CSV. **Prepara la VM antes de la Semana 1**; la instalación no entra en el límite de 180 minutos por quest. **Looker Studio** es el respaldo nativo si la VM se vuelve un problema; conserva Power BI como keyword principal.
 
-### 4.1 Regla de estudio
+### 4.1 Profundidad exigida: Excel (básico-medio)
+
+**Por qué es P0 y no “probablemente cubierto”.** En banca, seguros, retail y consultoría colombianos la operación vive en Excel; el dashboard es el entregable, pero el trabajo diario es la hoja de cálculo. Un analista junior que no limpia, cruza y resume en Excel pierde las primeras semanas del empleo.
+
+| Nivel | Contenido | ¿Lo piden? |
+|---|---|---|
+| **Mesa** (se da por sabido) | Tablas estructuradas (`Ctrl+T`), referencias absolutas/relativas, filtros, orden, formato condicional, validación de datos, gráficos básicos | Sí |
+| **Básico-medio** (el objetivo) | `XLOOKUP`/`INDEX+MATCH` con `IFERROR`, `SUMIFS`/`COUNTIFS`/`AVERAGEIFS`, `IF`/`IFS` anidado, limpieza (`TRIM`, `LEFT`/`RIGHT`/`MID`, `FIND`, `SUBSTITUTE`, texto a columnas, quitar duplicados), fechas (`EOMONTH`, `EDATE`, `NETWORKDAYS`), tablas dinámicas (agrupar por fecha, % del total, campos calculados, segmentaciones), **Power Query** (Get & Transform: combinar, anexar, tipar) y **Power Pivot** básico (relaciones + 1 medida) | Sí, es el filtro real |
+| **Diferencial** | Matrices dinámicas (`FILTER`, `SORT`, `UNIQUE`, `LET`), macros/VBA, Solver, escenarios | A veces |
+| **No necesario** | VBA avanzado, Office Scripts, add-ins corporativos | No para junior |
+
+**Cómo se verifica (no con pytest, con artefacto):** un libro `.xlsx` reproducible —una consulta de Power Query que se refresca, una tabla dinámica que responde una pregunta y un `XLOOKUP` que no revienta con `#N/A`— más defensa oral de 3 minutos.
+
+**Horas:** 15–20 h. Se practica sobre los mismos marts del Corte 1 y del Corte 1B, para que no sea un ejercicio de juguete.
+
+### 4.2 Profundidad exigida: Power BI (básico)
+
+**El techo es “básico” y es defendible.** Para un junior el mercado no pide Fabric ni Premium: pide que el modelo no se rompa y que la medida cuadre.
+
+| Nivel | Contenido | ¿Lo piden? |
+|---|---|---|
+| **Mesa** | Power Query (conectar, transformar, documentar pasos), modelo semántico con star schema (1 hecho + dimensiones, relaciones 1:N, filtro unidireccional, tabla de fechas marcada), medidas vs columnas calculadas, `CALCULATE`, `DIVIDE`, `SUMX`, inteligencia de tiempo (YoY/YTD/MoM), publicar y refrescar en Service | Sí, es la pantalla técnica |
+| **Diferencial** | RLS (un rol de demo), incremental refresh, deployment pipelines, optimización de DAX | A veces |
+| **Fase 2** | Fabric, Power BI Premium, modelos compuestos, embedded, RLS dinámico a escala | No para junior |
+
+**El defecto que hay que evitar:** un DoD que se puede cumplir con Looker Studio o con Excel no verifica Power BI. “Conectar, 5 métricas y un dashboard” no dice nada sobre modelo ni DAX. Los criterios específicos viven en `content/subjects/analitica/chronicles/BI-BASICO/chronicle.md`.
+
+**Horas:** 20–24 h, repartidas entre la chronicle (6 quests) y los dos dashboards del portafolio.
+
+> **Nota de reparto:** las 25–30 h que este plan ya presupuestaba para BI no crecen; se **estructuran**. Del total, ~12–14 h estaban asignadas a `MQ-02` + dashboard del Corte 1 + dashboard del Corte 1B; las otras ~12–16 h estaban sin contenido y se habrían improvisado. `BI-BASICO` les da forma. Excel suma 5 h netas (de 10–15 a 15–20).
+
+### 4.3 Regla de estudio
 
 - **60% práctica, 40% teoría.** Cada tema termina en un artefacto, no en un apunte.
 - **Una sola fuente por tema.** No acumules cursos.
@@ -161,11 +194,11 @@ No te presentes como “aspirante a Data Engineer”. Preséntate como alguien q
 
 | Semana | Foco | Entregable concreto | Horas |
 |---|---|---|---|
-| 1 | Corte 0 — dbt + BI + diagnóstico SQL | `MQ-01` (dbt run/test) + `MQ-02` (dashboard con 3 hallazgos) + 20 ejercicios SQL + VM de Power BI operativa | 22 |
-| 2 | Corte 0 — cierre + Excel | Cerrar `MQ-01`/`MQ-02`; `MQ-05` (DAG, P1) si sobra tiempo + tablas dinámicas/XLOOKUP | 22 |
-| 3 | Corte 1 — PRD y fuente colombiana | `requirements.md` con el modelo dimensional del roadmap (grano, claves, join as-of) + Data Contract Socrata + ingesta paginada | 22 |
-| 4 | Corte 1 — PostgreSQL + dbt + SCD2 | Carga transaccional, `fact_contrato` + `dim_entidad_scd2` + `dim_fecha` con TRM | 24 |
-| 5 | Corte 1 — métricas, dashboard y README | 5 métricas + 3 insights + 1 recomendación + README bilingüe + Defensa Oral #1 | 25 |
+| 1 | Corte 0 — dbt + entorno de BI | `MQ-01` (dbt run/test) + VM de Power BI operativa + 20 ejercicios SQL | 22 |
+| 2 | Corte 0B — BI y Excel | `BI-BASICO` 00–02 (Power Query, modelo semántico, DAX I) + `EXCEL-BASICO` 00–02 | 22 |
+| 3 | Corte 1 — PRD y fuente colombiana | `requirements.md` con el modelo dimensional del roadmap (grano, claves, join as-of) + Data Contract Socrata + `BI-BASICO` 03 + `EXCEL-BASICO` 03 | 24 |
+| 4 | Corte 1 — PostgreSQL + dbt + SCD2 | Carga transaccional, `fact_contrato` + `dim_entidad_scd2` + `dim_fecha` con TRM + `BI-BASICO` 04 | 25 |
+| 5 | Corte 1 — métricas, dashboard y README | 5 métricas + 3 insights + 1 recomendación + `BI-BASICO` 05 (publicación/refresh) + README bilingüe + Defensa Oral #1 | 25 |
 | 6 | Corte 1B — caso BI/SQL + Carril E | Pregunta de negocio, SQL analítico y primer dashboard del caso; CV inicial | 25 |
 | 7 | Corte 1B — cierre + perfil | Caso defendible publicado; LinkedIn ES/EN; lista de 40 empresas y tracker | 24 |
 | 8 | Pre-cloud + Gate E1 + Gate E2 | `MQ-03`/`MQ-04` (máx. 2 días) + 2 artefactos publicados + CV/LinkedIn + pitch y demo | 24 |

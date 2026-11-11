@@ -8,19 +8,50 @@ dojo_core.md
 historial.md
 meta/historial.md
 
-# Python
+# Python & Virtual Environments
 __pycache__/
 *.pyc
 venv/
+.venv/
+env/
+.env/
 .mypy_cache/
+.pytest_cache/
+.ruff_cache/
+.cache/
+.hypothesis/
+.ipynb_checkpoints/
+.coverage
+.coverage.*
+htmlcov/
 
-# DoJo Agent (Legacy v3)
-system/dojo_agent/.venv/
+# Environment Variables & Secrets
+.env
+.env.*
+!.env.example
+!.env.template
+.aws/
+
+# IDEs & Code Editors
+.vscode/
+.idea/
+.cursor/
+.windsurf/
+.fleet/
+.zed/
+.history/
+
+# AI Assistants & Agents
+.claude/
+.gemini/
+.antigravity/
+.continue/
+.opencode/*
+!.opencode/agents/
+# DoJo Agent & Legacy
 system/dojo_agent/chroma_db/
-dojo_agent/.venv/
 dojo_agent/chroma_db/
-
-# Hermes Agent session state
+chroma_db/
 .dojo-session.json
 
 # Warm-up (temporal)
@@ -31,17 +62,23 @@ meta/_warmup/
 meta/audits/
 audits/
 
-# IDE / OS
+# OS & System
 .DS_Store
-.vscode/
+._*
+.Spotlight-V100
+.Trashes
 
-# SQLite & Pytest cache
+# Databases & Runtime test data
 *.db
 *.sqlite
 *.sqlite3
-.pytest_cache/
-
-# Runtime test & pipeline data outputs
 /data/
 content/subjects/data_engineering/chronicles/DE-PIPELINES/data/
+
+# Cloud & Data Tools (dbt / Terraform / Serverless)
+.dbt/
+.terraform/
+.serverless/
+target/
+dbt_packages/
 

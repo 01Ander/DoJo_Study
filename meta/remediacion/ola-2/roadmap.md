@@ -1,10 +1,11 @@
 # Torre de Control y Roadmap de Remediación — Ola 2 (Syllabus 3.0 & Contenidos Faltantes)
 
 > **Documento Rector:** [`meta/audits/2026-q3-contenido/analisis/dictamen-final-consolidado.md`](file:///Users/ander/Documents/DoJo/DoJo_Study/meta/audits/2026-q3-contenido/analisis/dictamen-final-consolidado.md)  
-> **Ubicación Canónica de Gobernanza:** `meta/remediacion/`  
+> **Ubicación Canónica:** `meta/remediacion/ola-2/` (archivo histórico de la Ola 2)  
+> **Índice de Remediación:** [`../README.md`](file:///Users/ander/Documents/DoJo/DoJo_Study/meta/remediacion/README.md)  
 > **Estado General:** ✅ **OLA 2 CERRADA AL 100% (`Gate 2` Aprobado — Ola 3 `PORT-CAPSTONE` Desbloqueada)**  
 > **Fecha de Inicio:** 2026-10-13 | **Fecha de Cierre (`Gate 2`):** 2026-11-10  
-> **Prerrequisito Aprobado:** Gate 1 (Ola 1 cerrada al 100% en commit `57073c4`) | **Tablero Operativo:** [`tablero-operador.md`](file:///Users/ander/Documents/DoJo/DoJo_Study/meta/remediacion/tablero-operador.md)
+> **Prerrequisito Aprobado:** Gate 1 (Ola 1 cerrada al 100% en commit `57073c4`) | **Tablero Operativo:** [`tablero-operador.md`](file:///Users/ander/Documents/DoJo/DoJo_Study/meta/remediacion/ola-2/tablero-operador.md)
 
 ---
 

@@ -1,17 +1,35 @@
-# Torre de Control y Roadmap de Remediación — DoJo Study
+# Remediación — Ola 1 y Ola 2 (archivo histórico)
 
 > **Documento Rector:** [dictamen-final-consolidado.md](file:///Users/ander/Documents/DoJo/DoJo_Study/meta/audits/2026-q3-contenido/analisis/dictamen-final-consolidado.md)  
-> **Ubicación Canónica de Gobernanza:** `meta/remediacion/`  
-> **Estado General:** Gate 1 Aprobado (`57073c4`) | Gate 2 Aprobado (`679a9d3`) — **Ola 3 v2 activa (2 artefactos + Carril E + Cloud no bloqueante)**  
+> **Ubicación Canónica:** `meta/remediacion/`  
+> **Estado:** ✅ **Ola 1 cerrada (Gate 1, `57073c4`)** · ✅ **Ola 2 cerrada (Gate 2, `679a9d3`)**  
 > **Última Actualización:** 2026-11-11  
-> **Hoja de Ruta Ola 2 (Cerrada):** [`meta/remediacion/roadmap-ola-2.md`](file:///Users/ander/Documents/DoJo/DoJo_Study/meta/remediacion/roadmap-ola-2.md)  
-> **Hoja de Ruta Ola 3 (Activa):** [`ola-3/roadmap-ola-3.md`](file:///Users/ander/Documents/DoJo/DoJo_Study/meta/remediacion/ola-3/roadmap-ola-3.md) · **Plan de Empleabilidad:** [`ola-3/empleabilidad-colombia.md`](file:///Users/ander/Documents/DoJo/DoJo_Study/meta/remediacion/ola-3/empleabilidad-colombia.md)
+> **Fase Activa (fuera de esta carpeta):** [`meta/ola-3/`](file:///Users/ander/Documents/DoJo/DoJo_Study/meta/ola-3/README.md) — portafolio y empleabilidad
+
+Esta carpeta conserva la **remediación histórica**. La Ola 3 ya no es remediación: es el plan de portafolio y búsqueda de empleo, y vive en `meta/ola-3/`.
+
+## Mapa de la carpeta
+
+```text
+meta/remediacion/
+├── README.md              ← este índice (Ola 1)
+├── bitacoras/             ← bitácoras tácticas de la Ola 1
+│   ├── py-poo.md
+│   ├── sql-basico.md
+│   ├── de-pipelines.md
+│   └── cloud-aws.md
+└── ola-2/                 ← Ola 2 (cerrada)
+    ├── roadmap.md
+    └── tablero-operador.md
+```
+
+> **Ola 3:** [`meta/ola-3/README.md`](file:///Users/ander/Documents/DoJo/DoJo_Study/meta/ola-3/README.md) · [`roadmap.md`](file:///Users/ander/Documents/DoJo/DoJo_Study/meta/ola-3/roadmap.md) · [`empleabilidad-colombia.md`](file:///Users/ander/Documents/DoJo/DoJo_Study/meta/ola-3/empleabilidad-colombia.md)
 
 ---
 
 ## 1. Visión Estratégica en Tres Olas
 
-El proceso de remediación integral del DoJo se organiza en tres fases estrictamente secuenciales para garantizar calidad técnica sin comprometer el tiempo de estudio ni sobrecargar al Operador:
+El DoJo se organizó en tres olas secuenciales para garantizar calidad técnica sin comprometer el tiempo de estudio ni sobrecargar al Operador. Las Olas 1 y 2 fueron remediación; la Ola 3 es la fase de portafolio y empleabilidad.
 
 ```mermaid
 graph TD
@@ -27,28 +45,29 @@ graph TD
     end
 ```
 
-1. **Ola 1: Saneamiento de Base (Actual):**
+1. **Ola 1: Saneamiento de Base (Cerrada):**
    - Reparación de sintaxis rota de terceros en quests y ritos.
    - Re-apuntado de evaluadores para medir entregables reales.
    - Desmitificación conceptual en guías de estudio (`lore/`).
    - Reconciliación curricular inversa (declarar herramientas ya enseñadas).
    - Enmienda transversal de cierre seguro en `finally`.
    - **Regla de Cierre:** Cero generación de contenido nuevo en esta ola.
-2. **Ola 2: Syllabus 3.0 y Reingeniería Curricular:**
+2. **Ola 2: Syllabus 3.0 y Reingeniería Curricular (Cerrada):**
    - Rediseño formal de los programas de estudio.
    - Poda formal de promesas curriculares infladas (Typer/Click, Clean Architecture).
    - Normalización de scaffolding y alineación metodológica.
-3. **Ola 3: Portafolio, Empleabilidad Colombia y Cloud No Bloqueante:**
+3. **Ola 3: Portafolio, Empleabilidad Colombia y Cloud No Bloqueante (Activa):**
    - Dos artefactos de portafolio: pipeline E2E (`fact_contrato` + `dim_entidad_scd2` + `dim_fecha`) y caso BI/SQL de negocio.
    - Carril E de empleabilidad con Gates E1–E3 y postulaciones desde la Semana 9.
    - Cloud AWS como diferenciador no bloqueante (Semanas 9–10), no como requisito para postular.
    - Drills de entrevista y remediación guiada por rechazos reales.
+   - **Plan operativo:** [`meta/ola-3/roadmap.md`](file:///Users/ander/Documents/DoJo/DoJo_Study/meta/ola-3/roadmap.md).
 
 ---
 
-## 2. Las 4 Reglas Rectoras de los Gates de Ejecución
+## 2. Las 5 Reglas Rectoras de los Gates de Ejecución
 
-Según lo dictaminado en el [Dictamen Final Consolidado (§5)](file:///Users/ander/Documents/DoJo/DoJo_Study/meta/audits/2026-q3-contenido/analisis/dictamen-final-consolidado.md), la ejecución de cada claim debe ceñirse a cuatro principios inviolables:
+Según lo dictaminado en el [Dictamen Final Consolidado (§5)](file:///Users/ander/Documents/DoJo/DoJo_Study/meta/audits/2026-q3-contenido/analisis/dictamen-final-consolidado.md), la ejecución de cada claim debe ceñirse a cinco principios inviolables:
 
 1. **Regla 1 — Verificación Binaria y Ejecutabilidad:**  
    Toda corrección debe contar con una **Sonda Inicial** (que demuestre el fallo en el código actual) y una **Sonda Final** (comando reproducible que finalice con `exit code 0` o el comportamiento binario esperado). No se aceptan cierres basados en asunciones teóricas.
@@ -121,11 +140,12 @@ Para resolver tensiones entre las distintas secciones del Dictamen Rector ([dict
 
 ## 5. Bitácoras Tácticas por Subject
 
-Cada materia cuenta con su documento de trabajo detallado:
-- [`02-py-poo.md`](file:///Users/ander/Documents/DoJo/DoJo_Study/meta/remediacion/02-py-poo.md)
-- [`03-sql-basico.md`](file:///Users/ander/Documents/DoJo/DoJo_Study/meta/remediacion/03-sql-basico.md)
-- [`04-de-pipelines.md`](file:///Users/ander/Documents/DoJo/DoJo_Study/meta/remediacion/04-de-pipelines.md)
-- [`05-cloud-aws.md`](file:///Users/ander/Documents/DoJo/DoJo_Study/meta/remediacion/05-cloud-aws.md)
+Cada materia cuenta con su documento de trabajo detallado en `bitacoras/`:
+
+- [`py-poo.md`](file:///Users/ander/Documents/DoJo/DoJo_Study/meta/remediacion/bitacoras/py-poo.md) — subject `02-py-poo`
+- [`sql-basico.md`](file:///Users/ander/Documents/DoJo/DoJo_Study/meta/remediacion/bitacoras/sql-basico.md) — subject `03-sql-basico`
+- [`de-pipelines.md`](file:///Users/ander/Documents/DoJo/DoJo_Study/meta/remediacion/bitacoras/de-pipelines.md) — subject `04-de-pipelines`
+- [`cloud-aws.md`](file:///Users/ander/Documents/DoJo/DoJo_Study/meta/remediacion/bitacoras/cloud-aws.md) — subject `05-cloud-aws`
 
 ---
 
@@ -133,9 +153,11 @@ Cada materia cuenta con su documento de trabajo detallado:
 
 Para declarar concluida la Ola 1 y abrir la Ola 2 (Syllabus 3.0):
 1. **100% de claims en estado verde:** Todos los comandos de verificación binaria reportados con `exit code 0` (31/31 entregables).
-2. **Registro de bitácoras completas:** Cuadernos `02-py-poo.md`, `03-sql-basico.md`, `04-de-pipelines.md` y `05-cloud-aws.md` con trazabilidad completa de sondas iniciales y finales.
+2. **Registro de bitácoras completas:** Cuadernos `bitacoras/py-poo.md`, `bitacoras/sql-basico.md`, `bitacoras/de-pipelines.md` y `bitacoras/cloud-aws.md` con trazabilidad completa de sondas iniciales y finales.
 3. **Cero regresión:** Todas las suites de tests unitarios existentes en los ritos ejecutadas con éxito sin fallos colaterales.
 4. **Commit de Cierre:** Registrado en `57073c4117bf5ebdf7e736a57e6c03637b8dbe67` en la rama `chronicles`.
 
-> **Transición:** La ejecución continúa formalmente en [`roadmap-ola-2.md`](file:///Users/ander/Documents/DoJo/DoJo_Study/meta/remediacion/roadmap-ola-2.md).
+> **Transición Ola 2:** [`ola-2/roadmap.md`](file:///Users/ander/Documents/DoJo/DoJo_Study/meta/remediacion/ola-2/roadmap.md) · **Tablero:** [`ola-2/tablero-operador.md`](file:///Users/ander/Documents/DoJo/DoJo_Study/meta/remediacion/ola-2/tablero-operador.md)
+>
+> **Fase activa Ola 3:** [`meta/ola-3/README.md`](file:///Users/ander/Documents/DoJo/DoJo_Study/meta/ola-3/README.md)
 

@@ -1,6 +1,6 @@
 # Bitácora Táctica de Remediación — `04-de-pipelines`
 
-> **Documento Rector:** [roadmap.md](file:///Users/ander/Documents/DoJo/DoJo_Study/meta/remediacion/roadmap.md)  
+> **Documento Rector:** [README.md](../README.md) — índice de la remediación (Ola 1)  
 > **Directorio Canónico:** [`content/subjects/data_engineering/chronicles/DE-PIPELINES/`](file:///Users/ander/Documents/DoJo/DoJo_Study/content/subjects/data_engineering/chronicles/DE-PIPELINES/)  
 > **Python / Venv:** `content/subjects/data_engineering/chronicles/DE-PIPELINES/.venv/bin/python3`  
 > **Estado:** En Preparación (Ola 1)

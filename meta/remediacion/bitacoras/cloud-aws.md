@@ -1,6 +1,6 @@
 # Bitácora Táctica de Remediación — `05-cloud-aws`
 
-> **Documento Rector:** [roadmap.md](file:///Users/ander/Documents/DoJo/DoJo_Study/meta/remediacion/roadmap.md)  
+> **Documento Rector:** [README.md](../README.md) — índice de la remediación (Ola 1)  
 > **Directorio Canónico:** [`content/subjects/cloud/chronicles/CLOUD-AWS/`](file:///Users/ander/Documents/DoJo/DoJo_Study/content/subjects/cloud/chronicles/CLOUD-AWS/)  
 > **Python / Venv:** `content/subjects/cloud/chronicles/CLOUD-AWS/.venv/bin/python`  
 > **Estado:** En Preparación (Ola 1)

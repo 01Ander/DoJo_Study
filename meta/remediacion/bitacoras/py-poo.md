@@ -1,6 +1,6 @@
 # Bitácora Táctica de Remediación — `02-py-poo`
 
-> **Documento Rector:** [roadmap.md](file:///Users/ander/Documents/DoJo/DoJo_Study/meta/remediacion/roadmap.md)  
+> **Documento Rector:** [README.md](../README.md) — índice de la remediación (Ola 1)  
 > **Directorio Canónico:** [`content/subjects/python/chronicles/PY-POO/`](file:///Users/ander/Documents/DoJo/DoJo_Study/content/subjects/python/chronicles/PY-POO/)  
 > **Python / Venv:** `content/subjects/python/chronicles/PY-POO/rite/.venv/bin/python3`  
 > **Estado:** ✅ Completado (10/10 Claims en Verde)

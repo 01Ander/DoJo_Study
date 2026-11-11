@@ -1,6 +1,6 @@
 # Bitácora Táctica de Remediación — `03-sql-basico`
 
-> **Documento Rector:** [roadmap.md](file:///Users/ander/Documents/DoJo/DoJo_Study/meta/remediacion/roadmap.md)  
+> **Documento Rector:** [README.md](../README.md) — índice de la remediación (Ola 1)  
 > **Directorio Canónico:** [`content/subjects/sql/chronicles/SQL-BASICO/`](file:///Users/ander/Documents/DoJo/DoJo_Study/content/subjects/sql/chronicles/SQL-BASICO/)  
 > **Motor de Base de Datos:** `sqlite3` CLI  
 > **Estado:** Carril B Completado (5/5) / Carril A En Espera del Operador
