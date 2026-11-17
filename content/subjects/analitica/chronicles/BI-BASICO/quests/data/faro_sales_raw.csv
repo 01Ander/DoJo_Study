@@ -1,0 +1,10 @@
+id_venta,fecha_venta,tienda_id,tienda_nombre,unidades,precio_unitario,costo_unitario,monto_cop,estado
+SL-1001,2025-01-15,ST-01,"  centro ",2,45000,25000,90000,completed
+SL-1002,2025-02-18,ST-02,"norte",1,60000,32000,60000,completed
+SL-1003,2025-03-10,ST-01,"centro ",3,40000,22000,120000,completed
+SL-1004,2025-04-05,ST-03,"  sur",1,50000,28000,50000,cancelled
+,2025-04-12,ST-02,"norte",1,55000,30000,55000,completed
+SL-1005,2026-01-20,ST-01," CENTRO",2,50000,27000,100000,completed
+SL-1006,2026-02-14,ST-02," Norte ",2,65000,35000,130000,completed
+SL-1007,2026-03-08,ST-01,"centro",4,45000,24000,180000,completed
+SL-1008,2026-03-22,ST-03,"sur ",1,70000,38000,70000,completed

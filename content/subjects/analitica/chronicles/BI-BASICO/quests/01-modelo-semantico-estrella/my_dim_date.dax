@@ -1,0 +1,7 @@
+-- Operator workspace for Quest BI-01
+-- Complete the calculated table expression for dim_date covering 2025-01-01 to 2026-12-31.
+dim_date =
+ADDCOLUMNS (
+    CALENDAR ( DATE ( 2025, 1, 1 ), DATE ( 2026, 12, 31 ) ),
+    -- TODO: Add "year", "month_number", "month_name", and "year_month" columns
+)

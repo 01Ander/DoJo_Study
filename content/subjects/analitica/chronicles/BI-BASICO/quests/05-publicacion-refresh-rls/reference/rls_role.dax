@@ -1,0 +1,2 @@
+-- Reference static RLS filter for Quest BI-05 (applied on dim_store)
+[city] = "Bogotá"

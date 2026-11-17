@@ -1,0 +1,5 @@
+-- Reference dynamic subtitle DAX measure for Quest BI-04 (Libreria El Faro)
+
+Active Filter Subtitle =
+"Selected Year: " & SELECTEDVALUE(dim_date[year], "All Years") &
+" | City: " & SELECTEDVALUE(dim_store[city], "All Cities")

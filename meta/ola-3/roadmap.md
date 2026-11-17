@@ -34,7 +34,7 @@ La v2 nace de triangular tres análisis: el plan de empleabilidad para Colombia,
 ```mermaid
 flowchart LR
     C0["Corte 0 (sem. 1–2)<br/>MQ-01 dbt<br/>bloqueante"]
-    C0B["Corte 0B (sem. 2–3)<br/>BI-BASICO (6 quests)<br/>EXCEL-BASICO (4 quests)"]
+    C0B["Corte 0B (sem. 2–5)<br/>BI-BASICO (6 quests)<br/>EXCEL-BASICO (4 quests)"]
     C1["Corte 1 (sem. 3–5)<br/>Artefacto 1<br/>Pipeline E2E Colombia<br/>fact_contrato + SCD2 + dashboard"]
     C1B["Corte 1B (sem. 6–7)<br/>Artefacto 2<br/>Caso BI/SQL de negocio"]
     P8["Pre-cloud (sem. 8)<br/>MQ-03 DuckDB+Athena<br/>MQ-04 AWS Deploy · Gate E1/E2"]
@@ -42,7 +42,10 @@ flowchart LR
     C2["Corte 2 (sem. 9–10)<br/>Cloud AWS<br/>NO bloqueante"]
     C3["Corte 3 (sem. 10–12)<br/>Drills de entrevista<br/>+ Drill 2 opcional"]
 
-    C0 --> C0B --> C1 --> C1B --> P8 --> E --> C3
+    C0 --> C0B
+    C0 --> C1
+    C0B -.->|Base BI/Excel aplicada| C1
+    C1 --> C1B --> P8 --> E --> C3
     C1 --> E
     P8 -.-> C2
     C2 -.-> E
@@ -77,7 +80,7 @@ flowchart LR
 |---|---|---|---|
 | **BI-00** | Power Query | Conectar a marts (Postgres o CSV), 5+ pasos documentados, cero limpieza manual | `query.pq` reproducible + captura de pasos |
 | **BI-01** | Modelo semántico | Star schema: 1 hecho + 2 dims, relaciones 1:N, filtro unidireccional, tabla de fechas marcada | Diagrama del modelo + validación de cardinalidad |
-| **BI-02** | DAX I | Medidas vs columnas calculadas, `CALCULATE`, `DIVIDE`, `SUMX` | 4 medidas con resultado reconciliado contra SQL |
+| **BI-02** | DAX I | Medidas vs columnas calculadas, `CALCULATE`, `DIVIDE`, `SUMX` | 5 medidas con resultado reconciliado contra SQL |
 | **BI-03** | DAX II | Inteligencia de tiempo: YoY, YTD, variación mensual | 3 medidas de tiempo sobre tabla de fechas |
 | **BI-04** | Visualización y storytelling | 5 métricas, 3 hallazgos cuantificados, 1 recomendación | Dashboard de 1 página + guion de 5 min |
 | **BI-05** | Publicación y seguridad | Refresh programado o manual documentado + 1 rol RLS de demo | Evidencia de refresh + captura de RLS |
@@ -88,11 +91,11 @@ flowchart LR
 
 > **Verificación:** estas 10 quests **no se validan con `pytest`** — no hay forma razonable de testear un `.pbix`. Se validan por **artefacto + defensa oral**: el `.xlsx`/`.pbix`, la captura del refresh y una explicación de 3–5 min del modelo y de una medida. Es la única desviación deliberada de la anatomía de quest con `test_mq_*.py`, y está declarada en cada `chronicle.md`.
 
-> **Trade explícito:** `MQ-05` (Airflow) se degrada a conceptual —ya vive en `DE-PIPELINES` lore 05 como equivalencia de Prefect— y cede ~3 h. Corte 2 sigue no bloqueante. Neto: ~+5 h sobre la envolvente de 12 semanas, absorbidas en las Semanas 1–5.
+> **Trade explícito:** `MQ-05` (Airflow) se degrada a conceptual —ya vive en `DE-PIPELINES` lore 05 como equivalencia de Prefect— y cede ~3 h. Corte 2 sigue no bloqueante. Neto: BI se reestructura sin crecer (25–30 h → 20–24 h), Excel suma ~5 h y Airflow cede ~3 h; el balance queda en **≈ −3 h** sobre la envolvente de 12 semanas, absorbidas en las Semanas 1–5.
 
 ### 2.3 Matriz de cobertura del `PORT-CAPSTONE` (Syllabus 3.0)
 
-| Competencia | Corte 0 / 0B (sem. 1–3) | Pre-cloud (sem. 8) | Corte 1 / 1B | Corte 2 | Evidencia binaria / artefacto |
+| Competencia | Corte 0 / 0B (sem. 1–5) | Pre-cloud (sem. 8) | Corte 1 / 1B | Corte 2 | Evidencia binaria / artefacto |
 |---|---|---|---|---|---|
 | **Python, Pydantic V2 y paginación HTTP** | — | — | ✅ | — | Ingesta Socrata (`$limit/$offset`) + fixtures y tests |
 | **Data Quality y excepciones de dominio** | — | — | ✅ | ✅ | Gate pre-carga (`RateError`) + reconciliación post-carga |
@@ -100,7 +103,7 @@ flowchart LR
 | **Star Schema + SCD Tipo 2** | — | — | ✅ | — | `fact_contrato` (grano `id_contrato`) + `dim_entidad_scd2` unida por versión vigente + `dim_fecha` con TRM |
 | **dbt-postgres** | ✅ (`MQ-01`) | — | ✅ | — | `dbt run` + `dbt test` (`unique`, `not_null`, `relationships`) |
 | **Excel (básico-medio)** | ✅ (`EXCEL-BASICO`) | — | ✅ | — | Libro con Power Query, tabla dinámica y `XLOOKUP` sin `#N/A` |
-| **BI, métricas y storytelling** | ✅ (`BI-BASICO`) | — | ✅ | — | Modelo 1:N + 4 medidas DAX + YoY + dashboard con 3 insights y 1 recomendación cuantificada |
+| **BI, métricas y storytelling** | ✅ (`BI-BASICO`) | — | ✅ | — | Modelo 1:N + 8 medidas DAX (incl. YoY/YTD) + dashboard con 3 insights y 1 recomendación cuantificada |
 | **Orquestación (Prefect + equivalencia Airflow)** | — | Conceptual (`lore/05`) | ✅ | — | `@flow run_backfill(start_date, end_date)` idempotente |
 | **Docker & `docker-compose.yml`** | — | — | ✅ | ✅ | `docker compose up` levanta PostgreSQL + pipeline |
 | **AWS S3, IAM y Secrets Manager** | — | ✅ (`MQ-04`) | — | ✅ | Parquet Snappy, `AccessDenied`, secreto leído |
@@ -141,7 +144,7 @@ flowchart LR
 ### 3.1 Gates por corte
 
 * **Corte 0 (`MQ-01` dbt-postgres):** respeta la anatomía canónica del DoJo (`quest.md`, plantilla con `pass`, `reference/`, `test_mq_01_dbt.py`, actualización de `chronicle.md`, síntesis en `grimoire.md`). Pasa **Gate 3 (`Lore↔Grimoire`)** y **Gate 4 (`Quests↔Lore`)**. `MQ-03` y `MQ-04` son **pre-cloud de la Semana 8**; `MQ-05` (Airflow) queda degradado a conceptual (ya cubierto en `DE-PIPELINES` lore 05).
-* **Corte 0B (`BI-BASICO` — 6 quests + `EXCEL-BASICO` — 4 quests):** viven en `content/subjects/analitica/chronicles/`. Pasan **Gate 3 (`Lore↔Grimoire`)** y se validan por **artefacto + defensa oral** (`.pbix`/`.xlsx` reproducible, captura de refresh/RLS, reconciliación de medidas DAX contra SQL y **rite de defensa de 5 min** explicando el modelo semántico, una medida DAX y por qué ese grano).
+* **Corte 0B (`BI-BASICO` — 6 quests + `EXCEL-BASICO` — 4 quests):** viven en `content/subjects/analitica/chronicles/`. Se validan por **artefacto + defensa oral** (`.pbix`/`.xlsx` reproducible, captura de refresh/RLS, reconciliación de medidas DAX contra SQL y **rite de defensa de 5 min** explicando el modelo semántico, una medida DAX y por qué ese grano). **Gate 3 (`Lore↔Grimoire`) aplica cuando el `lore/` de cada chronicle esté generado**; hasta entonces el scaffolding no se considera ejecutable (ver `lore/README.md` de cada chronicle).
 * **Corte 1 (Artefacto 1):** **Gate 1 (`Scope`)** con `requirements.md` aprobado antes de codificar. **Precondición obligatoria:** el `requirements.md` debe declarar el grano de `fact_contrato`, la clave de `dim_entidad_scd2`, la regla de join as-of y la fuente de TRM. Sin eso, el Corte 1 no se abre. **Gate 5 (`Auditoría Final`)** con suite de caja negra + Defensa Oral #1.
 * **Corte 1B (Artefacto 2):** **Gate 5** con revisión de negocio: pregunta clara, SQL reproducible, dashboard y recomendación.
 * **Carril E:** tres gates no técnicos:
@@ -181,13 +184,13 @@ flowchart LR
 
 * **Objetivo:** cubrir con profundidad real y verificable las dos herramientas diarias del rol de entrada (**Analista de Datos / Analytics Engineer junior**), evitando el defecto de una quest genérica que podría aprobarse sin tocar modelo semántico, DAX ni Power Query.
 * **Ubicación:** `content/subjects/analitica/chronicles/BI-BASICO/` y `content/subjects/analitica/chronicles/EXCEL-BASICO/` (dominio independiente de `DE-PIPELINES`, con techo declarado **"básico"**; Fabric/Premium permanecen en Fase 2).
-* **Presupuesto y reparto horario:** 20–24 h para `BI-BASICO` (estructurando las horas que antes estaban sin contenido entre `MQ-02` y los dos dashboards) y 15–20 h para `EXCEL-BASICO`, financiadas en parte por la degradación de `MQ-05` Airflow (−3 h) y manteniendo el límite estricto de **180 minutos por quest**.
+* **Presupuesto y reparto horario:** 20–24 h para `BI-BASICO` (estructurando las horas que antes estaban sin contenido entre la antigua Micro-Quest de BI y los dos dashboards) y 15–20 h para `EXCEL-BASICO`, financiadas en parte por la degradación de `MQ-05` Airflow (−3 h) y manteniendo el límite estricto de **180 minutos por quest**.
 * **Mitigación de fricción en macOS:** mantener la VM Windows con snapshot listo, exportar los marts a CSV para iterar rápido sin pelear con el gateway en cada sesión, y consolidar el `.pbix` al cierre de cada quest.
 * **Secuencia de ejecución acoplada al portafolio:**
   * **Semana 2 (Base antes del Corte 1):** `BI-00` (Power Query), `BI-01` (Modelo semántico Star Schema 1:N, filtro unidireccional, tabla de fechas marcada), `BI-02` (DAX I: medidas vs columnas calculadas, `CALCULATE`, `DIVIDE`, `SUMX`) + `XL-00` (Limpieza/tablas estructuradas), `XL-01` (`XLOOKUP` + `IFERROR`, `SUMIFS`/`COUNTIFS`, `IFS`), `XL-02` (Tablas dinámicas).
   * **Semanas 3–5 (Aplicadas sobre los marts reales del Corte 1):** `BI-03` (DAX II: YoY, YTD, variación mensual reconciliados contra SQL), `BI-04` (Visualización y storytelling: 5 métricas, 3 hallazgos, 1 recomendación), `BI-05` (Publicación, refresh documentado y 1 rol RLS de demo) + `XL-03` (Power Query + Power Pivot con relación y medida).
 * **DoD del Corte 0B (Artefacto + Rite de Defensa Oral):**
-  1. `BI-00` a `BI-05` completadas con archivo `.pbix`, `query.pq` reproducible, diagrama del modelo 1:N, 7 medidas DAX (`CALCULATE`, `DIVIDE`, `SUMX`, YoY, YTD, variación mensual) reconciliadas contra SQL y captura de refresh/RLS.
+  1. `BI-00` a `BI-05` completadas con archivo `.pbix`, `query.pq` reproducible, diagrama del modelo 1:N, **8 medidas DAX** (`Total COP`, `Contratos`, `Ticket Promedio`, `Valor USD`, `% del Total`, YoY, YTD, variación mensual) reconciliadas contra SQL y captura de refresh/RLS.
   2. `XL-00` a `XL-03` completadas en libro `.xlsx` reproducible sin errores `#N/A`, con tabla dinámica, consulta Power Query que refresca y medida en Power Pivot.
   3. **Rite de Defensa Oral (5 min):** explicar en vivo el modelo semántico, una medida DAX (y su contexto de filtro) y por qué se eligió ese grano.
 
@@ -196,7 +199,7 @@ flowchart LR
 ### 🥉 CORTE 1 — Artefacto 1: Pipeline E2E sobre datos de Colombia (Semanas 3–5)
 
 * **Pregunta de negocio:** ¿cómo evolucionó el gasto público contratado en el sector salud entre 2024 y 2026, y qué parte de la variación se explica por tipo de entidad, modalidad de contratación y TRM?
-* **Ubicación interna:** `content/portfolio/capstone-slice-local/` (documentada en `content/subjects/README.md` y cubierta por CI).
+* **Ubicación interna:** `content/portfolio/capstone-slice-local/` (se crea al abrir el Corte 1; la carpeta aún no existe y el CI se añadirá en ese momento, no antes).
 * **Precondición de Gate 1:** el `requirements.md` debe copiar el modelo dimensional de esta sección, declarar el grano, las claves, la regla de join as-of y la fuente de TRM. **Sin este requisito aprobado no se abre el Corte 1.**
 
 #### Modelo dimensional objetivo (contrato de Gate 1)

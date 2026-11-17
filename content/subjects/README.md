@@ -32,6 +32,10 @@ subjects/
 │  └─ README.md
 ├─ cloud/
 ├─ data_engineering/
+├─ analitica/                 <- (Ola 3: herramientas diarias del rol Analista)
+│  └─ chronicles/
+│     ├─ EXCEL-BASICO/        <- Excel básico-medio (4 quests)
+│     └─ BI-BASICO/           <- Power BI básico (6 quests)
 └─ ../portfolio/            <- (Ola 3: PORT-CAPSTONE Slice Local antes de exportar a repo público)
 ```
 

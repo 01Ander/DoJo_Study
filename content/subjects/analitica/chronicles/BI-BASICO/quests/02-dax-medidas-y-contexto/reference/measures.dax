@@ -1,0 +1,28 @@
+-- Reference DAX measures for Quest BI-02 (Libreria El Faro)
+
+Total Revenue = SUM(fact_book_sales[amount_cop])
+
+Total Orders = COUNTROWS(fact_book_sales)
+
+Total Cost =
+SUMX(
+    fact_book_sales,
+    fact_book_sales[units] * fact_book_sales[unit_cost]
+)
+
+Avg Ticket =
+DIVIDE(
+    [Total Revenue],
+    [Total Orders],
+    0
+)
+
+% of Total Revenue =
+DIVIDE(
+    [Total Revenue],
+    CALCULATE(
+        [Total Revenue],
+        ALL(dim_store)
+    ),
+    0
+)

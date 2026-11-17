@@ -17,7 +17,7 @@ El **Syllabus 3.0** representa la reingeniería curricular definitiva del DoJo S
 1. **La Cadena Funciona de Extremo a Extremo:** El mercado no busca acumuladores de cursos ni diplomas teóricos; busca ingenieros capaces de construir cadenas de datos robustas, tipadas, testeadas, orquestadas y monitoreadas.
 2. **Superación del Monocultivo de SQLite en Pipelines:** Si bien `SQL-BASICO` enseña los fundamentos universales de SQL ANSI y modelado sobre un motor relacional embebido, los pipelines de datos productivos y almacenamiento en la nube operan sobre **PostgreSQL real** (domiciliado en `DE-PIPELINES`, `CLOUD-AWS` y `PORT-CAPSTONE`). SQLite queda confinado al aprendizaje sintáctico inicial y pruebas unitarias efímeras en memoria (`:memory:`).
 3. **Integración Natural sobre Fragmentación:** Las herramientas demandadas por la industria (**dbt, Airflow básico, Cloud Warehouse columnar, AWS Glue/Athena, Docker, Secrets Manager, Parquet**) no se dispersan en micro-cursos aislados: se integran directamente en las Chronicles existentes (`DE-PIPELINES` y `CLOUD-AWS`) y convergen en el proyecto de portafolio (`PORT-CAPSTONE`).
-4. **Cero Tolerancia a Promesas sin Código:** Todo concepto declarado en este temario cuenta con respaldo pedagógico en `lore/`, laboratorios con pruebas automatizadas en `quests/`, y evaluación rigurosa en `rite/` bajo la regla de **Bucle de Ejecución Cerrado (`exit code 0`)**.
+4. **Cero Tolerancia a Promesas sin Código:** Todo concepto declarado en este temario cuenta con respaldo pedagógico en `lore/`, laboratorios en `quests/` y evaluación rigurosa en `rite/` bajo la regla de **Bucle de Ejecución Cerrado (`exit code 0`)**. **Excepción declarada:** `BI-BASICO` y `EXCEL-BASICO` se validan por **artefacto + defensa oral** (`.pbix`/`.xlsx` reproducible), no por `pytest`; la razón está en cada `chronicle.md`.
 
 ```mermaid
 graph LR
@@ -102,7 +102,7 @@ graph LR
   - **Power Query + Power Pivot:** combinación de consultas, carga al modelo de datos, relación `1:N` y medida DAX básica.
 - **Business Intelligence con Power BI (`BI-BASICO`):**
   - **Power Query (M):** conexión a marts de PostgreSQL o CSV con pasos reproducibles y cero limpieza manual en hojas.
-  - **Modelo Semántico en Estrella:** 1 tabla de hechos (`fact_contrato`) + dimensiones (`dim_entidad_scd2`, `dim_fecha`, `dim_proveedor`), cardinalidad `1:N`, dirección de filtro única y tabla de fechas marcada.
+  - **Modelo Semántico en Estrella:** 1 tabla de hechos + dimensiones (`1:N`), dirección de filtro única y tabla de fechas marcada (en el portafolio `PORT-CAPSTONE` este patrón se aplica sobre `fact_contrato`, `dim_entidad_scd2`, `dim_fecha` y `dim_proveedor`).
   - **DAX I & II:** distinción entre medidas y columnas calculadas, `CALCULATE`, `DIVIDE`, `SUMX`, contexto de filtro e inteligencia de tiempo (`YoY`, `YTD`, variación mensual) reconciliados contra consultas SQL.
   - **Visualización, Storytelling & Publicación:** diseño de dashboard ejecutivo de 1 página (5 métricas, 3 hallazgos cuantificados, 1 recomendación accionable), publicación en Power BI Service, configuración de refresh y 1 rol de seguridad a nivel de fila (**RLS**).
 

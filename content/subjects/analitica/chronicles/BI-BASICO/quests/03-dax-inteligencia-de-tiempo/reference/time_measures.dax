@@ -1,0 +1,35 @@
+-- Reference Time Intelligence DAX measures for Quest BI-03 (Libreria El Faro)
+
+YoY % =
+VAR CurrentRevenue = [Total Revenue]
+VAR PreviousYearRevenue =
+    CALCULATE(
+        [Total Revenue],
+        SAMEPERIODLASTYEAR(dim_date[Date])
+    )
+RETURN
+IF(
+    NOT ISBLANK(PreviousYearRevenue),
+    DIVIDE(CurrentRevenue - PreviousYearRevenue, PreviousYearRevenue),
+    BLANK()
+)
+
+YTD Revenue =
+TOTALYTD(
+    [Total Revenue],
+    dim_date[Date]
+)
+
+MoM % =
+VAR CurrentRevenue = [Total Revenue]
+VAR PreviousMonthRevenue =
+    CALCULATE(
+        [Total Revenue],
+        DATEADD(dim_date[Date], -1, MONTH)
+    )
+RETURN
+IF(
+    NOT ISBLANK(PreviousMonthRevenue),
+    DIVIDE(CurrentRevenue - PreviousMonthRevenue, PreviousMonthRevenue),
+    BLANK()
+)

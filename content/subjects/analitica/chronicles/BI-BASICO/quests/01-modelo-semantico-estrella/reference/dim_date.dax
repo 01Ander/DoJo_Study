@@ -1,0 +1,9 @@
+-- Reference calculated table for Quest BI-01 (Libreria El Faro)
+dim_date =
+ADDCOLUMNS (
+    CALENDAR ( DATE ( 2025, 1, 1 ), DATE ( 2026, 12, 31 ) ),
+    "year", YEAR ( [Date] ),
+    "month_number", MONTH ( [Date] ),
+    "month_name", FORMAT ( [Date], "MMM" ),
+    "year_month", FORMAT ( [Date], "YYYY-MM" )
+)

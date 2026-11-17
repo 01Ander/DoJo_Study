@@ -1,0 +1,17 @@
+-- Operator workspace for Quest BI-02 (Libreria El Faro)
+-- Define the 5 explicit DAX measures below.
+
+Total Revenue =
+-- TODO: SUM(...)
+
+Total Orders =
+-- TODO: COUNTROWS(...)
+
+Total Cost =
+-- TODO: SUMX(...)
+
+Avg Ticket =
+-- TODO: DIVIDE(...)
+
+% of Total Revenue =
+-- TODO: DIVIDE(..., CALCULATE(..., ALL(dim_store)), 0)

@@ -136,7 +136,7 @@ No te presentes como “aspirante a Data Engineer”. Preséntate como alguien q
 | 4 | **Python para datos**: pandas, `requests`, funciones, lectura/escritura de archivos, tests básicos | **P0** | 40–50 h | Script que ingesta, limpia y exporta con tests | **Cubierto** (PY-POO + pipelines) |
 | 5 | **Modelado de datos**: normalización, star schema, hechos/dimensiones, SCD2, grano | **P0** | 15–20 h | Explicar tu modelo en una pizarra | **En construcción** (Ola 3, Corte 1) |
 | 6 | **ETL/ELT y orquestación**: incremental vs full, idempotencia, retries, backfill, dependencias | **P1** | 20 h | Diseñar un pipeline y justificar decisiones | **En construcción** (Ola 3, Corte 1) |
-| 7 | **Power BI**: Power Query, modelo semántico (star schema), DAX (`CALCULATE`, `DIVIDE`, inteligencia de tiempo), visualización y storytelling | **P0** (pista Analista) / P1 (pista DE pura) | 20–24 h | Modelo con relaciones 1:N, 4 medidas DAX, YoY/YTD, dashboard con 3 hallazgos y 1 recomendación | **Sin contenido**: se construye como `BI-BASICO` (Ola 3) |
+| 7 | **Power BI**: Power Query, modelo semántico (star schema), DAX (`CALCULATE`, `DIVIDE`, inteligencia de tiempo), visualización y storytelling | **P0** (pista Analista) / P1 (pista DE pura) | 20–24 h | Modelo con relaciones 1:N, 8 medidas DAX (incluye `CALCULATE`, `SUMX`, YoY/YTD), dashboard con 3 hallazgos y 1 recomendación | **Sin contenido**: se construye como `BI-BASICO` (Ola 3) |
 | 8 | **Git y CI**: ramas, PR, revisión, tests automáticos | **P1** | 10 h | Repo con CI verde | **Cubierto** |
 | 9 | **Cloud fundamentals**: S3, IAM, Lambda, RDS, costes; o GCP equivalente | **P1** | 15–20 h | Desplegar y destruir un recurso | **Base cubierta**; despliegue real en Ola 3, Corte 2 |
 | 10 | **dbt**: modelos staging/marts, tests, `dbt run`/`dbt test` | **P1** | 15–20 h | Repo dbt con tests en verde | **En construcción** (Ola 3, Corte 0) |
@@ -179,7 +179,7 @@ No te presentes como “aspirante a Data Engineer”. Preséntate como alguien q
 
 **Horas:** 20–24 h, repartidas entre la chronicle (6 quests) y los dos dashboards del portafolio.
 
-> **Nota de reparto:** las 25–30 h que este plan ya presupuestaba para BI no crecen; se **estructuran**. Del total, ~12–14 h estaban asignadas a `MQ-02` + dashboard del Corte 1 + dashboard del Corte 1B; las otras ~12–16 h estaban sin contenido y se habrían improvisado. `BI-BASICO` les da forma. Excel suma 5 h netas (de 10–15 a 15–20).
+> **Nota de reparto:** las 25–30 h que este plan ya presupuestaba para BI no crecen; se **estructuran**. Del total, ~12–14 h estaban asignadas a la antigua Micro-Quest de BI + dashboard del Corte 1 + dashboard del Corte 1B; las otras ~12–16 h estaban sin contenido y se habrían improvisado. `BI-BASICO` les da forma. Excel suma 5 h netas (de 10–15 a 15–20).
 
 ### 4.3 Regla de estudio
 
